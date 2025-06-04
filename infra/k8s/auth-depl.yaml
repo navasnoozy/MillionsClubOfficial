@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth
+  template:
+    metadata:
+      labels:
+        app: auth
+    spec:
+      containers:
+        - name: auth
+          image: navasnoozy/auth # Replace with your Docker image name
+          imagePullPolicy: Never # Use 'Never' if you're using local Docker images with Minikube or Docker Desktop
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-service
+spec:
+  selector:
+    app: auth # This must match the labels on your pods/deployment
+  ports:
+    - name: auth
+      protocol: TCP
+      port: 3000 # Port that the service exposes internally
+      targetPort: 3000 # Port your container is listening on (e.g., Express.js app)

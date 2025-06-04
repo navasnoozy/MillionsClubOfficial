@@ -1,0 +1,41 @@
+apiVersion: skaffold/v4beta6
+kind: Config
+build:
+  local:
+    push: false  # Set to true if you're using a remote cluster
+  artifacts:
+    - image: navasnoozy/auth
+      context: auth
+      docker:
+        dockerfile: Dockerfile
+    # - image: navasnoozy/posts
+    #   context: posts
+    #   docker:
+    #     dockerfile: Dockerfile
+    # - image: navasnoozy/comments
+    #   context: comments
+    #   docker:
+    #     dockerfile: Dockerfile
+    # - image: navasnoozy/query
+    #   context: query
+    #   docker:
+    #     dockerfile: Dockerfile
+    # - image: navasnoozy/moderation
+    #   context: moderation
+    #   docker:
+    #     dockerfile: Dockerfile
+    # - image: navasnoozy/event-bus
+    #   context: event-bus
+    #   docker:
+    #     dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
+
+manifests:
+  rawYaml:
+    - ./infra/k8s/*
+    # Add other K8s resources (services, config maps, etc.)
+
+
