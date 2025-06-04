@@ -33,8 +33,8 @@ router.get("/api/users/signin", async (req, res) => {
       .send({ success: false, error: "Invalid email id or password" });
     return;
   }
-
-  res.status(200).send({ success: true });
+    throw Error ('')
+  res.send('check')
 });
 
 export { router as signin };
