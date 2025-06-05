@@ -1,8 +1,10 @@
+// auth/src/routes/signin.ts
 import express from "express";
+import { RequestValidationError } from "../errors/req.validation-error";
 import { signinSchema } from "../schemas/authSchema";
-import { treeifyError } from "zod/v4";
-import { User } from "../models/userModel";
 import { comparePassword } from "../utils/hashPassword";
+import { User } from "../models/userModel";
+import { DBConnectionError } from "../errors/db.connectionError";
 
 const router = express.Router();
 
@@ -11,9 +13,7 @@ router.get("/api/users/signin", async (req, res) => {
   const validate = signinSchema.safeParse(body);
 
   if (!validate.success) {
-    const error = treeifyError(validate.error);
-    res.status(400).send({ success: false, error: error });
-    return;
+    throw new RequestValidationError(validate.error);
   }
 
   const { email, password } = body;
@@ -33,8 +33,9 @@ router.get("/api/users/signin", async (req, res) => {
       .send({ success: false, error: "Invalid email id or password" });
     return;
   }
-    throw Error ('')
-  res.send('check')
+
+  res.send(user);
+  // throw new dbConnectionError("Database connection error");
 });
 
 export { router as signin };
