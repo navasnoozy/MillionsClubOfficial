@@ -8,8 +8,6 @@ export class DBConnectionError extends CustomError {
 
   constructor(public message: string) {
     super(message);
-
-    Object.setPrototypeOf(this, DBConnectionError.prototype);
   }
 
   serializeError() {

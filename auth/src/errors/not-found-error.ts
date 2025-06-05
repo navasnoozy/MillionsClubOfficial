@@ -1,5 +1,4 @@
 // auth/src/errors/not-found-error.ts
-
 import { CustomError } from "./custom-error";
 
 export class NotFoundError extends CustomError {
@@ -7,7 +6,6 @@ export class NotFoundError extends CustomError {
 
   constructor() {
     super("Route not found");
-    Object.setPrototypeOf(this, NotFoundError.prototype);
   }
 
   serializeError() {
