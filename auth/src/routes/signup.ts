@@ -5,47 +5,49 @@ import { hashPassword } from "../utils/hashPassword";
 import { User } from "../models/userModel";
 import { RequestValidationError } from "../errors/reqValidationError";
 import { BadRequestError } from "../errors/Bad-requestError";
-import jwt  from "jsonwebtoken";
+import jwt from "jsonwebtoken";
+import { validateRequest } from "../middlewares/requestValidation";
 
 const router = express.Router();
 
-router.post("/api/users/signup", async (req, res) => {
-  
-  const body = req.body;
-  const validate = signupSchema.safeParse(body);
+router.post(
+  "/api/users/signup",
+  validateRequest(signupSchema),
+  async (req, res) => {
+    const body = req.body;
 
-  if (!validate.success) {
-    throw new RequestValidationError(validate.error);
-  }
+    const { name, email, password } = body;
 
-  const { name, email, password } = body;
-   
-  const existingUser = await User.findOne({email});
+    const existingUser = await User.findOne({ email });
 
-  if (existingUser){
-    throw new BadRequestError('Email already in use')
-  }
+    if (existingUser) {
+      throw new BadRequestError("Email already in use");
+    }
 
-  const hashedPassword = await hashPassword(password);
+    const hashedPassword = await hashPassword(password);
 
-  const newUser = User.build({
+    const newUser = User.build({
       name,
       email,
-      password: hashedPassword
-  })
+      password: hashedPassword,
+    });
 
-  const user = await newUser.save();
+    const user = await newUser.save();
 
-   const userJWT = jwt.sign({
-      id:user._id,
-      email:user.email
-   },process.env.JWT_KEY!);
+    const jwt_token = jwt.sign(
+      {
+        id: user.id,
+        email: user.email,
+      },
+      process.env.JWT_KEY!
+    );
 
-   req.session = {
-    jwt : userJWT
-   };
+    req.session = {
+      jwt: jwt_token,
+    };
 
-   res.status(201).send({message:'success',user:user})
-});
+    res.status(201).send({ message: "success", user: user });
+  }
+);
 
 export { router as signup };
