@@ -1,7 +1,8 @@
-import { Schema, model, Document, Types } from "mongoose";
-import { UserType } from "../types/user.interface";
+// auth/src/models/userModel.ts
+import mongoose, { Schema } from "mongoose";
+import { UserAttrs, UserDoc, UserModel } from "../types/user-interface";
 
-const userSchema = new Schema<UserType>(
+const userSchema = new Schema(
   {
     name: { type: String, required: true, trim: true },
     email: {
@@ -23,7 +24,24 @@ const userSchema = new Schema<UserType>(
   },
   {
     timestamps: true,
+    toJSON: {
+      transform(_doc, ret) {
+        ret.id = ret._id;
+        delete ret.id;
+        delete ret.password;
+        delete ret.role;
+        delete ret.isActive;
+        delete ret.isEmailVerified;
+        delete ret.createdAt;
+        delete ret.updatedAt;
+        delete ret.__v
+      },
+    },
   }
 );
 
-export const User = model<UserType>("User", userSchema);
+userSchema.statics.build = (attrs: UserAttrs) => {
+  return new User(attrs);
+};
+
+export const User = mongoose.model<UserDoc, UserModel>("User", userSchema);

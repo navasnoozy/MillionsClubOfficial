@@ -3,6 +3,9 @@ kind: Config
 build:
   local:
     push: false  # Set to true if you're using a remote cluster
+  tagPolicy:
+    customTemplate:
+      template: latest    
   artifacts:
     - image: navasnoozy/auth
       context: auth

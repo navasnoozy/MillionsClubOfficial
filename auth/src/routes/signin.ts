@@ -1,10 +1,10 @@
 // auth/src/routes/signin.ts
 import express from "express";
-import { RequestValidationError } from "../errors/req.validation-error";
+import { RequestValidationError } from "../errors/reqValidationError";
 import { signinSchema } from "../schemas/authSchema";
 import { comparePassword } from "../utils/hashPassword";
 import { User } from "../models/userModel";
-import { DBConnectionError } from "../errors/db.connectionError";
+import { DBConnectionError } from "../errors/db-connectionError";
 
 const router = express.Router();
 
@@ -35,7 +35,6 @@ router.get("/api/users/signin", async (req, res) => {
   }
 
   res.send(user);
-  // throw new dbConnectionError("Database connection error");
 });
 
 export { router as signin };

@@ -16,6 +16,19 @@ spec:
         - name: auth
           image: navasnoozy/auth # Replace with your Docker image name
           imagePullPolicy: Never # Use 'Never' if you're using local Docker images with Minikube or Docker Desktop
+          env:
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
+            - name: MONGO_URI
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-uri-secret
+                  key: MONGO_URI          
+
+           
 
 ---
 apiVersion: v1

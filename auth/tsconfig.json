@@ -1,3 +1,4 @@
+// auth/tsconfig.json
 {
   "compilerOptions": {
     "target": "esnext",
@@ -12,6 +13,8 @@
     "forceConsistentCasingInFileNames": true,
     "allowImportingTsExtensions": false,
     "resolveJsonModule": true,
+    "noImplicitAny": true,
+    "strictPropertyInitialization": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
