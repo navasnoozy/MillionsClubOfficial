@@ -1,10 +1,12 @@
-import { beforeEach, beforeAll, afterEach, afterAll } from "vitest";
+//auth/src/test/setup.ts
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
+import { afterAll, afterEach, beforeAll } from "vitest";
 
 let mongo: MongoMemoryServer;
 
 beforeAll(async () => {
+  process.env.JWT_KEY = 'test-jwt-key'; // Add this line
   mongo = await MongoMemoryServer.create();
   const uri = mongo.getUri();
   mongoose.connect(uri);

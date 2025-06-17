@@ -1,13 +1,13 @@
+// auth/src/app.ts
 import cookieSession from "cookie-session";
 import dotenv from "dotenv";
 import express from "express";
-import connectDB from "./config/db";
 import { NotFoundError } from "./errors/not-found-error";
 import { errorHandler } from "./middlewares/errorHandler";
+import { currentUserRouter } from "./routes/current-user";
 import { signinRouter } from "./routes/signin";
 import { signoutRouter } from "./routes/signout";
 import { signupRouter } from "./routes/signup";
-import { currentUserRouter } from "./routes/current-user";
 
 const app = express();
 
