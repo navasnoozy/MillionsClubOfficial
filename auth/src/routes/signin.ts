@@ -42,7 +42,8 @@ router.get(
     }
 
     res.status(200).send(user);
+    return;
   }
 );
 
-export { router as signin };
+export { router as signinRouter };

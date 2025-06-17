@@ -47,7 +47,8 @@ router.post(
     };
 
     res.status(201).send({ message: "success", user: user });
+    return;
   }
 );
 
-export { router as signup };
+export { router as signupRouter };

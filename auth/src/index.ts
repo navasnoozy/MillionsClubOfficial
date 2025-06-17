@@ -1,13 +1,13 @@
-import express from "express";
-import { signup } from "./routes/signup";
-import { signin } from "./routes/signin";
-import { signout } from "./routes/signout";
-import { currentUser } from "./routes/current-user";
-import dotenv from "dotenv";
-import { errorHandler } from "./middlewares/errorHandler";
-import { NotFoundError } from "./errors/not-found-error";
-import connectDB from "./config/db";
 import cookieSession from "cookie-session";
+import dotenv from "dotenv";
+import express from "express";
+import connectDB from "./config/db";
+import { NotFoundError } from "./errors/not-found-error";
+import { errorHandler } from "./middlewares/errorHandler";
+import { signinRouter } from "./routes/signin";
+import { signoutRouter } from "./routes/signout";
+import { signupRouter } from "./routes/signup";
+import { currentUserRouter } from "./routes/current-user";
 
 const app = express();
 
@@ -25,10 +25,10 @@ app.use(
   })
 );
 
-app.use(signup);
-app.use(signin);
-app.use(signout);
-app.use(currentUser);
+app.use(signupRouter);
+app.use(signinRouter);
+app.use(signoutRouter);
+app.use(currentUserRouter);
 
 // Invalid route error
 app.all("*path", async () => {
