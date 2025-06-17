@@ -16,7 +16,6 @@ declare global {
 }
 
 export const currentUser = (req:Request,res:Response,next:NextFunction)=>{
-     console.log('this one working bro');
      
     if (!req.session?.jwt){
       return next()

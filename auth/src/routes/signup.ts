@@ -1,12 +1,11 @@
 // auth/src/routes/signup.ts
 import express from "express";
+import jwt from "jsonwebtoken";
+import { BadRequestError } from "../errors/Bad-requestError";
+import { validateRequest } from "../middlewares/requestValidation";
+import { User } from "../models/userModel";
 import { signupSchema } from "../schemas/authSchema";
 import { hashPassword } from "../utils/hashPassword";
-import { User } from "../models/userModel";
-import { RequestValidationError } from "../errors/reqValidationError";
-import { BadRequestError } from "../errors/Bad-requestError";
-import jwt from "jsonwebtoken";
-import { validateRequest } from "../middlewares/requestValidation";
 
 const router = express.Router();
 
