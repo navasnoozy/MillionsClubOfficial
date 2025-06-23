@@ -9,7 +9,7 @@ import { BadRequestError } from "../errors/Bad-requestError";
 
 const router = express.Router();
 
-router.get(
+router.post(
   "/api/users/signin",
   validateRequest(signinSchema),
   async (req, res) => {

@@ -11,6 +11,10 @@ build:
       context: auth
       docker:
         dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
     # - image: navasnoozy/posts
     #   context: posts
     #   docker:
@@ -31,10 +35,6 @@ build:
     #   context: event-bus
     #   docker:
     #     dockerfile: Dockerfile
-      sync:
-        manual:
-          - src: "src/**/*.ts"
-            dest: .
 
 manifests:
   rawYaml:
