@@ -1,13 +1,15 @@
 import { Box } from "@mui/material";
 
 import { Outlet } from "react-router";
-import Navbar from "../components/navbar/Navbar";
+import { NavBar } from "../components/navbar/Navbar";
 
 const Layout = () => {
   return (
     <Box>
-      <Navbar />
+      <NavBar />
+      <Box paddingY={'12px'}>
       <Outlet />
+      </Box>
     </Box>
   );
 };

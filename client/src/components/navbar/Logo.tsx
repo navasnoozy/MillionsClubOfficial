@@ -1,49 +1,37 @@
-import { Box, Typography } from "@mui/material";
 import AdbIcon from "@mui/icons-material/Adb";
+import Typography from "@mui/material/Typography";
 
-const Logo = () => {
-  return (
-    <Box>
-      <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
-      <Typography
-        variant="h6"
-        noWrap
-        component="a"
-        href="#app-bar-with-responsive-menu"
-        sx={{
-          mr: 2,
-          display: { xs: "none", md: "flex" },
-          fontFamily: "monospace",
-          fontWeight: 700,
-          letterSpacing: ".3rem",
-          color: "inherit",
-          textDecoration: "none",
-        }}
-      >
-        LOGO
-      </Typography>
-
-      <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
-      <Typography
-        variant="h5"
-        noWrap
-        component="a"
-        href="#app-bar-with-responsive-menu"
-        sx={{
-          mr: 2,
-          display: { xs: "flex", md: "none" },
-          flexGrow: 1,
-          fontFamily: "monospace",
-          fontWeight: 700,
-          letterSpacing: ".3rem",
-          color: "inherit",
-          textDecoration: "none",
-        }}
-      >
-        LOGO
-      </Typography>
-    </Box>
-  );
-};
-
-export default Logo;
+export const Logo = ({ variant }: { variant: "desktop" | "mobile" }) => (
+  <>
+    <AdbIcon
+      sx={{
+        display: {
+          xs: variant === "mobile" ? "flex" : "none",
+          md: variant === "desktop" ? "flex" : "none",
+        },
+        mr: 1,
+      }}
+    />
+    <Typography
+      variant={variant === "desktop" ? "h6" : "h5"}
+      noWrap
+      component="a"
+      href="#"
+      sx={{
+        mr: 2,
+        display: {
+          xs: variant === "mobile" ? "flex" : "none",
+          md: variant === "desktop" ? "flex" : "none",
+        },
+        fontFamily: "monospace",
+        fontWeight: 700,
+        letterSpacing: ".3rem",
+        color: "inherit",
+        textDecoration: "none",
+        flexGrow: variant === "mobile" ? 1 : 0,
+      }}
+    >
+      LOGO
+    </Typography>
+  </>
+);
