@@ -6,12 +6,10 @@ const Signin = () => (
     sx={{ p: 4, maxWidth: 400, mx: "auto", borderRadius: "8px" }}
   >
     <Typography fontSize={30} fontWeight="bold" mb={3}>
-      Create account
+      Login
     </Typography>
 
     <Stack spacing={3}>
-      <TextField id="name" label="Name" variant="standard" fullWidth />
-
       <TextField
         id="email"
         label="Email address"
@@ -21,8 +19,12 @@ const Signin = () => (
       />
 
       <TextField id="password" label="password" variant="standard" fullWidth />
-       <TextField id="confirmpassword" label="Confirm password" variant="standard" fullWidth />
-       <Button size="large" variant="contained">Signup</Button>
+      <Button size="large" variant="contained">
+        Signin
+      </Button>
+      <Stack>
+        <Typography>Don't have an account </Typography>
+      </Stack>
     </Stack>
   </Card>
 );
