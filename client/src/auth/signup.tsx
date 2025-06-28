@@ -1,30 +1,73 @@
 import { Card, TextField, Typography, Stack, Button } from "@mui/material";
+import { useForm } from "react-hook-form";
+import AppLink from "../components/CustomLink";
+import axiosInstance from "../lib/axios";
 
-const Signup = () => (
-  <Card
-    variant="outlined"
-    sx={{ p: 4, maxWidth: 400, mx: "auto", borderRadius: "8px" }}
-  >
-    <Typography fontSize={30} fontWeight="bold" mb={3}>
-      Create account
-    </Typography>
+const Signup = () => {
+  const { register, handleSubmit } = useForm();
 
-    <Stack spacing={3}>
-      <TextField id="name" label="Name" variant="standard" fullWidth />
+  const submit = async (data: any) => {
+    try {
+      const result = await axiosInstance.post("/api/users/signup", data);
+      console.log(result);
+    } catch (error) {
+      console.log("an error occured", error);
+    }
+  };
 
-      <TextField
-        id="email"
-        label="Email address"
-        variant="standard"
-        helperText="We'll never share your email."
-        fullWidth
-      />
+  return (
+    <Card
+      variant="outlined"
+      sx={{ p: 4, maxWidth: 400, mx: "auto", borderRadius: "8px" }}
+    >
+      <Typography fontSize={30} fontWeight="bold" mb={3}>
+        Create account
+      </Typography>
+      <form onSubmit={handleSubmit(submit)}>
+        <Stack spacing={3}>
+          <TextField
+            {...register("name", { required: true })}
+            label="Name"
+            variant="standard"
+            fullWidth
+          />
 
-      <TextField id="password" label="password" variant="standard" fullWidth />
-       <TextField id="confirmpassword" label="Confirm password" variant="standard" fullWidth />
-       <Button size="large" variant="contained">Signup</Button>
-    </Stack>
-  </Card>
-);
+          <TextField
+            {...register("email", { required: true })}
+            label="Email address"
+            variant="standard"
+            helperText="We'll never share your email."
+            fullWidth
+          />
+
+          <TextField
+            {...register("password", { required: true })}
+            label="password"
+            variant="standard"
+            fullWidth
+          />
+          <TextField
+            {...register("confirmpassword", { required: true })}
+            label="Confirm password"
+            variant="standard"
+            fullWidth
+          />
+          <Button type="submit" size="large" variant="contained">
+            Signup
+          </Button>
+          <Typography>
+            Already have an account?{" "}
+            <AppLink
+              to={"/signin"}
+              sx={{ fontWeight: "bold", fontSize: 20, textWrap: "nowrap" }}
+            >
+              Sign in
+            </AppLink>
+          </Typography>
+        </Stack>
+      </form>
+    </Card>
+  );
+};
 
 export default Signup;

@@ -1,9 +1,9 @@
-import AdbIcon from "@mui/icons-material/Adb";
+import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import Typography from "@mui/material/Typography";
 
 export const Logo = ({ variant }: { variant: "desktop" | "mobile" }) => (
   <>
-    <AdbIcon
+    <ShoppingBasketIcon
       sx={{
         display: {
           xs: variant === "mobile" ? "flex" : "none",
@@ -31,7 +31,7 @@ export const Logo = ({ variant }: { variant: "desktop" | "mobile" }) => (
         flexGrow: variant === "mobile" ? 1 : 0,
       }}
     >
-      LOGO
+       MILLIONS CLUB
     </Typography>
   </>
 );
