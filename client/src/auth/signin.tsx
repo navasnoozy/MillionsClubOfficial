@@ -1,14 +1,14 @@
 import { Card, TextField, Typography, Stack, Button } from "@mui/material";
 import AppLink from "../components/CustomLink";
 import { useForm } from "react-hook-form";
-import axios from "axios";
+import axiosInstance from "../lib/axios";
 
 const Signin = () => {
   const { register, handleSubmit } = useForm();
 
   const submit = async (data: any) => {
     try {
-      const result = await axios.post("/api/users/signup", data);
+      const result = await axiosInstance.post("/api/users/signin", data);
       console.log(result);
     } catch (error) {
       console.log("an error occured", error);
@@ -27,7 +27,7 @@ const Signin = () => {
       <form onSubmit={handleSubmit(submit)}>
         <Stack spacing={3}>
           <TextField
-            {...register('email',{required:true})}
+            {...register("email", { required: true })}
             label="Email address"
             variant="standard"
             helperText="We'll never share your email."
@@ -35,7 +35,7 @@ const Signin = () => {
           />
 
           <TextField
-          {...register('password',{required:true})}
+            {...register("password", { required: true })}
             label="password"
             variant="standard"
             fullWidth
