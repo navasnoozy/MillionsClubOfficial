@@ -18,13 +18,13 @@ spec:
                 name: auth-service
                 port:
                   number: 3000
-          # - path: /posts
-          #   pathType: Prefix
-          #   backend:
-          #     service:
-          #       name: query-service
-          #       port:
-          #         number: 4002
+          - path: /(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: client-service
+                port:
+                  number: 3000
           # - path: /posts/.*/comments
           #   pathType: ImplementationSpecific
           #   backend:

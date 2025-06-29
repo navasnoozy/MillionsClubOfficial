@@ -15,10 +15,14 @@ build:
         manual:
           - src: "src/**/*.ts"
             dest: .
-    # - image: navasnoozy/posts
-    #   context: posts
-    #   docker:
-    #     dockerfile: Dockerfile
+    - image: navasnoozy/client
+      context: client
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
     # - image: navasnoozy/comments
     #   context: comments
     #   docker:
