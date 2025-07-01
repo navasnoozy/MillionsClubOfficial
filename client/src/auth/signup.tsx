@@ -47,7 +47,7 @@ const Signup = () => {
             fullWidth
           />
           <TextField
-            {...register("confirmpassword", { required: true })}
+            {...register("confirmPassword", { required: true })}
             label="Confirm password"
             variant="standard"
             fullWidth
