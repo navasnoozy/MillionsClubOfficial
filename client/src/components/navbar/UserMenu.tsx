@@ -34,6 +34,7 @@ export const UserMenu: React.FC<UserMenuProps> = ({
   const { mutate: signout, isPending } = useSignout();
 
   const handleSignout = () => {
+    onClose ()
     signout(undefined, {
       onSuccess: () => {
          navigate ('/')
