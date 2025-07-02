@@ -1,3 +1,4 @@
+//src/auth/hooks/useCurrentUser.ts
 import { useQuery } from "@tanstack/react-query";
 import axiosInstance from "../../lib/axios";
 
@@ -6,7 +7,7 @@ const useCurrentUser = () =>
     queryKey: ["currentUser"],
     queryFn: async () => {
       const response = await axiosInstance.get("/api/users/currentuser");
-      return response.data;
+      return response.data.currentUser ?? null;
     },
   });
 

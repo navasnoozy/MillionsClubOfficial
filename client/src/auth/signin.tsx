@@ -1,18 +1,34 @@
-import { Card, TextField, Typography, Stack, Button } from "@mui/material";
+import { Card, TextField, Typography, Stack, Button, CircularProgress } from "@mui/material";
 import AppLink from "../components/CustomLink";
 import { useForm } from "react-hook-form";
-import axiosInstance from "../lib/axios";
+import useSigninUser from "./hooks/useSignin";
+import { useNavigate } from "react-router";
+import useCurrentUser from "./hooks/useCurrentUser";
+import { useEffect } from "react";
 
 const Signin = () => {
-  const { register, handleSubmit } = useForm();
+  const navigate = useNavigate();
 
-  const submit = async (data: any) => {
-    try {
-      const result = await axiosInstance.post("/api/users/signin", data);
-      console.log(result);
-    } catch (error) {
-      console.log("an error occured", error);
+  const { register, handleSubmit } = useForm();
+  const { mutate: signin, isPending } = useSigninUser();
+  const { data: currentUser } = useCurrentUser();
+
+  useEffect(() => {
+    if (currentUser) {
+      navigate("/", { replace: true }); // ✅ safe redirect
     }
+  }, [currentUser, navigate]);
+
+  const handleSignin = (data: any) => {
+    signin(data, {
+      onSuccess: () => {
+        navigate("/");
+      },
+
+      onError: (data) => {
+        console.log("signin error ", data);
+      },
+    });
   };
 
   return (
@@ -24,7 +40,7 @@ const Signin = () => {
         Login
       </Typography>
 
-      <form onSubmit={handleSubmit(submit)}>
+      <form onSubmit={handleSubmit(handleSignin)}>
         <Stack spacing={3}>
           <TextField
             {...register("email", { required: true })}
@@ -40,8 +56,14 @@ const Signin = () => {
             variant="standard"
             fullWidth
           />
-          <Button type="submit" size="large" variant="contained">
+          <Button
+            disabled={isPending}
+            type="submit"
+            size="large"
+            variant="contained"
+          >
             Signin
+              {isPending && <CircularProgress sx={{ marginLeft: 1 }} size="2rem" />}
           </Button>
           <Stack>
             <Typography>

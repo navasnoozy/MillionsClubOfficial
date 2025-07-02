@@ -1,20 +1,22 @@
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Container from '@mui/material/Container';
-import { Logo } from './Logo';
-import { MobileMenu } from './MobileMenu';
-import { NavLinks } from './NavLinks';
-import { UserMenu } from './UserMenu';
-import { Box } from '@mui/material';
-import { useState } from 'react';
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import Container from "@mui/material/Container";
+import { Logo } from "./Logo";
+import { MobileMenu } from "./MobileMenu";
+import { NavLinks } from "./NavLinks";
+import { UserMenu } from "./UserMenu";
+import { Box } from "@mui/material";
+import { useState } from "react";
 
 export const NavBar: React.FC = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
-  const handleOpenNavMenu = (e: React.MouseEvent<HTMLElement>) => setAnchorElNav(e.currentTarget);
+  const handleOpenNavMenu = (e: React.MouseEvent<HTMLElement>) =>
+    setAnchorElNav(e.currentTarget);
   const handleCloseNavMenu = () => setAnchorElNav(null);
-  const handleOpenUserMenu = (e: React.MouseEvent<HTMLElement>) => setAnchorElUser(e.currentTarget);
+  const handleOpenUserMenu = (e: React.MouseEvent<HTMLElement>) =>
+    setAnchorElUser(e.currentTarget);
   const handleCloseUserMenu = () => setAnchorElUser(null);
 
   return (
@@ -29,7 +31,7 @@ export const NavBar: React.FC = () => {
             onClose={handleCloseNavMenu}
           />
           <Logo variant="mobile" />
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <NavLinks onLinkClick={handleCloseNavMenu} />
           </Box>
           <Box sx={{ flexGrow: 0 }}>

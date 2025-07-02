@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axiosInstance from "../../lib/axios";
 
 interface Credetials {
@@ -8,13 +8,18 @@ interface Credetials {
   confirmPassword: string;
 }
 
-const useSignupUser = () =>
-  useMutation({
+const useSignupUser = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
     mutationKey: ["signup"],
     mutationFn: async (data: Credetials) => {
       const respnse = await axiosInstance.post("/api/users/signup", data);
       return respnse.data;
     },
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey:['currentUser']})
+    },
   });
+};
 
 export default useSignupUser;

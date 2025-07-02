@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+//src/components/navbar/UserMenu.tsx
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
@@ -8,9 +8,11 @@ import Typography from "@mui/material/Typography";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../store/store";
 import AppLink from "../CustomLink";
-import { CircularProgress } from "@mui/material";
-import axiosInstance from "../../lib/axios";
-import { useNavigate } from 'react-router';
+import { CircularProgress, Stack } from "@mui/material";
+import useSignout from "../../auth/hooks/useSignout";
+import useCurrentUser from "../../auth/hooks/useCurrentUser";
+import LoginIcon from "@mui/icons-material/Login";
+import { useNavigate } from "react-router";
 
 interface UserMenuProps {
   anchorEl: HTMLElement | null;
@@ -25,22 +27,32 @@ export const UserMenu: React.FC<UserMenuProps> = ({
   onOpen,
   onClose,
 }) => {
+  const navigate = useNavigate ();
   const links = useSelector((state: RootState) => state.nav.userMenuLinks);
 
-  const [isLoading, setLoading] = useState(false);
-  const navigate = useNavigate()
+  const { data: currentUser } = useCurrentUser();
+  const { mutate: signout, isPending } = useSignout();
 
-  const logout = async () => {
-    setLoading(true);
-    try {
-      await axiosInstance.get("/api/users/signout");
-      navigate('/dashboard')
-    } catch (error) {
-      console.log("An error occured while logout", error);
-    } finally {
-      setLoading(false);
-    }
+  const handleSignout = () => {
+    signout(undefined, {
+      onSuccess: () => {
+         navigate ('/')
+      },
+      onError: () => {
+        console.log("signout error");
+      },
+    });
   };
+
+  if (!currentUser) {
+    return (
+      <Stack direction={'row'} gap={1}>
+        <LoginIcon sx={{display:{xs:'none', md:'inline-block'}}} />
+        <AppLink color="white" to={"/signin"}>Login</AppLink>
+      </Stack>
+    );
+  }
+
   return (
     <>
       <Tooltip title="Open settings">
@@ -68,14 +80,14 @@ export const UserMenu: React.FC<UserMenuProps> = ({
             </AppLink>
           </MenuItem>
         ))}
-        <MenuItem onClick={logout}>
+        <MenuItem onClick={handleSignout}>
           <Typography
             color="primary"
             sx={{ fontWeight: "bold", fontSize: 20, textWrap: "nowrap" }}
           >
             Logout
           </Typography>
-          {isLoading && <CircularProgress sx={{ marginLeft: 1 }} size="2rem" />}
+          {isPending && <CircularProgress sx={{ marginLeft: 1 }} size="2rem" />}
         </MenuItem>
       </Menu>
     </>
