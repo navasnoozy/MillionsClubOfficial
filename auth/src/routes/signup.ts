@@ -1,10 +1,8 @@
 // auth/src/routes/signup.ts
 import express from "express";
 import jwt from "jsonwebtoken";
-import { BadRequestError } from "../errors/Bad-requestError";
-import { validateRequest } from "../middlewares/requestValidation";
+import { BadRequestError, validateRequest, signupSchema } from "@millionsclub/shared-libs";
 import { User } from "../models/userModel";
-import { signupSchema } from "../schemas/authSchema";
 import { hashPassword } from "../utils/hashPassword";
 
 const router = express.Router();

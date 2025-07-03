@@ -1,11 +1,9 @@
 // auth/src/routes/signin.ts
 import express from "express";
-import { signinSchema } from "../schemas/authSchema";
+import { signinSchema, validateRequest, BadRequestError } from "@millionsclub/shared-libs";
 import { comparePassword } from "../utils/hashPassword";
 import { User } from "../models/userModel";
 import jwt from "jsonwebtoken";
-import { validateRequest } from "../middlewares/requestValidation";
-import { BadRequestError } from "../errors/Bad-requestError";
 
 const router = express.Router();
 

@@ -2,8 +2,7 @@
 import cookieSession from "cookie-session";
 import dotenv from "dotenv";
 import express from "express";
-import { NotFoundError } from "./errors/not-found-error";
-import { errorHandler } from "./middlewares/errorHandler";
+import { NotFoundError, errorHandler } from "@millionsclub/shared-libs";
 import { currentUserRouter } from "./routes/current-user";
 import { signinRouter } from "./routes/signin";
 import { signoutRouter } from "./routes/signout";
