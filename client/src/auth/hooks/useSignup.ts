@@ -1,24 +1,20 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axiosInstance from "../../lib/axios";
+import type {SignupSchema} from '@millionsclub/shared-libs/client'
+import axios from "axios";
 
-interface Credetials {
-  name: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
-
-const useSignupUser = () => {
+const  useSignupUser = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ["signup"],
-    mutationFn: async (data: Credetials) => {
-      const respnse = await axiosInstance.post("/api/users/signup", data);
-      return respnse.data;
+    mutationFn: async (credentials: SignupSchema) => {
+      const {data} = await axiosInstance.post("/api/users/signup", credentials);
+      return data
     },
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey:['currentUser']})
     },
+  
   });
 };
 

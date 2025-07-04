@@ -17,7 +17,7 @@ router.post(
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
-      throw new BadRequestError("Email already in use");
+      throw new BadRequestError("Email already in use","email");
     }
 
     const hashedPassword = await hashPassword(password);

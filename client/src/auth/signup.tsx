@@ -1,71 +1,97 @@
-import { Card, TextField, Typography, Stack, Button, CircularProgress } from "@mui/material";
+import {
+  Card,
+  TextField,
+  Typography,
+  Stack,
+  Button,
+  CircularProgress,
+} from "@mui/material";
 import { useForm } from "react-hook-form";
 import AppLink from "../components/CustomLink";
 import useSignupUser from "./hooks/useSignup";
 import { useNavigate } from "react-router";
-import { useEffect } from "react";
-import useCurrentUser from "./hooks/useCurrentUser";
+import { useState } from "react";
+import type { SignupSchema } from "@millionsclub/shared-libs";
+import { signupSchema } from "@millionsclub/shared-libs/client";
+import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
+import ErrorMessages from "./components/errorMessge";
+import AuthContainer from "./AuthContainer";
+import { useAuthRedirect } from "./hooks/useAuthRedirect";
 
 const Signup = () => {
+  const [signupError, setSignupError] = useState<
+    { message: string; field: string }[]
+  >([]);
+
   const navigate = useNavigate();
 
-  const { register, handleSubmit } = useForm();
-  const { mutate: signup, isPending:signupLoading, isError, error } = useSignupUser();
-  const {data: currentUser, isPending: currentUserLoading} = useCurrentUser();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors: validationError },
+  } = useForm<SignupSchema>({
+    resolver: zodResolver(signupSchema),
+  });
 
-    useEffect(() => {
-      if (currentUser) {
-        navigate("/", { replace: true }); // ✅ safe redirect
-      }
-    }, [currentUser, navigate]);
+  const { mutate: signup, isPending: signupLoading, isError } = useSignupUser();
 
-  const handleSignup = (data: any) => {
+  useAuthRedirect();
+
+  const handleSignup = (data: SignupSchema) => {
     signup(data, {
       onSuccess: () => {
         navigate("/");
       },
-
-      onError: (data) => {
-        console.log("signup error ", data);
+      onError: (error) => {
+        if (axios.isAxiosError(error)) {
+          const errors = error.response?.data.error;
+          setSignupError(errors);
+        }
       },
     });
   };
 
   return (
-    <Card
-      variant="outlined"
-      sx={{ p: 4, maxWidth: 400, mx: "auto", borderRadius: "8px" }}
-    >
-      <Typography fontSize={30} fontWeight="bold" mb={3}>
-        Create account
-      </Typography>
+    <AuthContainer heading={"Create Account"}>
       <form onSubmit={handleSubmit(handleSignup)}>
         <Stack spacing={3}>
           <TextField
-            {...register("name", { required: true })}
+            {...register("name", { required: false })}
             label="Name"
             variant="standard"
+            error={!!validationError.name}
+            helperText={validationError.name?.message}
             fullWidth
           />
 
           <TextField
-            {...register("email", { required: true })}
+            {...register("email", { required: false })}
             label="Email address"
             variant="standard"
-            helperText="We'll never share your email."
+            error={!!validationError.email}
+            helperText={
+              validationError.email?.message || "We'll never share your email."
+            }
             fullWidth
           />
 
           <TextField
-            {...register("password", { required: true })}
+            {...register("password", { required: false })}
             label="password"
+            type="password"
             variant="standard"
+            error={!!validationError.password}
+            helperText={validationError.password?.message}
             fullWidth
           />
           <TextField
-            {...register("confirmPassword", { required: true })}
+            {...register("confirmPassword", { required: false })}
             label="Confirm password"
+            type="password"
             variant="standard"
+            error={!!validationError.confirmPassword}
+            helperText={validationError.confirmPassword?.message}
             fullWidth
           />
           <Button
@@ -75,7 +101,9 @@ const Signup = () => {
             variant="contained"
           >
             Signup
-            {signupLoading && <CircularProgress sx={{ marginLeft: 1 }} size="2rem" />}
+            {signupLoading && (
+              <CircularProgress sx={{ marginLeft: 1 }} size="2rem" />
+            )}
           </Button>
           <Typography>
             Already have an account?{" "}
@@ -86,9 +114,10 @@ const Signup = () => {
               Sign in
             </AppLink>
           </Typography>
+          {isError && <ErrorMessages errors={signupError} />}
         </Stack>
       </form>
-    </Card>
+    </AuthContainer>
   );
 };
 

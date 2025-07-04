@@ -1,59 +1,76 @@
-import { Card, TextField, Typography, Stack, Button, CircularProgress } from "@mui/material";
+import {
+  Card,
+  TextField,
+  Typography,
+  Stack,
+  Button,
+  CircularProgress,
+} from "@mui/material";
 import AppLink from "../components/CustomLink";
 import { useForm } from "react-hook-form";
 import useSigninUser from "./hooks/useSignin";
 import { useNavigate } from "react-router";
-import useCurrentUser from "./hooks/useCurrentUser";
-import { useEffect } from "react";
+import { useState } from "react";
+import type { SigninSchema } from "@millionsclub/shared-libs";
+import { signinSchema } from "@millionsclub/shared-libs/client";
+import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
+import ErrorMessages from "./components/errorMessge";
+import AuthContainer from "./AuthContainer";
+import { useAuthRedirect } from "./hooks/useAuthRedirect";
 
 const Signin = () => {
   const navigate = useNavigate();
+  const [signinError, setSigninError] = useState<
+    { message: string; field: string }[]
+  >([]);
 
-  const { register, handleSubmit } = useForm();
-  const { mutate: signin, isPending } = useSigninUser();
-  const { data: currentUser } = useCurrentUser();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors: validationError },
+  } = useForm<SigninSchema>({
+    resolver: zodResolver(signinSchema),
+  });
+  const { mutate: signin, isPending, isError } = useSigninUser();
 
-  useEffect(() => {
-    if (currentUser) {
-      navigate("/", { replace: true }); // ✅ safe redirect
-    }
-  }, [currentUser, navigate]);
+  useAuthRedirect()
 
-  const handleSignin = (data: any) => {
+  const handleSignin = (data: SigninSchema) => {
     signin(data, {
       onSuccess: () => {
         navigate("/");
       },
 
-      onError: (data) => {
-        console.log("signin error ", data);
+      onError: (error) => {
+        if (axios.isAxiosError(error)) {
+          const errors = error.response?.data.error;
+          setSigninError(errors);
+        }
       },
     });
   };
 
   return (
-    <Card
-      variant="outlined"
-      sx={{ p: 4, maxWidth: 400, mx: "auto", borderRadius: "8px" }}
-    >
-      <Typography fontSize={30} fontWeight="bold" mb={3}>
-        Login
-      </Typography>
-
+    <AuthContainer heading={"Login"}>
       <form onSubmit={handleSubmit(handleSignin)}>
         <Stack spacing={3}>
           <TextField
             {...register("email", { required: true })}
             label="Email address"
             variant="standard"
-            helperText="We'll never share your email."
+            error={!!validationError.email}
+            helperText={validationError.email?.message}
             fullWidth
           />
 
           <TextField
             {...register("password", { required: true })}
             label="password"
+            type="password"
             variant="standard"
+            error={!!validationError.password}
+            helperText={validationError.password?.message}
             fullWidth
           />
           <Button
@@ -63,7 +80,9 @@ const Signin = () => {
             variant="contained"
           >
             Signin
-              {isPending && <CircularProgress sx={{ marginLeft: 1 }} size="2rem" />}
+            {isPending && (
+              <CircularProgress sx={{ marginLeft: 1 }} size="2rem" />
+            )}
           </Button>
           <Stack>
             <Typography>
@@ -76,9 +95,10 @@ const Signin = () => {
               </AppLink>
             </Typography>
           </Stack>
+          {isError && <ErrorMessages errors={signinError} />}
         </Stack>
       </form>
-    </Card>
+    </AuthContainer>
   );
 };
 
