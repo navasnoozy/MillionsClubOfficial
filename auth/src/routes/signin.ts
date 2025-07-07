@@ -1,6 +1,10 @@
 // auth/src/routes/signin.ts
 import express from "express";
-import { signinSchema, validateRequest, BadRequestError } from "@millionsclub/shared-libs";
+import {
+  signinSchema,
+  validateRequest,
+  BadRequestError,
+} from "@millionsclub/shared-libs";
 import { comparePassword } from "../utils/hashPassword";
 import { User } from "../models/userModel";
 import jwt from "jsonwebtoken";
