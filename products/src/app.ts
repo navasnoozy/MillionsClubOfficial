@@ -2,11 +2,12 @@ import { errorHandler, NotFoundError } from "@millionsclub/shared-libs";
 import cookieSession from "cookie-session";
 import dotenv from "dotenv";
 import express from "express";
-import { getProductRouter } from "./routes/product/getProduct";
+import { adminRouter } from "./routes/adminRoutes";
 
 const app = express();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 dotenv.config();
 
 app.set("trust proxy", true);
@@ -18,7 +19,7 @@ app.use(
   })
 );
 
-app.use(getProductRouter)
+app.use(adminRouter);
 
 app.all("*path", async () => {
   throw new NotFoundError();

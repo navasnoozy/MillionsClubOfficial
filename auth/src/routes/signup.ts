@@ -42,7 +42,7 @@ router.post(
       jwt: jwt_token,
     };
 
-    res.status(201).send({ message: "success", user: user });
+    res.status(201).send({ success: "true" });
     return;
   }
 );

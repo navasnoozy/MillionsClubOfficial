@@ -3,7 +3,7 @@ import mongoose, { Schema } from "mongoose";
 const subcategorySchema  = new Schema({
   name: { type: String, required: true, unique: true },
   slug: { type: String, required: true, unique: true },
-  parentCategory: {
+  parentCategoryId: {
     type: Schema.Types.ObjectId,
     ref: "Category",
     required: true,

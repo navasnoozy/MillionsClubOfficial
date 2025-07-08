@@ -43,7 +43,7 @@ router.post(
       };
     }
 
-    res.status(200).send(user);
+    res.status(200).send({success: true});
     return;
   }
 );

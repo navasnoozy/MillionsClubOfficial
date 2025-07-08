@@ -11,6 +11,7 @@ import { signupRouter } from "./routes/signup";
 const app = express();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }))
 dotenv.config();
 
 app.set("trust proxy", true);
