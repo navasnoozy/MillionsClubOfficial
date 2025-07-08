@@ -2,10 +2,10 @@ apiVersion: skaffold/v4beta6
 kind: Config
 build:
   local:
-    push: false  # Set to true if you're using a remote cluster
+    push: false # Set to true if you're using a remote cluster
   tagPolicy:
     customTemplate:
-      template: latest    
+      template: latest
   artifacts:
     - image: navasnoozy/auth
       context: auth
@@ -23,10 +23,14 @@ build:
         manual:
           - src: "src/**/*.ts"
             dest: .
-    # - image: navasnoozy/comments
-    #   context: comments
-    #   docker:
-    #     dockerfile: Dockerfile
+    - image: navasnoozy/products
+      context: products
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
     # - image: navasnoozy/query
     #   context: query
     #   docker:
@@ -44,5 +48,3 @@ manifests:
   rawYaml:
     - ./infra/k8s/*
     # Add other K8s resources (services, config maps, etc.)
-
-

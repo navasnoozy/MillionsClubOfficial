@@ -1,13 +1,9 @@
-import express from "express";
+import { app } from "./app";
 import connectDB from "./config/db";
-
-
-const app = express ();
 
 const port = process.env.PORT || 3000;
 
-
-app.listen (port, ()=>{
-   console.log("Server is running on ", port);
-   connectDB ();
-})
+app.listen(port, () => {
+  console.log("Server is running on ", port);
+  connectDB();
+});

@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: auth-mongo-depl # K8s will prefix pod names with this. You’ll get:
+  name: products-mongo-depl # K8s will prefix pod names with this. You’ll get:
 spec:
-  serviceName: "auth-mongo"
+  serviceName: "products-mongo"
   replicas: 1  # set >1 for replica set
   selector:
     matchLabels:
-      app: auth-mongodb
+      app: products-mongodb
   template:
     metadata:
       labels:
-        app: auth-mongodb
+        app: products-mongodb
     spec:
       containers:
-        - name: auth-mongo
+        - name: products-mongo
           image: mongo:latest
           ports:
             - containerPort: 27017
@@ -36,11 +36,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: auth-mongo-service
+  name: products-mongo-service
 spec:
   clusterIP: None
   selector:
-    app: auth-mongodb
+    app: products-mongodb
   ports:
     - port: 27017
       name: mongodb

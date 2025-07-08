@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: client
-          image: navasnoozy/client # Replace with your Docker image name
+          image: navasnoozy/client:latest # Replace with your Docker image name
           imagePullPolicy: Never # Use 'Never' if you're using local Docker images with Minikube or Docker Desktop
           ports:
             - containerPort: 5173

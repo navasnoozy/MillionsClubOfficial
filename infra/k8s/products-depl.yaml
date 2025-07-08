@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: auth-deployment
+  name: products-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: auth
+      app: products
   template:
     metadata:
       labels:
-        app: auth
+        app: products
     spec:
       containers:
-        - name: auth
-          image: navasnoozy/auth:latest # Replace with your Docker image name
+        - name: products
+          image: navasnoozy/products:latest # Replace with your Docker image name
           imagePullPolicy: Never # Use 'Never' if you're using local Docker images with Minikube or Docker Desktop
           env:
             - name: JWT_KEY
@@ -25,7 +25,7 @@ spec:
             - name: MONGO_URI
               valueFrom:
                 secretKeyRef:
-                  name: auth-mongo-uri
+                  name: products-mongo-uri
                   key: MONGO_URI          
 
            
@@ -34,12 +34,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: auth-service
+  name: products-service
 spec:
   selector:
-    app: auth # This must match the labels on your pods/deployment
+    app: products # This must match the labels on your pods/deployment
   ports:
-    - name: auth
+    - name: products
       protocol: TCP
       port: 3000 # Port that the service exposes internally
       targetPort: 3000 # Port your container is listening on (e.g., Express.js app)
