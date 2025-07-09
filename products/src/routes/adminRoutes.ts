@@ -13,7 +13,7 @@ adminRouter.post(
   addProduct
 );
 
-adminRouter.patch('/api/products/update/:id', validateRequest(updateProductSchema),validateRequest(mongoIdValidationSchema),updateProduct)
+adminRouter.patch('/api/products/update/:id', validateRequest(updateProductSchema),validateRequest(mongoIdValidationSchema,'params'),updateProduct)
 adminRouter.delete('/api/products/delete/:id',validateRequest(mongoIdValidationSchema,'params'), deleteProduct )
 
 
