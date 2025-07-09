@@ -22,11 +22,35 @@ spec:
                 secretKeyRef:
                   name: jwt-secret
                   key: JWT_KEY
+
+
             - name: MONGO_URI
               valueFrom:
                 secretKeyRef:
                   name: products-mongo-uri
-                  key: MONGO_URI          
+                  key: MONGO_URI 
+
+
+            - name: CLOUDNARY_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: cloudnary-name
+                  key: CLOUDNARY_NAME   
+
+
+            - name: CLOUDNARY_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: cloudnary-api-key
+                  key: CLOUDNARY_API_KEY     
+                  
+                       
+            - name: CLOUDNARY_API_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: cloudnary-api-secret
+                  key: CLOUDNARY_API_SECRET          
+         
 
            
 
