@@ -1,17 +1,21 @@
 //products/src/routes/adminRoutes.ts
 import { Router } from "express";
-import { addProductSchema, validateRequest } from "@millionsclub/shared-libs";
+import { addProductSchema, updateProductSchema, validateRequest } from "@millionsclub/shared-libs";
 import { addProduct } from "../controllers/admin/product/addProduct";
+import { updateProduct } from "../controllers/admin/product/updateProduct";
+import { listProducts } from "../controllers/user/listProducts";
+import { deleteProduct } from "../controllers/admin/product/deleteProduct";
 
-const router = Router();
+const adminRouter = Router();
 
-router.post(
+adminRouter.post(
   "/api/products/addproduct",
   validateRequest(addProductSchema),
   addProduct
 );
 
-router.patch('/api/products/updateproduct', validateRequest(addProductSchema),)
+adminRouter.patch('/api/products/updateproduct', validateRequest(updateProductSchema),updateProduct)
+adminRouter.get('/api/products/listproducts', deleteProduct )
 
 
-export { router as adminRouter}
+export default adminRouter

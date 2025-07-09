@@ -2,7 +2,8 @@ import { errorHandler, NotFoundError } from "@millionsclub/shared-libs";
 import cookieSession from "cookie-session";
 import dotenv from "dotenv";
 import express from "express";
-import { adminRouter } from "./routes/adminRoutes";
+import adminRouter from "./routes/adminRoutes";
+import userRouter from "./routes/userRoutes";
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use(
 );
 
 app.use(adminRouter);
+app.use(userRouter);
 
 app.all("*path", async () => {
   throw new NotFoundError();
