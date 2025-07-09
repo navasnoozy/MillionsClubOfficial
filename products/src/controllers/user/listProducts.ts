@@ -14,7 +14,7 @@ const listProducts = async (
     const sortField = (req.query.sort as string) || "createdAt";
     const sortOrder = req.query.order === "asc" ? 1 : -1;
 
-    const products = Product.find()
+    const products = await Product.find()
       .sort({ [sortField]: sortOrder })
       .skip(skip)
       .limit(limit);

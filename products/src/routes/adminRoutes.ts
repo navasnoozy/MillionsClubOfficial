@@ -1,21 +1,20 @@
 //products/src/routes/adminRoutes.ts
+import { addProductSchema, mongoIdValidationSchema, updateProductSchema, validateRequest } from "@millionsclub/shared-libs";
 import { Router } from "express";
-import { addProductSchema, updateProductSchema, validateRequest } from "@millionsclub/shared-libs";
 import { addProduct } from "../controllers/admin/product/addProduct";
-import { updateProduct } from "../controllers/admin/product/updateProduct";
-import { listProducts } from "../controllers/user/listProducts";
 import { deleteProduct } from "../controllers/admin/product/deleteProduct";
+import { updateProduct } from "../controllers/admin/product/updateProduct";
 
 const adminRouter = Router();
 
 adminRouter.post(
-  "/api/products/addproduct",
+  "/api/products/add",
   validateRequest(addProductSchema),
   addProduct
 );
 
-adminRouter.patch('/api/products/updateproduct', validateRequest(updateProductSchema),updateProduct)
-adminRouter.get('/api/products/listproducts', deleteProduct )
+adminRouter.patch('/api/products/update/:id', validateRequest(updateProductSchema),validateRequest(mongoIdValidationSchema),updateProduct)
+adminRouter.delete('/api/products/delete/:id',validateRequest(mongoIdValidationSchema,'params'), deleteProduct )
 
 
 export default adminRouter

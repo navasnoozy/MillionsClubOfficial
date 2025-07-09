@@ -5,15 +5,15 @@ import { Product } from "../../../models/productModel";
 
 const deleteProduct = async (req:Request, res:Response, next:NextFunction)=>{
      try {
-          const _id = req.query.id;
+          const _id = req.params.id;
 
-          if (_id) throw new BadRequestError("Please provide product id");
+          if (!_id) throw new BadRequestError("Please provide product id");
 
-          const product = Product.findByIdAndDelete(_id)
+          const product = await Product.findByIdAndDelete(_id)
 
           if (!product) throw new BadRequestError('No product found');
 
-          res.status(404).send({success:true,data: product });
+          res.status(200).send({success:true,data: product });
           return
           
      } catch (error) {

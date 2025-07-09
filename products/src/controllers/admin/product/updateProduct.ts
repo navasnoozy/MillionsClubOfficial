@@ -12,8 +12,8 @@ const updateProduct = async (
   next: NextFunction
 ) => {
   try {
+    const _id = req.params.id
     const {
-      _id,
       title,
       brand,
       categoryId,
