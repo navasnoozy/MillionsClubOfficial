@@ -7,6 +7,8 @@ const addVariant = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const _id = req.params.id;
 
+    const imagelist = req.files;
+
     const { color, size, images, isActive } = req.body;
 
     const productVariant: AddProductVariant = {
@@ -20,7 +22,7 @@ const addVariant = async (req: Request, res: Response, next: NextFunction) => {
     const newVariant = await ProductVariants.create(productVariant);
 
     await Product.findByIdAndUpdate(_id, {
-      $addToSet: { variantIds: newVariant._id }, 
+      $addToSet: { variantIds: newVariant._id },
     });
 
     res.status(201).send({ success: true, data: newVariant });
