@@ -13,10 +13,10 @@ import { updateProduct } from "../controllers/admin/product/updateProduct";
 import { addVariant } from "../controllers/admin/productVariant/addVariant";
 import { deleteVaraint } from "../controllers/admin/productVariant/deleteVariant";
 import { updateVariant } from "../controllers/admin/productVariant/updateVariant";
-import { upload } from "../utils/multer";
 
 const adminRouter = Router();
 
+// PRODUCT /////
 adminRouter.post(
   "/api/products/add",
   validateRequest(addProductSchema),
@@ -25,8 +25,9 @@ adminRouter.post(
 
 adminRouter.patch(
   "/api/products/update/:id",
-  validateRequest(updateProductSchema),
   validateRequest(mongoIdValidationSchema, "params"),
+  validateRequest(updateProductSchema),
+
   updateProduct
 );
 adminRouter.delete(
@@ -35,8 +36,9 @@ adminRouter.delete(
   deleteProduct
 );
 adminRouter.post(
-  "/api/products/:id/addvariant", validateRequest (addProductVariantSchema), validateRequest(mongoIdValidationSchema),
-  upload.array("images", 4),
+  "/api/products/:id/addvariant",
+  validateRequest(mongoIdValidationSchema),
+  validateRequest(addProductVariantSchema),
   addVariant
 );
 adminRouter.patch(
@@ -44,6 +46,8 @@ adminRouter.patch(
   validateRequest(mongoIdValidationSchema, "params"),
   updateVariant
 );
+
+// VARIANT /////
 adminRouter.delete(
   "/api/products/variant/:id",
   validateRequest(mongoIdValidationSchema, "params"),

@@ -5,6 +5,7 @@ metadata:
   name: ingress-service
   annotations:
     nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: "30m"  # recieving larger file
 spec:
   ingressClassName: nginx
   rules:

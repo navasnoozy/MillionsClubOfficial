@@ -7,8 +7,6 @@ const addVariant = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const _id = req.params.id;
 
-    const imagelist = req.files;
-
     const { color, size, images, isActive } = req.body;
 
     const productVariant: AddProductVariant = {

@@ -17,7 +17,7 @@ const getProduct = async (req: Request, res: Response, next: NextFunction) => {
       throw new BadRequestError ('Product not found')
     }
 
-    res.status(404).send({ success: true, data: product });
+    res.status(200).send({ success: true, data: product });
     return;
   } catch (error) {
     console.error("Error occured while fetching a product",error);
