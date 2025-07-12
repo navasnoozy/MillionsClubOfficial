@@ -1,4 +1,5 @@
 import mongoose, { Schema } from "mongoose";
+import { Product } from "./productModel";
 
 const productVariantModel = new Schema({
   color: {
@@ -23,6 +24,11 @@ const productVariantModel = new Schema({
      type: Boolean
   },
 });
+
+productVariantModel.post('findOneAndDelete', async (doc)=>{
+  if (!doc) return;
+  await Product.updateMany({ variantIds: doc._id}, {$pull:{variantIds: doc._id}})
+})
 
 export const ProductVariants = mongoose.model(
   "ProductVariants",

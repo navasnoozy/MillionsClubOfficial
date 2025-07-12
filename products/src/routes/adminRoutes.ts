@@ -1,7 +1,9 @@
 //products/src/routes/adminRoutes.ts
 import {
+  addCategorySchema,
   addProductSchema,
   addProductVariantSchema,
+  addSubCategorySchema,
   mongoIdValidationSchema,
   updateProductSchema,
   validateRequest,
@@ -13,6 +15,8 @@ import { updateProduct } from "../controllers/admin/product/updateProduct";
 import { addVariant } from "../controllers/admin/productVariant/addVariant";
 import { deleteVaraint } from "../controllers/admin/productVariant/deleteVariant";
 import { updateVariant } from "../controllers/admin/productVariant/updateVariant";
+import { addCategory } from "../controllers/admin/category/addCategory";
+import { deletCategory } from "../controllers/admin/category/deleteCategory";
 
 const adminRouter = Router();
 
@@ -35,6 +39,9 @@ adminRouter.delete(
   validateRequest(mongoIdValidationSchema, "params"),
   deleteProduct
 );
+
+
+// VARIANT /////
 adminRouter.post(
   "/api/products/:id/addvariant",
   validateRequest(mongoIdValidationSchema),
@@ -47,11 +54,51 @@ adminRouter.patch(
   updateVariant
 );
 
-// VARIANT /////
+
 adminRouter.delete(
   "/api/products/variant/:id",
   validateRequest(mongoIdValidationSchema, "params"),
   deleteVaraint
 );
+
+
+// CATEGORY //////
+adminRouter.post(
+  "/api/products/category/add",
+  validateRequest(addCategorySchema),
+  addCategory
+);
+
+adminRouter.delete(
+  "/api/products/category/delete/:id",
+  validateRequest(mongoIdValidationSchema, "params"),
+  deletCategory
+);
+
+adminRouter.patch(
+  "/api/products/category/update/:id",validateRequest(mongoIdValidationSchema,'params'),
+  validateRequest(updateProductSchema),
+  deletCategory
+);
+
+// SUB - CATEGORY //////
+adminRouter.post(
+  "/api/products/subcategory/:id/add",validateRequest(mongoIdValidationSchema,'params'),
+  validateRequest(addSubCategorySchema),
+  addCategory
+);
+
+adminRouter.delete(
+  "/api/products/subcategory/delete/:id",
+  validateRequest(mongoIdValidationSchema, "params"),
+  deletCategory
+);
+
+adminRouter.patch(
+  "/api/products/subcategory/update/:id",validateRequest(mongoIdValidationSchema,'params'),
+  validateRequest(updateProductSchema),
+  deletCategory
+);
+
 
 export default adminRouter;

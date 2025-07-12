@@ -11,7 +11,7 @@ const getProduct = async (req: Request, res: Response, next: NextFunction) => {
 
     
 
-    const product = await Product.findById(_id);
+    const product = await Product.findById(_id).populate('ProductVariants');
 
     if (!product){
       throw new BadRequestError ('Product not found')

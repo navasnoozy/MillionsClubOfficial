@@ -11,6 +11,7 @@ const deleteVaraint = async (
     const _id = req.params.id;
 
     const deletedVariant = await ProductVariants.findByIdAndDelete(_id);
+    //Mongoose middleware will update /delete variant id from products
 
     if (!deletedVariant) throw new BadRequestError("Product variant not found");
 

@@ -17,7 +17,7 @@ const listProducts = async (
     const products = await Product.find()
       .sort({ [sortField]: sortOrder })
       .skip(skip)
-      .limit(limit);
+      .limit(limit).populate('ProductVariants');
 
       res.status (200).send({success:true,data:products})
       return
