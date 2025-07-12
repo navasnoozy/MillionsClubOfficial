@@ -17,6 +17,11 @@ import { deleteVaraint } from "../controllers/admin/productVariant/deleteVariant
 import { updateVariant } from "../controllers/admin/productVariant/updateVariant";
 import { addCategory } from "../controllers/admin/category/addCategory";
 import { deletCategory } from "../controllers/admin/category/deleteCategory";
+import { updateCategory } from "../controllers/admin/category/updateCategory";
+import { addSubCategory } from "../controllers/admin/subCategory/addSubCategory";
+import { deleteSubCategory } from "../controllers/admin/subCategory/deleteSubCategory";
+import { updateSubCategory } from "../controllers/admin/subCategory/updateSubCategory";
+
 
 const adminRouter = Router();
 
@@ -78,26 +83,26 @@ adminRouter.delete(
 adminRouter.patch(
   "/api/products/category/update/:id",validateRequest(mongoIdValidationSchema,'params'),
   validateRequest(updateProductSchema),
-  deletCategory
+  updateCategory
 );
 
 // SUB - CATEGORY //////
 adminRouter.post(
   "/api/products/subcategory/:id/add",validateRequest(mongoIdValidationSchema,'params'),
   validateRequest(addSubCategorySchema),
-  addCategory
+  addSubCategory
 );
 
 adminRouter.delete(
   "/api/products/subcategory/delete/:id",
   validateRequest(mongoIdValidationSchema, "params"),
-  deletCategory
+  deleteSubCategory
 );
 
 adminRouter.patch(
   "/api/products/subcategory/update/:id",validateRequest(mongoIdValidationSchema,'params'),
   validateRequest(updateProductSchema),
-  deletCategory
+  updateSubCategory
 );
 
 
