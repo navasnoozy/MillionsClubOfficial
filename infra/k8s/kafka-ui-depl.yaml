@@ -2,7 +2,7 @@ apiVersion: apps/v1                         #  API version for deployment kind
 kind: Deployment                           #
 metadata:
   name: kafka-ui                              #  Name of the StatefulSet — you can choose this (must match other refs)
-  namespace: 'kafka'                        # Foldering , puting all kafka related in one folder
+  # namespace: 'kafka'                        # Foldering , puting all kafka related in one folder
 spec:
   replicas: 1                               #  Number of Kafka pods (1 per broker/controller)
   selector:
