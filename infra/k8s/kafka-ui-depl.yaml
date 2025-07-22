@@ -1,0 +1,44 @@
+apiVersion: apps/v1                         #  API version for deployment kind
+kind: Deployment                           #
+metadata:
+  name: kafka-ui                              #  Name of the StatefulSet — you can choose this (must match other refs)
+  namespace: 'kafka'                        # Foldering , puting all kafka related in one folder
+spec:
+  replicas: 1                               #  Number of Kafka pods (1 per broker/controller)
+  selector:
+    matchLabels:
+      app: kafka-ui                            #  Label selector — must match pod template label
+  template:
+    metadata:
+      labels:
+        app: kafka-ui                          #  Pod label — must match selector above
+
+    spec:
+      containers:
+        - name: kafka-ui                       #  Container name (used for logs, metrics)
+          image: provectuslabs/kafka-ui:latest       #  Kafka image with KRaft support — choose your version
+
+          ports:
+            - containerPort: 8080           #  Kafka client communication port
+              name: kafka-ui
+
+          env:
+            - name: KAFKA_CLUSTERS_0_NAME
+              value: "kafka-cluster"           # Required especially for kafka-ui
+            - name: KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS
+              value: kafka:9092     # Required esspecially for kafka-ui
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-ui                               #  Headless service for stable DNS
+spec:
+  selector:
+    app: kafka-ui                              #  Must match pod label
+  ports:
+    - port: 8080
+      name: kafka-ui
+
+
+

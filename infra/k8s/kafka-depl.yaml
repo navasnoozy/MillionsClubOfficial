@@ -1,0 +1,94 @@
+apiVersion: apps/v1                         #  API version for StatefulSet kind
+kind: StatefulSet                           #  Deploys pods with stable DNS/identity (required for Kafka)
+metadata:
+  name: kafka                               #  Name of the StatefulSet — you can choose this (must match other refs)
+  namespace: 'kafka'
+spec:
+  serviceName: kafka                        #  Name of the **headless service** for DNS (kafka-0.kafka)
+  replicas: 3                               #  Number of Kafka pods (1 per broker/controller)
+
+  selector:
+    matchLabels:
+      app: kafka                            #  Label selector — must match pod template label
+
+  template:
+    metadata:
+      labels:
+        app: kafka                          #  Pod label — must match selector above
+
+    spec:
+      containers:
+        - name: kafka                       #  Container name (used for logs, metrics)
+
+          image: bitnami/kafka:latest       #  Kafka image with KRaft support — choose your version
+
+          ports:
+            - containerPort: 9092           #  Kafka client communication port
+              name: kafka
+            - containerPort: 9093           #  KRaft controller-to-controller communication
+              name: controller
+
+  volumeMounts:
+    - name: kafka-data
+      mountPath: /bitnami/kafka
+
+  volumeClaimTemplates:
+    - metadata:
+        name: kafka-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 10Gi
+
+          env:
+            - name: KAFKA_CFG_NODE_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+                   # 🚨 You'll need to dynamically inject this in real use
+
+            - name: KAFKA_KRAFT_CLUSTER_ID  #  Unique ID for your Kafka cluster (same for all pods)
+              value: "1E785D31-8957-42B6-AE55-CBE71983941E"      # 💡 Generate with `kafka-storage.sh random-uuid`
+
+            - name: KAFKA_CFG_PROCESS_ROLES #  Kafka will act as both a controller and broker
+              value: "controller,broker"
+
+            - name: KAFKA_CFG_CONTROLLER_QUORUM_VOTERS
+              value: "0@kafka-0.kafka:9093,1@kafka-1.kafka:9093,2@kafka-2.kafka:9093"
+              #  Maps each Kafka pod to its controller role and network identity
+
+            - name: KAFKA_CFG_LISTENERS
+              value: "PLAINTEXT://:9092,CONTROLLER://:9093"
+              #  Tells Kafka which ports to listen on
+
+            - name: KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP
+              value: "CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT"
+              #  Maps each listener to the correct protocol
+
+            - name: KAFKA_CFG_CONTROLLER_LISTENER_NAMES
+              value: "CONTROLLER"
+              #  Tells Kafka that CONTROLLER is used for internal control plane traffic
+
+            - name: KAFKA_CFG_ADVERTISED_LISTENERS
+              value: "PLAINTEXT://$(POD_NAME).kafka.kafka.svc.cluster.local:9092"
+              #  How other pods/services will connect to this Kafka broker
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka                               #  Headless service for stable DNS
+spec:
+  clusterIP: None                           #  Important! Makes the service headless
+  selector:
+    app: kafka                              #  Must match pod label
+  ports:
+    - port: 9092
+      name: kafka
+    - port: 9093
+      name: controller
+
+
+
+
