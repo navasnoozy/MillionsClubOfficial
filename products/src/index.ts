@@ -7,9 +7,25 @@ import { initKafka } from "./config/kafka.client";
 
 const port = process.env.PORT || 3000;
 
-app.listen(port, () => {
-  console.log("Server is running on ", port);
-  connectDB();
-  initKafka();
-  subscribeToUserCreated();
-});
+const startServer = async () => {
+  try {
+    // Connect to DB first
+    await connectDB();
+    
+    // Initialize Kafka
+    await initKafka();
+    
+    // Start consuming events
+    await subscribeToUserCreated();
+    
+    // Start HTTP server
+    app.listen(port, () => {
+      console.log(`Product service running on port ${port}`);
+    });
+  } catch (error) {
+    console.error("Failed to start server:", error);
+    process.exit(1);
+  }
+};
+
+startServer();

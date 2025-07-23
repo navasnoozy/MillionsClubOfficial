@@ -2,6 +2,7 @@
 import { AddProductSchema, BadRequestError } from "@millionsclub/shared-libs";
 import { NextFunction, Request, Response } from "express";
 import { Product } from "../../../models/productModel";
+import { publishProductCreated } from "../../../events/publishers/productCreated.publisher";
 
 const addProduct = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -32,6 +33,11 @@ const addProduct = async (req: Request, res: Response, next: NextFunction) => {
     };
 
      const newProduct = await Product.create(newProductData);
+
+     await publishProductCreated ({
+      productId: newProduct.id,
+      title: newProduct.title
+     })
 
      res.status(201).send({success:true, data:newProduct })
 

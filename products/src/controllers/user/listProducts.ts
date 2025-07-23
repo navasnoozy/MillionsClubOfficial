@@ -1,3 +1,4 @@
+//products/src/controllers/user/listProducts.ts
 import { NextFunction, Request, Response } from "express";
 import { Product } from "../../models/productModel";
 

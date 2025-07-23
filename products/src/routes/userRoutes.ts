@@ -1,3 +1,5 @@
+//products/src/routes/userRoutes.ts
+
 import { Router } from "express";
 import { getProduct } from "../controllers/user/getProduct";
 import { listCategory } from "../controllers/user/listCategory";
