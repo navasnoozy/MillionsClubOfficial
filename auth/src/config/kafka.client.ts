@@ -7,12 +7,12 @@ const config: KafkaConfig = {
   groupId: "auth-consumer-grop",
 };
 
-export const kafkaClient = new KafkaClient(config);
+export const authKafkaClient = new KafkaClient(config);
 
 export const initKafka = async () => {
   try {
-    await kafkaClient.getProducer();
-    await kafkaClient.getConsumer();
+    await authKafkaClient.getProducer();
+    await authKafkaClient.getConsumer();
   } catch (error) {
     console.error("Kafka initilization error:", error);
     throw error;
@@ -21,9 +21,9 @@ export const initKafka = async () => {
 
 export const disconnectKafka = async () => {
   try {
-     await kafkaClient.disconnect();
-      console.log("Kafka disconnected");
+    await authKafkaClient.disconnect();
+    console.log("Kafka auth service disconnected");
   } catch (error) {
-    console.error(" Kafka disconnect error:", error);
+    console.error(" Kafka disconnection error:", error);
   }
 };

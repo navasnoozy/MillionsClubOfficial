@@ -1,12 +1,12 @@
 //products/src/events/consumers/userCreated.consumer.ts
 
 import { TOPICS, UserCreatedEvent } from "@millionsclub/shared-libs";
-import { kafkaClient } from "../../config/kafka.client";
+import { productKafkaClient } from "../../config/kafka.client";
 import { EachMessagePayload } from "kafkajs";
 
 export const subscribeToUserCreated = async () => {
   try {
-    await kafkaClient.subscribe(
+    await productKafkaClient.subscribe(
       TOPICS.USER_EVENTS,
       async ({ message }: EachMessagePayload) => {
         try {
@@ -16,8 +16,7 @@ export const subscribeToUserCreated = async () => {
           const event = JSON.parse(value) as UserCreatedEvent;
           console.log("User created event received ", event);
         } catch (error) {
-          console.log('Error processing user.created event', error);
-          
+          console.log("Error processing user.created event", error);
         }
       }
     );

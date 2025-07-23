@@ -1,5 +1,5 @@
 import { ProductCreatedEvent, TOPICS } from "@millionsclub/shared-libs";
-import { kafkaClient } from "../../config/kafka.client";
+import { productKafkaClient } from "../../config/kafka.client";
 
 interface ProductData {
   productId: string;
@@ -17,7 +17,7 @@ export const publishProductCreated = async (productData: ProductData) => {
       timestamp: Date.now(),
     };
 
-    await kafkaClient.publishMessage (TOPICS.PRODUCT_EVENTS, event )
+    await productKafkaClient.publishMessage(TOPICS.PRODUCT_EVENTS, event);
   } catch (error) {
     console.error("Failed to publish product created event", error);
     // Don't throw error - product creation should succeed even if event fails
