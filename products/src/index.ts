@@ -1,6 +1,6 @@
 //products/src/index.ts
 
-import { subscribeToUserCreated } from "./consumers/userCreated.consumer";
+import { subscribeToUserCreated } from "./events/consumers/userCreated.consumer";
 import { app } from "./app";
 import connectDB from "./config/db";
 import { initKafka } from "./config/kafka.client";

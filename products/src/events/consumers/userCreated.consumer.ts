@@ -1,5 +1,5 @@
 import { EachMessagePayload } from "kafkajs";
-import { kafkaClient } from "../config/kafka.client";
+import { kafkaClient } from "../../config/kafka.client";
 
 export const subscribeToUserCreated = async () => {
   await kafkaClient.subscribe(
