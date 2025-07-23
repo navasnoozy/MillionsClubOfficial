@@ -1,3 +1,5 @@
+//products/src/events/consumers/userCreated.consumer.ts
+
 import { EachMessagePayload } from "kafkajs";
 import { kafkaClient } from "../../config/kafka.client";
 
