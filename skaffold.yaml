@@ -1,4 +1,5 @@
-apiVersion: skaffold/v4beta6
+# skaffold.yaml
+apiVersion: skaffold/v3
 kind: Config
 build:
   local:
@@ -47,4 +48,11 @@ build:
 manifests:
   rawYaml:
     - ./infra/k8s/*
+deploy:
+  kubectl: {}
+
     # Add other K8s resources (services, config maps, etc.)
+
+
+
+

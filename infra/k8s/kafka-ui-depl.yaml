@@ -1,3 +1,4 @@
+# infra/k8s/kafka-ui-depl.yaml
 apiVersion: apps/v1                         #  API version for deployment kind
 kind: Deployment                           #
 metadata:

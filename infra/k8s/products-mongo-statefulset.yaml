@@ -1,7 +1,8 @@
+# infra/k8s/products-mongo-statefulset.yaml
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: products-mongo-depl # K8s will prefix pod names with this. You’ll get:
+  name: products-mongo-statefulset # K8s will prefix pod names with this. You’ll get:
 spec:
   serviceName: "products-mongo"
   replicas: 1  # set >1 for replica set

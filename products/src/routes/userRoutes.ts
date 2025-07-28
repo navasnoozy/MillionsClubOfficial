@@ -8,8 +8,11 @@ import { listProducts } from "../controllers/user/listProducts";
 const userRouter = Router();
 
 //PRODUCT
-userRouter.get("/api/products/list", listProducts);
-userRouter.get("/api/products/:id",getProduct);
+userRouter.get(
+  "/api/products/list",
+  listProducts
+);
+userRouter.get("/api/products/:id", getProduct);
 
 //CATEGORIES
 userRouter.get("/api/products/category/list", listCategory);

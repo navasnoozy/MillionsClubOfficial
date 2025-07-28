@@ -1,7 +1,8 @@
+# infra/k8s/auth-mongo-statefulset.yaml
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: auth-mongo-depl # K8s will prefix pod names with this. You’ll get:
+  name: auth-mongo-statefulset # K8s will prefix pod names with this. You’ll get:
 spec:
   serviceName: "auth-mongo"
   replicas: 1  # set >1 for replica set

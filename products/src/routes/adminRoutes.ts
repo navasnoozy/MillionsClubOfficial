@@ -23,7 +23,7 @@ import { deleteSubCategory } from "../controllers/admin/subCategory/deleteSubCat
 import { updateSubCategory } from "../controllers/admin/subCategory/updateSubCategory";
 
 
-const adminRouter = Router();
+const  adminRouter = Router();
 
 // PRODUCT /////
 adminRouter.post(
