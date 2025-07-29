@@ -45,9 +45,14 @@ build:
     #   docker:
     #     dockerfile: Dockerfile
 
+
+
+    
+
 manifests:
   rawYaml:
-    - ./infra/k8s/*
+    - ./infra/k8s/*.yaml
+
 deploy:
   kubectl: {}
 

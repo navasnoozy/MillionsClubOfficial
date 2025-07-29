@@ -1,0 +1,128 @@
+# infra/k8s/kafka-statefulset.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: kafka
+spec:
+  serviceName: kafka
+  replicas: 3
+  podManagementPolicy: Parallel
+  selector:
+    matchLabels:
+      app: kafka
+  template:
+    metadata:
+      labels:
+        app: kafka
+    spec:
+      containers:
+        - name: kafka
+          image: bitnami/kafka:latest
+          ports:
+            - containerPort: 9092
+              name: kafka
+            - containerPort: 9093
+              name: controller
+          volumeMounts:
+            - name: kafka-data
+              mountPath: /bitnami/kafka
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: KAFKA_KRAFT_CLUSTER_ID
+              value: "1E785D31-8957-42B6-AE55-CBE71983941E"
+            - name: KAFKA_CFG_PROCESS_ROLES
+              value: "controller,broker"
+            - name: KAFKA_CFG_CONTROLLER_QUORUM_VOTERS
+              value: "0@kafka-0.kafka.default.svc.cluster.local:9093,1@kafka-1.kafka.default.svc.cluster.local:9093,2@kafka-2.kafka.default.svc.cluster.local:9093"
+            - name: KAFKA_CFG_LISTENERS
+              value: "PLAINTEXT://:9092,CONTROLLER://:9093"
+            - name: KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP
+              value: "CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT"
+            - name: KAFKA_CFG_CONTROLLER_LISTENER_NAMES
+              value: "CONTROLLER"
+            - name: KAFKA_CFG_INTER_BROKER_LISTENER_NAME
+              value: PLAINTEXT
+            - name: KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE
+              value: "true"
+
+
+          command: ["/bin/bash"]
+          args:
+            - -c
+            - |
+              export KAFKA_CFG_NODE_ID=$(echo ${POD_NAME} | sed 's/.*-//')
+              export KAFKA_CFG_ADVERTISED_LISTENERS="PLAINTEXT://${POD_NAME}.kafka.default.svc.cluster.local:9092"
+              /opt/bitnami/scripts/kafka/entrypoint.sh /opt/bitnami/scripts/kafka/run.sh   
+
+
+
+                
+  volumeClaimTemplates:
+    - metadata:
+        name: kafka-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 10Gi
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka                               #  Headless service for stable DNS
+spec:
+  clusterIP: None                           #  Important! Makes the service headless
+  selector:
+    app: kafka                              #  Must match pod label
+  ports:
+    - port: 9092
+      name: kafka
+    - port: 9093
+      name: controller
+
+
+
+
+            # # --- KRaft Quorum and Connection Timeouts ---
+            # - name: KAFKA_RAFT_REQUEST_TIMEOUT_MS # Timeout for requests between KRaft voters
+            #   value: "30000" # 30 seconds
+            # - name: KAFKA_CONTROLLER_QUORUM_FETCH_TIMEOUT_MS # Timeout for fetching from the metadata log
+            #   value: "30000" # 30 seconds
+            # - name: KAFKA_REPLICA_SOCKET_TIMEOUT_MS # Socket timeout for replica fetch requests
+            #   value: "30000" # 30 seconds
+            # - name: KAFKA_REPLICA_FETCH_WAIT_MAX_MS # Max time to wait for replicas to fetch data
+            #   value: "5000" # 5 seconds
+            # - name: KAFKA_METADATA_LOG_SEGMENT_MS # How often to roll metadata log segments
+            #   value: "600000" # 10 minutes
+            # - name: KAFKA_CONNECTIONS_MAX_REAUTH_MS # Max time before re-authentication
+            #   value: "600000" # 10 minutes
+            # - name: KAFKA_REQUEST_TIMEOUT_MS # General request timeout
+            #   value: "30000" # 30 seconds
+            # # --- Important for Initial Bootstrap ---
+            # - name: KAFKA_CFG_INITIAL_BROKER_REGISTRATIONS_TIMEOUT_MS # How long to wait for initial broker registrations
+            #   value: "600000" # 10 minutes
+            # - name: KAFKA_CFG_QUORUM_HEARTBEAT_INTERVAL_MS # Interval for heartbeats between quorum members
+            #   value: "2000" # 2 seconds (default is often 2000ms)
+            # - name: KAFKA_CFG_QUORUM_ELECTION_TIMEOUT_MS # Timeout before starting a new election
+            #   value: "10000" # 10 seconds (default is often 10000ms)
+
+          # livenessProbe:
+          #   tcpSocket:
+          #     port: 9092
+          #   initialDelaySeconds: 300 # Give it 5 minutes to start and potentially form quorum
+          #   periodSeconds: 30
+          #   timeoutSeconds: 10
+          #   failureThreshold: 5 # Allow 5 failures (150 seconds total) after the initial delay
+
+
+          # readinessProbe:
+          #   tcpSocket:
+          #     port: 9092
+          #   initialDelaySeconds: 30  # Give Kafka enough time to start
+          #   periodSeconds: 5         # Check every 5 seconds
+          #   failureThreshold: 6      # Allow 6 failures (30 seconds) before marking unready

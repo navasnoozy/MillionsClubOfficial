@@ -11,9 +11,9 @@ import { hashPassword } from "../utils/hashPassword";
 import { producer } from "../config/kafka.client";
 // import { publishUserCreated } from "../events/publishers/pub.userCreated";
 
-const router = express.Router();
+const signupRouter = express.Router();
 
-router.post(
+signupRouter.post(
   "/api/users/signup",
   validateRequest(signupSchema),
   async (req, res) => {
@@ -80,3 +80,5 @@ router.post(
     return;
   }
 );
+
+export { signupRouter }

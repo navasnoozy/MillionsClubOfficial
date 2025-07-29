@@ -35,11 +35,20 @@ import { Kafka } from "kafkajs";
 
 export const productKafkaClient = new Kafka({
   clientId: "product-service",
-  brokers: ["kafka-0.kafka.default.svc.cluster.local:9092"],
+  brokers: [
+  "kafka-0.kafka.default.svc.cluster.local:9092",
+  "kafka-1.kafka.default.svc.cluster.local:9092", 
+  "kafka-2.kafka.default.svc.cluster.local:9092"
+],
+  retry: {
+    retries: 10,
+    initialRetryTime: 3000,
+    maxRetryTime: 30000,
+  },
 });
 
-const consumer = productKafkaClient.consumer({ 
-  groupId: "product-service-group" // More descriptive
+const consumer = productKafkaClient.consumer({
+  groupId: "product-service-group", // More descriptive
 });
 
 export const initKafka = async () => {
@@ -57,11 +66,10 @@ export const initKafka = async () => {
         try {
           const messageValue = message.value?.toString();
           console.log(`Received event from topic ${topic}: ${messageValue}`);
-          
+
           // TODO: Process the user.created event
           // const userData = JSON.parse(messageValue);
           // await handleUserCreated(userData);
-          
         } catch (error) {
           console.error(`Error processing message from ${topic}:`, error);
         }
