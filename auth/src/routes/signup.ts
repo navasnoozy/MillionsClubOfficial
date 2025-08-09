@@ -8,8 +8,7 @@ import {
 } from "@millionsclub/shared-libs";
 import { User } from "../models/userModel";
 import { hashPassword } from "../utils/hashPassword";
-import { producer } from "../config/kafka.client";
-// import { publishUserCreated } from "../events/publishers/pub.userCreated";
+import { publishUserCreated } from "../events/publishers/pub.userCreated";
 
 const signupRouter = express.Router();
 
@@ -36,32 +35,15 @@ signupRouter.post(
 
     const user = await newUser.save();
 
-    // await publishUserCreated({
-    //   userId: user.id,
-    //   name: user.name,
-    //   email: user.email,
-    //   role: "user",
-    // });
+    await publishUserCreated({
+      userId: user.id,
+      name: user.name,
+      email: user.email,
+      role: "user",
+    });
 
-    // In signup route:
-    try {
-      await producer.send({
-        topic: "user.created",
-        messages: [
-          {
-            key: user.id, // Add key for better partitioning
-            value: JSON.stringify({
-              userId: user.id,
-              name: user.name,
-              email: user.email,
-            }),
-          },
-        ],
-      });
-    } catch (kafkaError) {
-      console.error("Kafka publish failed:", kafkaError);
-      // Continue with response - don't fail user registration
-    }
+
+
 
     const jwt_token = jwt.sign(
       {
@@ -82,3 +64,25 @@ signupRouter.post(
 );
 
 export { signupRouter }
+
+
+
+// import { producer } from "../config/kafka.client";
+//     try {
+//       await producer.send({
+//         topic: "user.created",
+//         messages: [
+//           {
+//             key: user.id, // Add key for better partitioning
+//             value: JSON.stringify({
+//               userId: user.id,
+//               name: user.name,
+//               email: user.email,
+//             }),
+//           },
+//         ],
+//       });
+//     } catch (kafkaError) {
+//       console.error("Kafka publish failed:", kafkaError);
+//       // Continue with response - don't fail user registration
+//     }

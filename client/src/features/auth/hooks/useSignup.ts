@@ -1,15 +1,15 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axiosInstance from "../../lib/axios";
-import type { SigninSchema } from "@millionsclub/shared-libs/client";
+import axiosInstance from "../../../lib/axios";
+import type { SignupSchema } from "@millionsclub/shared-libs/client";
 
-const useSigninUser = () => {
+const useSignupUser = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationKey: ["signin"],
-    mutationFn: async (credential: SigninSchema) => {
+    mutationKey: ["signup"],
+    mutationFn: async (credentials: SignupSchema) => {
       const { data } = await axiosInstance.post(
-        "/api/users/signin",
-        credential
+        "/api/users/signup",
+        credentials
       );
       return data;
     },
@@ -19,4 +19,4 @@ const useSigninUser = () => {
   });
 };
 
-export default useSigninUser;
+export default useSignupUser;

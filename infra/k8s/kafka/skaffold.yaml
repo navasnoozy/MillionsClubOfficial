@@ -1,0 +1,17 @@
+# skaffold.yaml
+apiVersion: skaffold/v3
+kind: Config
+
+
+manifests:
+  rawYaml:
+    - ./*.yml
+
+deploy:
+  kubectl: {}
+
+    # Add other K8s resources (services, config maps, etc.)
+
+
+
+

@@ -1,20 +1,59 @@
 // router.tsx
 import { createBrowserRouter } from "react-router";
-import HomePage from "./pages/HomePage";
-import Signup from "./auth/signup";
-import Signin from "./auth/signin";
-import Layout from "./layouts/Layout";
 import ErrorBoundary from "./components/ErrorBoundary";
+import Layout from "./layouts/Layout";
+import HomePage from "./pages/HomePage";
+import SigninPage from "./pages/SigninPage";
+import SignupPage from "./pages/SignupPage";
+import AdminLayout from "./layouts/AdminLayout";
+import AdminDashboard from "./pages/AdminDashboard";
+import ProductManagement from "./pages/ProductManagement";
+import OrderManagement from "./pages/OrderManagement";
+import RequireAdmin from "./components/admin/RequireAdmin";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
-    errorElement: <ErrorBoundary />, // ✅ used directly now
+    errorElement: <ErrorBoundary />,
     children: [
-      { path: "/", element: <HomePage />, errorElement: <ErrorBoundary /> },
-      { path: "/signup", element: <Signup />, errorElement: <ErrorBoundary /> },
-      { path: "/signin", element: <Signin />, errorElement: <ErrorBoundary /> },
+      { index: true, element: <HomePage />, errorElement: <ErrorBoundary /> },
+      {
+        path: "signup",
+        element: <SignupPage />,
+        errorElement: <ErrorBoundary />,
+      },
+      {
+        path: "signin",
+        element: <SigninPage />,
+        errorElement: <ErrorBoundary />,
+      },
+    ],
+  },
+  {
+    path: "/admin",
+    element: (
+      <RequireAdmin>
+        <AdminLayout />
+      </RequireAdmin>
+    ),
+    errorElement: <ErrorBoundary />,
+    children: [
+      {
+        index: true,
+        element: <AdminDashboard />,
+        errorElement: <ErrorBoundary />,
+      },
+      {
+        path: "productmanagement",
+        element: <ProductManagement />,
+        errorElement: <ErrorBoundary />,
+      },
+      {
+        path: "ordermanagement",
+        element: <OrderManagement />,
+        errorElement: <ErrorBoundary />,
+      },
     ],
   },
 ]);

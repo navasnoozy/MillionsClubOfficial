@@ -2,7 +2,7 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import { useSelector } from 'react-redux'
-import type { RootState } from '../../store/store';
+import type { RootState } from '../../../store/store';
 
 
 interface NavLinksProps {

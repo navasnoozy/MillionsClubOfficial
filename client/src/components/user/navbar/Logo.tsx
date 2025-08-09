@@ -12,11 +12,12 @@ export const Logo = ({ variant }: { variant: "desktop" | "mobile" }) => (
         mr: 1,
       }}
     />
+
     <Typography
       variant={variant === "desktop" ? "h6" : "h5"}
       noWrap
       component="a"
-      href="#"
+      href="/"
       sx={{
         mr: 2,
         display: {
@@ -31,7 +32,8 @@ export const Logo = ({ variant }: { variant: "desktop" | "mobile" }) => (
         flexGrow: variant === "mobile" ? 1 : 0,
       }}
     >
-       MILLIONS CLUB
+       MILLIONSCLUB
     </Typography>
+
   </>
 );

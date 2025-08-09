@@ -1,6 +1,6 @@
 //src/auth/hooks/useCurrentUser.ts
 import { useQuery } from "@tanstack/react-query";
-import axiosInstance from "../../lib/axios";
+import axiosInstance from "../../../lib/axios";
 
 const useCurrentUser = () =>
   useQuery({
