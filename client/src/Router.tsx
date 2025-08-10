@@ -33,9 +33,9 @@ const router = createBrowserRouter([
   {
     path: "/admin",
     element: (
-      <RequireAdmin>
+      // <RequireAdmin>
         <AdminLayout />
-      </RequireAdmin>
+      //  </RequireAdmin>
     ),
     errorElement: <ErrorBoundary />,
     children: [

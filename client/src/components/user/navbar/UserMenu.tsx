@@ -7,9 +7,8 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import type { RootState } from "../../../store/store";
+import { navlinks } from "../../../config/navlinks";
 import useCurrentUser from "../../../features/auth/hooks/useCurrentUser";
 import useSignout from "../../../features/auth/hooks/useSignout";
 import AppLink from "../../CustomLink";
@@ -28,7 +27,7 @@ export const UserMenu: React.FC<UserMenuProps> = ({
   onClose,
 }) => {
   const navigate = useNavigate();
-  const links = useSelector((state: RootState) => state.nav.userMenuLinks);
+
 
   const { data: currentUser } = useCurrentUser();
   const { mutate: signout, isPending } = useSignout();
@@ -72,7 +71,7 @@ export const UserMenu: React.FC<UserMenuProps> = ({
         open={open}
         onClose={onClose}
       >
-        {links.map((item) => (
+        {navlinks.userMenuLinks.map((item) => (
           <MenuItem key={item.label} onClick={onClose}>
             <AppLink
               width={100}

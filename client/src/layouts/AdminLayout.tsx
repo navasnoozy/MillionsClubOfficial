@@ -2,6 +2,7 @@ import { Box } from "@mui/material";
 import LinearProgress from "@mui/material/LinearProgress";
 import { useIsFetching } from "@tanstack/react-query";
 import { Outlet, useNavigation } from "react-router";
+import AppDrawer from "../components/admin/sidebar/Sidebar";
 
 const AdminLayout = () => {
   const navigation = useNavigation();
@@ -11,24 +12,28 @@ const AdminLayout = () => {
 
   return (
     <Box>
-      <Box position={'relative'}>
-        {showPogressBar && (
-          <LinearProgress
-            sx={{
-              height:'2px',
-              position: "absolute",
-              buttom: 0,
-              left: 0,
-              right: 0,
-              zIndex: 1300,
-            }}
-          />
-        )}
-      </Box>
+      <AppDrawer />
+      {showPogressBar && (
+        <LinearProgress
+          sx={{
+            height: "2px",
+            position: "fixed",
+            top: 64, // Height of AppBar
+            left: 0,
+            right: 0,
+            zIndex: 1300,
+          }}
+        />
+      )}
 
-
-      <Box paddingY={"12px"}>
-        <Outlet />
+      {/* Main content area with proper spacing */}
+      <Box 
+        sx={{
+          marginTop: "30px", // Space for fixed AppBar (default height)
+          padding: "12px",
+        }}
+      >
+        <Outlet /> 
       </Box>
     </Box>
   );
