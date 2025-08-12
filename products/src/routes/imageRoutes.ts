@@ -1,19 +1,8 @@
-// import { Router } from "express";
-// import { uploadImage } from "../controllers/image/uploadImage";
-// import { upload } from "../utils/multer";
+import { Router } from "express";
+import { generateCloudinarySignature } from "../controllers/image/uploadImage";
 
-// const imageRouter = Router();
+const imageRouter = Router();
 
-// imageRouter.post(
-//   "/api/products/imageupload",
-//   check,
-//   upload.single("image"),
-//   uploadImage
-// );
+imageRouter.get("/api/image/signature", generateCloudinarySignature);
 
-// function check(req, res, next) {
-//   console.log("check for router reach");
-//   next();
-// }
-
-// export default imageRouter;
+export default imageRouter;
