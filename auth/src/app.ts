@@ -2,7 +2,7 @@
 import cookieSession from "cookie-session";
 import dotenv from "dotenv";
 import express from "express";
-import { NotFoundError, errorHandler } from "@millionsclub/shared-libs";
+import { NotFoundError, errorHandler } from "@millionsclub/shared-libs/server";
 import { currentUserRouter } from "./routes/current-user";
 import { signinRouter } from "./routes/signin";
 import { signoutRouter } from "./routes/signout";

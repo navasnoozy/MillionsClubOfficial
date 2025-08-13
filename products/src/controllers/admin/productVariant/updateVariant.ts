@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { ProductVariants } from "../../../models/productVariantModel";
 import { filterUndefined } from "../../../utils/filterUndefined";
-import { BadRequestError } from "@millionsclub/shared-libs";
+import { BadRequestError } from "@millionsclub/shared-libs/server";
 
 const updateVariant = async (
   req: Request,

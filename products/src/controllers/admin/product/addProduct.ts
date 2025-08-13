@@ -1,5 +1,8 @@
 // products/src/controllers/admin/product/addProduct.ts
-import { AddProductSchema, BadRequestError } from "@millionsclub/shared-libs";
+import {
+  AddProductSchema,
+  BadRequestError,
+} from "@millionsclub/shared-libs/server";
 import { NextFunction, Request, Response } from "express";
 import { Product } from "../../../models/productModel";
 import { publishProductCreated } from "../../../events/publishers/pub.productCreated";
@@ -32,18 +35,17 @@ const addProduct = async (req: Request, res: Response, next: NextFunction) => {
       isActive,
     };
 
-     const newProduct = await Product.create(newProductData);
+    const newProduct = await Product.create(newProductData);
 
-     await publishProductCreated ({
+    await publishProductCreated({
       productId: newProduct.id,
-      title: newProduct.title
-     })
+      title: newProduct.title,
+    });
 
-     res.status(201).send({success:true, data:newProduct })
-
+    res.status(201).send({ success: true, data: newProduct });
   } catch (error) {
     console.log("Error while adding product", error);
-    next(error)
+    next(error);
   }
 };
 

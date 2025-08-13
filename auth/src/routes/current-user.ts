@@ -1,6 +1,6 @@
 // backend // auth/src/routes/current-user.ts
 import express from "express";
-import { currentUser } from "@millionsclub/shared-libs";
+import { currentUser } from "@millionsclub/shared-libs/server";
 
 const router = express.Router();
 

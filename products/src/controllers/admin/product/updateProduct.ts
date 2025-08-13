@@ -1,7 +1,7 @@
 import {
   BadRequestError,
   UpdateProductSchema,
-} from "@millionsclub/shared-libs";
+} from "@millionsclub/shared-libs/server";
 import { NextFunction, Request, Response } from "express";
 import { Product } from "../../../models/productModel";
 import { filterUndefined } from "../../../utils/filterUndefined";
@@ -12,7 +12,7 @@ const updateProduct = async (
   next: NextFunction
 ) => {
   try {
-    const _id = req.params.id
+    const _id = req.params.id;
     const {
       title,
       brand,

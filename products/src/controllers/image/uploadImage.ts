@@ -1,6 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import cloudinary from "../../config/cloudnary";
-import { CloudinarySignatureResponse, NotFoundError } from "@millionsclub/shared-libs";
+import {
+  CloudinarySignatureResponse,
+  NotFoundError,
+} from "@millionsclub/shared-libs/server";
 
 const generateCloudinarySignature = async (
   req: Request,
@@ -22,12 +25,12 @@ const generateCloudinarySignature = async (
       config.api_secret
     );
 
-    const data : CloudinarySignatureResponse = {
-        timestamp,
+    const data: CloudinarySignatureResponse = {
+      timestamp,
       signature,
       cloud_name: process.env.CLOUDNARY_NAME!,
       api_key: process.env.CLOUDNARY_API_KEY!,
-    }
+    };
 
     res.status(200).send(data);
   } catch (error) {

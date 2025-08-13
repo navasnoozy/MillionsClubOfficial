@@ -1,6 +1,6 @@
 //products/src/config/kafka.client.ts
 
-import { KafkaClient, KafkaConfig } from "@millionsclub/shared-libs";
+import { KafkaClient, KafkaConfig } from "@millionsclub/shared-libs/server";
 
 const config: KafkaConfig = {
   clientId: "product-service",
@@ -12,7 +12,7 @@ const config: KafkaConfig = {
   groupId: "product-consumer-group",
 };
 export const productKafkaClient = new KafkaClient(config);
- 
+
 export const initKafka = async () => {
   try {
     await productKafkaClient.getProducer();

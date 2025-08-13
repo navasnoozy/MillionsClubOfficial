@@ -5,13 +5,12 @@ import {
   BadRequestError,
   validateRequest,
   signupSchema,
-} from "@millionsclub/shared-libs";
+} from "@millionsclub/shared-libs/server";
 import { User } from "../models/userModel";
 import { hashPassword } from "../utils/hashPassword";
 import { publishUserCreated } from "../events/publishers/pub.userCreated";
 
 const signupRouter = express.Router();
-
 signupRouter.post(
   "/api/users/signup",
   validateRequest(signupSchema),

@@ -4,7 +4,7 @@ import {
   signinSchema,
   validateRequest,
   BadRequestError,
-} from "@millionsclub/shared-libs";
+} from "@millionsclub/shared-libs/server";
 import { comparePassword } from "../utils/hashPassword";
 import { User } from "../models/userModel";
 import jwt from "jsonwebtoken";

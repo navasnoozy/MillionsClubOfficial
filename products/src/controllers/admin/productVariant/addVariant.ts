@@ -1,4 +1,4 @@
-import { AddProductVariant } from "@millionsclub/shared-libs";
+import { AddProductVariant } from "@millionsclub/shared-libs/server";
 import { NextFunction, Request, Response } from "express";
 import { ProductVariants } from "../../../models/productVariantModel";
 import { Product } from "../../../models/productModel";

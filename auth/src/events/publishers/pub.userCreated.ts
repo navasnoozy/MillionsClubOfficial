@@ -1,4 +1,4 @@
-import { TOPICS, UserCreatedEvent } from "@millionsclub/shared-libs";
+import { TOPICS, UserCreatedEvent } from "@millionsclub/shared-libs/server";
 import { authKafkaClient } from "../../config/kafka.client";
 
 

@@ -7,7 +7,7 @@ import {
   mongoIdValidationSchema,
   updateProductSchema,
   validateRequest,
-} from "@millionsclub/shared-libs";
+} from "@millionsclub/shared-libs/server";
 import { Router } from "express";
 import { addProduct } from "../controllers/admin/product/addProduct";
 import { deleteProduct } from "../controllers/admin/product/deleteProduct";
@@ -22,8 +22,7 @@ import { addSubCategory } from "../controllers/admin/subCategory/addSubCategory"
 import { deleteSubCategory } from "../controllers/admin/subCategory/deleteSubCategory";
 import { updateSubCategory } from "../controllers/admin/subCategory/updateSubCategory";
 
-
-const  adminRouter = Router();
+const adminRouter = Router();
 
 // PRODUCT /////
 adminRouter.post(
@@ -45,7 +44,6 @@ adminRouter.delete(
   deleteProduct
 );
 
-
 // VARIANT /////
 adminRouter.post(
   "/api/products/:id/addvariant",
@@ -59,13 +57,11 @@ adminRouter.patch(
   updateVariant
 );
 
-
 adminRouter.delete(
   "/api/products/variant/:id",
   validateRequest(mongoIdValidationSchema, "params"),
   deleteVaraint
 );
-
 
 // CATEGORY //////
 adminRouter.post(
@@ -81,14 +77,16 @@ adminRouter.delete(
 );
 
 adminRouter.patch(
-  "/api/products/category/update/:id",validateRequest(mongoIdValidationSchema,'params'),
+  "/api/products/category/update/:id",
+  validateRequest(mongoIdValidationSchema, "params"),
   validateRequest(updateProductSchema),
   updateCategory
 );
 
 // SUB - CATEGORY //////
 adminRouter.post(
-  "/api/products/subcategory/:id/add",validateRequest(mongoIdValidationSchema,'params'),
+  "/api/products/subcategory/:id/add",
+  validateRequest(mongoIdValidationSchema, "params"),
   validateRequest(addSubCategorySchema),
   addSubCategory
 );
@@ -100,10 +98,10 @@ adminRouter.delete(
 );
 
 adminRouter.patch(
-  "/api/products/subcategory/update/:id",validateRequest(mongoIdValidationSchema,'params'),
+  "/api/products/subcategory/update/:id",
+  validateRequest(mongoIdValidationSchema, "params"),
   validateRequest(updateProductSchema),
   updateSubCategory
 );
-
 
 export default adminRouter;

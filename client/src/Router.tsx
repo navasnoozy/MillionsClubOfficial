@@ -5,10 +5,10 @@ import Layout from "./layouts/Layout";
 import HomePage from "./pages/HomePage";
 import SigninPage from "./pages/SigninPage";
 import SignupPage from "./pages/SignupPage";
-// import AdminLayout from "./layouts/AdminLayout";
-// import AdminDashboard from "./pages/AdminDashboard";
-// import ProductManagement from "./pages/ProductManagement";
-// import OrderManagement from "./pages/OrderManagement";
+import AdminLayout from "./layouts/AdminLayout";
+import AdminDashboard from "./pages/AdminDashboard";
+import ProductManagement from "./pages/ProductManagement";
+import OrderManagement from "./pages/OrderManagement";
 // import RequireAdmin from "./components/admin/RequireAdmin";
 
 const router = createBrowserRouter([
@@ -30,7 +30,32 @@ const router = createBrowserRouter([
       },
     ],
   },
-  
+  {
+    path: "/admin",
+    element: (
+      // <RequireAdmin>
+        <AdminLayout />
+      //  </RequireAdmin>
+    ),
+    errorElement: <ErrorBoundary />,
+    children: [
+      {
+        index: true,
+        element: <AdminDashboard />,
+        errorElement: <ErrorBoundary />,
+      },
+      {
+        path: "productmanagement",
+        element: <ProductManagement />,
+        errorElement: <ErrorBoundary />,
+      },
+      {
+        path: "ordermanagement",
+        element: <OrderManagement />,
+        errorElement: <ErrorBoundary />,
+      },
+    ],
+  },
 ]);
 
 export default router;

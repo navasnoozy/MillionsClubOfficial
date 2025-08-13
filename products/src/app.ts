@@ -1,4 +1,4 @@
-import { errorHandler, NotFoundError } from "@millionsclub/shared-libs";
+import { errorHandler, NotFoundError } from "@millionsclub/shared-libs/server";
 import cookieSession from "cookie-session";
 import dotenv from "dotenv";
 import express from "express";

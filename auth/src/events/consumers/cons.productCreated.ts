@@ -1,5 +1,5 @@
 // // auth/src/events/consumers/cons.productCreated.ts
-import { ProductCreatedEvent, TOPICS } from "@millionsclub/shared-libs";
+import { ProductCreatedEvent, TOPICS } from "@millionsclub/shared-libs/server";
 import { authKafkaClient } from "../../config/kafka.client";
 import { EachMessagePayload } from "kafkajs";
 

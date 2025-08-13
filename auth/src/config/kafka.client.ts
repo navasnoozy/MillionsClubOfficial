@@ -1,5 +1,5 @@
 //auth/src/config/kafka.client.ts
-import { KafkaClient, KafkaConfig } from "@millionsclub/shared-libs";
+import { KafkaClient, KafkaConfig } from "@millionsclub/shared-libs/server";
 
 const config: KafkaConfig = {
   clientId: "auth-service",

@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { ProductVariants } from "../../../models/productVariantModel";
-import { BadRequestError } from "@millionsclub/shared-libs";
+import { BadRequestError } from "@millionsclub/shared-libs/server";
 
 const deleteVaraint = async (
   req: Request,

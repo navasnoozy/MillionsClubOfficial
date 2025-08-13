@@ -1,4 +1,4 @@
-import { ProductCreatedEvent, TOPICS } from "@millionsclub/shared-libs";
+import { ProductCreatedEvent, TOPICS } from "@millionsclub/shared-libs/server";
 import { productKafkaClient } from "../../config/kafka.client";
 
 interface ProductData {
