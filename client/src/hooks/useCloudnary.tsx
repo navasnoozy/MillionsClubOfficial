@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axiosInstance from "../lib/axios";
-import type { CloudinarySignatureResponse } from "@millionsclub/shared-libs";
+import type { CloudinarySignatureResponse } from "@millionsclub/shared-libs/client";
 
 const useCloudinarySignature = (folder: string) =>
   useQuery<CloudinarySignatureResponse>({

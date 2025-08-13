@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import axios from "axios";
-import AuthContainer from "../features/auth/AuthContainer";
-import useSigninUser from "../features/auth/hooks/useSignin";
-import { useAuthRedirect } from "../features/auth/hooks/useAuthRedirect";
-import SigninForm from "../features/auth/SigninForm";
-import type { SigninSchema } from "@millionsclub/shared-libs";
+
+import type { SigninSchema } from "@millionsclub/shared-libs/client";
+import useSigninUser from "../hooks/useSignin";
+import { useAuthRedirect } from "../hooks/useAuthRedirect";
+import CardContainer from "../../../components/CardContainer";
+import SigninForm from "../components/SigninForm";
 
 const SigninPage = () => {
   const navigate = useNavigate();
@@ -32,14 +33,14 @@ const SigninPage = () => {
   };
 
   return (
-    <AuthContainer heading="Login">
+    <CardContainer heading="Login">
       <SigninForm
         onSubmit={handleSignin}
         isLoading={isPending}
         isError={isError}
         errors={signinError}
       />
-    </AuthContainer>
+    </CardContainer>
   );
 };
 

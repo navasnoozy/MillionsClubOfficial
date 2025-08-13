@@ -3,12 +3,13 @@ import { createBrowserRouter } from "react-router";
 import ErrorBoundary from "./components/ErrorBoundary";
 import Layout from "./layouts/Layout";
 import HomePage from "./pages/HomePage";
-import SigninPage from "./pages/SigninPage";
-import SignupPage from "./pages/SignupPage";
 import AdminLayout from "./layouts/AdminLayout";
 import AdminDashboard from "./pages/AdminDashboard";
-import ProductManagement from "./pages/ProductManagement";
-import OrderManagement from "./pages/OrderManagement";
+import ProductManagement from "./features/products/pages/ProductManagement";
+import OrderManagement from "./features/order/pages/OrderManagement";
+import SignupPage from "./features/auth/pages/SignupPage";
+import SigninPage from "./features/auth/pages/SigninPage";
+import AddProduct from "./features/products/pages/AddProduct";
 // import RequireAdmin from "./components/admin/RequireAdmin";
 
 const router = createBrowserRouter([
@@ -34,7 +35,7 @@ const router = createBrowserRouter([
     path: "/admin",
     element: (
       // <RequireAdmin>
-        <AdminLayout />
+      <AdminLayout />
       //  </RequireAdmin>
     ),
     errorElement: <ErrorBoundary />,
@@ -47,6 +48,11 @@ const router = createBrowserRouter([
       {
         path: "productmanagement",
         element: <ProductManagement />,
+        errorElement: <ErrorBoundary />,
+      },
+      {
+        path: "addproduct",
+        element: <AddProduct />,
         errorElement: <ErrorBoundary />,
       },
       {

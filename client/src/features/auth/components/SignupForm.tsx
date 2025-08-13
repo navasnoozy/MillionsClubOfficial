@@ -7,11 +7,11 @@ import {
 } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { SignupSchema } from "@millionsclub/shared-libs";
+import type { SignupSchema } from "@millionsclub/shared-libs/client";
 import { signupSchema } from "@millionsclub/shared-libs/client";
-
-import AppLink from "../../components/CustomLink";
+import AppLink from "../../../components/CustomLink";
 import ErrorMessages from "./errorMessge";
+
 
 type Props = {
   onSubmit: (data: SignupSchema) => void;

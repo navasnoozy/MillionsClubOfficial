@@ -31,7 +31,7 @@ const AdminLayout = () => {
       <Box 
         sx={{
           marginTop: "30px", // Space for fixed AppBar (default height)
-          padding: "12px",
+          paddingY: "20px",
         }}
       >
         <Outlet /> 

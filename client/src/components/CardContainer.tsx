@@ -6,7 +6,7 @@ interface Props {
   children: ReactNode;
 }
 
-const AuthContainer = ({ heading, children }: Props) => {
+const CardContainer = ({ heading, children }: Props) => {
   return (
     <Card
       variant="outlined"
@@ -20,4 +20,4 @@ const AuthContainer = ({ heading, children }: Props) => {
   );
 };
 
-export default AuthContainer;
+export default CardContainer;
