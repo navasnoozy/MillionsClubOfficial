@@ -1,68 +1,89 @@
-import { Button, CircularProgress, Stack, TextField, Typography } from "@mui/material"
-import AppLink from "../../../components/CustomLink"
-import ErrorMessages from "../../auth/components/errorMessge"
-import { useForm } from "react-hook-form"
-import { addProductSchema, type AddProductSchema } from "@millionsclub/shared-libs/client"
-import { zodResolver } from "@hookform/resolvers/zod"
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  addProductSchema,
+  type AddProductSchema,
+} from "@millionsclub/shared-libs/client";
+import { Button, CircularProgress, Stack, TextField } from "@mui/material";
+import { useForm, FormProvider } from "react-hook-form";
+import Dropdown from "../../../components/Dropdown";
+import ErrorMessages from "../../../components/errorMessge";
+import { dummyCategories, dummySubcategories } from "../../../data/categorySample";
+// import useCategories from "../../categories/hooks/useCategories";
 
 
+type Props = {
+  onSubmit: (data: AddProductSchema) => void;
+  isLoading: boolean;
+  isError: boolean;
+  errors: { message: string; field: string }[];
+};
 
+const AddProductForm = ({ onSubmit, isLoading, isError, errors }: Props) => {
+  const methods = useForm<AddProductSchema>({
+    resolver: zodResolver(addProductSchema),
+  });
 
-
-const AddProductForm = () => {
-
-     const {register,handleSubmit, formState:{ errors: validationError} } = useForm <AddProductSchema> ({
-          resolver: zodResolver(addProductSchema)
-     })
+  // const { data: categories } = useCategories();
+  const categories = dummyCategories;
+  const subCategories = dummySubcategories
 
   return (
-   <form onSubmit={handleSubmit(onSubmit)}>
-      <Stack spacing={3}>
-        <TextField
-          {...register("title")}
-          label="Title"
-          variant="standard"
-          error={!!validationError.title}
-          helperText={validationError.title?.message}
-          fullWidth
-        />
+    <FormProvider {...methods}>
+      <form onSubmit={methods.handleSubmit(onSubmit)}>
+        <Stack spacing={3}>
+          <TextField
+            {...methods.register("title")}
+            label="Title"
+            variant="standard"
+            error={!!methods.formState.errors.title}
+            helperText={methods.formState.errors.title?.message}
+            fullWidth
+          />
 
-        <TextField
-          {...register("brand")}
-          label="Password"
-          type="password"
-          variant="standard"
-          error={!!validationError.brand}
-          helperText={validationError.brand?.message}
-          fullWidth
-        />
+          <TextField
+            {...methods.register("brand")}
+            label="Brand"
+            variant="standard"
+            error={!!methods.formState.errors.brand}
+            helperText={methods.formState.errors.brand?.message}
+            fullWidth
+          />
 
-        <Button
-          disabled={isLoading}
-          type="submit"
-          size="large"
-          variant="contained"
-        >
-          Signin
-          {isLoading && (
-            <CircularProgress sx={{ marginLeft: 1 }} size="2rem" />
-          )}
-        </Button>
+          <Stack sx={{display:'flex', flexDirection:'row'}}>
+            {categories && (
+              <Dropdown
+                fieldname="categoryId"
+                options={categories}
+                label="Category"
+              />
+            )}
 
-        <Typography>
-          Don’t have an account?{" "}
-          <AppLink
-            to={"/signup"}
-            sx={{ fontWeight: "bold", fontSize: 20, textWrap: "nowrap" }}
+            {categories && (
+              <Dropdown
+                fieldname="subCategoryId"
+                options={subCategories}
+                label="SubCategory"
+              />
+            )}
+          </Stack>
+
+          <Button
+            disabled={isLoading}
+            type="submit"
+            size="large"
+            variant="contained"
           >
-            Sign up
-          </AppLink>
-        </Typography>
+            ADD PRODUCT
+            {isLoading && (
+              <CircularProgress sx={{ marginLeft: 1 }} size="2rem" />
+            )}
+          </Button>
 
-        {isError && <ErrorMessages errors={errors} />}
-      </Stack>
-    </form>
-  )
-}
+          {isError && <ErrorMessages errors={errors} />}
+        </Stack>
+      </form>
+    </FormProvider>
+  );
+};
 
-export default AddProductForm
+export default AddProductForm;

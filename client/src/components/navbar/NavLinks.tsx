@@ -1,7 +1,7 @@
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
-import { navlinks } from "../../../config/navlinks";
+import { navlinks } from "../../config/navlinks";
 
 interface Props {
   isMobile?: boolean;

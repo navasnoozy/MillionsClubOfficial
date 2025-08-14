@@ -1,7 +1,8 @@
 import { Navigate, useLocation } from "react-router";
-import useCurrentUser from "../../features/auth/hooks/useCurrentUser";
+import useCurrentUser from "../features/auth/hooks/useCurrentUser";
 import { Grid, Skeleton } from "@mui/material";
 import type { ReactNode } from "react";
+
 
 interface Props {
      children : ReactNode

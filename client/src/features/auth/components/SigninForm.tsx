@@ -10,8 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { SigninSchema } from "@millionsclub/shared-libs/client";
 import { signinSchema } from "@millionsclub/shared-libs/client";
 import AppLink from "../../../components/CustomLink";
-import ErrorMessages from "./errorMessge";
-
+import ErrorMessages from "../../../components/errorMessge";
 
 type Props = {
   onSubmit: (data: SigninSchema) => void;
@@ -58,9 +57,7 @@ const SigninForm = ({ onSubmit, isLoading, isError, errors }: Props) => {
           variant="contained"
         >
           Signin
-          {isLoading && (
-            <CircularProgress sx={{ marginLeft: 1 }} size="2rem" />
-          )}
+          {isLoading && <CircularProgress sx={{ marginLeft: 1 }} size="2rem" />}
         </Button>
 
         <Typography>

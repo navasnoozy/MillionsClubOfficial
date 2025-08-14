@@ -1,40 +1,44 @@
 import { useNavigate } from "react-router";
-import CardContainer from "../../../components/CardContainer"
-import AddProductForm from "../components/AddProductForm"
+import CardContainer from "../../../components/CardContainer";
+import AddProductForm from "../components/AddProductForm";
 import { useState } from "react";
-
-
+import useAddProduct from "../hooks/useAddProduct";
+import type { AddProductSchema } from "@millionsclub/shared-libs/client";
+import { useAuthRedirect } from "../../auth/hooks/useAuthRedirect";
+import axios from "axios";
 
 const AddProduct = () => {
+  const navigate = useNavigate();
+  const [errors, setError] = useState<{ message: string; field: string }[]>([]);
 
-       const navigate = useNavigate();
-  const [signinError, setSigninError] = useState<
-    { message: string; field: string }[]
-  >([]);
-
-  const { mutate: signin, isPending, isError } = useaddpro;
+  const { mutate: addProduct, isPending, isError } = useAddProduct();
 
   useAuthRedirect();
 
-  const handleSignin = (data: SigninSchema) => {
-    signin(data, {
+  const handleAddProduct = (data: AddProductSchema) => {
+    addProduct(data, {
       onSuccess: () => {
-        navigate("/");
+        navigate("/productmanagement");
       },
       onError: (error) => {
         if (axios.isAxiosError(error)) {
           const errors = error.response?.data.error;
-          setSigninError(errors);
+          setError(errors);
         }
       },
     });
   };
 
   return (
-     <CardContainer heading="Add Product" >
-          <AddProductForm />
-     </CardContainer>
-  )
-}
+    <CardContainer heading="Add Product">
+      <AddProductForm
+        onSubmit={handleAddProduct}
+        isLoading={isPending}
+        isError={isError}
+        errors={errors}
+      />
+    </CardContainer>
+  );
+};
 
-export default AddProduct
+export default AddProduct;

@@ -3,7 +3,7 @@ import { Box } from "@mui/material";
 import { Outlet, useNavigation } from "react-router";
 import { useIsFetching } from "@tanstack/react-query";
 import LinearProgress from "@mui/material/LinearProgress";
-import { NavBar } from "../components/user/navbar/Navbar";
+import { NavBar } from "../components/navbar/Navbar";
 
 const Layout = () => {
   const navigation = useNavigation();
@@ -13,12 +13,12 @@ const Layout = () => {
 
   return (
     <Box>
-      <Box position={'relative'}>
+      <Box position={"relative"}>
         <NavBar />
         {showPogressBar && (
           <LinearProgress
             sx={{
-              height:'2px',
+              height: "2px",
               position: "absolute",
               buttom: 0,
               left: 0,
@@ -28,7 +28,6 @@ const Layout = () => {
           />
         )}
       </Box>
-
 
       <Box paddingY={"12px"}>
         <Outlet />

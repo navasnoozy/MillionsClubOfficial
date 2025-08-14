@@ -8,10 +8,10 @@ import MenuItem from "@mui/material/MenuItem";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router";
-import { navlinks } from "../../../config/navlinks";
-import useCurrentUser from "../../../features/auth/hooks/useCurrentUser";
-import useSignout from "../../../features/auth/hooks/useSignout";
-import AppLink from "../../CustomLink";
+import { navlinks } from "../../config/navlinks";
+import useCurrentUser from "../../features/auth/hooks/useCurrentUser";
+import useSignout from "../../features/auth/hooks/useSignout";
+import AppLink from "../CustomLink";
 
 interface UserMenuProps {
   anchorEl: HTMLElement | null;
@@ -27,7 +27,6 @@ export const UserMenu: React.FC<UserMenuProps> = ({
   onClose,
 }) => {
   const navigate = useNavigate();
-
 
   const { data: currentUser } = useCurrentUser();
   const { mutate: signout, isPending } = useSignout();
