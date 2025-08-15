@@ -14,14 +14,20 @@ const GreenSwitch = styled(Switch)(({ theme }) => ({
   },
 }));
 
-const label = { inputProps: { "aria-label": "Color switch demo" } };
+type TongleButtonProps = {
+  checked: boolean;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => void;
+  label?: string;
+};
 
-const TongleButton = () => {
-  return (
+const TongleButton = ({ checked, onChange, label }: TongleButtonProps) => {
+  return ( 
     <div>
-      <GreenSwitch {...label} defaultChecked color="secondary" />
+      {label && <span style={{ marginRight: "8px" }}>{label}</span>}
+      <GreenSwitch checked={checked} onChange={onChange} color="secondary" />
     </div>
   );
 };
+
 
 export default TongleButton;

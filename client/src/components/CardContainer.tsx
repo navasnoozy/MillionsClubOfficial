@@ -10,7 +10,14 @@ const CardContainer = ({ heading, children }: Props) => {
   return (
     <Card
       variant="outlined"
-      sx={{ p: 4, maxWidth: 400, mx: "auto", borderRadius: "8px" }}
+      sx={{
+        p: 4,
+        width: "fit-content", 
+        minWidth: '400px',
+        mx: "auto",          
+        borderRadius: "8px",
+        display: "inline-block", 
+      }}
     >
       <Typography fontSize={30} fontWeight="bold" mb={3}>
         {heading}
@@ -21,3 +28,4 @@ const CardContainer = ({ heading, children }: Props) => {
 };
 
 export default CardContainer;
+

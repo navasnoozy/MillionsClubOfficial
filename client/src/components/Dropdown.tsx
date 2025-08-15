@@ -23,7 +23,7 @@ const Dropdown = ({ fieldname : name, options, label }: DropdownProps) => {
         control={control}
         defaultValue=""
         render={({ field }) => (
-          <Select {...field} displayEmpty inputProps={{ "aria-label": label || "select" }}>
+          <Select {...field} displayEmpty inputProps={{ "aria-label": label || "select" }} size="small">
             <MenuItem value="" disabled>
               {label || "Select an option"}
             </MenuItem>

@@ -21,7 +21,8 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 
 import { useNavigate } from "react-router";
-import { adminLinks } from "../../config/adminLinks";
+import { adminLinks } from "../config/adminLinks";
+
 
 const drawerWidth = 240;
 
