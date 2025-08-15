@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import express from "express";
 import adminRouter from "./routes/adminRoutes";
 import userRouter from "./routes/userRoutes";
-// import imageRouter from "./routes/imageRoutes";
+import imageRouter from "./routes/imageRoutes";
 
 const app = express();
 
@@ -24,7 +24,7 @@ app.use(
 
 app.use(adminRouter);
 app.use(userRouter);
-// app.use(imageRouter); //For server side image uploading
+app.use(imageRouter);
 
 app.all("*path", async () => {
   throw new NotFoundError();

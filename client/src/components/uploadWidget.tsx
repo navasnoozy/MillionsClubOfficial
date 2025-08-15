@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import useCloudinarySignature from "../hooks/useCloudnary";
 import { Button } from "@mui/material";
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 
 declare global {
   interface Window {
@@ -19,9 +20,12 @@ interface CloudinaryWidget {
   destroy: () => void;
 }
 
-const UploadWidget = ({ folderName: folder }: { folderName: string }) => {
+const CloudinaryUploadWidget = ({
+  folderName: folder,
+}: {
+  folderName: string;
+}) => {
   const { data } = useCloudinarySignature(folder);
-
   const widgetRef = useRef<CloudinaryWidget | null>(null);
 
   useEffect(() => {
@@ -30,16 +34,20 @@ const UploadWidget = ({ folderName: folder }: { folderName: string }) => {
     widgetRef.current = window.cloudinary.createUploadWidget(
       {
         cloudName: data.cloud_name,
-        uploadSignature: {
-          signature: data.signature,
-          timestamp: data.timestamp,
-        },
+        uploadSignature: data.signature,
+        uploadSignatureTimestamp: data.timestamp,
         folder,
         sources: ["local", "url"],
         multiple: false,
+        maxFiles: 1,
+        resourceType: "image", // or "auto" for all file types
       },
       (error: unknown, result: any) => {
-        if (!error && result?.event === "success") {
+        if (error) {
+          console.error("Upload error:", error);
+          return;
+        }
+        if (result?.event === "success") {
           console.log("Upload success! URL:", result.info.secure_url);
         }
       }
@@ -49,12 +57,19 @@ const UploadWidget = ({ folderName: folder }: { folderName: string }) => {
   return (
     <Button
       onClick={() => widgetRef.current?.open()}
-      size="large"
       variant="contained"
+      disabled={!data}
+      component="span"
+      sx={{
+        maxWidth: "50px",
+        height: "50px",
+        backgroundColor: "rgba(0,0,0,0.6)",
+        boxShadow: "0 1px 3px rgba(255, 255, 255, 0.41)",
+      }}
     >
-      Upload
+      <AddPhotoAlternateIcon color="action" />
     </Button>
   );
 };
 
-export default UploadWidget;
+export default CloudinaryUploadWidget;

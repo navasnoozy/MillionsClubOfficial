@@ -6,9 +6,10 @@ const useCloudinarySignature = (folder: string) =>
   useQuery<CloudinarySignatureResponse>({
     queryKey: ["cloudinarySecret", folder],
     queryFn: async () => {
-      const res = await axiosInstance.get("/api/image/signature", {
+      const res = await axiosInstance.get("/api/products/image/signature", {
         params: { folder },
       });
+      
       return res.data;
     },
     staleTime: 1000 * 60,

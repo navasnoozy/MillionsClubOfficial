@@ -3,6 +3,6 @@ import { generateCloudinarySignature } from "../controllers/image/uploadImage";
 
 const imageRouter = Router();
 
-imageRouter.get("/api/image/signature", generateCloudinarySignature);
+imageRouter.get("/api/products/image/signature", generateCloudinarySignature);
 
 export default imageRouter;

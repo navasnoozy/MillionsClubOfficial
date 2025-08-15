@@ -8,13 +8,12 @@ import {
   CircularProgress,
   ImageList,
   Stack,
-  TextField
+  TextField,
 } from "@mui/material";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import Dropdown from "../../../components/Dropdown";
 import ErrorMessages from "../../../components/errorMessge";
 import ImageFrame from "../../../components/ImageFrame";
-import ImageUpload from "../../../components/ImageUpload";
 import {
   dummyCategories,
   dummySubcategories,
@@ -110,7 +109,7 @@ const AddProductForm = ({ onSubmit, isLoading, isError, errors }: Props) => {
               variant="outlined"
               multiline
               minRows={4}
-              maxRows={10} 
+              maxRows={10}
               error={!!methods.formState.errors.description}
               helperText={methods.formState.errors.description?.message}
               fullWidth
@@ -128,8 +127,6 @@ const AddProductForm = ({ onSubmit, isLoading, isError, errors }: Props) => {
               )}
             />
 
-
-        
 
             <Button
               disabled={isLoading}

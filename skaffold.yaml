@@ -1,5 +1,5 @@
 # skaffold.yaml
-apiVersion: skaffold/v3
+apiVersion: skaffold/v4beta13
 kind: Config
 build:
   local:
