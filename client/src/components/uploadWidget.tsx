@@ -31,27 +31,34 @@ const CloudinaryUploadWidget = ({
   useEffect(() => {
     if (!data || !window.cloudinary) return;
 
-    widgetRef.current = window.cloudinary.createUploadWidget(
-      {
-        cloudName: data.cloud_name,
-        uploadSignature: data.signature,
-        uploadSignatureTimestamp: data.timestamp,
-        folder,
-        sources: ["local", "url"],
-        multiple: false,
-        maxFiles: 1,
-        resourceType: "image", // or "auto" for all file types
-      },
-      (error: unknown, result: any) => {
-        if (error) {
-          console.error("Upload error:", error);
-          return;
+    try {
+      widgetRef.current = window.cloudinary.createUploadWidget(
+        {
+          cloudName: data.cloud_name,
+          apiKey: data.api_key,
+          uploadSignature: data.signature,
+          uploadSignatureTimestamp: data.timestamp,
+          folder,
+          sources: ["local", "url"],
+          multiple: true,
+          maxFiles: 2,
+          resourceType: "image", // or "auto" for all file types
+        },
+        (error: unknown, result: any) => {
+          if (error) {
+            console.error("Upload error:", error);
+            return;
+          }
+          if (result?.event === "success") {
+            console.log("Upload success! URL:", result.info.secure_url);
+          }
         }
-        if (result?.event === "success") {
-          console.log("Upload success! URL:", result.info.secure_url);
-        }
-      }
-    );
+      );
+    } catch (error) {
+      console.error("Error creating cloudinary widget:", error);
+    }
+
+    console.log("✅ Cloudinary upload widget created successfully");
   }, [data, folder]);
 
   return (

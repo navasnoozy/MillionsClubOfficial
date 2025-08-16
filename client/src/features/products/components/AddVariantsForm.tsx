@@ -6,12 +6,14 @@ import {
 import {
   Button,
   CircularProgress,
+  ImageList,
   Stack,
-  TextField
+  TextField,
 } from "@mui/material";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import Dropdown from "../../../components/Dropdown";
 import ErrorMessages from "../../../components/errorMessge";
+import ImageFrame from "../../../components/ImageFrame";
 import {
   dummyCategories,
   dummySubcategories,
@@ -40,7 +42,16 @@ const AddProductForm = ({ onSubmit, isLoading, isError, errors }: Props) => {
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)}>
-      
+        <Stack direction={{ xs: "column", md: "row" }} spacing={3}>
+          <ImageList
+            variant="quilted"
+            cols={3}
+            rowHeight={200}
+            gap={4}
+            sx={{ border: "2px solid gray", borderRadius: 2 }}
+          >
+            <ImageFrame />
+          </ImageList>
 
           <Stack spacing={3}>
             <TextField
@@ -123,7 +134,7 @@ const AddProductForm = ({ onSubmit, isLoading, isError, errors }: Props) => {
               size="large"
               variant="contained"
             >
-              ADD PRODUCT 
+              ADD PRODUCT
               {isLoading && (
                 <CircularProgress sx={{ marginLeft: 1 }} size="2rem" />
               )}
@@ -131,7 +142,7 @@ const AddProductForm = ({ onSubmit, isLoading, isError, errors }: Props) => {
 
             {isError && <ErrorMessages errors={errors} />}
           </Stack>
-
+        </Stack>
       </form>
     </FormProvider>
   );

@@ -20,8 +20,14 @@ const generateCloudinarySignature = async (
       throw new NotFoundError();
     }
 
+     const paramsToSign = {
+      folder,
+      source: "uw", 
+      timestamp
+    };
+
     const signature = cloudinary.utils.api_sign_request(
-      { timestamp, folder },
+      paramsToSign,
       config.api_secret
     );
 
