@@ -1,3 +1,5 @@
+//src/config/adminLinks.ts
+
 interface AdminLinks {
   pages: { label: string; to: string }[];
 }

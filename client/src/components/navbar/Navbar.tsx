@@ -1,3 +1,5 @@
+//src/components/navbar/Navbar.tsx
+
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Container from "@mui/material/Container";

@@ -1,3 +1,4 @@
+// src/components/admin/Sidebar.tsx
 import * as React from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -21,9 +22,8 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 
 import { useNavigate } from "react-router";
-import { adminLinks } from "../config/adminLinks";
-import { UserMenu } from "./navbar/UserMenu";
-
+import { adminLinks } from "../../config/adminLinks";
+import { UserMenu } from "../navbar/UserMenu";
 
 const drawerWidth = 240;
 
@@ -57,7 +57,6 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
   ...theme.mixins.toolbar,
   justifyContent: "flex-end",
 }));
@@ -65,6 +64,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 const AppDrawer = () => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
   const navigate = useNavigate();
 
   const handleDrawerOpen = () => {
@@ -77,8 +77,13 @@ const AppDrawer = () => {
 
   const handleClick = (link: string) => {
     navigate(link);
-    handleDrawerClose()
+    handleDrawerClose();
   };
+
+  // User menu handlers
+  const handleOpenUserMenu = (e: React.MouseEvent<HTMLElement>) =>
+    setAnchorElUser(e.currentTarget);
+  const handleCloseUserMenu = () => setAnchorElUser(null);
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -99,10 +104,18 @@ const AppDrawer = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Admin panel
+          <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
+            Admin Panel
           </Typography>
-          <UserMenu />
+          {/* User Menu with proper props and positioning */}
+          <Box sx={{ flexGrow: 0 }}>
+            <UserMenu
+              anchorEl={anchorElUser}
+              open={Boolean(anchorElUser)}
+              onOpen={handleOpenUserMenu}
+              onClose={handleCloseUserMenu}
+            />
+          </Box>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -132,19 +145,6 @@ const AppDrawer = () => {
           {adminLinks.pages.map((item, index) => (
             <ListItem key={item.label} disablePadding>
               <ListItemButton onClick={() => handleClick(item.to)}>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={item.label} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {adminLinks.pages.map((item, index) => (
-            <ListItem key={item.label} disablePadding>
-              <ListItemButton>
                 <ListItemIcon>
                   {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                 </ListItemIcon>

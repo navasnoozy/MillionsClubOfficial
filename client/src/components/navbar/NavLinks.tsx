@@ -1,3 +1,5 @@
+//src/components/navbar/NavLinks.tsx
+
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";

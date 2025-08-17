@@ -1,11 +1,10 @@
+import type { AddProductSchema } from "@millionsclub/shared-libs/client";
+import { useState } from "react";
 import { useNavigate } from "react-router";
 import CardContainer from "../../../components/CardContainer";
-import AddProductForm from "../components/AddProductForm";
-import { useState } from "react";
-import useAddProduct from "../hooks/useAddProduct";
-import type { AddProductSchema } from "@millionsclub/shared-libs/client";
 import { useAuthRedirect } from "../../auth/hooks/useAuthRedirect";
-import axios from "axios";
+import AddProductForm from "../components/AddProductForm";
+import useAddProduct from "../hooks/useAddProduct";
 import handleApiError from "../utils/ApiErrorHandler";
 
 const AddProduct = () => {

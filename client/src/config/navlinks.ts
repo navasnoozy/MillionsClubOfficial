@@ -1,3 +1,5 @@
+//src/config/navlinks.ts
+
 interface NavLinks {
   pages: string[];
   userMenuLinks: { label: string; to: string }[];

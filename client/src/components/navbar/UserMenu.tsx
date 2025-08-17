@@ -1,4 +1,4 @@
-//src/components/navbar/UserMenu.tsx
+// src/components/navbar/UserMenu.tsx
 import LoginIcon from "@mui/icons-material/Login";
 import { CircularProgress, Stack } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
@@ -18,6 +18,10 @@ interface UserMenuProps {
   open: boolean;
   onOpen: (e: React.MouseEvent<HTMLElement>) => void;
   onClose: () => void;
+  // Optional: Allow customizing menu links for different contexts
+  menuLinks?: { label: string; to: string }[];
+  // Optional: Customize redirect after logout
+  logoutRedirectPath?: string;
 }
 
 export const UserMenu: React.FC<UserMenuProps> = ({
@@ -25,6 +29,8 @@ export const UserMenu: React.FC<UserMenuProps> = ({
   open,
   onOpen,
   onClose,
+  menuLinks = navlinks.userMenuLinks,
+  logoutRedirectPath = "/",
 }) => {
   const navigate = useNavigate();
 
@@ -35,7 +41,7 @@ export const UserMenu: React.FC<UserMenuProps> = ({
     onClose();
     signout(undefined, {
       onSuccess: () => {
-        navigate("/");
+        navigate(logoutRedirectPath);
       },
       onError: () => {
         console.log("signout error");
@@ -45,7 +51,7 @@ export const UserMenu: React.FC<UserMenuProps> = ({
 
   if (!currentUser) {
     return (
-      <Stack direction={"row"} gap={1}>
+      <Stack direction={"row"} gap={1} alignItems="center">
         <LoginIcon sx={{ display: { xs: "none", md: "inline-block" } }} />
         <AppLink color="white" to={"/signin"}>
           Login
@@ -70,7 +76,7 @@ export const UserMenu: React.FC<UserMenuProps> = ({
         open={open}
         onClose={onClose}
       >
-        {navlinks.userMenuLinks.map((item) => (
+        {menuLinks.map((item) => (
           <MenuItem key={item.label} onClick={onClose}>
             <AppLink
               width={100}
