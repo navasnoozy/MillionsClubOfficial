@@ -22,6 +22,7 @@ import MailIcon from "@mui/icons-material/Mail";
 
 import { useNavigate } from "react-router";
 import { adminLinks } from "../config/adminLinks";
+import { UserMenu } from "./navbar/UserMenu";
 
 
 const drawerWidth = 240;
@@ -101,6 +102,7 @@ const AppDrawer = () => {
           <Typography variant="h6" noWrap component="div">
             Admin panel
           </Typography>
+          <UserMenu />
         </Toolbar>
       </AppBar>
       <Drawer

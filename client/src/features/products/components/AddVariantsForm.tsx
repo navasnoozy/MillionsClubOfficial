@@ -28,7 +28,7 @@ type Props = {
   errors: { message: string; field: string }[];
 };
 
-const AddProductForm = ({ onSubmit, isLoading, isError, errors }: Props) => {
+const AddVariantForm = ({ onSubmit, isLoading, isError, errors }: Props) => {
   const methods = useForm<AddProductSchema>({
     resolver: zodResolver(addProductSchema),
   });
@@ -148,4 +148,4 @@ const AddProductForm = ({ onSubmit, isLoading, isError, errors }: Props) => {
   );
 };
 
-export default AddProductForm;
+export default AddVariantForm;

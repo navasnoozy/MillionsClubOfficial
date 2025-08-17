@@ -6,6 +6,7 @@ import useAddProduct from "../hooks/useAddProduct";
 import type { AddProductSchema } from "@millionsclub/shared-libs/client";
 import { useAuthRedirect } from "../../auth/hooks/useAuthRedirect";
 import axios from "axios";
+import handleApiError from "../utils/ApiErrorHandler";
 
 const AddProduct = () => {
   const navigate = useNavigate();
@@ -17,15 +18,10 @@ const AddProduct = () => {
 
   const handleAddProduct = (data: AddProductSchema) => {
     addProduct(data, {
-      onSuccess: () => {
-        navigate("/productmanagement");
+      onSuccess: (res) => {
+        navigate(  `/admin/addvariant/${res.id}`);
       },
-      onError: (error) => {
-        if (axios.isAxiosError(error)) {
-          const errors = error.response?.data.error;
-          setError(errors);
-        }
-      },
+    onError: (error) => handleApiError(error, setError),
     });
   };
 

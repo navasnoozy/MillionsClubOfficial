@@ -4,36 +4,36 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import CardContainer from "../../../components/CardContainer";
 import { useAuthRedirect } from "../../auth/hooks/useAuthRedirect";
-import AddProductForm from "../components/AddProductForm";
+import AddVariantForm from "../components/AddVariantsForm";
 import useAddVariant from "../hooks/useAddVariant";
+import handleApiError from "../utils/ApiErrorHandler";
 
-const AddProduct = () => {
+const AddVariant = () => {
   const navigate = useNavigate();
-  const {id} = useParams ()
+  const {id} = useParams<{ id: string }> ();
+  if (!id) {
+    return <div>Product ID is required</div>;
+  }
+
   const [errors, setError] = useState<{ message: string; field: string }[]>([]);
 
-  const { mutate: addProduct, isPending, isError } = useAddVariant(id);
+  const { mutate: addVariant, isPending, isError } = useAddVariant(id);
 
   useAuthRedirect();
 
-  const handleAddProduct = (data: AddProductSchema) => {
-    addProduct(data, {
+  const handleAddVariant = (data: AddProductSchema) => {
+    addVariant(data, {
       onSuccess: () => {
         navigate("/productmanagement");
       },
-      onError: (error) => {
-        if (axios.isAxiosError(error)) {
-          const errors = error.response?.data.error;
-          setError(errors);
-        }
-      },
+      onError: (error) => handleApiError(error, setError),
     });
   };
 
   return (
     <CardContainer heading="Add Product">
-      <AddProductForm
-        onSubmit={handleAddProduct}
+      <AddVariantForm
+        onSubmit={handleAddVariant}
         isLoading={isPending}
         isError={isError}
         errors={errors}
@@ -42,4 +42,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+export default AddVariant;

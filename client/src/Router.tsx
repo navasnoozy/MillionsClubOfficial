@@ -10,6 +10,7 @@ import OrderManagement from "./features/order/pages/OrderManagement";
 import SignupPage from "./features/auth/pages/SignupPage";
 import SigninPage from "./features/auth/pages/SigninPage";
 import AddProduct from "./features/products/pages/AddProduct";
+import AddVariant from "./features/products/pages/AddVariant";
 // import RequireAdmin from "./components/admin/RequireAdmin";
 
 const router = createBrowserRouter([
@@ -53,6 +54,11 @@ const router = createBrowserRouter([
       {
         path: "addproduct",
         element: <AddProduct />,
+        errorElement: <ErrorBoundary />,
+      },
+          {
+        path: "addvariant",
+        element: <AddVariant />,
         errorElement: <ErrorBoundary />,
       },
       {
