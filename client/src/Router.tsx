@@ -11,7 +11,8 @@ import SignupPage from "./features/auth/pages/SignupPage";
 import SigninPage from "./features/auth/pages/SigninPage";
 import AddProduct from "./features/products/pages/AddProduct";
 import AddVariant from "./features/products/pages/AddVariant";
-// import RequireAdmin from "./components/admin/RequireAdmin";
+// import RequireAdmin from "./components/RequireAdmin";
+
 
 const router = createBrowserRouter([
   {
@@ -37,7 +38,7 @@ const router = createBrowserRouter([
     element: (
       // <RequireAdmin>
       <AdminLayout />
-      //  </RequireAdmin>
+//  </RequireAdmin>
     ),
     errorElement: <ErrorBoundary />,
     children: [
@@ -57,7 +58,7 @@ const router = createBrowserRouter([
         errorElement: <ErrorBoundary />,
       },
           {
-        path: "addvariant",
+        path: "addvariant/:id",
         element: <AddVariant />,
         errorElement: <ErrorBoundary />,
       },

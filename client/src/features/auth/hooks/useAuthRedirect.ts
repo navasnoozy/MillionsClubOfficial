@@ -4,11 +4,13 @@ import useCurrentUser from "./useCurrentUser";
 
 export const useAuthRedirect = () => {
   const navigate = useNavigate();
-  const { data: currentUser } = useCurrentUser();
+  const { data: currentUser, isLoading } = useCurrentUser();
+  console.log();
+  
 
   useEffect(() => {
-    if (currentUser) {
-      navigate("/", { replace: true });
+    if (!isLoading && !currentUser) {
+      navigate("/signin", { replace: true });
     }
-  }, [currentUser, navigate]);
+  }, [currentUser, isLoading, navigate]);
 };
