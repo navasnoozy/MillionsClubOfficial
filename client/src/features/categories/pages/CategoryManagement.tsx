@@ -1,13 +1,13 @@
-import { Box } from "@mui/material";
+import { Stack } from "@mui/material";
 import AddCategoryPage from "./AddCategoryPage";
 import AddSubCategoryPage from "./AddSubCategoryPage";
 
 const CategoryManagement = () => {
   return (
-    <Box>
+    <Stack spacing={3} justifyContent={"center"} direction={"row"}>
       <AddCategoryPage />
       <AddSubCategoryPage />
-    </Box>
+    </Stack>
   );
 };
 

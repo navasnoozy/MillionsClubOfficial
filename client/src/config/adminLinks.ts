@@ -6,9 +6,10 @@ interface AdminLinks {
 
 export const adminLinks: AdminLinks = {
   pages: [
-    { label: "Dashboard", to: "/admin/dashboard" },
+    { label: "Dashboard", to: "/admin" },
     { label: "Orders", to: "/admin/ordermanagement" },
     { label: "Products", to: "/admin/productmanagement" },
+    { label: "Categories", to: "/admin/categorymanagement" },
     { label: "Categories", to: "/admin/categories" },
     { label: "Users", to: "/admin/users" },
   ],
