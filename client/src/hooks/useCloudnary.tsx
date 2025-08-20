@@ -8,11 +8,9 @@ const useCloudinarySignature = (folder: string) =>
     queryFn: async () => {
       const res = await axiosInstance.get("/api/products/image/signature", {
         params: { folder },
-
       });
-      console.log('hook', res.data);
-      
-      return res.data;
+
+      return res.data.data;
     },
     staleTime: 1000 * 60,
     enabled: !!folder,

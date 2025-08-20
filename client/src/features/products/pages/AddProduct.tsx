@@ -13,11 +13,9 @@ import handleApiError from "../utils/ApiErrorHandler";
 import { Grid, ImageList, Typography } from "@mui/material";
 import ImageFrame from "../../../components/ImageFrame";
 import SubmitButton from "../components/SubmitButton";
-import { boolean } from "zod/v4";
 
 const AddProduct = () => {
   const navigate = useNavigate();
-  const [showImageUploader, setShowImageUploader] = useState(false);
   const [errors, setError] = useState<{ message: string; field: string }[]>([]);
   const { mutate: addProduct, isPending, isError } = useAddProduct();
 

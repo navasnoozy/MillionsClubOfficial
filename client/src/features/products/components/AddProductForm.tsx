@@ -7,10 +7,12 @@ import { Controller, useFormContext } from "react-hook-form";
 import Dropdown from "../../../components/Dropdown";
 import ErrorMessages from "../../../components/errorMessge";
 import {
-  dummyCategories,
-  dummySubcategories,
+  dummySubcategories
 } from "../../../data/categorySample";
+import useCategories from "../../categories/hooks/useCategories";
 import TongleButton from "./Switch";
+import RHFDropdown from "../../../components/RHFDropdown";
+import useSubCategories from "../../categories/hooks/useSubCategories";
 // import useCategories from "../../categories/hooks/useCategories";
 
 type Props = {
@@ -20,16 +22,14 @@ type Props = {
 };
 
 const AddProductForm = ({ isLoading, isError, errors }: Props) => {
-  // ✅ Get access from FormProvider
   const {
     register,
     control,
     formState: { errors: formErrors },
   } = useFormContext<AddProductSchema>();
 
-  // const { data: categories } = useCategories();
-  const categories = dummyCategories;
-  const subCategories = dummySubcategories;
+  const {data:categories} = useCategories();
+  const {data:subCategories} = useSubCategories() ;
 
   return (
     <Stack spacing={3} width={"100%"} height={"100%"} justifyContent={'space-between'}>
@@ -56,15 +56,15 @@ const AddProductForm = ({ isLoading, isError, errors }: Props) => {
         sx={{ width: "100%", alignItems: "center" }}
       >
         {categories && (
-          <Dropdown
-            fieldname="categoryId"
+          <RHFDropdown
+            name="categoryId"
             options={categories}
             label="Category"
           />
         )}
         {subCategories && (
-          <Dropdown
-            fieldname="subCategoryId"
+          <RHFDropdown
+            name="subCategoryId"
             options={subCategories}
             label="SubCategory"
           />
