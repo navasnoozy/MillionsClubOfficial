@@ -1,4 +1,4 @@
-import { AddProductVariant } from "@millionsclub/shared-libs/server";
+import { AddProductVariant, sendResponse } from "@millionsclub/shared-libs/server";
 import { NextFunction, Request, Response } from "express";
 import { ProductVariants } from "../../../models/productVariantModel";
 import { Product } from "../../../models/productModel";
@@ -23,7 +23,7 @@ const addVariant = async (req: Request, res: Response, next: NextFunction) => {
       $addToSet: { variantIds: newVariant._id },
     });
 
-    res.status(201).send({ success: true, data: newVariant });
+        sendResponse(res, 201,{success:true,message:'Product variant created success',data:newVariant})
   } catch (error) {
     console.error("Error occured while adding product variant");
     next(error);

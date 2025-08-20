@@ -13,7 +13,7 @@ const categorySchema = new Schema({
     unique: true,
   },
   subcategories: [{ type: mongoose.Types.ObjectId, ref: "Subcategory" }],
-});
+},{timestamps:true});
 
 // Delete all subcategories associated with the category
 

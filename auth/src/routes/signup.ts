@@ -5,6 +5,7 @@ import {
   BadRequestError,
   validateRequest,
   signupSchema,
+  sendResponse,
 } from "@millionsclub/shared-libs/server";
 import { User } from "../models/userModel";
 import { hashPassword } from "../utils/hashPassword";
@@ -57,7 +58,7 @@ signupRouter.post(
       jwt: jwt_token,
     };
 
-    res.status(201).send({ success: "true" });
+    sendResponse (res, 201,{success:true})
     return;
   }
 );

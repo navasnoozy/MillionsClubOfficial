@@ -7,7 +7,7 @@ const useAddCategory = () => {
     mutationKey: ["category"],
     mutationFn: async (data: AddCategory) => {
       const res = await axiosInstance.post("/api/products/category/add", data);
-      return res.data;
+      return res.data.data;
     },
   });
 };

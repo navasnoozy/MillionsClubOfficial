@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { ProductVariants } from "../../../models/productVariantModel";
 import { filterUndefined } from "../../../utils/filterUndefined";
-import { BadRequestError } from "@millionsclub/shared-libs/server";
+import { BadRequestError, sendResponse } from "@millionsclub/shared-libs/server";
 
 const updateVariant = async (
   req: Request,
@@ -20,7 +20,7 @@ const updateVariant = async (
 
     if (!updatedVariant) throw new BadRequestError("Product variant not found");
 
-    res.status(200).send({ success: true, data: updateVariant });
+      sendResponse(res, 201,{success:true,message:'Product variant update success',data:updatedVariant})
   } catch (error) {
     console.error("Error occured while updating product variant");
     next(error);

@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { Category } from "../../../models/categoryModel";
+import { sendResponse } from "@millionsclub/shared-libs/server";
 
 
 
@@ -19,7 +20,7 @@ const deletCategory = async (req: Request, res: Response, next: NextFunction) =>
 
     await Category.findByIdAndDelete(categoryId);
 
-   res.status(200).json({ message: "Category and related subcategories deleted successfully" });
+     sendResponse(res, 200,{success:true})
    return
   } catch (error) {
     console.error("Error occurred while deleting category:", error);

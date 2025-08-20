@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { ProductVariants } from "../../../models/productVariantModel";
-import { BadRequestError } from "@millionsclub/shared-libs/server";
+import { BadRequestError, sendResponse } from "@millionsclub/shared-libs/server";
 
 const deleteVaraint = async (
   req: Request,
@@ -15,7 +15,7 @@ const deleteVaraint = async (
 
     if (!deletedVariant) throw new BadRequestError("Product variant not found");
 
-    res.status(200).send({ success: true });
+    sendResponse(res, 201,{success:true,message:'Product variant is deleted',data:deletedVariant})
   } catch (error) {
     console.error("Error occured while deleting product variant");
     next(error);

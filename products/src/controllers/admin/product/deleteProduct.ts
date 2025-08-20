@@ -1,4 +1,4 @@
-import { BadRequestError } from "@millionsclub/shared-libs/server";
+import { BadRequestError, sendResponse } from "@millionsclub/shared-libs/server";
 import { NextFunction, Request, Response } from "express";
 import { Product } from "../../../models/productModel";
 
@@ -16,7 +16,7 @@ const deleteProduct = async (
 
     if (!product) throw new BadRequestError("No product found");
 
-    res.status(200).send({ success: true, data: product });
+      sendResponse(res, 200,{success:true,message:'Product deletion success', data:product})
     return;
   } catch (error) {
     console.error("Error occured while fetching product");

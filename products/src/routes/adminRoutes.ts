@@ -35,7 +35,6 @@ adminRouter.patch(
   "/api/products/update/:id",
   validateRequest(mongoIdValidationSchema, "params"),
   validateRequest(updateProductSchema),
-
   updateProduct
 );
 adminRouter.delete(
@@ -62,9 +61,6 @@ adminRouter.delete(
   validateRequest(mongoIdValidationSchema, "params"),
   deleteVaraint
 );
-
-
-
 
 // CATEGORY //////
 adminRouter.post(

@@ -24,7 +24,7 @@ const productVariantModel = new Schema({
   isActive: {
     type: Boolean,
   },
-});
+},{timestamps:true});
 
 productVariantModel.post("findOneAndDelete", async (doc) => {
   if (!doc) return;

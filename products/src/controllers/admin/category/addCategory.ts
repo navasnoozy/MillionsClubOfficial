@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { Category } from "../../../models/categoryModel";
-import { BadRequestError } from "@millionsclub/shared-libs/server";
+import { BadRequestError, sendResponse } from "@millionsclub/shared-libs/server";
 
 const addCategory = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -26,7 +26,7 @@ const addCategory = async (req: Request, res: Response, next: NextFunction) => {
 
     const savedCategory = await Category.create(req.body);
 
-    res.status(201).send({ success: true, data: savedCategory });
+    sendResponse(res, 201,{success:true,data:savedCategory})
   } catch (error) {
     console.error("Error occured while adding category");
     next(error);

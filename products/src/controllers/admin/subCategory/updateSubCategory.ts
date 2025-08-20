@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { Subcategory } from "../../../models/subCategory";
+import { sendResponse } from "@millionsclub/shared-libs/server";
 
 const updateSubCategory = async (
   req: Request,
@@ -41,9 +42,7 @@ const updateSubCategory = async (
 
     await subcategory.save();
 
-    res
-      .status(200)
-      .json({ message: "Subcategory updated successfully", subcategory });
+    sendResponse(res, 200,{success:true})
     return;
   } catch (error) {
     console.error("Error occurred while updating subcategory:", error);

@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { Category } from "../../../models/categoryModel";
 import { Subcategory } from "../../../models/subCategory";
+import { sendResponse } from "@millionsclub/shared-libs/server";
 
 
 const addSubCategory = async (req: Request, res: Response, next: NextFunction) => {
@@ -31,7 +32,7 @@ const addSubCategory = async (req: Request, res: Response, next: NextFunction) =
     category.subcategories.push(subcategory._id);
     await category.save();
 
-   res.status(201).json({ message: "Subcategory created successfully", subcategory });
+   sendResponse(res, 201,{success:true})
      return
   } catch (error) {
     console.error("Error occurred while adding addSubCategory:", error);

@@ -4,6 +4,7 @@ import {
   signinSchema,
   validateRequest,
   BadRequestError,
+  sendResponse,
 } from "@millionsclub/shared-libs/server";
 import { comparePassword } from "../utils/hashPassword";
 import { User } from "../models/userModel";
@@ -44,7 +45,7 @@ router.post(
       };
     }
 
-    res.status(200).send({success: true});
+     sendResponse(res,200,{success:true})
     return;
   }
 );

@@ -1,6 +1,7 @@
 //products/src/controllers/user/listProducts.ts
 import { NextFunction, Request, Response } from "express";
 import { Product } from "../../models/productModel";
+import { sendResponse } from "@millionsclub/shared-libs/server";
 
 const listProducts = async (
   req: Request,
@@ -23,7 +24,7 @@ const listProducts = async (
 
       
 
-      res.status (200).send({success:true,data:products})
+       sendResponse(res, 200,{success:true,data:products})
       return
   } catch (error) {
     console.log("Error occured while retriving products");

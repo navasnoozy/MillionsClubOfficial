@@ -9,7 +9,7 @@ const subcategorySchema = new Schema({
     ref: "Category",
     required: true,
   },
-});
+},{timestamps:true});
 
 
 //DELETE THE SUB CATEGORY FROM PARENT WHEN SUB DELETED

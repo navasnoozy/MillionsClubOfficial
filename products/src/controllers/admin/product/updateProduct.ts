@@ -1,5 +1,6 @@
 import {
   BadRequestError,
+  sendResponse,
   UpdateProductSchema,
 } from "@millionsclub/shared-libs/server";
 import { NextFunction, Request, Response } from "express";
@@ -45,7 +46,7 @@ const updateProduct = async (
 
     await Product.findByIdAndUpdate(_id, updateOperations);
 
-    res.status(200).send({ success: true });
+      sendResponse(res, 200,{success:true,message:'Product updation success'})
 
     return;
   } catch (error) {

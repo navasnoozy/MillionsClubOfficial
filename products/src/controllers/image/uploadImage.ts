@@ -3,6 +3,7 @@ import cloudinary from "../../config/cloudnary";
 import {
   CloudinarySignatureResponse,
   NotFoundError,
+  sendResponse,
 } from "@millionsclub/shared-libs/server";
 
 const generateCloudinarySignature = async (
@@ -38,7 +39,7 @@ const generateCloudinarySignature = async (
       api_key: process.env.CLOUDNARY_API_KEY!,
     };
 
-    res.status(200).send(data);
+       sendResponse(res, 201,{success:true, data:data})
   } catch (error) {
     console.log("Error occured while uploading image");
     next();

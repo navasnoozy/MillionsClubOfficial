@@ -2,6 +2,7 @@
 import {
   AddProductSchema,
   BadRequestError,
+  sendResponse,
 } from "@millionsclub/shared-libs/server";
 import { NextFunction, Request, Response } from "express";
 import { Product } from "../../../models/productModel";
@@ -44,7 +45,7 @@ const addProduct = async (req: Request, res: Response, next: NextFunction) => {
       title: newProduct.title,
     });
 
-    res.status(201).send({ success: true, data: newProduct });
+    sendResponse(res, 201,{success:true,message:'Product created success', data:newProduct})
   } catch (error) {
     console.log("Error while adding product", error);
     next(error);

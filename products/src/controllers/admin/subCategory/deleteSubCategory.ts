@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { Subcategory } from "../../../models/subCategory";
+import { sendResponse } from "@millionsclub/shared-libs/server";
 
 const deleteSubCategory = async (
   req: Request,
@@ -16,7 +17,7 @@ const deleteSubCategory = async (
     }
 
     // Cleanup handled by post hook in model
-    res.status(200).json({ message: "Subcategory deleted successfully" });
+     sendResponse(res, 200,{success:true})
     return;
   } catch (error) {
     console.error("Error occurred while deleting subcategory:", error);

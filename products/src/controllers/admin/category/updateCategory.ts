@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { Category } from "../../../models/categoryModel";
+import { sendResponse } from "@millionsclub/shared-libs/server";
 
 const updateCategory = async (
   req: Request,
@@ -45,9 +46,7 @@ const updateCategory = async (
 
     await category.save();
 
-    res
-      .status(200)
-      .json({ message: "Category updated successfully", category });
+    sendResponse(res, 200,{success:true})
        return
   } catch (error) {
     console.error("Error occurred while updating category:", error);

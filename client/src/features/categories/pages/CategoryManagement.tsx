@@ -4,7 +4,7 @@ import AddSubCategoryPage from "./AddSubCategoryPage";
 
 const CategoryManagement = () => {
   return (
-    <Stack spacing={3} justifyContent={"center"} direction={"row"}>
+    <Stack spacing={3} justifyContent={"center"} alignItems={"center"} direction={{xs:'column', md:'row'}}>
       <AddCategoryPage />
       <AddSubCategoryPage />
     </Stack>
