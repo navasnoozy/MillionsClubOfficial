@@ -4,16 +4,11 @@ import {
   TextField
 } from "@mui/material";
 import { Controller, useFormContext } from "react-hook-form";
-import Dropdown from "../../../components/Dropdown";
 import ErrorMessages from "../../../components/errorMessge";
-import {
-  dummySubcategories
-} from "../../../data/categorySample";
+import RHFDropdown from "../../../components/RHFDropdown";
 import useCategories from "../../categories/hooks/useCategories";
 import TongleButton from "./Switch";
-import RHFDropdown from "../../../components/RHFDropdown";
-import useSubCategories from "../../categories/hooks/useSubCategories";
-// import useCategories from "../../categories/hooks/useCategories";
+
 
 type Props = {
   isLoading: boolean;
@@ -29,7 +24,7 @@ const AddProductForm = ({ isLoading, isError, errors }: Props) => {
   } = useFormContext<AddProductSchema>();
 
   const {data:categories} = useCategories();
-  const {data:subCategories} = useSubCategories() ;
+
 
   return (
     <Stack spacing={3} width={"100%"} height={"100%"} justifyContent={'space-between'}>
@@ -62,13 +57,13 @@ const AddProductForm = ({ isLoading, isError, errors }: Props) => {
             label="Category"
           />
         )}
-        {subCategories && (
+        {/* {subCategories && (
           <RHFDropdown
             name="subCategoryId"
             options={subCategories}
             label="SubCategory"
           />
-        )}
+        )} */}
       </Stack>
 
       <TextField

@@ -14,11 +14,11 @@ const RHFDropdown = ({ name, options, label }: RHFDropdownProps) => {
     <Controller
       name={name}
       control={control}
-      defaultValue="" 
+      defaultValue="" // This ensures we always have a string value
       render={({ field: { value, onChange, ...field } }) => (
         <Dropdown
           {...field}
-          value={value || ""} 
+          value={value || ""} // Convert undefined/null to empty string
           onChange={onChange}
           options={options}
           label={label}
