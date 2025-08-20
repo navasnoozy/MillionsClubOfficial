@@ -21,6 +21,7 @@ const SubmitButton = ({
       size={size}
       variant={variant}
       disabled={disabled || isLoading}
+      sx={{boxShadow:"0 2px 4px rgba(76, 224, 224, 0.78)"}}
     >
       {label}
       {isLoading && <CircularProgress sx={{ ml: 1 }} size="1.5rem" />}

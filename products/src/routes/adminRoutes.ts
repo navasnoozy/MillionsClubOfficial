@@ -63,6 +63,9 @@ adminRouter.delete(
   deleteVaraint
 );
 
+
+
+
 // CATEGORY //////
 adminRouter.post(
   "/api/products/category/add",
@@ -85,8 +88,7 @@ adminRouter.patch(
 
 // SUB - CATEGORY //////
 adminRouter.post(
-  "/api/products/subcategory/:id/add",
-  validateRequest(mongoIdValidationSchema, "params"),
+  "/api/products/subcategory/add",
   validateRequest(addSubCategorySchema),
   addSubCategory
 );

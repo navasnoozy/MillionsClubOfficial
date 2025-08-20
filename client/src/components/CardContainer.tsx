@@ -17,9 +17,10 @@ const CardContainer = ({ heading, children }: Props) => {
         mx: "auto",          
         borderRadius: "8px",
         display: "inline-block", 
+        boxShadow:"0 1px 4px rgba(0, 251, 255, 0.75)"
       }}
     >
-      <Typography fontSize={30} fontWeight="bold" mb={3}>
+      <Typography sx={{fontSize:30}}  fontWeight="bold" mb={3}>
         {heading}
       </Typography>
       {children}

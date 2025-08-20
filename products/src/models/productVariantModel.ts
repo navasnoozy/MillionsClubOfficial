@@ -12,23 +12,27 @@ const productVariantModel = new Schema({
   },
   images: [
     {
-      type: String,
+      url: String,
+      publicId: String,
     },
   ],
   productId: {
-    type:  Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: "Product",
     required: true,
   },
-    isActive: {
-     type: Boolean
+  isActive: {
+    type: Boolean,
   },
 });
 
-productVariantModel.post('findOneAndDelete', async (doc)=>{
+productVariantModel.post("findOneAndDelete", async (doc) => {
   if (!doc) return;
-  await Product.updateMany({ variantIds: doc._id}, {$pull:{variantIds: doc._id}})
-})
+  await Product.updateMany(
+    { variantIds: doc._id },
+    { $pull: { variantIds: doc._id } }
+  );
+});
 
 export const ProductVariants = mongoose.model(
   "ProductVariants",

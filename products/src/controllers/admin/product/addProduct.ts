@@ -15,6 +15,7 @@ const addProduct = async (req: Request, res: Response, next: NextFunction) => {
       categoryId,
       subCategoryId,
       basePrice,
+      images,
       description,
       isActive,
     }: AddProductSchema = req.body;
@@ -31,6 +32,7 @@ const addProduct = async (req: Request, res: Response, next: NextFunction) => {
       categoryId,
       subCategoryId,
       basePrice,
+      images,
       description,
       isActive,
     };

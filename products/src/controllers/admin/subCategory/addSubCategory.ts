@@ -5,8 +5,7 @@ import { Subcategory } from "../../../models/subCategory";
 
 const addSubCategory = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const parentCategoryId = req.params.id;
-    const { name, slug } = req.body;
+    const { name, slug, parentCategoryId } = req.body;
 
     const category = await Category.findById(parentCategoryId);
     if (!category) {

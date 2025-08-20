@@ -22,6 +22,12 @@ const productSchema = new Schema({
      type: Number,
 
   },
+  images: [
+    {
+      url: String,
+      publicId: String,
+    },
+  ],
   description:{
      type: String
   },
