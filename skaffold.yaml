@@ -15,7 +15,9 @@ build:
       sync:
         manual:
           - src: "src/**/*.ts"
-            dest: .
+            dest: /app/src
+
+
     - image: navasnoozy/client
       context: client
       docker:
@@ -23,7 +25,17 @@ build:
       sync:
         manual:
           - src: "src/**/*.ts"
-            dest: .
+            dest: /app/src
+          - src: "src/**/*.tsx"
+            dest: /app/src
+          - src: "src/**/*.js"
+            dest: /app/src
+          - src: "src/**/*.jsx"
+            dest: /app/src
+          - src: "public/**/*"
+            dest: /app/public
+
+
     - image: navasnoozy/products
       context: products
       docker:
@@ -31,7 +43,9 @@ build:
       sync:
         manual:
           - src: "src/**/*.ts"
-            dest: .
+            dest: /app/src
+
+
     # - image: navasnoozy/query
     #   context: query
     #   docker:
@@ -46,8 +60,6 @@ build:
     #     dockerfile: Dockerfile
 
 
-
-    
 
 manifests:
   rawYaml:

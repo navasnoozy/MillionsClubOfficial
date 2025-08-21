@@ -1,40 +1,37 @@
-import FormControl from "@mui/material/FormControl";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
-import type { SelectChangeEvent } from "@mui/material/Select";
+import { FormControl, Select, MenuItem, FormHelperText } from '@mui/material';
+import type { SelectChangeEvent } from '@mui/material/Select';
+
+type Option = { _id: string; name: string };
 
 type DropdownProps = {
-  value: string | undefined; // Accept undefined
+  value: string;
   onChange: (event: SelectChangeEvent<string>) => void;
-  options: { _id: string; name: string; slug: string }[];
+  options: Option[];
   label?: string;
   errorMessage?: string;
+  disabled?: boolean;
 };
 
-const Dropdown = ({ value, onChange, options, label, errorMessage }: DropdownProps) => {
+const Dropdown = ({ value, onChange, options, label, errorMessage, disabled }: DropdownProps) => {
   return (
-    <FormControl sx={{ m: 1, width: 300 }} error={!!errorMessage}>
+    <FormControl sx={{ width: 300 }} size="small" error={!!errorMessage}>
       <Select
-        value={value || ""} 
+        value={value}
         onChange={onChange}
         displayEmpty
-        inputProps={{ "aria-label": label || "select" }}
-        size="small"
+        disabled={disabled}
+        inputProps={{ 'aria-label': label || 'select' }}
       >
         <MenuItem value="" disabled>
-          {label || "Select an option"}
+          {label || 'Select'}
         </MenuItem>
-        {options.map((option) => (
-          <MenuItem key={option._id} value={option._id}>
-            {option.name}
+        {options.map((opt) => (
+          <MenuItem key={opt._id} value={opt._id}>
+            {opt.name}
           </MenuItem>
         ))}
       </Select>
-      {errorMessage && (
-        <p style={{ color: "#d32f2f", fontSize: "0.75rem", marginTop: "3px" }}>
-          {errorMessage}
-        </p>
-      )}
+      {errorMessage && <FormHelperText>{errorMessage}</FormHelperText>}
     </FormControl>
   );
 };

@@ -1,5 +1,9 @@
-node_modulesnode_modules
-dist
-npm-debug.log
+node_modules
 .git
-Dockerfile
+*.log
+.env
+dist
+build
+coverage
+*.md
+.DS_Store

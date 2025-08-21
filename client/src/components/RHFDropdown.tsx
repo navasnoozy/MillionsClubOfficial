@@ -1,27 +1,30 @@
 import { Controller, useFormContext } from "react-hook-form";
 import Dropdown from "./Dropdown";
 
+type Option = { _id: string; name: string };
+
 type RHFDropdownProps = {
   name: string;
-  options: { _id: string; name: string; slug: string }[];
+  options: Option[];
   label?: string;
+  disabled?: boolean;
 };
 
-const RHFDropdown = ({ name, options, label }: RHFDropdownProps) => {
+const RHFDropdown = ({ name, options, label, disabled }: RHFDropdownProps) => {
   const { control, formState: { errors } } = useFormContext();
 
   return (
     <Controller
       name={name}
       control={control}
-      defaultValue="" // This ensures we always have a string value
-      render={({ field: { value, onChange, ...field } }) => (
+      defaultValue=""
+      render={({ field: { value, onChange } }) => (
         <Dropdown
-          {...field}
-          value={value || ""} // Convert undefined/null to empty string
+          value={value || ""}
           onChange={onChange}
           options={options}
           label={label}
+          disabled={disabled}
           errorMessage={errors[name]?.message as string}
         />
       )}

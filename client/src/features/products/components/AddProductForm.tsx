@@ -1,14 +1,11 @@
-import type { AddProductSchema } from "@millionsclub/shared-libs/client";
-import {
-  Stack,
-  TextField
-} from "@mui/material";
-import { Controller, useFormContext } from "react-hook-form";
-import ErrorMessages from "../../../components/errorMessge";
-import RHFDropdown from "../../../components/RHFDropdown";
-import useCategories from "../../categories/hooks/useCategories";
-import TongleButton from "./Switch";
-
+import { Stack, TextField } from '@mui/material';
+import { Controller, useFormContext, useWatch } from 'react-hook-form';
+import ErrorMessages from '../../../components/errorMessge';
+import RHFDropdown from '../../../components/RHFDropdown';
+import useCategories from '../../categories/hooks/useCategories';
+import TongleButton from './Switch';
+import type { AddProductSchema } from '@millionsclub/shared-libs/client';
+import { useEffect } from 'react';
 
 type Props = {
   isLoading: boolean;
@@ -20,16 +17,27 @@ const AddProductForm = ({ isLoading, isError, errors }: Props) => {
   const {
     register,
     control,
+    setValue,
     formState: { errors: formErrors },
   } = useFormContext<AddProductSchema>();
 
-  const {data:categories} = useCategories();
+  const { data: categories = [] } = useCategories();
 
+  // Watch selected categoryId
+  const selectedCategoryId = useWatch({ control, name: 'categoryId' });
+
+  // Reset subcategory when category changes
+  useEffect(() => {
+    setValue('subCategoryId', '');
+  }, [selectedCategoryId, setValue]);
+
+  // Find the selected category's subcategories
+  const subcategories = categories.find((cat) => cat._id === selectedCategoryId)?.subcategories || [];
 
   return (
-    <Stack spacing={3} width={"100%"} height={"100%"} justifyContent={'space-between'}>
+    <Stack spacing={3} width="100%" height="100%">
       <TextField
-        {...register("title")}
+        {...register('title')}
         label="Title"
         variant="standard"
         error={!!formErrors.title}
@@ -38,7 +46,7 @@ const AddProductForm = ({ isLoading, isError, errors }: Props) => {
       />
 
       <TextField
-        {...register("brand")}
+        {...register('brand')}
         label="Brand"
         variant="standard"
         error={!!formErrors.brand}
@@ -46,28 +54,13 @@ const AddProductForm = ({ isLoading, isError, errors }: Props) => {
         fullWidth
       />
 
-      <Stack
-        direction={{ xs: "column", sm: "row" }}
-        sx={{ width: "100%", alignItems: "center" }}
-      >
-        {categories && (
-          <RHFDropdown
-            name="categoryId"
-            options={categories}
-            label="Category"
-          />
-        )}
-        {/* {subCategories && (
-          <RHFDropdown
-            name="subCategoryId"
-            options={subCategories}
-            label="SubCategory"
-          />
-        )} */}
+      <Stack justifyContent='center' alignItems='center' gap={3} flexDirection={{xs:'column', sm:'row'}} >
+        <RHFDropdown name="categoryId" options={categories} label="Category" />
+        <RHFDropdown name="subcategoryId" options={subcategories} label="Subcategory" disabled={!selectedCategoryId} />
       </Stack>
 
       <TextField
-        {...register("basePrice")}
+        {...register('basePrice')}
         type="number"
         label="Base Price"
         variant="standard"
@@ -77,7 +70,7 @@ const AddProductForm = ({ isLoading, isError, errors }: Props) => {
       />
 
       <TextField
-        {...register("description")}
+        {...register('description')}
         label="Description"
         variant="outlined"
         multiline
