@@ -1,10 +1,9 @@
-import type { AddSubCategory } from "@millionsclub/shared-libs/client";
-import { Stack, TextField } from "@mui/material";
-import { useFormContext } from "react-hook-form";
-import Dropdown from "../../../components/Dropdown";
-import ErrorMessages from "../../../components/errorMessge";
-import useCategories from "../hooks/useCategories";
-// import useCategories from "../../categories/hooks/useCategories";
+import type { AddSubCategory } from '@millionsclub/shared-libs/client';
+import { Stack, TextField } from '@mui/material';
+import { useFormContext } from 'react-hook-form';
+import ErrorMessages from '../../../components/errorMessge';
+import RHFDropdown from '../../../components/RHFDropdown';
+import useCategories from '../hooks/useCategories';
 
 type Props = {
   isLoading: boolean;
@@ -21,14 +20,9 @@ const AddSubCategoryForm = ({ isLoading, isError, errors }: Props) => {
   } = useFormContext<AddSubCategory>();
 
   return (
-    <Stack
-      spacing={3}
-      width={"100%"}
-      height={"100%"}
-      justifyContent={"space-between"}
-    >
+    <Stack spacing={3} width={'100%'} height={'100%'} alignItems="center">
       <TextField
-        {...register("name")}
+        {...register('name')}
         label="Category Name"
         variant="standard"
         error={!!formErrors.name}
@@ -37,7 +31,7 @@ const AddSubCategoryForm = ({ isLoading, isError, errors }: Props) => {
       />
 
       <TextField
-        {...register("slug")}
+        {...register('slug')}
         label="Category Slug"
         variant="standard"
         error={!!formErrors.slug}
@@ -45,13 +39,9 @@ const AddSubCategoryForm = ({ isLoading, isError, errors }: Props) => {
         fullWidth
       />
 
-      {categories && (
-        <Dropdown
-          fieldname="parentCategoryId"
-          options={categories}
-          label="Select Main Category"
-        />
-      )}
+      <Stack>
+        {categories && <RHFDropdown name="parentCategoryId" options={categories} label="Select Main Category" />}
+      </Stack>
 
       {isError && <ErrorMessages errors={errors} />}
     </Stack>

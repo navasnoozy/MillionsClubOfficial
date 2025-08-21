@@ -1,13 +1,16 @@
-import type { AddCategory } from "@millionsclub/shared-libs/client";
-import { useMutation } from "@tanstack/react-query";
-import axiosInstance from "../../../lib/axios";
+import type { AddCategory } from '@millionsclub/shared-libs/client';
+import { useMutation } from '@tanstack/react-query';
+import axiosInstance from '../../../lib/axios';
+import queryClient from '../../../lib/queryClient';
 
 const useAddCategory = () => {
   return useMutation({
-    mutationKey: ["category"],
     mutationFn: async (data: AddCategory) => {
-      const res = await axiosInstance.post("/api/products/category/add", data);
+      const res = await axiosInstance.post('/api/products/category/add', data);
       return res.data.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['categories'] });
     },
   });
 };

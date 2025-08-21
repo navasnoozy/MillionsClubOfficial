@@ -2,6 +2,8 @@ import axios from "axios";
 
 const handleApiError = (error: unknown, setError: (errors: any[]) => void) => {
   if (axios.isAxiosError(error)) {
+    console.log('axios error', error);
+    
     const errors = error.response?.data?.error || [
       { message: "An unexpected error occurred", field: "general" },
     ];

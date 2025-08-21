@@ -24,6 +24,7 @@ const AddCategoryPage = () => {
     addCategory(data, {
       onSuccess: () => {
         navigate(`/admin/categorymanagement`);
+        methods.reset()
       },
       onError: (error) => handleApiError(error, setError),
     });

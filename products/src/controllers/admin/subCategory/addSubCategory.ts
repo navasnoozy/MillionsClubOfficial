@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { Category } from "../../../models/categoryModel";
 import { Subcategory } from "../../../models/subCategory";
-import { sendResponse } from "@millionsclub/shared-libs/server";
+import { BadRequestError, sendResponse } from "@millionsclub/shared-libs/server";
 
 
 const addSubCategory = async (req: Request, res: Response, next: NextFunction) => {
@@ -17,8 +17,7 @@ const addSubCategory = async (req: Request, res: Response, next: NextFunction) =
     // Check for existing subcategory under this parent with same name
     const existing = await Subcategory.findOne({ name, parentCategoryId });
     if (existing) {
-      res.status(409).json({ message: "Subcategory with this name already exists under this category" });
-       return
+    throw new BadRequestError("Subcategory with this name already exists under this category")
     }
 
     // Create subcategory
