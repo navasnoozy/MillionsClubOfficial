@@ -5,7 +5,7 @@ const useProducts = () =>
   useQuery({
     queryKey: ["products"],
     queryFn: async () => {const res = await axiosInstance.get("/api/products/list")
-       return res.data
+       return res.data.data
     },
     staleTime: 1000*60*60*24
   });

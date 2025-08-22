@@ -19,11 +19,11 @@ const ImageFrame = () => {
         >
           <Box
             component="img"
-            src={src}
+            src={'/imageplaceholder.png'}
             alt="image"
             loading="lazy"
             sx={{
-              objectFit: "cover",
+              objectFit: "unset",
               width: "100%",
               height: "100%",
               display: "block",

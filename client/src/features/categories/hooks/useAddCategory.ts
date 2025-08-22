@@ -1,9 +1,10 @@
 import type { AddCategory } from '@millionsclub/shared-libs/client';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axiosInstance from '../../../lib/axios';
-import queryClient from '../../../lib/queryClient';
 
 const useAddCategory = () => {
+  const queryClient = useQueryClient ();
+  
   return useMutation({
     mutationFn: async (data: AddCategory) => {
       const res = await axiosInstance.post('/api/products/category/add', data);

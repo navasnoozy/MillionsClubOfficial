@@ -1,7 +1,19 @@
 import { Box } from "@mui/material";
 import CloudinaryUploadWidget from "../../../components/uploadWidget";
+import { useFormContext } from "react-hook-form";
+import type { AddProductSchema } from "@millionsclub/shared-libs/client";
 
 const AddImageButton = () => {
+  const {setValue, getValues, trigger} = useFormContext<AddProductSchema>()
+
+  const handleUpload = (image :{url:string, publicId:string})=>{
+         const current = getValues('images') || [];
+         const next = [...current, image].slice(0,4);
+         setValue('images', next,  { shouldDirty: true, shouldTouch: true });
+         trigger('images')
+  }
+
+
   return (
     <Box
       className="add-image-btn"
@@ -12,10 +24,11 @@ const AddImageButton = () => {
         transform: "translate(-50%, -50%)",
         zIndex: 10,
         opacity: 0,
+        boxShadow: "0px 2px 4px rgba(0, 0, 0, 1)",
         transition: "opacity 0.3s ease",
       }}
     >
-      <CloudinaryUploadWidget folderName="prido" />
+      <CloudinaryUploadWidget folderName="prido" onUploadSuccess={handleUpload}  />
     </Box>
   );
 };
