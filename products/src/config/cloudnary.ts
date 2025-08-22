@@ -9,6 +9,15 @@ cloudinary.config({
 
 export default cloudinary;
 
+
+
+
+
+
+
+
+
+
 //     // Upload an image
 //      const uploadResult = await cloudinary.uploader
 //        .upload(

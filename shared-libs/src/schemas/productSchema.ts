@@ -33,8 +33,8 @@ export const productBaseSchema = z.object({
   images: z
     .array(
       z.object({
-        url: z.url({ message: "Each image must be a valid URL" }),
-        publicId: z
+        secure_url: z.url({ message: "Each image must be a valid URL" }),
+        public_id: z
           .string("Invalid publicId")
           .min(1, { message: "Public id is required" }),
       })
