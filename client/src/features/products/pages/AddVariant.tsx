@@ -46,7 +46,6 @@ const AddVariant = () => {
           <Grid container spacing={3}>
           <Grid display={"flex"}  size={{xs:12, md:6}} >
             <AddVariantForm
-              isLoading={isPending}
               isError={isError}
               errors={errors}
             />

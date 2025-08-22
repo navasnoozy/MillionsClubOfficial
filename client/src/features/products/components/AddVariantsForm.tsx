@@ -8,12 +8,11 @@ import ErrorMessages from "../../../components/errorMessge";
 import TongleButton from "./Switch";
 
 type Props = {
-  isLoading: boolean;
   isError: boolean;
   errors: { message: string; field: string }[];
 };
 
-const AddVariantForm = ({ isLoading, isError, errors }: Props) => {
+const AddVariantForm = ({ isError, errors }: Props) => {
   // ✅ Get access from FormProvider
   const {
     register,

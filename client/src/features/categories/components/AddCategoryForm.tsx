@@ -5,12 +5,11 @@ import ErrorMessages from "../../../components/errorMessge";
 // import useCategories from "../../categories/hooks/useCategories";
 
 type Props = {
-  isLoading: boolean;
   isError: boolean;
   errors: { message: string; field: string }[];
 };
 
-const AddCategoryForm = ({ isLoading, isError, errors }: Props) => {
+const AddCategoryForm = ({ isError, errors }: Props) => {
   const {
     register,
     formState: { errors: formErrors },

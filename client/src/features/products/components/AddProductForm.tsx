@@ -8,12 +8,11 @@ import type { AddProductSchema } from '@millionsclub/shared-libs/client';
 import { useEffect } from 'react';
 
 type Props = {
-  isLoading: boolean;
   isError: boolean;
   errors: { message: string; field: string }[];
 };
 
-const AddProductForm = ({ isLoading, isError, errors }: Props) => {
+const AddProductForm = ({ isError, errors }: Props) => {
   const {
     register,
     control,

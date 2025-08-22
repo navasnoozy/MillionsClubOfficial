@@ -1,5 +1,4 @@
 
-const public_id: string = 'productsImages/cbhtwgyejwcy3d1zknxo'
 const HomePage = () => {
   return (
     <div>

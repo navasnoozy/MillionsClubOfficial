@@ -36,7 +36,6 @@ const AddCategoryPage = () => {
         <form onSubmit={methods.handleSubmit(handleAddCategory)}>
           <Stack spacing={3}>
             <AddCategoryForm
-              isLoading={isPending}
               isError={isError}
               errors={errors}
             />

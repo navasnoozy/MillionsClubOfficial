@@ -7,13 +7,11 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import useProducts from "../hooks/useProducts";
 import TongleButton from "../components/Switch";
 import tableHeadings from "../config/tableHeading";
 import Panel from "../components/Panel";
 
 const ProductManagement = () => {
-  const { data: products } = useProducts();
 
   return (
     <Box display="grid" gridAutoRows="auto" rowGap={2}>

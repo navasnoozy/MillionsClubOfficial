@@ -41,7 +41,6 @@ const AddSubCategoryPage = () => {
         <form onSubmit={methods.handleSubmit(handleAddSubCategories)}>
           <Stack spacing={3}>
             <AddSubCategoryForm
-              isLoading={isPending}
               isError={isError}
               errors={errors}
             />

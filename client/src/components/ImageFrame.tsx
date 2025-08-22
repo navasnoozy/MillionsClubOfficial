@@ -3,6 +3,7 @@ import AddImageButton from '../features/products/components/AddImageButton';
 import { Box } from '@mui/material';
 import { useFormContext, useWatch } from 'react-hook-form';
 import type { AddProductSchema } from '@millionsclub/shared-libs/client';
+import CloudinaryDeleteButton from './CloudinaryDeleteButton';
 
 const ImageFrame = () => {
   const { control } = useFormContext<AddProductSchema>();
@@ -11,8 +12,6 @@ const ImageFrame = () => {
   const images: { secure_url: string; public_id: string }[] = watched;
 
   const padded = [...images, ...Array(Math.max(0, 4 - images.length)).fill(null)];
-
-  console.log('checking padded', padded);
 
   return (
     <>
@@ -23,7 +22,7 @@ const ImageFrame = () => {
           rows={index === 0 ? 2 : 1}
           sx={{
             position: 'relative',
-            '&:hover .add-image-btn': { opacity: 1 },
+            '&:hover .add-image-btn, &:hover .delete-image-btn': { opacity: 1 },
           }}
         >
           <Box
@@ -39,7 +38,8 @@ const ImageFrame = () => {
             }}
           />
 
-          <AddImageButton />
+          {!item && <AddImageButton />}
+          {item?.public_id && <CloudinaryDeleteButton public_id={item?.public_id} />}
         </ImageListItem>
       ))}
     </>

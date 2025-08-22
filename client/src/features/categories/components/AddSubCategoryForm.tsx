@@ -6,12 +6,11 @@ import RHFDropdown from '../../../components/RHFDropdown';
 import useCategories from '../hooks/useCategories';
 
 type Props = {
-  isLoading: boolean;
   isError: boolean;
   errors: { message: string; field: string }[];
 };
 
-const AddSubCategoryForm = ({ isLoading, isError, errors }: Props) => {
+const AddSubCategoryForm = ({ isError, errors }: Props) => {
   const { data: categories } = useCategories();
 
   const {
