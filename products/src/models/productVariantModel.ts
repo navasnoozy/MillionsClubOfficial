@@ -12,8 +12,8 @@ const productVariantModel = new Schema({
   },
   images: [
     {
-      url: String,
-      publicId: String,
+      secure_url: String,
+      public_id: String,
     },
   ],
   productId: {

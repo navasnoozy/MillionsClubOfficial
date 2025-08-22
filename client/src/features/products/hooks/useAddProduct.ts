@@ -7,8 +7,8 @@ const useAddProduct = () => {
   
   return useMutation({
     mutationFn: async (product: AddProductSchema) => {
-      const { data } = await axiosInstance.post('/api/products/add', product);
-      return data;
+      const res= await axiosInstance.post('/api/products/add', product);
+      return res.data.data;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['products'] });

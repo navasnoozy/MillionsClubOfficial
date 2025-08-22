@@ -24,7 +24,7 @@ interface CloudinaryWidget {
 
 interface UploadWidgetProps {
   folderName: string;
-  onUploadSuccess: (image:{url:string, publicId:string})=> void
+  onUploadSuccess: (image:{secure_url:string, public_id:string})=> void
  
 }
 
@@ -39,8 +39,8 @@ const CloudinaryUploadWidget = ({ folderName: folder, onUploadSuccess }: UploadW
     }
     if (result?.event === 'success') {
       const image = {
-        url: result.info.secure_url,
-        publicId: result.info.public_id
+        secure_url: result.info.secure_url,
+        public_id: result.info.public_id
       };
       onUploadSuccess?.(image)
     }

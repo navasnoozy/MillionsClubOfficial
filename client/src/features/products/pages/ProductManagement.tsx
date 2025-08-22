@@ -10,7 +10,6 @@ import {
 import useProducts from "../hooks/useProducts";
 import TongleButton from "../components/Switch";
 import tableHeadings from "../config/tableHeading";
-import exampleRow from "../../../data/sampleProducts";
 import Panel from "../components/Panel";
 
 const ProductManagement = () => {

@@ -1,9 +1,9 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import axiosInstance from "../lib/axios";
 
-const useDeleteImage = (public_id: string) =>
+const useDeleteImage = () =>
   useMutation({
-    mutationFn: async () => {
+    mutationFn: async (public_id:string) => {
       const res = await axiosInstance.get("/api/image", {
         params: { public_id },
       });
