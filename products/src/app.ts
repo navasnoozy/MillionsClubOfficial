@@ -6,11 +6,13 @@ import adminRouter from "./routes/adminRoutes";
 import userRouter from "./routes/userRoutes";
 import imageRouter from "./routes/imageRoutes";
 
+dotenv.config();
+
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-dotenv.config();
+
 
 app.set("trust proxy", true);
 

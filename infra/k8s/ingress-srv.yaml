@@ -12,14 +12,21 @@ spec:
     - host: millionsclub.local
       http:
         paths:
-          - path: /api/users/.*
+          - path: /api/users(/|$)(.*)
             pathType: ImplementationSpecific
             backend:
               service:
                 name: auth-service
                 port:
                   number: 3000
-          - path: /api/products/.*
+          - path: /api/products(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: products-service 
+                port:
+                  number: 3000
+          - path: /api/image(/|$)(.*)
             pathType: ImplementationSpecific
             backend:
               service:

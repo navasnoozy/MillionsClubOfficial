@@ -6,6 +6,6 @@ import { deleteCloudinaryImage } from "../controllers/image/deleteImage";
 const imageRouter = Router();
 
 imageRouter.get("/api/image/signature", generateCloudinarySignature);
-imageRouter.delete("/api/image/:publicId", deleteCloudinaryImage);
+imageRouter.delete("/api/image", deleteCloudinaryImage);
 
 export default imageRouter;

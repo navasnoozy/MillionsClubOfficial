@@ -1,3 +1,4 @@
+//products/src/config/cloudnary.ts
 import { v2 as cloudinary } from "cloudinary";
 
 // Configuration

@@ -4,16 +4,18 @@ import cloudinary from '../../config/cloudnary';
 
 const deleteCloudinaryImage = async (req: Request, res: Response, next: NextFunction) => {
   try {
-     const {public_id} = req.params;
+    const { public_id } = req.query;
 
-     if (!public_id) throw new BadRequestError ('No image id found');
+    if (!public_id || typeof public_id !== 'string') {
+      throw new BadRequestError('No valid image id found');
+    }
 
-     const result = await cloudinary.uploader.destroy(public_id);
 
-     if (result.result !== "ok") throw new BadRequestError('Image not found or already deleted');
+    const result = await cloudinary.uploader.destroy(public_id);
 
-     sendResponse(res, 200,{success:true})
+    if (result.result !== 'ok') throw new BadRequestError('Image not found or already deleted');
 
+    sendResponse(res, 200, { success: true });
   } catch (error) {
     console.log('Error while deleting image from cloudinary', error);
     next(error);
