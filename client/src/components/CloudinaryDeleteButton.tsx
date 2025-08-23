@@ -22,13 +22,14 @@ const CloudinaryDeleteButton = ({ public_id }: { public_id: string }) => {
       className="delete-image-btn"
       sx={{
         position: 'absolute',
-        top: '50%',
-        right: '50%',
-        transform: 'translate(-50%, -50%)',
+        top: '5%',
+        right: '5%',
+        transform: 'translate(-5%, -5%)',
         zIndex: 12,
         opacity: 0,
         boxShadow: '0px 2px 4px rgba(0, 0, 0, 1)',
         transition: 'opacity 0.3s ease',
+        borderRadius:'50%'
       }}
     >
       <DeleteButton handleOnClick={handleClick} isPending={isPending} />

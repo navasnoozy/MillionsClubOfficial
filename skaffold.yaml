@@ -24,16 +24,21 @@ build:
         dockerfile: Dockerfile
       sync:
         manual:
-          - src: "src/**/*.ts"
-            dest: /app/src
-          - src: "src/**/*.tsx"
-            dest: /app/src
-          - src: "src/**/*.js"
-            dest: /app/src
-          - src: "src/**/*.jsx"
-            dest: /app/src
-          - src: "public/**/*"
-            dest: /app/public
+        - src: "src/**"
+          dest: /app
+        #   strip: "src/"
+        # - src: "src/**/*.tsx"
+        #   dest: /app/src
+        #   strip: "src/"
+        # - src: "src/**/*.js"
+        #   dest: /app/src
+        #   strip: "src/"
+        # - src: "src/**/*.jsx"
+        #   dest: /app/src
+        #   strip: "src/"
+        # - src: "public/**/*"
+        #   dest: /app/public
+        #   strip: "public/"
 
 
     - image: navasnoozy/products
