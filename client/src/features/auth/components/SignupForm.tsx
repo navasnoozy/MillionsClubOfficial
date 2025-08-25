@@ -81,7 +81,7 @@ const SignupForm = ({ onSubmit, isLoading, isError, errors }: Props) => {
           {isLoading && <CircularProgress sx={{ marginLeft: 1 }} size="2rem" />}
         </Button>
 
-        <Typography>
+        <Typography sx={{textWrap:'nowrap', display:"flex", justifyContent:'center', gap:1}}>
           Already have an account?{" "}
           <AppLink
             to={"/signin"}

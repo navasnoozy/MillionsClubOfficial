@@ -4,7 +4,6 @@ import axios from "axios";
 import { useState } from "react";
 
 import type { SignupSchema } from "@millionsclub/shared-libs/client";
-import { useAuthRedirect } from "../hooks/useAuthRedirect";
 import useSignupUser from "../hooks/useSignup";
 import CardContainer from "../../../components/CardContainer";
 import SignupForm from "../components/SignupForm";
@@ -18,7 +17,7 @@ const SignupPage = () => {
 
   const { mutate: signup, isPending: signupLoading, isError } = useSignupUser();
 
-  useAuthRedirect();
+  // useAuthRedirect();
 
   const handleSignup = (data: SignupSchema) => {
     signup(data, {

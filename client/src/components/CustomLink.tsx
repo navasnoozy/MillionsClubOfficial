@@ -15,6 +15,7 @@ const AppLink = forwardRef<HTMLAnchorElement, AppLinkProps>((props, ref) => {
       ref={ref}
       underline="hover"
       {...muiProps}
+      sx={{display:'flex'}}
     />
   );
 });
