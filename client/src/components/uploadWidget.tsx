@@ -1,7 +1,8 @@
 import { useEffect, useRef, useCallback } from 'react';
-import useCloudinarySignature from '../hooks/useCloudnary';
+import useCloudinaryConfig from '../hooks/useCloudnary';
 import { Button } from '@mui/material';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
+import axiosInstance from '../lib/axios';
 
 declare global {
   interface Window {
@@ -26,7 +27,7 @@ interface UploadWidgetProps {
 }
 
 const CloudinaryUploadWidget = ({ folderName: folder, onUploadSuccess }: UploadWidgetProps) => {
-  const { data } = useCloudinarySignature(folder);
+  const { data: config } = useCloudinaryConfig(folder);
   const widgetRef = useRef<CloudinaryWidget | null>(null);
 
   const handleUploadResult = useCallback(
@@ -46,35 +47,52 @@ const CloudinaryUploadWidget = ({ folderName: folder, onUploadSuccess }: UploadW
     [onUploadSuccess]
   );
 
+  // Dynamic signature generation function
+  const generateSignature = useCallback(
+    async (callback: (signature: string) => void, paramsToSign: Record<string, any>) => {
+      try {
+        
+        const response = await axiosInstance.post('/api/image/signature', {
+          params: paramsToSign
+        });
+        
+        const signature = response.data.data.signature;
+        callback(signature);
+      } catch (error) {
+        console.error('Error generating signature:', error);
+      }
+    },
+    []
+  );
+
   // Creates widget configuration
   const createWidgetConfig = useCallback(() => {
-    if (!data) return null;
+    if (!config) return null;
 
     return {
-      cloudName: data.cloud_name,
-      apiKey: data.api_key,
-      uploadSignature: data.signature,
-      uploadSignatureTimestamp: data.timestamp,
+      cloudName: config.cloud_name,
+      apiKey: config.api_key,
+      uploadSignature: generateSignature, // Use function instead of string
       folder,
       sources: ['local', 'url'],
-      cropping: true, 
-      croppingAspectRatio: 1, 
+      cropping: true,
+      croppingAspectRatio: 1,
       croppingDefaultSelectionRatio: 1,
       transformation: [{ width: 2048, height: 2048, crop: 'fill' }],
-      multiple: true,
+      multiple: false, // Changed to false since maxFiles is 1
       maxFiles: 1,
       resourceType: 'image',
       tags: ['temp'],
     };
-  }, [data, folder]);
+  }, [config, folder, generateSignature]);
 
   // Initializes the Cloudinary widget
   const initializeWidget = useCallback(() => {
-    const config = createWidgetConfig();
-    if (!config || !window.cloudinary) return;
+    const widgetConfig = createWidgetConfig();
+    if (!widgetConfig || !window.cloudinary) return;
 
     try {
-      widgetRef.current = window.cloudinary.createUploadWidget(config, handleUploadResult);
+      widgetRef.current = window.cloudinary.createUploadWidget(widgetConfig, handleUploadResult);
       console.log('Cloudinary upload widget created successfully');
     } catch (error) {
       console.error('Error creating cloudinary widget:', error);
@@ -88,8 +106,8 @@ const CloudinaryUploadWidget = ({ folderName: folder, onUploadSuccess }: UploadW
 
   // Determines if widget is ready to use
   const isWidgetReady = useCallback(() => {
-    return Boolean(data);
-  }, [data]);
+    return Boolean(config);
+  }, [config]);
 
   // Creates button styles
   const getButtonStyles = useCallback(

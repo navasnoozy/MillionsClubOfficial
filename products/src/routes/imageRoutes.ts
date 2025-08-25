@@ -1,11 +1,14 @@
 import { Router } from "express";
-import { generateCloudinarySignature } from "../controllers/image/generateSignature";
+
 import { deleteCloudinaryImage } from "../controllers/image/deleteImage";
+import { getCloudinaryConfig } from "../controllers/image/getCloudinaryConfig";
+import { generateCloudinarySignature } from "../controllers/image/generateCloudinarySignature";
 
 
 const imageRouter = Router();
 
-imageRouter.get("/api/image/signature", generateCloudinarySignature);
+imageRouter.get("/api/image/config", getCloudinaryConfig);
+imageRouter.post("/api/image/signature", generateCloudinarySignature);
 imageRouter.delete("/api/image", deleteCloudinaryImage);
 
 export default imageRouter;

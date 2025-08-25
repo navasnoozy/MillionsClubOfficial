@@ -1,19 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import axiosInstance from "../lib/axios";
-import type { CloudinarySignatureResponse } from "@millionsclub/shared-libs/client";
 
-const useCloudinarySignature = (folder: string) =>
-  useQuery<CloudinarySignatureResponse>({
-    queryKey: ["cloudinarySecret", folder],
+const useCloudinaryConfig = (folder: string) =>
+  useQuery({
+    queryKey: ["cloudinaryConfig", folder],
     queryFn: async () => {
-      const res = await axiosInstance.get("/api/image/signature", {
+      const res = await axiosInstance.get("/api/image/config", {
         params: { folder },
       });
-
       return res.data.data;
     },
-    staleTime: 1000 * 60,
+    staleTime: 1000 * 60 * 5, // 5 minutes
     enabled: !!folder,
   });
 
-export default useCloudinarySignature;
+export default useCloudinaryConfig;
