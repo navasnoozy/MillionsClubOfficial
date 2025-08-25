@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import LinearProgress from "@mui/material/LinearProgress";
 import { useIsFetching } from "@tanstack/react-query";
 import { Outlet, useNavigation } from "react-router";
@@ -21,7 +21,7 @@ const AdminLayout = () => {
           sx={{
             height: "2px",
             position: "fixed",
-            top: 64, // Height of AppBar
+            top: 64, 
             left: 0,
             right: 0,
             zIndex: 1300,
@@ -29,14 +29,8 @@ const AdminLayout = () => {
         />
       )}
 
-      {/* Main content area with proper spacing */}
-      <Box 
-        sx={{
-          marginTop: "30px", // Space for fixed AppBar (default height)
-          paddingY: "20px",
-        }}
-      >
-        <Outlet /> 
+        <Box className='......navas.......' justifyContent={'center'} paddingY={"12px"} paddingTop={'80px'}>
+        <Outlet />
       </Box>
     </Box>
   );

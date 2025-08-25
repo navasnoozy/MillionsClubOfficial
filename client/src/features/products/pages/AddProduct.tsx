@@ -44,13 +44,7 @@ const AddProduct = () => {
               <Typography sx={{ fontSize: '15px' }}>
                 If you add images for variants, upload here is optional.
               </Typography>
-              <ImageList
-                variant="quilted"
-                cols={3}
-                rowHeight={200}
-                gap={4}
-                sx={{ border: '2px solid gray', borderRadius: 2 }}
-              >
+              <ImageList variant="standard" cols={4} gap={4} sx={{ border: '2px solid gray', borderRadius: 2 }}>
                 <ImageFrame />
               </ImageList>
             </Grid>

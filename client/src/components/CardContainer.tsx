@@ -1,5 +1,5 @@
-import { Card, Typography } from "@mui/material";
-import type { ReactNode } from "react";
+import { Card, Typography } from '@mui/material';
+import type { ReactNode } from 'react';
 
 interface Props {
   heading: string;
@@ -12,15 +12,16 @@ const CardContainer = ({ heading, children }: Props) => {
       variant="outlined"
       sx={{
         p: 4,
-        width: "fit-content", 
-        minWidth: '400px',
-        mx: "auto",          
-        borderRadius: "8px",
-        display: "inline-block", 
-        boxShadow:"0 1px 4px rgba(0, 251, 255, 0.75)"
+        width: { xs: '90%', sm: 'fit-content' },
+        minWidth: { sm: '400px' },
+
+        mx: 'auto',
+        borderRadius: '8px',
+        display: 'inline-block',
+        boxShadow: '0 1px 4px rgba(0, 251, 255, 0.75)',
       }}
     >
-      <Typography sx={{fontSize:30}}  fontWeight="bold" mb={3}>
+      <Typography sx={{ fontSize: 30 }} fontWeight="bold" mb={3}>
         {heading}
       </Typography>
       {children}
@@ -29,4 +30,3 @@ const CardContainer = ({ heading, children }: Props) => {
 };
 
 export default CardContainer;
-

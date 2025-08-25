@@ -19,9 +19,11 @@ const ImageFrame = () => {
         <ImageListItem
           key={item?.public_id || `empty-${index}`}
           cols={index === 0 ? 3 : 1}
-          rows={index === 0 ? 2 : 1}
+          rows={index === 0 ? 3 : 1}
           sx={{
             position: 'relative',
+            aspectRatio: '1 / 1',
+            overflow: 'hidden',
             '&:hover .add-image-btn, &:hover .delete-image-btn': { opacity: 1 },
           }}
         >
@@ -31,7 +33,9 @@ const ImageFrame = () => {
             alt="image"
             loading="lazy"
             sx={{
-              objectFit: 'cover',
+              aspectRatio: '1 / 1',
+              objectFit: 'contain',
+              overflow: 'hidden',
               width: '100%',
               height: '100%',
               display: 'block',
