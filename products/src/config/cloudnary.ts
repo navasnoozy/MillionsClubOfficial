@@ -1,6 +1,7 @@
 //products/src/config/cloudnary.ts
 import { v2 as cloudinary } from "cloudinary";
 
+
 // Configuration
 cloudinary.config({
   cloud_name: process.env.CLOUDNARY_NAME,

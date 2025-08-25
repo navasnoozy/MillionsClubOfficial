@@ -1,15 +1,23 @@
 import { Box } from '@mui/material';
 import useDeleteImage from '../hooks/useDeleteImage';
 import DeleteButton from './DeleteButton';
+import { useFormContext } from 'react-hook-form';
+import type { AddProductSchema } from '@millionsclub/shared-libs/client';
 
-const CloudinaryDeleteButton = ({ public_id }: { public_id: string }) => {
-  console.log('fronend public id', public_id);
-
+const CloudinaryDeleteButton = ({ public_id, index }: { public_id: string, index:number }) => {
+  const { setValue, watch } = useFormContext<AddProductSchema>();
   const { mutate: deleteImage, isPending } = useDeleteImage();
+
   const handleClick = () => {
     deleteImage(public_id, {
       onSuccess: () => {
         console.log('image deleted');
+
+        const current = watch ('images') ?? [];
+        const updatedImages = [...current];
+        updatedImages.splice(index,1)
+        setValue('images', updatedImages)
+
       },
       onError: () => {
         console.log('image couldnot delete');
@@ -29,7 +37,7 @@ const CloudinaryDeleteButton = ({ public_id }: { public_id: string }) => {
         opacity: 0,
         boxShadow: '0px 2px 4px rgba(0, 0, 0, 1)',
         transition: 'opacity 0.3s ease',
-        borderRadius:'50%'
+        borderRadius: '50%',
       }}
     >
       <DeleteButton handleOnClick={handleClick} isPending={isPending} />

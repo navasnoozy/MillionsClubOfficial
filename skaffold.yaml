@@ -15,7 +15,7 @@ build:
       sync:
         manual:
           - src: "src/**/*.ts"
-            dest: /app/src
+            dest: /app
 
 
     - image: navasnoozy/client
@@ -48,7 +48,7 @@ build:
       sync:
         manual:
           - src: "src/**/*.ts"
-            dest: /app/src
+            dest: /app
 
 
     # - image: navasnoozy/query

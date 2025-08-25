@@ -2,7 +2,6 @@ import { useEffect, useRef, useCallback } from 'react';
 import useCloudinarySignature from '../hooks/useCloudnary';
 import { Button } from '@mui/material';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
-   
 
 declare global {
   interface Window {
@@ -21,30 +20,31 @@ interface CloudinaryWidget {
   destroy: () => void;
 }
 
-
 interface UploadWidgetProps {
   folderName: string;
-  onUploadSuccess: (image:{secure_url:string, public_id:string})=> void
- 
+  onUploadSuccess: (image: { secure_url: string; public_id: string }) => void;
 }
 
 const CloudinaryUploadWidget = ({ folderName: folder, onUploadSuccess }: UploadWidgetProps) => {
   const { data } = useCloudinarySignature(folder);
   const widgetRef = useRef<CloudinaryWidget | null>(null);
 
-  const handleUploadResult = useCallback((error: unknown, result: any) => {
-    if (error) {
-      console.error('Upload error:', error);
-      return;
-    }
-    if (result?.event === 'success') {
-      const image = {
-        secure_url: result.info.secure_url,
-        public_id: result.info.public_id
-      };
-      onUploadSuccess?.(image)
-    }
-  }, [onUploadSuccess]);
+  const handleUploadResult = useCallback(
+    (error: unknown, result: any) => {
+      if (error) {
+        console.error('Upload error:', error);
+        return;
+      }
+      if (result?.event === 'success') {
+        const image = {
+          secure_url: result.info.secure_url,
+          public_id: result.info.public_id,
+        };
+        onUploadSuccess?.(image);
+      }
+    },
+    [onUploadSuccess]
+  );
 
   // Creates widget configuration
   const createWidgetConfig = useCallback(() => {
@@ -57,9 +57,14 @@ const CloudinaryUploadWidget = ({ folderName: folder, onUploadSuccess }: UploadW
       uploadSignatureTimestamp: data.timestamp,
       folder,
       sources: ['local', 'url'],
+      cropping: true, 
+      croppingAspectRatio: 1, 
+      croppingDefaultSelectionRatio: 1,
+      transformation: [{ width: 2048, height: 2048, crop: 'fill' }],
       multiple: true,
       maxFiles: 1,
-      resourceType: 'image', // or "auto" for all file types
+      resourceType: 'image',
+      tags: ['temp'],
     };
   }, [data, folder]);
 

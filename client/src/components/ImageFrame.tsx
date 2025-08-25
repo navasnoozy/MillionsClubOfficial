@@ -3,7 +3,7 @@ import AddImageButton from '../features/products/components/AddImageButton';
 import { Box } from '@mui/material';
 import { useFormContext, useWatch } from 'react-hook-form';
 import type { AddProductSchema } from '@millionsclub/shared-libs/client';
-import CloudinaryDeleteButton from './CloudinaryDeleteButton';
+import CloudinaryDeleteButton from './_CloudinaryDeleteButton';
 
 const ImageFrame = () => {
   const { control } = useFormContext<AddProductSchema>();
@@ -39,7 +39,7 @@ const ImageFrame = () => {
           />
 
           {!item && <AddImageButton />}
-          {item?.public_id && <CloudinaryDeleteButton public_id={item?.public_id} />}
+          {item?.public_id && <CloudinaryDeleteButton public_id={item?.public_id} index={index} />}
         </ImageListItem>
       ))}
     </>

@@ -16,10 +16,12 @@ const generateCloudinarySignature = async (req: Request, res: Response, next: Ne
     const paramsToSign = {
       folder,
       source: 'uw',
+      tags:['temp'],
       timestamp,
     };
 
-    const signature = cloudinary.utils.api_sign_request(paramsToSign, config.api_secret);
+    const signature = cloudinary.utils.api_sign_request(paramsToSign, config.api_secret); 
+
 
     const data: CloudinarySignatureResponse = {
       timestamp,
