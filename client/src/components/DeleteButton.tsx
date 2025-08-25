@@ -1,5 +1,5 @@
-import { IconButton, CircularProgress, Box } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { IconButton, CircularProgress, Box } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 type DeleteButtonProps = {
   isPending: boolean;
@@ -8,25 +8,25 @@ type DeleteButtonProps = {
 
 const DeleteButton = ({ isPending, handleOnClick }: DeleteButtonProps) => {
   return (
-    <Box sx={{ position: "relative", display: "inline-flex" }}>
+    <Box sx={{ display: 'inline-flex' }}>
       <IconButton
         onClick={handleOnClick}
         disabled={isPending}
-         sx={{ width: 40, height: 40 }}
+        sx={{
+          width: 40,
+          height: 40,
+          padding: '4px',
+        }}
       >
-        <DeleteIcon color="error"  />
+        {!isPending && <DeleteIcon color="error" sx={{ fontSize: '20px' }} />}
       </IconButton>
 
       {isPending && (
         <CircularProgress
           size={48}
+          thickness={4}
           sx={{
-            color: "error.main",
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            marginTop: "-24px", // half of size
-            marginLeft: "-24px",
+            color: 'error.main',
           }}
         />
       )}

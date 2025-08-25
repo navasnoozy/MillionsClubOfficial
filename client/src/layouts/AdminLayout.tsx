@@ -29,7 +29,7 @@ const AdminLayout = () => {
         />
       )}
 
-        <Box className='......navas.......' justifyContent={'center'} paddingY={"12px"} paddingTop={'80px'}>
+        <Box paddingY={"12px"} paddingTop={'80px'}>
         <Outlet />
       </Box>
     </Box>

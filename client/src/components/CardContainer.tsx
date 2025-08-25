@@ -14,7 +14,6 @@ const CardContainer = ({ heading, children }: Props) => {
         p: 4,
         width: { xs: '90%', sm: 'fit-content' },
         minWidth: { sm: '400px' },
-
         mx: 'auto',
         borderRadius: '8px',
         display: 'inline-block',

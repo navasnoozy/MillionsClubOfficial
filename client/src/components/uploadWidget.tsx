@@ -51,11 +51,10 @@ const CloudinaryUploadWidget = ({ folderName: folder, onUploadSuccess }: UploadW
   const generateSignature = useCallback(
     async (callback: (signature: string) => void, paramsToSign: Record<string, any>) => {
       try {
-        
         const response = await axiosInstance.post('/api/image/signature', {
-          params: paramsToSign
+          params: paramsToSign,
         });
-        
+
         const signature = response.data.data.signature;
         callback(signature);
       } catch (error) {
@@ -79,7 +78,7 @@ const CloudinaryUploadWidget = ({ folderName: folder, onUploadSuccess }: UploadW
       croppingAspectRatio: 1,
       croppingDefaultSelectionRatio: 1,
       transformation: [{ width: 2048, height: 2048, crop: 'fill' }],
-      multiple: false, // Changed to false since maxFiles is 1
+      multiple: false, 
       maxFiles: 1,
       resourceType: 'image',
       tags: ['temp'],
@@ -110,12 +109,14 @@ const CloudinaryUploadWidget = ({ folderName: folder, onUploadSuccess }: UploadW
   }, [config]);
 
   // Creates button styles
-  const getButtonStyles = useCallback(
+const getButtonStyles = useCallback(
     () => ({
-      maxWidth: '50px',
-      height: '50px',
+      minWidth: '32px', 
+      width: '32px',   
+      height: '32px',   
       backgroundColor: 'rgba(0,0,0,0.6)',
       boxShadow: '0 1px 3px rgba(255, 255, 255, 0.41)',
+      padding: '4px',  
     }),
     []
   );
@@ -132,7 +133,7 @@ const CloudinaryUploadWidget = ({ folderName: folder, onUploadSuccess }: UploadW
       component="span"
       sx={getButtonStyles()}
     >
-      <AddPhotoAlternateIcon color="action" />
+        <AddPhotoAlternateIcon sx={{ fontSize: '20px' }} color="action" />
     </Button>
   );
 };

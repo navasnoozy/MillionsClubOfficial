@@ -40,13 +40,12 @@ const AddProduct = () => {
             <Grid display={'flex'} size={{ xs: 12, md: 6 }}>
               <AddProductForm isError={isError} errors={errors} />
             </Grid>
-            <Grid size={{ xs: 12, md: 6 }}>
-              <Typography sx={{ fontSize: '15px' }}>
+            <Grid size={{ xs: 12, md: 6 }} alignContent={'center'}>
+              {/* <Typography sx={{ fontSize: '15px' }}>
                 If you add images for variants, upload here is optional.
-              </Typography>
-              <ImageList variant="standard" cols={4} gap={4} sx={{ border: '2px solid gray', borderRadius: 2 }}>
-                <ImageFrame />
-              </ImageList>
+              </Typography> */}
+
+              <ImageFrame />
             </Grid>
             <Grid size={12}>
               <SubmitButton label="ADD PRODUCT" isLoading={isPending} disabled={isPending} />
@@ -59,3 +58,10 @@ const AddProduct = () => {
 };
 
 export default AddProduct;
+
+{
+  /* <ImageList variant="standard" cols={4} gap={4} sx={{ border: '2px solid gray', borderRadius: 2 }}> */
+}
+{
+  /* </ImageList> */
+}
