@@ -17,7 +17,6 @@ const SignupPage = () => {
 
   const { mutate: signup, isPending: signupLoading, isError } = useSignupUser();
 
-  // useAuthRedirect();
 
   const handleSignup = (data: SignupSchema) => {
     signup(data, {

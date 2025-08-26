@@ -27,16 +27,16 @@ const ImageContainer = ({ images }: Props) => {
       <Grid size={2} alignSelf={'center'}>
         {images.map((item, index) => (
           <Box
+            key={index}
             paddingY={1}
             sx={{
               position: 'relative',
-              display: 'flex', 
+              display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
             }}
           >
             <Box
-              key={index}
               onClick={() => item?.secure_url && handlePreviewImage(item.secure_url)}
               component="img"
               src={item?.secure_url || '/imageplaceholder.png'}

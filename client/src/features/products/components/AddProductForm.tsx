@@ -22,15 +22,12 @@ const AddProductForm = ({ isError, errors }: Props) => {
 
   const { data: categories = [] } = useCategories();
 
-  // Watch selected categoryId
   const selectedCategoryId = useWatch({ control, name: 'categoryId' });
 
-  // Reset subcategory when category changes
   useEffect(() => {
     setValue('subCategoryId', '');
   }, [selectedCategoryId, setValue]);
 
-  // Find the selected category's subcategories
   const subcategories = categories.find((cat) => cat._id === selectedCategoryId)?.subcategories || [];
 
   return (
@@ -53,7 +50,7 @@ const AddProductForm = ({ isError, errors }: Props) => {
         fullWidth
       />
 
-      <Stack justifyContent='center' alignItems='center' gap={3} flexDirection={{xs:'column', sm:'row'}} >
+      <Stack justifyContent="center" alignItems="center" gap={3} flexDirection={{ xs: 'column', sm: 'row' }}>
         <RHFDropdown name="categoryId" options={categories} label="Category" />
         <RHFDropdown name="subcategoryId" options={subcategories} label="Subcategory" disabled={!selectedCategoryId} />
       </Stack>

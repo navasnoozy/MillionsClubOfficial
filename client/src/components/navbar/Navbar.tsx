@@ -22,7 +22,7 @@ export const NavBar: React.FC = () => {
   const handleCloseUserMenu = () => setAnchorElUser(null);
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{  boxShadow: '0 0px 2px  rgba(0, 251, 255, 0.75)',}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Logo variant="desktop" />

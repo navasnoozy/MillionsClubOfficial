@@ -37,6 +37,8 @@ const CloudinaryUploadWidget = ({ folderName: folder, onUploadSuccess }: UploadW
         return;
       }
       if (result?.event === 'success') {
+        console.log('upload result ', result);
+
         const image = {
           secure_url: result.info.secure_url,
           public_id: result.info.public_id,
@@ -71,14 +73,17 @@ const CloudinaryUploadWidget = ({ folderName: folder, onUploadSuccess }: UploadW
     return {
       cloudName: config.cloud_name,
       apiKey: config.api_key,
-      uploadSignature: generateSignature, // Use function instead of string
+      uploadSignature: generateSignature, // GENERATING SIGNATURE
+      uploadPreset: 'Millionsclub-signed-crop', //UPLOAD PRESET NAME CONFIGURED IN CLOUDINARY
       folder,
       sources: ['local', 'url'],
       cropping: true,
       croppingAspectRatio: 1,
       croppingDefaultSelectionRatio: 1,
+      showSkipCropButton: false, 
+      croppingCoordinatesMode: 'custom', // CUSTOM CORDINATION SET IN PRESET IN CLOUDINARY
       transformation: [{ width: 2048, height: 2048, crop: 'fill' }],
-      multiple: false, 
+      multiple: false,
       maxFiles: 1,
       resourceType: 'image',
       tags: ['temp'],
@@ -109,14 +114,14 @@ const CloudinaryUploadWidget = ({ folderName: folder, onUploadSuccess }: UploadW
   }, [config]);
 
   // Creates button styles
-const getButtonStyles = useCallback(
+  const getButtonStyles = useCallback(
     () => ({
-      minWidth: '32px', 
-      width: '32px',   
-      height: '32px',   
+      minWidth: '32px',
+      width: '32px',
+      height: '32px',
       backgroundColor: 'rgba(0,0,0,0.6)',
       boxShadow: '0 1px 3px rgba(255, 255, 255, 0.41)',
-      padding: '4px',  
+      padding: '4px',
     }),
     []
   );
@@ -133,7 +138,7 @@ const getButtonStyles = useCallback(
       component="span"
       sx={getButtonStyles()}
     >
-        <AddPhotoAlternateIcon sx={{ fontSize: '20px' }} color="action" />
+      <AddPhotoAlternateIcon sx={{ fontSize: '20px' }} color="action" />
     </Button>
   );
 };

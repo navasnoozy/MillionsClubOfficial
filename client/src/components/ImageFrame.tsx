@@ -1,3 +1,24 @@
+import type { AddProductSchema } from '@millionsclub/shared-libs/client';
+import { useFormContext, useWatch } from 'react-hook-form';
+import ImageContainer from './ImageContainer';
+
+const ImageFrame = () => {
+  const { control } = useFormContext<AddProductSchema>();
+
+  const watched = useWatch({ control, name: 'images' }) ?? [];
+  const images: { secure_url: string; public_id: string }[] = watched;
+
+  const padded = [...images, ...Array(Math.max(0, 4 - images.length)).fill(null)];
+
+  return (
+    <>
+      <ImageContainer images={padded} />
+    </>
+  );
+};
+
+export default ImageFrame;
+
 // import ImageListItem from '@mui/material/ImageListItem';
 // import AddImageButton from '../features/products/components/AddImageButton';
 // import { Box } from '@mui/material';
@@ -53,24 +74,3 @@
 // };
 
 // export default ImageFrame;
-
-import type { AddProductSchema } from '@millionsclub/shared-libs/client';
-import { useFormContext, useWatch } from 'react-hook-form';
-import ImageContainer from './ImageContainer';
-
-const ImageFrame = () => {
-  const { control } = useFormContext<AddProductSchema>();
-
-  const watched = useWatch({ control, name: 'images' }) ?? [];
-  const images: { secure_url: string; public_id: string }[] = watched;
-
-  const padded = [...images, ...Array(Math.max(0, 4 - images.length)).fill(null)];
-
-  return (
-    <>
-      <ImageContainer images={padded} />
-    </>
-  );
-};
-
-export default ImageFrame;
