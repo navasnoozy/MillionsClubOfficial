@@ -1,9 +1,10 @@
+// src/features/products/ProductFormFields.tsx
 import { Stack, TextField } from '@mui/material';
 import { Controller, useFormContext, useWatch } from 'react-hook-form';
-import ErrorMessages from '../../../components/errorMessge';
 import RHFDropdown from '../../../components/RHFDropdown';
 import useCategories from '../../categories/hooks/useCategories';
 import TongleButton from './Switch';
+import ErrorMessages from '../../../components/errorMessge';
 import type { AddProductSchema } from '@millionsclub/shared-libs/client';
 import { useEffect } from 'react';
 
@@ -12,7 +13,7 @@ type Props = {
   errors: { message: string; field: string }[];
 };
 
-const AddProductForm = ({ isError, errors }: Props) => {
+const ProductFormField = ({ isError, errors }: Props)=> {
   const {
     register,
     control,
@@ -28,10 +29,10 @@ const AddProductForm = ({ isError, errors }: Props) => {
     setValue('subCategoryId', '');
   }, [selectedCategoryId, setValue]);
 
-  const subcategories = categories.find((cat) => cat._id === selectedCategoryId)?.subcategories || [];
+  const subcategories = categories.find((cat) => cat._id === selectedCategoryId)?.subcategories ?? [];
 
   return (
-    <Stack spacing={3} width="100%" height="100%">
+    <Stack spacing={3} width="100%">
       <TextField
         {...register('title')}
         label="Title"
@@ -81,18 +82,12 @@ const AddProductForm = ({ isError, errors }: Props) => {
         name="isActive"
         control={control}
         defaultValue={true}
-        render={({ field }) => (
-          <TongleButton
-            label="Active Status"
-            checked={field.value}
-            onChange={(_, checked) => field.onChange(checked)}
-          />
-        )}
+        render={({ field }) => <TongleButton label="Active Status" checked={field.value} onChange={(_, checked) => field.onChange(checked)} />}
       />
 
       {isError && <ErrorMessages errors={errors} />}
     </Stack>
   );
-};
+}
 
-export default AddProductForm;
+export default ProductFormField

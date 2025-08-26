@@ -1,20 +1,20 @@
-import type { AddProductSchema } from '@millionsclub/shared-libs/client';
 import { useFormContext, useWatch } from 'react-hook-form';
 import ImageContainer from '../../../components/ImageContainer';
 
-const ImageFrame = () => {
-  const { control } = useFormContext<AddProductSchema>();
+interface Props<T extends Record<string, any>> {
+  fieldName?: keyof T; // default is "images"
+}
 
-  const watched = useWatch({ control, name: 'images' }) ?? [];
-  const images: { secure_url: string; public_id: string }[] = watched;
+const ImageFrame = <T extends Record<string, any>>({ fieldName = 'images' }: Props<T>) => {
+  const { control } = useFormContext<T>();
+  const watchedImages = useWatch({ control, name: fieldName as string }) ?? [];
 
-  const padded = [...images, ...Array(Math.max(0, 4 - images.length)).fill(null)];
+  const images: { secure_url: string; public_id: string }[] = watchedImages;
 
-  return (
-    <>
-      <ImageContainer images={padded} />
-    </>
-  );
+  // pad to always show 4 slots
+  const paddedImages = [...images, ...Array(Math.max(0, 4 - images.length)).fill(null)];
+
+  return <ImageContainer images={paddedImages} />;
 };
 
 export default ImageFrame;

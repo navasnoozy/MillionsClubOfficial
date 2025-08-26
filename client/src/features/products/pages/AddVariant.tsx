@@ -1,32 +1,26 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import type { AddProductVariant } from '@millionsclub/shared-libs/client';
-import { addProductVariantSchema } from '@millionsclub/shared-libs/client';
-import { useState } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
-import CardContainer from '../../../components/CardContainer';
-import AddVariantForm from '../components/AddVariantsForm';
+import { addProductVariantSchema, type AddProductVariant } from '@millionsclub/shared-libs/client';
 import useAddVariant from '../hooks/useAddVariant';
 import handleApiError from '../utils/ApiErrorHandler';
-
-import { Grid } from '@mui/material';
+import FormPage from '../components/FormPage';
+import VariantFormFields from '../components/VariantFormFields';
 import ImageFrame from '../components/ImageFrame';
-import SubmitButton from '../components/SubmitButton';
 
-const AddVariant = () => {
+const AddVariant: React.FC = () => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
-
-  if (!id) {
-    return <div>Product ID is required</div>;
-  }
+  if (!id) return <div>Product ID is required</div>;
 
   const [errors, setError] = useState<{ message: string; field: string }[]>([]);
   const { mutate: addVariant, isPending, isError } = useAddVariant(id);
 
   const methods = useForm<AddProductVariant>({
     resolver: zodResolver(addProductVariantSchema),
+    mode: 'onSubmit',
   });
 
   const handleAddVariant = (data: AddProductVariant) => {
@@ -37,25 +31,15 @@ const AddVariant = () => {
   };
 
   return (
-    <CardContainer heading="Add Variant">
-      <FormProvider {...methods}>
-        <form onSubmit={methods.handleSubmit(handleAddVariant)}>
-          <Grid container spacing={3}>
-            <Grid display={'flex'} size={{ xs: 12, md: 6 }}>
-              <AddVariantForm isError={isError} errors={errors} />
-            </Grid>
-            <Grid size={{ xs: 12, md: 6 }}>
-              <ImageFrame />
-            </Grid>
-            <Grid size={12}>
-              <SubmitButton isLoading={isPending} disabled={isPending}>
-                Add VARIANT
-              </SubmitButton>
-            </Grid>
-          </Grid>
-        </form>
-      </FormProvider>
-    </CardContainer>
+    <FormPage
+      heading="Add Variant"
+      methods={methods}
+      onSubmit={handleAddVariant}
+      left={<VariantFormFields isError={isError} errors={errors} />}
+      right={<ImageFrame />}
+      submitLabel="Add VARIANT"
+      isLoading={isPending}
+    />
   );
 };
 

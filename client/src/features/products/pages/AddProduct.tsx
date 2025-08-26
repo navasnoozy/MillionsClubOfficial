@@ -1,18 +1,18 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import type { AddProductSchema } from '@millionsclub/shared-libs/client';
-import { addProductSchema } from '@millionsclub/shared-libs/client';
 import { useState } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
 
-import CardContainer from '../../../components/CardContainer';
-import AddProductForm from '../components/AddProductForm';
+import { addProductSchema, type AddProductSchema } from '@millionsclub/shared-libs/client';
+import FormPage from '../components/FormPage';
+import ImageFrame from '../components/ImageFrame';
+import InfoAlerts from '../components/InfoAlerts';
+import ProductFormFields from '../components/ProductFormFields';
 import useAddProduct from '../hooks/useAddProduct';
 import handleApiError from '../utils/ApiErrorHandler';
 
-import { Alert, Grid, Stack } from '@mui/material';
-import ImageFrame from '../components/ImageFrame';
-import SubmitButton from '../components/SubmitButton';
+
+
 
 const AddProduct = () => {
   const navigate = useNavigate();
@@ -21,54 +21,28 @@ const AddProduct = () => {
 
   const methods = useForm<AddProductSchema>({
     resolver: zodResolver(addProductSchema),
+    mode: 'onSubmit',
   });
 
   const handleAddProduct = (data: AddProductSchema) => {
     addProduct(data, {
-      onSuccess: (res) => {
-        console.log('ADD PRODUCT RESULT ....', res);
-
-        navigate(`/admin/addvariant/${res.id}`);
-      },
-      onError: (error) => {
-        console.log('error check .........', error);
-
-        handleApiError(error, setError);
-      },
+      onSuccess: (res) => navigate(`/admin/addvariant/${res.id}`),
+      onError: (error) => handleApiError(error, setError),
     });
   };
 
   return (
-    <CardContainer heading="Add Product">
-      <FormProvider {...methods}>
-        <form onSubmit={methods.handleSubmit(handleAddProduct)}>
-          <Grid container spacing={3}>
-            <Grid display={'flex'} size={{ xs: 12, md: 6 }}>
-              <AddProductForm isError={isError} errors={errors} />
-            </Grid>
-            <Grid size={{ xs: 12, md: 6 }} alignContent={'center'}>
-              <ImageFrame />
-            </Grid>
-            <Grid size={12}>
-              <SubmitButton isLoading={isPending} disabled={isPending}>
-                ADD PRODUCT
-              </SubmitButton>
-            </Grid>
-          </Grid>
-          <Stack sx={{ justifySelf: 'center', paddingTop: 2 }}>
-            <Alert sx={{ p: 0, m: 0 }} severity="info">
-              If you add images for variants, upload here is optional.
-            </Alert>
-            <Alert sx={{ p: 0, m: 0 }} severity="info">
-              Each product must have at least 4 photos.
-            </Alert>
-            <Alert sx={{ p: 0, m: 0 }} severity="info">
-              All photos must be in a 1:1 aspect ratio (square).
-            </Alert>
-          </Stack>
-        </form>
-      </FormProvider>
-    </CardContainer>
+    <FormPage
+      heading="Add Product"
+      methods={methods}
+      onSubmit={handleAddProduct}
+      left={<ProductFormFields isError={isError} errors={errors} />}
+      right={<ImageFrame />}
+      submitLabel="ADD PRODUCT"
+      isLoading={isPending}
+      showAlerts
+      alerts={<InfoAlerts />}
+    />
   );
 };
 

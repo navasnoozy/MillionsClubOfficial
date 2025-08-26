@@ -1,18 +1,16 @@
-import type { AddProductVariant } from "@millionsclub/shared-libs/client";
-import {
-  Stack,
-  TextField
-} from "@mui/material";
-import { Controller, useFormContext } from "react-hook-form";
-import ErrorMessages from "../../../components/errorMessge";
-import TongleButton from "./Switch";
+// src/features/products/VariantFormFields.tsx
+import { Stack, TextField } from '@mui/material';
+import { Controller, useFormContext } from 'react-hook-form';
+import ErrorMessages from '../../../components/errorMessge';
+import TongleButton from './Switch';
+import type { AddProductVariant } from '@millionsclub/shared-libs/client';
 
 type Props = {
   isError: boolean;
   errors: { message: string; field: string }[];
 };
 
-const AddVariantForm = ({ isError, errors }: Props) => {
+const VariantFormFields =({ isError, errors }: Props)=> {
   const {
     register,
     control,
@@ -20,9 +18,9 @@ const AddVariantForm = ({ isError, errors }: Props) => {
   } = useFormContext<AddProductVariant>();
 
   return (
-    <Stack spacing={3} width={"100%"} height={"100%"} justifyContent={'space-between'}>
+    <Stack spacing={3} width="100%" justifyContent="space-between">
       <TextField
-        {...register("color")}
+        {...register('color')}
         label="Color"
         variant="standard"
         error={!!formErrors.color}
@@ -31,7 +29,7 @@ const AddVariantForm = ({ isError, errors }: Props) => {
       />
 
       <TextField
-        {...register("size")}
+        {...register('size')}
         label="Size"
         variant="standard"
         error={!!formErrors.size}
@@ -40,7 +38,7 @@ const AddVariantForm = ({ isError, errors }: Props) => {
       />
 
       <TextField
-        {...register("price")}
+        {...register('price')}
         type="number"
         label="Price"
         variant="standard"
@@ -53,18 +51,12 @@ const AddVariantForm = ({ isError, errors }: Props) => {
         name="isActive"
         control={control}
         defaultValue={true}
-        render={({ field }) => (
-          <TongleButton
-            label="Active Status"
-            checked={field.value}
-            onChange={(_, checked) => field.onChange(checked)}
-          />
-        )}
+        render={({ field }) => <TongleButton label="Active Status" checked={field.value} onChange={(_, checked) => field.onChange(checked)} />}
       />
 
       {isError && <ErrorMessages errors={errors} />}
     </Stack>
   );
-};
+}
 
-export default AddVariantForm;
+export default VariantFormFields
