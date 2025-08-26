@@ -2,7 +2,7 @@
 import React from 'react';
 import { FormProvider, type UseFormReturn, type FieldValues } from 'react-hook-form';
 import { Grid } from '@mui/material';
-import CardContainer from '../../../components/CardContainer';
+import CardContainer from '../../../../components/CardContainer';
 import SubmitButton from './SubmitButton';
 
 type Props<T extends FieldValues> = {
@@ -17,7 +17,7 @@ type Props<T extends FieldValues> = {
   alerts?: React.ReactNode;
 };
 
-const FormPage = <T extends FieldValues>({
+const FormLayout = <T extends FieldValues>({
   heading,
   methods,
   onSubmit,
@@ -51,4 +51,4 @@ const FormPage = <T extends FieldValues>({
   );
 };
 
-export default FormPage
+export default FormLayout;

@@ -1,42 +1,42 @@
 // router.tsx
-import { createBrowserRouter } from "react-router";
-import ErrorBoundary from "./components/ErrorBoundary";
-import SigninPage from "./features/auth/pages/SigninPage";
-import SignupPage from "./features/auth/pages/SignupPage";
-import AddCategoryPage from "./features/categories/pages/AddCategoryPage";
-import AddSubCategoryPage from "./features/categories/pages/AddSubCategoryPage";
-import CategoryManagement from "./features/categories/pages/CategoryManagement";
-import OrderManagement from "./features/order/pages/OrderManagement";
-import AddProduct from "./features/products/pages/AddProduct";
-import AddVariant from "./features/products/pages/AddVariant";
-import ProductManagement from "./features/products/pages/ProductManagement";
-import AdminLayout from "./layouts/AdminLayout";
-import Layout from "./layouts/Layout";
-import AdminDashboard from "./pages/AdminDashboard";
-import HomePage from "./pages/HomePage";
+import { createBrowserRouter } from 'react-router';
+import ErrorBoundary from './components/ErrorBoundary';
+import SigninPage from './features/auth/pages/SigninPage';
+import SignupPage from './features/auth/pages/SignupPage';
+import AddCategoryPage from './features/categories/pages/AddCategoryPage';
+import AddSubCategoryPage from './features/categories/pages/AddSubCategoryPage';
+import CategoryManagement from './features/categories/pages/CategoryManagement';
+import OrderManagement from './features/order/pages/OrderManagement';
+import AdminAddProductPage from './features/products/admin/pages/AdminAddProductPage';
+import AdminAddVariantPage from './features/products/admin/pages/AdminAddVariantPage';
+import ProductManagement from './features/products/admin/pages/ProductManagement';
+import AdminLayout from './layouts/AdminLayout';
+import Layout from './layouts/Layout';
+import AdminDashboard from './pages/AdminDashboard';
+import HomePage from './pages/HomePage';
 // import RequireAdmin from "./components/RequireAdmin";
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <Layout />,
     errorElement: <ErrorBoundary />,
     children: [
       { index: true, element: <HomePage />, errorElement: <ErrorBoundary /> },
       {
-        path: "signup",
+        path: 'signup',
         element: <SignupPage />,
         errorElement: <ErrorBoundary />,
       },
       {
-        path: "signin",
+        path: 'signin',
         element: <SigninPage />,
         errorElement: <ErrorBoundary />,
       },
     ],
   },
   {
-    path: "/admin",
+    path: '/admin',
     element: (
       // <RequireAdmin>
       <AdminLayout />
@@ -50,39 +50,37 @@ const router = createBrowserRouter([
         errorElement: <ErrorBoundary />,
       },
       {
-        path: "productmanagement",
+        path: 'productmanagement',
         element: <ProductManagement />,
         errorElement: <ErrorBoundary />,
       },
       {
-        path: "addproduct",
-        element: <AddProduct />,
+        path: 'addproduct',
+        element: <AdminAddProductPage />,
         errorElement: <ErrorBoundary />,
       },
       {
-        path: "addvariant/:id",
-        element: <AddVariant />,
+        path: 'addvariant/:id',
+        element: <AdminAddVariantPage />,
         errorElement: <ErrorBoundary />,
-      
-      
       },
       {
-        path: "categorymanagement",
+        path: 'categorymanagement',
         element: <CategoryManagement />,
         errorElement: <ErrorBoundary />,
       },
       {
-        path: "addcategory",
+        path: 'addcategory',
         element: <AddCategoryPage />,
         errorElement: <ErrorBoundary />,
       },
       {
-        path: "addsubcategory",
+        path: 'addsubcategory',
         element: <AddSubCategoryPage />,
         errorElement: <ErrorBoundary />,
       },
       {
-        path: "ordermanagement",
+        path: 'ordermanagement',
         element: <OrderManagement />,
         errorElement: <ErrorBoundary />,
       },

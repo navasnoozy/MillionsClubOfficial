@@ -1,18 +1,9 @@
-import {
-  Box,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-} from "@mui/material";
-import TongleButton from "../components/Switch";
-import tableHeadings from "../config/tableHeading";
-import Panel from "../components/Panel";
+import { Box, Paper, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import TongleButton from '../../components/Switch';
+import tableHeadings from '../config/tableHeading';
+import Panel from '../../components/Panel';
 
 const ProductManagement = () => {
-
   return (
     <Box display="grid" gridAutoRows="auto" rowGap={2}>
       <Panel />
@@ -37,12 +28,8 @@ const ProductManagement = () => {
                 <TableCell>
                   <TongleButton />
                 </TableCell>
-                <TableCell>
-                  {new Date(item.createdAt).toLocaleString()}
-                </TableCell>
-                <TableCell>
-                  {new Date(item.updatedAt).toLocaleString()}
-                </TableCell>
+                <TableCell>{new Date(item.createdAt).toLocaleString()}</TableCell>
+                <TableCell>{new Date(item.updatedAt).toLocaleString()}</TableCell>
               </TableRow>
             ))}
           </TableBody>

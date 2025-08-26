@@ -1,15 +1,15 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import type { AddCategory  } from "@millionsclub/shared-libs/client";
-import { addCategorySchema } from "@millionsclub/shared-libs/client";
-import { Stack } from "@mui/material";
-import { useState } from "react";
-import { FormProvider, useForm } from "react-hook-form";
-import { useNavigate } from "react-router";
-import CardContainer from "../../../components/CardContainer";
-import SubmitButton from "../../products/components/SubmitButton";
-import handleApiError from "../../products/utils/ApiErrorHandler";
-import AddCategoryForm from "../components/AddCategoryForm";
-import useAddCategory from "../hooks/useAddCategory";
+import { zodResolver } from '@hookform/resolvers/zod';
+import type { AddCategory } from '@millionsclub/shared-libs/client';
+import { addCategorySchema } from '@millionsclub/shared-libs/client';
+import { Stack } from '@mui/material';
+import { useState } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router';
+import CardContainer from '../../../components/CardContainer';
+import SubmitButton from '../../products/admin/components/SubmitButton';
+import apiErrorHandler from '../../products/admin/utils/apiErrorHandler';
+import AddCategoryForm from '../components/AddCategoryForm';
+import useAddCategory from '../hooks/useAddCategory';
 
 const AddCategoryPage = () => {
   const navigate = useNavigate();
@@ -24,9 +24,9 @@ const AddCategoryPage = () => {
     addCategory(data, {
       onSuccess: () => {
         navigate(`/admin/categorymanagement`);
-        methods.reset()
+        methods.reset();
       },
-      onError: (error) => handleApiError(error, setError),
+      onError: (error) => apiErrorHandler(error, setError),
     });
   };
 
@@ -35,16 +35,9 @@ const AddCategoryPage = () => {
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(handleAddCategory)}>
           <Stack spacing={3}>
-            <AddCategoryForm
-              isError={isError}
-              errors={errors}
-            />
+            <AddCategoryForm isError={isError} errors={errors} />
 
-            <SubmitButton
-              label="ADD CATEGORY"
-              isLoading={isPending}
-              disabled={isPending}
-            />
+            <SubmitButton label="ADD CATEGORY" isLoading={isPending} disabled={isPending} />
           </Stack>
         </form>
       </FormProvider>

@@ -1,23 +1,30 @@
 import { useFormContext, useWatch } from 'react-hook-form';
-import ImageContainer from '../../../components/ImageContainer';
+import type { AddProductSchema } from '@millionsclub/shared-libs/client';
+import ImageGallery from '../../../../components/ImageContainer';
 
-interface Props<T extends Record<string, any>> {
-  fieldName?: keyof T; // default is "images"
-}
-
-const ImageFrame = <T extends Record<string, any>>({ fieldName = 'images' }: Props<T>) => {
-  const { control } = useFormContext<T>();
-  const watchedImages = useWatch({ control, name: fieldName as string }) ?? [];
-
+const ProductImageUploader = () => {
+  const { control } = useFormContext<AddProductSchema>();
+  const watchedImages = useWatch({ control, name: 'images' }) ?? [];
   const images: { secure_url: string; public_id: string }[] = watchedImages;
 
-  // pad to always show 4 slots
   const paddedImages = [...images, ...Array(Math.max(0, 4 - images.length)).fill(null)];
 
-  return <ImageContainer images={paddedImages} />;
+  return <ImageGallery images={paddedImages} />;
 };
 
-export default ImageFrame;
+export default ProductImageUploader;
+
+
+
+
+
+
+
+
+
+
+
+
 
 // import ImageListItem from '@mui/material/ImageListItem';
 // import AddImageButton from '../features/products/components/AddImageButton';

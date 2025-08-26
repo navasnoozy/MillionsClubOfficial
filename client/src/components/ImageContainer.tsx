@@ -1,82 +1,32 @@
-import { Box, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import { useState } from 'react';
-import AddImageButton from '../features/products/components/AddImageButton';
-import CloudinaryDeleteButton from '../features/products/components/CloudinaryDeleteButton';
+import ImagePreview from './ImagePreview';
+import ImageThumbnail from './ImageThumbnail';
 
+interface ImageItem {
+  secure_url?: string;
+  public_id?: string;
+}
 interface Props {
-  images: { secure_url: string; public_id: string }[];
+  images: (ImageItem | null)[];
 }
 
-const ImageContainer = ({ images }: Props) => {
-  const [previewImgUrl, setPreviewImg] = useState(images[0]?.secure_url || '');
-
-  const handlePreviewImage = (secure_url: string) => {
-    setPreviewImg(secure_url);
-  };
+const ImageGallery = ({ images }: Props) => {
+  const [previewUrl, setPreviewUrl] = useState(images[0]?.secure_url || '');
 
   return (
-    <Grid
-      container
-      spacing={2}
-      sx={{
-        aspectRatio: '1 / 1',
-        overflow: 'hidden',
-        '&:hover .add-image-btn, &:hover .delete-image-btn': { opacity: 1 },
-      }}
-    >
-      <Grid size={2} alignSelf={'center'}>
+    <Grid container spacing={2} sx={{ aspectRatio: '1 / 1', overflow: 'hidden' }}>
+      <Grid size={2} alignSelf="center">
         {images.map((item, index) => (
-          <Box
-            key={index}
-            paddingY={1}
-            sx={{
-              position: 'relative',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <Box
-              onClick={() => item?.secure_url && handlePreviewImage(item.secure_url)}
-              component="img"
-              src={item?.secure_url || '/imageplaceholder.png'}
-              alt="image"
-              loading="lazy"
-              sx={{
-                aspectRatio: '1 / 1',
-                objectFit: 'contain',
-                borderRadius: 1,
-                overflow: 'hidden',
-                width: '100%',
-                display: 'block',
-                cursor: item?.secure_url ? 'pointer' : 'default',
-              }}
-            />
-            {!item && <AddImageButton />}
-            {item?.public_id && (
-              <CloudinaryDeleteButton public_id={item?.public_id} index={index} resetPreview={setPreviewImg} />
-            )}
-          </Box>
+          <ImageThumbnail key={index} item={item} index={index} onPreview={setPreviewUrl} />
         ))}
       </Grid>
-      <Grid size={10} alignSelf={'center'}>
-        <Box
-          component="img"
-          src={previewImgUrl || '/previewimage.png'}
-          alt="image"
-          loading="lazy"
-          sx={{
-            aspectRatio: '1 / 1',
-            objectFit: 'contain',
-            borderRadius: 3,
-            overflow: 'hidden',
-            width: '100%',
-            display: 'block',
-          }}
-        />
+
+      <Grid size={10} alignSelf="center">
+        <ImagePreview src={previewUrl} />
       </Grid>
     </Grid>
   );
 };
 
-export default ImageContainer;
+export default ImageGallery;

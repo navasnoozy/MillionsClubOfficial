@@ -1,9 +1,10 @@
 // src/features/products/VariantFormFields.tsx
 import { Stack, TextField } from '@mui/material';
 import { Controller, useFormContext } from 'react-hook-form';
-import ErrorMessages from '../../../components/errorMessge';
-import TongleButton from './Switch';
+
 import type { AddProductVariant } from '@millionsclub/shared-libs/client';
+import TongleButton from '../../components/Switch';
+import ErrorMessages from '../../../../components/errorMessge';
 
 type Props = {
   isError: boolean;

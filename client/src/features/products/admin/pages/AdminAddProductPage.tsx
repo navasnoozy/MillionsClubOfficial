@@ -4,20 +4,18 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
 
 import { addProductSchema, type AddProductSchema } from '@millionsclub/shared-libs/client';
-import FormPage from '../components/FormPage';
-import ImageFrame from '../components/ImageFrame';
+import FormLayout from '../components/FormLayout';
+import ProductImageUploader from '../components/ProductImageUploader';
 import InfoAlerts from '../components/InfoAlerts';
+
+import apiErrorHandler from '../utils/apiErrorHandler';
+import useCreateProduct from '../hooks/useCreateProduct';
 import ProductFormFields from '../components/ProductFormFields';
-import useAddProduct from '../hooks/useAddProduct';
-import handleApiError from '../utils/ApiErrorHandler';
 
-
-
-
-const AddProduct = () => {
+const AdminAddProductPage = () => {
   const navigate = useNavigate();
   const [errors, setError] = useState<{ message: string; field: string }[]>([]);
-  const { mutate: addProduct, isPending, isError } = useAddProduct();
+  const { mutate: addProduct, isPending, isError } = useCreateProduct();
 
   const methods = useForm<AddProductSchema>({
     resolver: zodResolver(addProductSchema),
@@ -27,17 +25,17 @@ const AddProduct = () => {
   const handleAddProduct = (data: AddProductSchema) => {
     addProduct(data, {
       onSuccess: (res) => navigate(`/admin/addvariant/${res.id}`),
-      onError: (error) => handleApiError(error, setError),
+      onError: (error) => apiErrorHandler(error, setError),
     });
   };
 
   return (
-    <FormPage
+    <FormLayout
       heading="Add Product"
       methods={methods}
       onSubmit={handleAddProduct}
       left={<ProductFormFields isError={isError} errors={errors} />}
-      right={<ImageFrame />}
+      right={<ProductImageUploader />}
       submitLabel="ADD PRODUCT"
       isLoading={isPending}
       showAlerts
@@ -46,4 +44,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+export default AdminAddProductPage;

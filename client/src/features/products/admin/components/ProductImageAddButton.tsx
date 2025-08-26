@@ -1,9 +1,9 @@
 import { Box } from '@mui/material';
-import CloudinaryUploadWidget from '../../../components/uploadWidget';
 import { useFormContext } from 'react-hook-form';
 import type { AddProductSchema } from '@millionsclub/shared-libs/client';
+import CloudinaryUploadWidget from '../../../../components/uploadWidget';
 
-const AddImageButton = () => {
+const ProductImageAddButton = () => {
   const { setValue, getValues, trigger } = useFormContext<AddProductSchema>();
 
   const handleUpload = (image: { secure_url: string; public_id: string }) => {
@@ -32,4 +32,4 @@ const AddImageButton = () => {
   );
 };
 
-export default AddImageButton;
+export default ProductImageAddButton;

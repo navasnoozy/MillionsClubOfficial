@@ -1,8 +1,8 @@
 import { Box } from '@mui/material';
-import useDeleteImage from '../../../hooks/useDeleteImage';
-import DeleteButton from '../../../components/DeleteButton';
 import { useFormContext } from 'react-hook-form';
 import type { AddProductSchema } from '@millionsclub/shared-libs/client';
+import useDeleteImage from '../../../../hooks/useDeleteImage';
+import DeleteButton from '../../../../components/DeleteButton';
 
 interface Props {
   public_id: string;

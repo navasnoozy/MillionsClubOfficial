@@ -1,12 +1,12 @@
 // src/features/products/ProductFormFields.tsx
 import { Stack, TextField } from '@mui/material';
 import { Controller, useFormContext, useWatch } from 'react-hook-form';
-import RHFDropdown from '../../../components/RHFDropdown';
-import useCategories from '../../categories/hooks/useCategories';
-import TongleButton from './Switch';
-import ErrorMessages from '../../../components/errorMessge';
 import type { AddProductSchema } from '@millionsclub/shared-libs/client';
 import { useEffect } from 'react';
+import useCategories from '../../../categories/hooks/useCategories';
+import RHFDropdown from '../../../../components/RHFDropdown';
+import TongleButton from '../../components/Switch';
+import ErrorMessages from '../../../../components/errorMessge';
 
 type Props = {
   isError: boolean;
