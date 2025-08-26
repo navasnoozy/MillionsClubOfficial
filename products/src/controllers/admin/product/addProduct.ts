@@ -30,7 +30,7 @@ const addProduct = async (req: Request, res: Response, next: NextFunction) => {
     const public_ids: string[] = images?.map((img) => img.public_id) ?? [];
 
     if (public_ids.length > 0) {
-      const result = await removeImageTags(public_ids);
+      await removeImageTags(public_ids);
     }
 
     const newProduct = await Product.create(newProductData);

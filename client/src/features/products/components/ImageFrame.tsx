@@ -1,6 +1,6 @@
 import type { AddProductSchema } from '@millionsclub/shared-libs/client';
 import { useFormContext, useWatch } from 'react-hook-form';
-import ImageContainer from './ImageContainer';
+import ImageContainer from '../../../components/ImageContainer';
 
 const ImageFrame = () => {
   const { control } = useFormContext<AddProductSchema>();

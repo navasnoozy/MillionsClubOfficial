@@ -13,7 +13,6 @@ type Props = {
 };
 
 const AddVariantForm = ({ isError, errors }: Props) => {
-  // ✅ Get access from FormProvider
   const {
     register,
     control,

@@ -10,8 +10,8 @@ import AddProductForm from '../components/AddProductForm';
 import useAddProduct from '../hooks/useAddProduct';
 import handleApiError from '../utils/ApiErrorHandler';
 
-import { Alert, Button, Grid, Stack } from '@mui/material';
-import ImageFrame from '../../../components/ImageFrame';
+import { Alert, Grid, Stack } from '@mui/material';
+import ImageFrame from '../components/ImageFrame';
 import SubmitButton from '../components/SubmitButton';
 
 const AddProduct = () => {
@@ -24,14 +24,14 @@ const AddProduct = () => {
   });
 
   const handleAddProduct = (data: AddProductSchema) => {
-    console.log('submit is working');
-    
     addProduct(data, {
       onSuccess: (res) => {
+        console.log('ADD PRODUCT RESULT ....', res);
+
         navigate(`/admin/addvariant/${res.id}`);
       },
       onError: (error) => {
-        console.log('error check .........',error);
+        console.log('error check .........', error);
 
         handleApiError(error, setError);
       },
@@ -40,7 +40,7 @@ const AddProduct = () => {
 
   return (
     <CardContainer heading="Add Product">
-      <FormProvider {...methods} >
+      <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(handleAddProduct)}>
           <Grid container spacing={3}>
             <Grid display={'flex'} size={{ xs: 12, md: 6 }}>
@@ -50,7 +50,9 @@ const AddProduct = () => {
               <ImageFrame />
             </Grid>
             <Grid size={12}>
-              <SubmitButton  isLoading={isPending} disabled={isPending} >ADD PRODUCT</SubmitButton>
+              <SubmitButton isLoading={isPending} disabled={isPending}>
+                ADD PRODUCT
+              </SubmitButton>
             </Grid>
           </Grid>
           <Stack sx={{ justifySelf: 'center', paddingTop: 2 }}>
@@ -71,4 +73,3 @@ const AddProduct = () => {
 };
 
 export default AddProduct;
-

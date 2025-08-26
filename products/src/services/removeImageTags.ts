@@ -7,7 +7,6 @@ const removeImageTags = async (public_ids: string [] ) => {
 }
 
  const result =  await cloudinary.uploader.remove_tag('temp', public_ids);
- console.log('product result .........', result);
  
  
  return result

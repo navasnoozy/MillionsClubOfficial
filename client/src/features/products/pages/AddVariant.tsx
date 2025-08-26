@@ -1,21 +1,18 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import type { AddProductVariant } from "@millionsclub/shared-libs/client";
-import { addProductVariantSchema } from "@millionsclub/shared-libs/client";
-import { useState } from "react";
-import { FormProvider, useForm } from "react-hook-form";
-import { useNavigate, useParams } from "react-router";
+import { zodResolver } from '@hookform/resolvers/zod';
+import type { AddProductVariant } from '@millionsclub/shared-libs/client';
+import { addProductVariantSchema } from '@millionsclub/shared-libs/client';
+import { useState } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
+import { useNavigate, useParams } from 'react-router';
 
-import CardContainer from "../../../components/CardContainer";
-import AddVariantForm from "../components/AddVariantsForm";
-import useAddVariant from "../hooks/useAddVariant";
-import handleApiError from "../utils/ApiErrorHandler";
+import CardContainer from '../../../components/CardContainer';
+import AddVariantForm from '../components/AddVariantsForm';
+import useAddVariant from '../hooks/useAddVariant';
+import handleApiError from '../utils/ApiErrorHandler';
 
-import {
-  Grid,
-  ImageList
-} from "@mui/material";
-import ImageFrame from "../../../components/ImageFrame";
-import SubmitButton from "../components/SubmitButton";
+import { Grid } from '@mui/material';
+import ImageFrame from '../components/ImageFrame';
+import SubmitButton from '../components/SubmitButton';
 
 const AddVariant = () => {
   const navigate = useNavigate();
@@ -34,7 +31,7 @@ const AddVariant = () => {
 
   const handleAddVariant = (data: AddProductVariant) => {
     addVariant(data, {
-      onSuccess: () => navigate("/productmanagement"),
+      onSuccess: () => navigate('/productmanagement'),
       onError: (error) => handleApiError(error, setError),
     });
   };
@@ -44,30 +41,17 @@ const AddVariant = () => {
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(handleAddVariant)}>
           <Grid container spacing={3}>
-          <Grid display={"flex"}  size={{xs:12, md:6}} >
-            <AddVariantForm
-              isError={isError}
-              errors={errors}
-            />
-          </Grid>
-          <Grid size={{xs:12, md:6}} >
-            <ImageList
-              variant="quilted"
-              cols={3}
-              rowHeight={200}
-              gap={4}
-              sx={{ border: "2px solid gray", borderRadius: 2 }}
-            >
+            <Grid display={'flex'} size={{ xs: 12, md: 6 }}>
+              <AddVariantForm isError={isError} errors={errors} />
+            </Grid>
+            <Grid size={{ xs: 12, md: 6 }}>
               <ImageFrame />
-            </ImageList>
-          </Grid>
-          <Grid size={12} >
-            <SubmitButton
-              label="ADD VARIANT"
-              isLoading={isPending}
-              disabled={isPending}
-            />
-          </Grid>
+            </Grid>
+            <Grid size={12}>
+              <SubmitButton isLoading={isPending} disabled={isPending}>
+                Add VARIANT
+              </SubmitButton>
+            </Grid>
           </Grid>
         </form>
       </FormProvider>
