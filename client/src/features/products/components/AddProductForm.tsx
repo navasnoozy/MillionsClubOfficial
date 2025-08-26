@@ -52,11 +52,11 @@ const AddProductForm = ({ isError, errors }: Props) => {
 
       <Stack justifyContent="center" alignItems="center" gap={3} flexDirection={{ xs: 'column', sm: 'row' }}>
         <RHFDropdown name="categoryId" options={categories} label="Category" />
-        <RHFDropdown name="subcategoryId" options={subcategories} label="Subcategory" disabled={!selectedCategoryId} />
+        <RHFDropdown name="subCategoryId" options={subcategories} label="Subcategory" disabled={!selectedCategoryId} />
       </Stack>
 
       <TextField
-        {...register('basePrice')}
+        {...register('basePrice', { valueAsNumber: true })}
         type="number"
         label="Base Price"
         variant="standard"

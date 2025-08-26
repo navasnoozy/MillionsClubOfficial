@@ -27,7 +27,7 @@ const AddImageButton = () => {
         transition: 'opacity 0.3s ease',
       }}
     >
-      <CloudinaryUploadWidget folderName="prido" onUploadSuccess={handleUpload} />
+      <CloudinaryUploadWidget folderName="products" onUploadSuccess={handleUpload} />
     </Box>
   );
 };

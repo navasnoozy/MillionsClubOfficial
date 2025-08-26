@@ -1,4 +1,4 @@
-import { FormControl, Select, MenuItem, FormHelperText } from '@mui/material';
+import { FormControl, Select, MenuItem, FormHelperText, Box } from '@mui/material';
 import type { SelectChangeEvent } from '@mui/material/Select';
 
 type Option = { _id: string; name: string };
@@ -21,8 +21,9 @@ const Dropdown = ({ value, onChange, options, label, errorMessage, disabled }: D
         displayEmpty
         disabled={disabled}
         inputProps={{ 'aria-label': label || 'select' }}
+        
       >
-        <MenuItem value="" disabled>
+        <MenuItem value="" disabled >
           {label || 'Select'}
         </MenuItem>
         {options.map((opt) => (
@@ -31,7 +32,10 @@ const Dropdown = ({ value, onChange, options, label, errorMessage, disabled }: D
           </MenuItem>
         ))}
       </Select>
-      {errorMessage && <FormHelperText>{errorMessage}</FormHelperText>}
+    {/* Reserve consistent space for error text */}
+      <Box sx={{ minHeight: 24, display: 'flex', alignItems: 'center' }}>
+        {errorMessage && <FormHelperText>{errorMessage}</FormHelperText>}
+      </Box>
     </FormControl>
   );
 };

@@ -1,5 +1,5 @@
-import { Controller, useFormContext } from "react-hook-form";
-import Dropdown from "./Dropdown";
+import { Controller, useFormContext } from 'react-hook-form';
+import Dropdown from './Dropdown';
 
 type Option = { _id: string; name: string };
 
@@ -11,7 +11,10 @@ type RHFDropdownProps = {
 };
 
 const RHFDropdown = ({ name, options, label, disabled }: RHFDropdownProps) => {
-  const { control, formState: { errors } } = useFormContext();
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext();
 
   return (
     <Controller
@@ -20,7 +23,7 @@ const RHFDropdown = ({ name, options, label, disabled }: RHFDropdownProps) => {
       defaultValue=""
       render={({ field: { value, onChange } }) => (
         <Dropdown
-          value={value || ""}
+          value={value || ''}
           onChange={onChange}
           options={options}
           label={label}
