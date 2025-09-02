@@ -24,10 +24,21 @@ const AdminAddProductPage = () => {
 
   const handleAddProduct = (data: AddProductSchema) => {
     addProduct(data, {
-      onSuccess: (res) => navigate(`/admin/addvariant/${res.id}`),
+      onSuccess: (res) => {
+        console.log('checking res ', res);
+        
+        navigate(`/admin/addvariant/${res._id}`)},
       onError: (error) => apiErrorHandler(error, setError),
     });
   };
+
+
+  const alerts = [
+  "If you add images for variants, upload here is optional.",
+  "Each product must have at least 4 photos.",
+  "All photos must be in a 1:1 aspect ratio (square)."
+]
+
 
   return (
     <FormLayout
@@ -39,7 +50,7 @@ const AdminAddProductPage = () => {
       submitLabel="ADD PRODUCT"
       isLoading={isPending}
       showAlerts
-      alerts={<InfoAlerts />}
+      alerts={<InfoAlerts messages={alerts} />}
     />
   );
 };

@@ -11,7 +11,7 @@ interface Props {
   images: (ImageItem | null)[];
 }
 
-const ImageGallery = ({ images }: Props) => {
+const ImageFrame = ({ images }: Props) => {
   const [previewUrl, setPreviewUrl] = useState(images[0]?.secure_url || '');
 
   return (
@@ -29,4 +29,4 @@ const ImageGallery = ({ images }: Props) => {
   );
 };
 
-export default ImageGallery;
+export default ImageFrame;

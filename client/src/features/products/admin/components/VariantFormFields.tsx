@@ -39,7 +39,7 @@ const VariantFormFields =({ isError, errors }: Props)=> {
       />
 
       <TextField
-        {...register('price')}
+        {...register('price',{valueAsNumber:true})}
         type="number"
         label="Price"
         variant="standard"

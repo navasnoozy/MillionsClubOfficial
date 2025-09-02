@@ -1,5 +1,9 @@
 // products/src/controllers/admin/product/addProduct.ts
-import { AddProductSchema, BadRequestError, sendResponse } from '@millionsclub/shared-libs/server';
+import {
+  AddProductSchema,
+  BadRequestError,
+  sendResponse,
+} from '@millionsclub/shared-libs/server';
 import { NextFunction, Request, Response } from 'express';
 import { Product } from '../../../models/productModel';
 import { publishProductCreated } from '../../../events/publishers/pub.productCreated';
@@ -7,13 +11,20 @@ import { removeImageTags } from '../../../services/removeImageTags';
 
 const addProduct = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { title, brand, categoryId, subCategoryId, basePrice, images, description, isActive }: AddProductSchema =
-      req.body;
+    const {
+      title,
+      brand,
+      categoryId,
+      subCategoryId,
+      basePrice,
+      images,
+      description,
+      isActive,
+    }: AddProductSchema = req.body;
 
-    const existingProduct = await Product.findOne({ title: title });
-
+    const existingProduct = await Product.findOne({ title });
     if (existingProduct) {
-      throw new BadRequestError('Product already exist', 'title');
+      throw new BadRequestError('Product already exists', 'title');
     }
 
     const newProductData: AddProductSchema = {
@@ -27,10 +38,9 @@ const addProduct = async (req: Request, res: Response, next: NextFunction) => {
       isActive,
     };
 
-    const public_ids: string[] = images?.map((img) => img.public_id) ?? [];
-
-    if (public_ids.length > 0) {
-      await removeImageTags(public_ids);
+    const publicIds = images?.map((img) => img.public_id) ?? [];
+    if (publicIds.length > 0) {
+      await removeImageTags(publicIds);
     }
 
     const newProduct = await Product.create(newProductData);
@@ -40,9 +50,13 @@ const addProduct = async (req: Request, res: Response, next: NextFunction) => {
       title: newProduct.title,
     });
 
-    sendResponse(res, 201, { success: true, message: 'Product created success', data: newProduct });
+    sendResponse(res, 201, {
+      success: true,
+      message: 'Product created successfully',
+      data: newProduct,
+    });
   } catch (error) {
-    console.log('Error while adding product', error);
+    console.error('Error while adding product:', error);
     next(error);
   }
 };

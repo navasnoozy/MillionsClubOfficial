@@ -1,31 +1,47 @@
-import { AddProductVariant, sendResponse } from "@millionsclub/shared-libs/server";
-import { NextFunction, Request, Response } from "express";
-import { ProductVariants } from "../../../models/productVariantModel";
-import { Product } from "../../../models/productModel";
+// products/src/controllers/admin/product/addVariant.ts
+import {
+  AddProductVariant,
+  sendResponse,
+} from '@millionsclub/shared-libs/server';
+import { NextFunction, Request, Response } from 'express';
+import { ProductVariants } from '../../../models/productVariantModel';
+import { Product } from '../../../models/productModel';
+import { removeImageTags } from '../../../services/removeImageTags';
 
 const addVariant = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const _id = req.params.id;
+    console.log('add variant reached');
+    
+    const productId = req.params.id;
 
-    const { color, size, images, isActive } = req.body;
+    const { color, size, images, isActive }: AddProductVariant = req.body;
 
-    const productVariant: AddProductVariant = {
+    const variantData: AddProductVariant = {
       color,
       size,
       images,
-      productId: _id,
+      productId,
       isActive,
     };
 
-    const newVariant = await ProductVariants.create(productVariant);
+    const publicIds = images?.map((img) => img.public_id) ?? [];
+    if (publicIds.length > 0) {
+      await removeImageTags(publicIds);
+    }
 
-    await Product.findByIdAndUpdate(_id, {
+    const newVariant = await ProductVariants.create(variantData);
+
+    await Product.findByIdAndUpdate(productId, {
       $addToSet: { variantIds: newVariant._id },
     });
 
-        sendResponse(res, 201,{success:true,message:'Product variant created success',data:newVariant})
+    sendResponse(res, 201, {
+      success: true,
+      message: 'Product variant created successfully',
+      data: newVariant,
+    });
   } catch (error) {
-    console.error("Error occured while adding product variant");
+    console.error('Error while adding product variant:', error);
     next(error);
   }
 };

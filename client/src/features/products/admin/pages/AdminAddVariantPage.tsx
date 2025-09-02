@@ -10,6 +10,7 @@ import FormLayout from '../components/FormLayout';
 import ProductImageUploader from '../components/ProductImageUploader';
 import useCreateVariant from '../hooks/useCreateVariant';
 import VariantFormFields from '../components/VariantFormFields';
+import InfoAlerts from '../components/InfoAlerts';
 
 const AdminAddVariantPage = () => {
   const navigate = useNavigate();
@@ -31,6 +32,11 @@ const AdminAddVariantPage = () => {
     });
   };
 
+  const alerts = [
+    'Each product must have at least 4 photos.',
+    'All photos must be in a 1:1 aspect ratio (square).',
+  ];
+
   return (
     <FormLayout
       heading="Add Variant"
@@ -40,6 +46,7 @@ const AdminAddVariantPage = () => {
       right={<ProductImageUploader />}
       submitLabel="Add VARIANT"
       isLoading={isPending}
+      alerts={<InfoAlerts messages={alerts} />}
     />
   );
 };

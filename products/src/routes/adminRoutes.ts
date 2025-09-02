@@ -23,8 +23,9 @@ import { deleteSubCategory } from "../controllers/admin/subCategory/deleteSubCat
 import { updateSubCategory } from "../controllers/admin/subCategory/updateSubCategory";
 
 const adminRouter = Router();
-
+////////////////
 // PRODUCT /////
+////////////////
 adminRouter.post(
   "/api/products/add",
   validateRequest(addProductSchema),
@@ -43,10 +44,15 @@ adminRouter.delete(
   deleteProduct
 );
 
+
+
+
+////////////////
 // VARIANT /////
+///////////////
 adminRouter.post(
   "/api/products/:id/addvariant",
-  validateRequest(mongoIdValidationSchema),
+  validateRequest(mongoIdValidationSchema,'params'),
   validateRequest(addProductVariantSchema),
   addVariant
 );
@@ -62,7 +68,10 @@ adminRouter.delete(
   deleteVaraint
 );
 
+
+//////////////////
 // CATEGORY //////
+/////////////////////////////////////////////////////////////
 adminRouter.post(
   "/api/products/category/add",
   validateRequest(addCategorySchema),
@@ -82,7 +91,9 @@ adminRouter.patch(
   updateCategory
 );
 
+////////////////////////
 // SUB - CATEGORY //////
+//////////////////////////////////////////////////////////
 adminRouter.post(
   "/api/products/subcategory/add",
   validateRequest(addSubCategorySchema),

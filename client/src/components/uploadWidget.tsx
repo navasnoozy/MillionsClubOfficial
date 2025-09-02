@@ -37,8 +37,6 @@ const CloudinaryUploadWidget = ({ folderName: folder, onUploadSuccess }: UploadW
         return;
       }
       if (result?.event === 'success') {
-        console.log('upload result ', result);
-
         const image = {
           secure_url: result.info.secure_url,
           public_id: result.info.public_id,
@@ -80,7 +78,7 @@ const CloudinaryUploadWidget = ({ folderName: folder, onUploadSuccess }: UploadW
       cropping: true,
       croppingAspectRatio: 1,
       croppingDefaultSelectionRatio: 1,
-      showSkipCropButton: false, 
+      showSkipCropButton: false,
       croppingCoordinatesMode: 'custom', // CUSTOM CORDINATION SET IN PRESET IN CLOUDINARY
       transformation: [{ width: 2048, height: 2048, crop: 'fill' }],
       multiple: false,

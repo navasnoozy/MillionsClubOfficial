@@ -38,7 +38,9 @@ const AddSubCategoryPage = () => {
           <Stack spacing={3}>
             <AddSubCategoryForm isError={isError} errors={errors} />
 
-            <SubmitButton label="ADD SUB CATEGORY" isLoading={isPending} disabled={isPending} />
+            <SubmitButton isLoading={isPending} disabled={isPending}>
+              ADD SUB CATEGORY
+            </SubmitButton>
           </Stack>
         </form>
       </FormProvider>
