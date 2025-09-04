@@ -11,12 +11,11 @@ Key highlights include:
 * **Shared Libraries** – Common schemas, error handling, and middlewares are extracted into **shared-libs** for consistency across services.
 * **CI/CD Ready** – Clean codebase, modular structure, and K8s manifests enable seamless automation in modern DevOps pipelines.
 
----
+***
 
 ## 📂 Project Structure
 
 ```
-
 MillionsClub/
 ├─ auth/                # Authentication service
 ├─ client/              # React frontend application
@@ -25,7 +24,6 @@ MillionsClub/
 ├─ shared-libs/         # Shared TypeScript libraries (errors, middlewares, schemas, etc.)
 ├─ README.md            # Documentation
 └─ skaffold.yaml        # Skaffold config for local K8s development
-
 ```
 
 ## 🛠 Tech Stack
@@ -53,7 +51,7 @@ MillionsClub/
   - Provides reusable modules for **errors, schemas, middlewares, and Kafka clients**  
 > **Note:** also includes utilities related to **credentials and security information**, used internally across services
 
----
+***
 
 ## 🧩 Microservices
 
@@ -76,7 +74,7 @@ MillionsClub/
 
 - **Orders, Payments, Notification Service (`orders/`, `payments/`)** 🚧 *Future Work*
 
----
+***
 
 ## 🔗 Service Communication
 
@@ -85,7 +83,8 @@ Each service has:
 - **Publishers** – emit events when an action happens (e.g., user signup, product creation).
 - **Consumers** – listen to events and update their local state accordingly.
 
----
+***
+
 ## 🖼️ Architecture Diagram
 
 ```mermaid
@@ -143,18 +142,56 @@ graph TB
     style Cloudinary fill:#f1f8e9
 ```
 
+## 🌍 Local Domain Setup
 
+To access the app locally (via Ingress NGINX), you need to map the custom domain  
+`millionsclub.local` to your local Kubernetes cluster (usually `127.0.0.1` or `minikube ip`).
 
+### 🔧 Steps
 
+1. Find your cluster IP:
+   ```bash
+   minikube ip
+   ```
 
+   Example output: `192.168.49.2`
 
+2. Add an entry to your **hosts file**:
 
+   * **macOS / Linux**
+     Edit `/etc/hosts` (requires `sudo`):
 
+     ```bash
+     sudo nano /etc/hosts
+     ```
 
+     Add this line at the bottom (replace `<YOUR_CLUSTER_IP>`):
 
+     ```
+     <YOUR_CLUSTER_IP>  millionsclub.local
+     ```
 
+   * **Windows**
 
----
+     1. Open Notepad as Administrator
+     2. Open file:
+
+        ```
+        C:\Windows\System32\drivers\etc\hosts
+        ```
+     3. Add the line (replace `<YOUR_CLUSTER_IP>`):
+
+        ```
+        <YOUR_CLUSTER_IP>  millionsclub.local
+        ```
+
+3. Save the file, then test in your browser:
+
+   http://millionsclub.local
+
+✅ Now your local domain will point to the Kubernetes Ingress for MillionsClub.
+
+***
 
 ## 🚀 Getting Started
 
@@ -178,13 +215,12 @@ This will:
 * Deploy services into Kubernetes
 * Watch for file changes and auto-redeploy
 
----
-
+***
 
 ## 🐳 Dockerfiles
 
 For consistency, each service has its own `Dockerfile`.  
-Below are examples for **development** and **production** setups.  
+Below are examples for **development** and **production** setups.
 
 ### Development Dockerfile
 ```dockerfile
@@ -200,7 +236,7 @@ CMD ["npm", "run", "dev"]
 ```
 
 ### Production Dockerfile
-```
+```dockerfile
 # Stage 1: Builder
 FROM node:20-alpine AS builder
 WORKDIR /app
@@ -225,7 +261,7 @@ CMD ["node", "dist/index.js"]
 
 ## 📜 Directory Tree
 
-Here’s the **full project structure**:
+Here's the **full project structure**:
 > **Note:** The structure shown below may change in the future as the project evolves with new features and improvements.
 
 ```
@@ -297,7 +333,7 @@ MillionsClub/
 └─ skaffold.yaml
 ```
 
----
+***
 
 ## ✅ Features
 
@@ -308,21 +344,16 @@ MillionsClub/
 * [x] Shared libraries for consistency
 * [x] Kubernetes deployment (with Skaffold dev workflow)
 
----
+***
 
 ## 📌 Next Steps / Roadmap
 
 * [ ] Implement Order & Checkout microservice
 * [ ] Add Payment gateway integration
 
----
+***
 
 ## 👨‍💻 Author
 
 **MillionsClub Project**
 Built with ❤️ by [Navas CK](https://github.com/navasnoozy)
-
-```
-
----
-```
