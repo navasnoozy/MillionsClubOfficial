@@ -1,4 +1,6 @@
 // auth/src/index.ts
+
+
 import { app } from "./app";
 import connectDB from "./config/db";
 import { initKafka, disconnectKafka } from "./config/kafka.client";

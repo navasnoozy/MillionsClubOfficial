@@ -1,6 +1,6 @@
 {
   "name": "@millionsclub/shared-libs",
-  "version": "1.4.13",
+  "version": "1.4.14",
   "description": "",
   "files": [
     "build/**/*"
@@ -20,7 +20,7 @@
   },
   "scripts": {
     "clean": "del-cli  ./build/*",
-    "build": "npm run clean && tsc"
+    "build": "npm run clean && tsc && tsc-esm-fix"
   },
   "keywords": [],
   "author": "",
@@ -31,6 +31,7 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/multer": "^2.0.0",
     "del-cli": "^6.0.0",
+    "tsc-esm-fix": "^3.1.2",
     "typescript": "^5.8.3"
   },
   "dependencies": {

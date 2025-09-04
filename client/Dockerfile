@@ -13,23 +13,28 @@
 
 
 
-# Stage 1: Builder
-FROM node:alpine AS builder
+# Stage 1: Build the Vite app
+FROM node:24.7.0-alpine AS builder
+
 WORKDIR /app
 
-COPY package*.json ./
-RUN npm ci
+COPY package*.json .
+RUN npm ci --quiet
 
 COPY . .
-RUN npm run build    # compiles TS -> JS into /app/dist
 
-# Stage 2: Runtime
-FROM node:alpine
-WORKDIR /app
+RUN npm run build
 
-COPY package*.json ./
-RUN npm ci --omit=dev
+RUN ls -la /app/ && echo "Debug $(date)"
 
-COPY --from=builder /app/dist ./dist
 
-CMD ["node", "dist/index.js"]
+
+# Stage 2: Serve with Nginx
+FROM nginx:alpine
+
+COPY --from=builder /app/dist /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+
+EXPOSE 5173
+CMD ["nginx", "-g", "daemon off;"]
