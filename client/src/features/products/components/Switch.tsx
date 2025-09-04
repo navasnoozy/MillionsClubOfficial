@@ -16,7 +16,7 @@ const GreenSwitch = styled(Switch)(({ theme }) => ({
 
 type TongleButtonProps = {
   checked: boolean;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => void;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => void;
   label?: string;
 };
 
