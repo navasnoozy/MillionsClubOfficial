@@ -14,7 +14,8 @@ import AdminLayout from './layouts/AdminLayout';
 import Layout from './layouts/Layout';
 import AdminDashboard from './pages/AdminDashboard';
 import HomePage from './pages/HomePage';
-// import RequireAdmin from "./components/RequireAdmin";
+import RequireAdmin from './components/admin/RequireAdmin';
+
 
 const router = createBrowserRouter([
   {
@@ -38,9 +39,9 @@ const router = createBrowserRouter([
   {
     path: '/admin',
     element: (
-      // <RequireAdmin>
+      <RequireAdmin>
       <AdminLayout />
-      //  </RequireAdmin>
+       </RequireAdmin>
     ),
     errorElement: <ErrorBoundary />,
     children: [
