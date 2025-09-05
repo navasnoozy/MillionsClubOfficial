@@ -1,0 +1,32 @@
+name: Build & Push Docker Image on PR
+
+on:
+  pull_request:  # Triggers build for every pull request
+                # Equivalent in local bash: you'd manually trigger `docker build` when reviewing PRs.
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # The virtual machine runner
+                            # Locally: it's like running the build commands on your dev machine.
+
+    steps:
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+        # What it does: Authenticates to Docker Hub so pushes are allowed.
+        # mandatory
+        #  equivalent:
+        #   bash> echo "$DOCKERHUB_TOKEN" | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
+
+      - name: Build and push image
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/auth:latest
+        # What it does: Builds Docker image from repo context and pushes it.
+        # Why it's mandatory: This is the core—build and push.
+        # Real-world equivalent:
+        #   bash> docker build -t youruser/yourrepo:pr-12 .
+        #   bash> docker push youruser/yourrepo:pr-12
