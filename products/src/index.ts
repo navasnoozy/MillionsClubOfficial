@@ -7,6 +7,8 @@ import { subscribeToUserCreated } from "./events/consumers/cons.userCreated";
 
 const port = process.env.PORT || 3000;
 
+console.log('just checking ci cd workflow..');
+
 const startServer = async () => {
   try {
     // Connect to DB first
