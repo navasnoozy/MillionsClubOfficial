@@ -15,6 +15,7 @@ import Layout from './layouts/Layout';
 import AdminDashboard from './pages/AdminDashboard';
 import HomePage from './pages/HomePage';
 import RequireAdmin from './components/admin/RequireAdmin';
+import UnauthorizedPage from './pages/UnauthorizedPage';
 
 
 const router = createBrowserRouter([
@@ -32,6 +33,11 @@ const router = createBrowserRouter([
       {
         path: 'signin',
         element: <SigninPage />,
+        errorElement: <ErrorBoundary />,
+      },
+      {
+        path: 'unauthorized',
+        element: <UnauthorizedPage />,
         errorElement: <ErrorBoundary />,
       },
     ],

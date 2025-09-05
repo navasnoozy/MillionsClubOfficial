@@ -16,6 +16,8 @@ build:
         manual:
           - src: "src/**/*.ts"
             dest: /app
+          - src: "dist/**/*.js"
+            dest: /app/dist
 
 
     - image: navasnoozy/client
