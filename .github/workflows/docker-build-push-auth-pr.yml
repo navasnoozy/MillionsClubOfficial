@@ -1,8 +1,11 @@
-name: Build & Push Docker Image on PR
+name: Build & Push Docker Image on Push
 
 on:
-  pull_request:  # Triggers build for every pull request
-                # Equivalent in local bash: you'd manually trigger `docker build` when reviewing PRs.
+  push:                                #  Trigger only on "push" events
+    branches:                          #  Restrict to the main branch
+      - main
+    paths:                             #  Restrict workflow to only run if certain files change
+      - "auth/**"                      #  Run only when files under auth/ folder are modified
 
 jobs:
   build:
