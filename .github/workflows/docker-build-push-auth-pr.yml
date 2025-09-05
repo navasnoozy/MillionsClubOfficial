@@ -26,6 +26,7 @@ jobs:
       - name: Build and push image
         uses: docker/build-push-action@v6
         with:
+          context: ./auth              #  Must specify Docker file folder if it not in the root directory (auth service)
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/auth:latest
         # What it does: Builds Docker image from repo context and pushes it.
