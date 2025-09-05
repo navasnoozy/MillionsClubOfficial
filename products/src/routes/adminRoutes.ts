@@ -5,6 +5,7 @@ import {
   addProductVariantSchema,
   addSubCategorySchema,
   mongoIdValidationSchema,
+  requireAdmin,
   updateProductSchema,
   validateRequest,
 } from "@millionsclub/shared-libs/server";
@@ -27,19 +28,19 @@ const adminRouter = Router();
 // PRODUCT /////
 ////////////////
 adminRouter.post(
-  "/api/products/add",
+  "/api/products/add",requireAdmin,
   validateRequest(addProductSchema),
   addProduct
 );
 
 adminRouter.patch(
-  "/api/products/update/:id",
+  "/api/products/update/:id",requireAdmin,
   validateRequest(mongoIdValidationSchema, "params"),
   validateRequest(updateProductSchema),
   updateProduct
 );
 adminRouter.delete(
-  "/api/products/delete/:id",
+  "/api/products/delete/:id",requireAdmin,
   validateRequest(mongoIdValidationSchema, "params"),
   deleteProduct
 );
@@ -51,19 +52,19 @@ adminRouter.delete(
 // VARIANT /////
 ///////////////
 adminRouter.post(
-  "/api/products/:id/addvariant",
+  "/api/products/:id/addvariant",requireAdmin,
   validateRequest(mongoIdValidationSchema,'params'),
   validateRequest(addProductVariantSchema),
   addVariant
 );
 adminRouter.patch(
-  "/api/products/variant/:id",
+  "/api/products/variant/:id",requireAdmin,
   validateRequest(mongoIdValidationSchema, "params"),
   updateVariant
 );
 
 adminRouter.delete(
-  "/api/products/variant/:id",
+  "/api/products/variant/:id",requireAdmin,
   validateRequest(mongoIdValidationSchema, "params"),
   deleteVaraint
 );
@@ -73,13 +74,13 @@ adminRouter.delete(
 // CATEGORY //////
 /////////////////////////////////////////////////////////////
 adminRouter.post(
-  "/api/products/category/add",
+  "/api/products/category/add",requireAdmin,
   validateRequest(addCategorySchema),
   addCategory
 );
 
 adminRouter.delete(
-  "/api/products/category/delete/:id",
+  "/api/products/category/delete/:id",requireAdmin,
   validateRequest(mongoIdValidationSchema, "params"),
   deletCategory
 );
@@ -95,19 +96,19 @@ adminRouter.patch(
 // SUB - CATEGORY //////
 //////////////////////////////////////////////////////////
 adminRouter.post(
-  "/api/products/subcategory/add",
+  "/api/products/subcategory/add",requireAdmin,
   validateRequest(addSubCategorySchema),
   addSubCategory
 );
 
 adminRouter.delete(
-  "/api/products/subcategory/delete/:id",
+  "/api/products/subcategory/delete/:id",requireAdmin,
   validateRequest(mongoIdValidationSchema, "params"),
   deleteSubCategory
 );
 
 adminRouter.patch(
-  "/api/products/subcategory/update/:id",
+  "/api/products/subcategory/update/:id",requireAdmin,
   validateRequest(mongoIdValidationSchema, "params"),
   validateRequest(updateProductSchema),
   updateSubCategory
