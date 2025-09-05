@@ -11,6 +11,9 @@ import { signupRouter } from "./routes/signup";
 
 const app = express();
 
+console.log('just checking ci cd workflow');
+
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 dotenv.config();
