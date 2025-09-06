@@ -5,6 +5,7 @@ on:
       - main
     paths:
       - 'infra/**'
+      
 
 jobs:
   deploy:
@@ -31,12 +32,9 @@ jobs:
           
       - name: Wait for deployments to be ready
         run: |
-          kubectl rollout status deployment/auth-depl --timeout=300s
-          kubectl rollout status deployment/client-depl --timeout=300s
-          kubectl rollout status deployment/orders-depl --timeout=300s
-          kubectl rollout status deployment/payments-depl --timeout=300s
-          kubectl rollout status deployment/tickets-depl --timeout=300s
-          kubectl rollout status deployment/expiration-depl --timeout=300s
+          kubectl rollout status deployment/auth-deployment --timeout=300s
+          kubectl rollout status deployment/client-deployment --timeout=300s
+          kubectl rollout status deployment/products-deployment --timeout=300s
           
       - name: Get deployment status
         run: kubectl get deployments
