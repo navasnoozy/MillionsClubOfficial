@@ -1,10 +1,10 @@
-name: deploy-manifests
+name: kafka-deploy-manifests
 on:
   push:
     branches:
       - main
     paths:
-      - 'infra/**'
+      - 'infra/k8s-kafka/**'
       
 
 jobs:
@@ -25,16 +25,13 @@ jobs:
       - name: Verify cluster connection
         run: kubectl cluster-info
         
-      - name: Apply Kubernetes manifests
+      - name: Apply and deploy kafka first
         run: |
-          kubectl apply -f infra/k8s
-          kubectl apply -f infra/k8s-prod
+          kubectl apply -f infra/k8s-kafka
           
       - name: Wait for deployments to be ready
         run: |
-          kubectl rollout status deployment/auth-deployment --timeout=300s
-          kubectl rollout status deployment/client-deployment --timeout=300s
-          kubectl rollout status deployment/products-deployment --timeout=300s
+          kubectl rollout status statefulset/kafka-statefulset --timeout=300s
           
-      - name: Get deployment status
-        run: kubectl get deployments
+      - name: Get Kafka statefulset status
+        run: kubectl get statefulset
