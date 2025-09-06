@@ -20,7 +20,7 @@ spec:
       containers:
         - name: products
           image: navasnoozy/products:latest # Replace with your Docker image name
-          imagePullPolicy: Always # Use 'Never' if you're using local Docker images with Minikube or Docker Desktop
+          imagePullPolicy: IfNotPresent # Use 'Never or IfNotPresent' if you're using local Docker images with Minikube or Docker Desktop
           env:
             - name: JWT_KEY
               valueFrom:
