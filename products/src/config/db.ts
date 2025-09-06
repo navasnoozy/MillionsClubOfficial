@@ -6,8 +6,7 @@ const connectDB = async () => {
   }
 
   try {
-    const conn = await mongoose.connect( process.env.MONGO_URI ||
-      "mongodb://products-mongo-service:27017/products_millionsclub"
+    const conn = await mongoose.connect( process.env.MONGO_URI!
     );
     console.log(`MongoDB Connected: ${conn.connection.host}`);
     

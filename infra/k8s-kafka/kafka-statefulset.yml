@@ -71,7 +71,7 @@ spec:
         name: kafka-data
       spec:
         accessModes: ["ReadWriteOnce"]
-        storageClassName: do-block-storage  # DigitalOcean storage class
+        # storageClassName: do-block-storage  # DigitalOcean storage class
         resources:
           requests:
             storage: 10Gi

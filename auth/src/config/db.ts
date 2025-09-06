@@ -5,8 +5,7 @@ const connectDB = async () => {
     throw new Error('JWT_KEY not defined');
   }
   try {
-    const conn = await mongoose.connect( process.env.MONGO_URI ||
-      "mongodb://auth-mongo-service:27017/auth_millionsclub"
+    const conn = await mongoose.connect( process.env.MONGO_URI!
     );
     console.log(`MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {

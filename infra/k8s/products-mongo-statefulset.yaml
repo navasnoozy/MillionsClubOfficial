@@ -4,8 +4,8 @@ kind: StatefulSet
 metadata:
   name: products-mongo-statefulset # K8s will prefix pod names with this. You’ll get:
 spec:
-  serviceName: "products-mongo"
-  replicas: 1  # set >1 for replica set
+  serviceName: 'products-mongo'
+  replicas: 1 # set >1 for replica set
   selector:
     matchLabels:
       app: products-mongodb
@@ -17,6 +17,19 @@ spec:
       containers:
         - name: products-mongo
           image: mongo:latest
+
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME #special environment variables that the official MongoDB Docker image recognizes.
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-credentials
+                  key: username
+            - name: MONGO_INITDB_ROOT_PASSWORD #special environment variables that the official MongoDB Docker image recognizes.
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-credentials
+                  key: password
+
           ports:
             - containerPort: 27017
               name: mongodb
@@ -27,13 +40,12 @@ spec:
     - metadata:
         name: data
       spec:
-        accessModes: ["ReadWriteOnce"]
+        accessModes: ['ReadWriteOnce']
         resources:
           requests:
             storage: 5Gi
 
 ---
-
 apiVersion: v1
 kind: Service
 metadata:

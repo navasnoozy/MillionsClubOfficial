@@ -14,10 +14,10 @@ spec:
       labels:
         app: auth
     spec:
-      initContainers:
-        - name: wait-for-kafka
-          image: busybox:1.28
-          command: ['sh', '-c', 'until nslookup kafka.default.svc.cluster.local; do echo waiting for kafka; sleep 2; done; until nc -z kafka.default.svc.cluster.local 9092; do echo waiting for kafka; sleep 2; done;']
+      # initContainers:
+      #   - name: wait-for-kafka
+      #     image: busybox:1.28
+      #     command: ['sh', '-c', 'until nslookup kafka.default.svc.cluster.local; do echo waiting for kafka; sleep 2; done; until nc -z kafka.default.svc.cluster.local 9092; do echo waiting for kafka; sleep 2; done;']
       containers:
         - name: auth
           image: navasnoozy/auth:latest # Replace with your Docker image name

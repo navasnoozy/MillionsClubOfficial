@@ -4,8 +4,8 @@ import { sendResponse } from '@millionsclub/shared-libs/server';
 const getCloudinaryConfig = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const data = {
-      cloud_name: process.env.CLOUDNARY_NAME!,
-      api_key: process.env.CLOUDNARY_API_KEY!,
+      cloud_name: process.env.CLOUDINARY_NAME!,
+      api_key: process.env.CLOUDINARY_API_KEY!,
     };
 
     sendResponse(res, 200, { success: true, data: data });
