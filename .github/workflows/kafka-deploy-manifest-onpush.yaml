@@ -31,7 +31,7 @@ jobs:
           
       - name: Wait for deployments to be ready
         run: |
-          kubectl rollout status statefulset/kafka-statefulset --timeout=300s
+          kubectl rollout status statefulset/kafka --timeout=300s
           
       - name: Get Kafka statefulset status
         run: kubectl get statefulset
