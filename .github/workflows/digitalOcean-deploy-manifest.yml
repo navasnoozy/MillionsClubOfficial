@@ -1,0 +1,42 @@
+name: deploy-manifests
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'infra/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+          
+      - name: Save DigitalOcean kubeconfig
+        run: doctl kubernetes cluster kubeconfig save millionsclub
+        
+      - name: Verify cluster connection
+        run: kubectl cluster-info
+        
+      - name: Apply Kubernetes manifests
+        run: |
+          kubectl apply -f infra/k8s
+          kubectl apply -f infra/k8s-prod
+          
+      - name: Wait for deployments to be ready
+        run: |
+          kubectl rollout status deployment/auth-depl --timeout=300s
+          kubectl rollout status deployment/client-depl --timeout=300s
+          kubectl rollout status deployment/orders-depl --timeout=300s
+          kubectl rollout status deployment/payments-depl --timeout=300s
+          kubectl rollout status deployment/tickets-depl --timeout=300s
+          kubectl rollout status deployment/expiration-depl --timeout=300s
+          
+      - name: Get deployment status
+        run: kubectl get deployments
