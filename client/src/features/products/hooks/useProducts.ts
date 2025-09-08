@@ -1,10 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import axiosInstance from '../../../lib/axios';
-import type { AddProductSchema } from '@millionsclub/shared-libs/client';
+import type { AddProductSchema, AddProductVariant } from '@millionsclub/shared-libs/client';
 
-interface ProductResponse extends AddProductSchema {
+interface ProductResponse extends Omit<AddProductSchema, 'variantIds'> {
   createdAt: Date;
   updatedAt: Date;
+  variantIds: AddProductVariant[];
 }
 
 const useProducts = () => {
@@ -19,7 +20,6 @@ const useProducts = () => {
         throw err;
       }
     },
-
     staleTime: 1000 * 60 * 60 * 24,
   });
 };
