@@ -11,7 +11,6 @@ const useProducts = () => {
   return useQuery<ProductResponse[]>({
     queryKey: ['products'],
     queryFn: async () => {
-      console.log('queryFn about to run');
       try {
         const res = await axiosInstance.get('/api/products/list');
         return res.data.data;

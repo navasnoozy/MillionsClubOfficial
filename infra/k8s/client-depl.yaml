@@ -15,12 +15,15 @@ spec:
       containers:
         - name: client
           image: navasnoozy/client:latest # Replace with your Docker image name
-          imagePullPolicy: Always # Use 'Never' if you're using local Docker images with Minikube or Docker Desktop
+          imagePullPolicy: IfNotPresent # Use 'Never' if you're using local Docker images with Minikube or Docker Desktop
           ports:
             - containerPort: 5173
           env:
-            - name: VITE_API_BASE_URL
-              value: http://139.59.51.63
+          - name: VITE_BASE_URL
+            valueFrom:
+              configMapKeyRef:
+                name: app-config
+                key: VITE_BASE_URL
 
 ---
 apiVersion: v1

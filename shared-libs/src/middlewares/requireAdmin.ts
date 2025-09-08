@@ -6,6 +6,7 @@ export const requireAdmin = (
   res: Response,
   next: NextFunction
 ) => {
+
   if (!req.currentUser || req.currentUser.role !== "admin") {
     throw new NotAuthorizedError();
   }
