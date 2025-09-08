@@ -27,7 +27,7 @@ const AdminAddVariantPage = () => {
 
   const handleAddVariant = (data: AddProductVariant) => {
     addVariant(data, {
-      onSuccess: () => navigate('/productmanagement'),
+      onSuccess: () => navigate('/admin/productmanagement'),
       onError: (error) => apiErrorHandler(error, setError),
     });
   };

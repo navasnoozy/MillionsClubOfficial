@@ -25,7 +25,7 @@ const ProductManagement = () => {
               <TableRow key={item.id}>
                 <TableCell size="small">
                   <CardMedia sx={{width:'200px',}}>
-                    <ImagePreview src={item.images?.[0]?.secure_url} />
+                      <ImagePreview src={item?.images?.[0]?.secure_url || item.variantIds[0].images[0].secure_url} />
                   </CardMedia>
                 </TableCell>
                 <TableCell>{item.title}</TableCell>
