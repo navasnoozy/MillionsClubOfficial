@@ -25,7 +25,7 @@ COPY . .
 
 RUN npm run build
 
-RUN ls -la /app/ && echo "Debug $(date)"
+# RUN ls -la /app/ && echo "Debug $(date)"
 
 
 

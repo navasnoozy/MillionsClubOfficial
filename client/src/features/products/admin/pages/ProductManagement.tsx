@@ -1,4 +1,14 @@
-import { Box, Paper, Table, TableBody, TableCell, TableHead, TableRow, CardMedia } from '@mui/material';
+import {
+  Box,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  CardMedia,
+  TableContainer,
+} from '@mui/material';
 import TongleButton from '../../components/Switch';
 import tableHeadings from '../config/tableHeading';
 import Panel from '../../components/Panel';
@@ -11,7 +21,8 @@ const ProductManagement = () => {
   return (
     <Box display="grid" gridAutoRows="auto" rowGap={2}>
       <Panel />
-      <Paper>
+
+      <TableContainer component={Paper} sx={{ overflowX: 'auto' }}>
         <Table>
           <TableHead>
             <TableRow hover>
@@ -20,12 +31,18 @@ const ProductManagement = () => {
               ))}
             </TableRow>
           </TableHead>
+
           <TableBody>
             {products?.map((item) => (
               <TableRow key={item.id}>
                 <TableCell size="small">
-                  <CardMedia sx={{width:'200px',}}>
-                      <ImagePreview src={item?.images?.[0]?.secure_url || item.variantIds[0].images[0].secure_url} />
+                  <CardMedia sx={{ width: '200px' }}>
+                    <ImagePreview
+                      src={
+                        item?.images?.[0]?.secure_url ||
+                        item.variantIds[0].images[0].secure_url
+                      }
+                    />
                   </CardMedia>
                 </TableCell>
                 <TableCell>{item.title}</TableCell>
@@ -40,10 +57,9 @@ const ProductManagement = () => {
             ))}
           </TableBody>
         </Table>
-      </Paper>
+      </TableContainer>
     </Box>
   );
 };
-
 
 export default ProductManagement;

@@ -18,6 +18,7 @@ spec:
           imagePullPolicy: Never # Use 'Never' if you're using local Docker images with Minikube or Docker Desktop
           ports:
             - containerPort: 5173
+            
           env:
           - name: VITE_BASE_URL
             valueFrom:

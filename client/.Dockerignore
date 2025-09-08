@@ -7,3 +7,4 @@ build
 coverage
 *.md
 .DS_Store
+Dockerfile.dev

@@ -20,11 +20,13 @@ spec:
 
           
           env:
+          
           - name: MONGO_INITDB_ROOT_USERNAME   #special environment variables that the official MongoDB Docker image recognizes.
             valueFrom:
               secretKeyRef:
                 name: mongo-credentials
                 key: username
+
           - name: MONGO_INITDB_ROOT_PASSWORD  #special environment variables that the official MongoDB Docker image recognizes.
             valueFrom:
               secretKeyRef:

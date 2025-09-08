@@ -6,7 +6,7 @@ interface NavLinks {
 }
 
 export const navlinks: NavLinks = {
-  pages: ["Products", "Pricing", "Blog"],
+  pages: ["OFFERS", "NEW ARRIVALS", "COUPONS"],
   userMenuLinks: [
     { label: "Profile", to: "/profile" },
     { label: "Cart", to: "/cart" },
