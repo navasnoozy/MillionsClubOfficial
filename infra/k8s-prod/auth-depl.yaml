@@ -21,7 +21,7 @@ spec:
       containers:
         - name: auth
           image: navasnoozy/auth:latest # Replace with your Docker image name
-          imagePullPolicy: IfNotPresent # Use 'Never' if you're using local Docker images with Minikube or Docker Desktop
+          imagePullPolicy: Always # Use 'Never' if you're using local Docker images with Minikube or Docker Desktop
           env:
             - name: JWT_KEY
               valueFrom:
