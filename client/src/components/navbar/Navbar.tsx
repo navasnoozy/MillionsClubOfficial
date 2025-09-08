@@ -23,7 +23,7 @@ export const NavBar: React.FC = () => {
 
   return (
     <AppBar position="static" sx={{  boxShadow: '0 0px 2px  rgba(0, 251, 255, 0.75)',}}>
-      <Container maxWidth="xl">
+      <Container maxWidth={false}>
         <Toolbar disableGutters>
           <Logo variant="desktop" />
           <MobileMenu

@@ -13,14 +13,14 @@ const Layout = () => {
 
   return (
     <Box>
-      <Box position={"relative"}>
+      <Box  position={"relative"} >
         <NavBar />
         {showPogressBar && (
           <LinearProgress
             sx={{
               height: "2px",
               position: "absolute",
-              buttom: 0,
+              bottom: 0,
               left: 0,
               right: 0,
               zIndex: 1300,
@@ -29,7 +29,7 @@ const Layout = () => {
         )}
       </Box>
 
-      <Box paddingY={"12px"}>
+      <Box paddingY={"12px"} paddingX={'20px'}>
         <Outlet />
       </Box>
     </Box>

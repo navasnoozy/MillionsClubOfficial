@@ -11,7 +11,7 @@ const HomePage = () => {
 
   return (
     <Box>
-      <Grid container spacing={3}>
+      <Grid container spacing={3} sx={{alignItems:'center'}}>
         {products.map((item) => (
           <Grid
             key={item.id}
@@ -20,7 +20,7 @@ const HomePage = () => {
               borderRadius: 2,
               padding: 2,
             }}
-            size={{ xs: 12, sm: 6, md: 4, lg: 3 }}
+            size={{ xs: 12, sm: 6, md: 4, lg: 2 }}
           >
             <Stack flexDirection={{ xs: 'row', sm: 'column' }} gap={2}>
               <Stack
