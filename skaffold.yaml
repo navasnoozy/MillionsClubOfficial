@@ -11,7 +11,7 @@ build:
     - image: navasnoozy/auth
       context: auth
       docker:
-        dockerfile: Dockerfile
+        dockerfile: Dockerfile.dev
       sync:
         manual:
           - src: "src/**/*.ts"
@@ -23,7 +23,7 @@ build:
     - image: navasnoozy/client
       context: client
       docker:
-        dockerfile: Dockerfile
+        dockerfile: Dockerfile.dev
       sync:
         manual:
         - src: "src/**"
@@ -46,7 +46,7 @@ build:
     - image: navasnoozy/products
       context: products
       docker:
-        dockerfile: Dockerfile
+        dockerfile: Dockerfile.dev
       sync:
         manual:
           - src: "src/**/*.ts"

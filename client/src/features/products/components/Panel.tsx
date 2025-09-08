@@ -6,7 +6,7 @@ import LinkButton from "../../../components/LinkButton"
 const Panel = () => {
   return (
    <Box sx={{ display:'flex', justifyContent:'space-between'}}>
-      <LinkButton to='/admin/addproduct' size="small" variant="contained" color="primary">   Add Product</LinkButton>
+      <LinkButton to='/admin' size="small" variant="contained" color="primary">   Dashboard</LinkButton>
         <LinkButton to='/admin/addproduct' size="small" variant="contained" color="primary">   Add Product</LinkButton>
         
     </Box>
