@@ -70,7 +70,7 @@ build:
 
 manifests:
   rawYaml:
-    - ./infra/k8s/*.yaml
+    - ./infra/k8s/*.yaml #this for applying all common files of dev and production
     - ./infra/k8s-dev/*.yaml
 
 deploy:

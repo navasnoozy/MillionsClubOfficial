@@ -1,4 +1,4 @@
-# skaffold.yaml
+# kafka-skaffold.yaml
 apiVersion: skaffold/v3
 kind: Config
 
