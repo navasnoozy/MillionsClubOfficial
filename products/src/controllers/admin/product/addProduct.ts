@@ -1,4 +1,4 @@
-// products/src/controllers/admin/product/addProduct.ts
+
 import {
   AddProductSchema,
   BadRequestError,

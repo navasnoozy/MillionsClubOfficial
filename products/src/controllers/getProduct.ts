@@ -1,0 +1,28 @@
+
+import { BadRequestError, sendResponse } from "@millionsclub/shared-libs/server";
+import { NextFunction, Request, Response } from "express";
+
+import mongoose from "mongoose";
+import { Product } from "../models/productModel";
+
+const getProduct = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const _id = req.params.id;
+
+    if (!_id) throw new BadRequestError("Please provide product id");
+
+    const product = await Product.findById(_id).populate("variantIds");
+
+    if (!product) {
+      throw new BadRequestError("Product not found");
+    }
+
+       sendResponse(res, 200,{success:true, data:product})
+    return;
+  } catch (error) {
+    console.error("Error occured while fetching a product", error);
+    next(error);
+  }
+};
+
+export { getProduct };

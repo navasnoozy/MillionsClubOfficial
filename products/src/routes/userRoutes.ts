@@ -1,10 +1,11 @@
 //products/src/routes/userRoutes.ts
 
 import { Router } from "express";
-import { getProduct } from "../controllers/user/getProduct";
-import { listCategory } from "../controllers/user/listCategory";
-import { listProducts } from "../controllers/user/listProducts";
-import { listSubCategory } from "../controllers/user/listSubCategory";
+import { getProduct } from "../controllers/getProduct";
+import { listCategory } from "../controllers/listCategory";
+import { listProducts } from "../controllers/listProducts";
+import { listSubCategory } from "../controllers/listSubCategory";
+
 const userRouter = Router();
 
 //PRODUCT
