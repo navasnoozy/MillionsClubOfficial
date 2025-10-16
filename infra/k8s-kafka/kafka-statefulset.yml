@@ -1,93 +1,227 @@
-# infra/k8s-kafka/kafka-statefulset.yml
-
-apiVersion: apps/v1
-kind: StatefulSet
-metadata:
-  name: kafka
-spec:
-  serviceName: kafka
-  replicas: 3
-  podManagementPolicy: Parallel
-  selector:
-    matchLabels:
-      app: kafka
-  template:
-    metadata:
-      labels:
-        app: kafka
-    spec:
-      # --- Fix volume permissions before Kafka starts ---
-      initContainers:
-        - name: volume-permissions
-          image: bitnami/kafka:4.1.0
-          command: ["sh", "-c", "chown -R 1001:1001 /bitnami/kafka"]
-          securityContext:
-            runAsUser: 0
-          volumeMounts:
-            - name: kafka-data
-              mountPath: /bitnami/kafka
-
-      # --- Main Kafka container ---
-      containers:
-        - name: kafka
-          image: bitnami/kafka:latest
-          ports:
-            - containerPort: 9092
-              name: kafka
-            - containerPort: 9093
-              name: controller
-          env:
-            - name: POD_NAME
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.name
-            - name: KAFKA_KRAFT_CLUSTER_ID
-              value: "1E785D31-8957-42B6-AE55-CBE71983941E"
-            - name: KAFKA_CFG_PROCESS_ROLES
-              value: "controller,broker"
-            - name: KAFKA_CFG_CONTROLLER_QUORUM_VOTERS
-              value: "0@kafka-0.kafka.default.svc.cluster.local:9093,1@kafka-1.kafka.default.svc.cluster.local:9093,2@kafka-2.kafka.default.svc.cluster.local:9093"
-            - name: KAFKA_CFG_LISTENERS
-              value: "PLAINTEXT://:9092,CONTROLLER://:9093"
-            - name: KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP
-              value: "CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT"
-            - name: KAFKA_CFG_CONTROLLER_LISTENER_NAMES
-              value: "CONTROLLER"
-            - name: KAFKA_CFG_INTER_BROKER_LISTENER_NAME
-              value: PLAINTEXT
-            - name: KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE
-              value: "true"
-          command: ["/bin/bash"]
-          args:
-            - -c
-            - |
-              export KAFKA_CFG_NODE_ID=$(echo ${POD_NAME} | sed 's/.*-//')
-              export KAFKA_CFG_ADVERTISED_LISTENERS="PLAINTEXT://${POD_NAME}.kafka.default.svc.cluster.local:9092"
-              /opt/bitnami/scripts/kafka/entrypoint.sh /opt/bitnami/scripts/kafka/run.sh
-          volumeMounts:
-            - name: kafka-data
-              mountPath: /bitnami/kafka
-
-  volumeClaimTemplates:
-    - metadata:
-        name: kafka-data
-      spec:
-        accessModes: ["ReadWriteOnce"]
-        # storageClassName: do-block-storage  # DigitalOcean storage class optional / if there errro such permission denied
-        resources:
-          requests:
-            storage: 10Gi
 ---
-apiVersion: v1
-kind: Service
+apiVersion: v1 
+kind: Service  
 metadata:
-  name: kafka
-spec:
-  clusterIP: None
-  selector:
+  name: kafka  #  Must match serviceName in StatefulSet
+  labels:  # OPTIONAL - But recommended for organization
     app: kafka
-  ports:
-    - port: 9092
-      name: kafka
-    - port: 9093
-      name: controller
+spec:
+  clusterIP: None  # MANDATORY - Headless service required for StatefulSet
+  selector:  
+    app: kafka
+  ports:  # MANDATORY
+    - port: 9092  # MANDATORY - Kafka client port
+      name: kafka  # OPTIONAL - But recommended
+      targetPort: 9092  # OPTIONAL - Defaults to port if not specified
+    - port: 9093  # MANDATORY - Controller port for KRaft
+      name: controller  # OPTIONAL - But recommended
+      targetPort: 9093  # OPTIONAL
+
+---
+# ========== MANDATORY: Kafka StatefulSet ==========
+apiVersion: apps/v1  
+kind: StatefulSet 
+metadata:
+  name: kafka 
+  labels:  # OPTIONAL - But recommended
+    app: kafka
+spec:
+  serviceName: kafka  # Must match the headless service name
+  replicas: 1  
+  selector:  
+    matchLabels:  
+      app: kafka  #  Must match pod template labels
+  # podManagementPolicy: OrderedReady  # OPTIONAL - Default is OrderedReady
+  # updateStrategy:  # OPTIONAL
+  #   type: RollingUpdate  # OPTIONAL - Default update strategy
+  template:  
+    metadata:  
+      labels:  
+        app: kafka  # Must match selector
+    spec:
+      # RECOMMENDED: Proper termination grace period for Kafka shutdown
+      terminationGracePeriodSeconds: 60 
+      
+      containers:  
+      - name: kafka  
+        image: apache/kafka:4.1.0  # MANDATORY
+        imagePullPolicy: IfNotPresent  # OPTIONAL - Default is IfNotPresent
+        
+
+               # ========== MANDATORY: KRaft Configuration ========== 
+        env: 
+        
+        # MANDATORY: Node ID - Unique identifier for this Kafka broker
+        # For multi-broker: Use different values (1, 2, 3, etc.)
+        - name: KAFKA_NODE_ID
+          value: "1"  # MANDATORY - Must be unique per broker
+        
+        # MANDATORY: Process roles for KRaft mode
+        # Options: "broker", "controller", or "broker,controller"
+        - name: KAFKA_PROCESS_ROLES
+          value: "broker,controller"  # MANDATORY
+        
+        # MANDATORY: Controller listener names
+        - name: KAFKA_CONTROLLER_LISTENER_NAMES
+          value: "CONTROLLER"  # MANDATORY
+        
+        # ========== MANDATORY: Listener Configuration ==========
+        
+        # MANDATORY: Listener security protocol mapping
+        - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
+          value: "CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT"
+        
+        # MANDATORY: Listeners - Where Kafka binds
+        - name: KAFKA_LISTENERS
+          value: "PLAINTEXT://:9092,CONTROLLER://:9093"  # MANDATORY
+        
+        # MANDATORY: Advertised listeners - How clients connect
+        # Update the namespace if not using "default"
+        - name: KAFKA_ADVERTISED_LISTENERS
+          value: "PLAINTEXT://kafka-0.kafka.default.svc.cluster.local:9092"
+          # For multi-broker, use: kafka-1, kafka-2, etc.
+        
+        # MANDATORY: Inter-broker listener name
+        - name: KAFKA_INTER_BROKER_LISTENER_NAME
+          value: "PLAINTEXT"  # MANDATORY
+        
+        # ========== MANDATORY: Controller Quorum Configuration ==========
+        
+        # MANDATORY: Controller quorum voters for KRaft consensus
+        # Format: id@host:port (must match KAFKA_NODE_ID)
+        # For multi-broker (3 nodes):
+        # "1@kafka-0.kafka.default.svc.cluster.local:9093,2@kafka-1.kafka.default.svc.cluster.local:9093,3@kafka-2.kafka.default.svc.cluster.local:9093"
+        - name: KAFKA_CONTROLLER_QUORUM_VOTERS
+          value: "1@kafka-0.kafka.default.svc.cluster.local:9093"  # MANDATORY
+        
+        # ========== MANDATORY: Storage Configuration ==========
+        
+        # MANDATORY: Kafka log directories for persistent storage
+        - name: KAFKA_LOG_DIRS
+          value: "/var/lib/kafka/data"  # MANDATORY - Must match volumeMount path
+        
+        # ========== MANDATORY: Cluster Configuration ==========
+        
+        # MANDATORY: Unique cluster ID for KRaft mode
+        # Generate using: docker run apache/kafka:4.1.0 kafka-storage.sh random-uuid
+        # IMPORTANT: Must be the same across all brokers in the cluster
+        - name: CLUSTER_ID
+          value: "MkU3OEVBNTcwNTJENDM2Qk"  # MANDATORY - CHANGE THIS!
+        
+        # ========== MANDATORY: Topic & Replication Configuration ==========
+        
+        # MANDATORY: Offsets topic replication factor
+        # Set to 1 for single broker, 3 for production multi-broker
+        - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
+          value: "1"  # MANDATORY
+        
+        # MANDATORY: Transaction state log replication factor
+        - name: KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR
+          value: "1"  # MANDATORY
+        
+        # MANDATORY: Transaction state log minimum in-sync replicas
+        - name: KAFKA_TRANSACTION_STATE_LOG_MIN_ISR
+          value: "1"  # MANDATORY
+        
+        # RECOMMENDED: Default replication factor for auto-created topics
+        - name: KAFKA_DEFAULT_REPLICATION_FACTOR
+          value: "1"  # RECOMMENDED
+        
+        # RECOMMENDED: Minimum in-sync replicas for producers
+        - name: KAFKA_MIN_INSYNC_REPLICAS
+          value: "1"  # RECOMMENDED
+        
+        # ========== OPTIONAL: Performance & Tuning ==========
+        
+        # OPTIONAL: Number of network threads
+        - name: KAFKA_NUM_NETWORK_THREADS
+          value: "3"  # OPTIONAL - Default is 3
+        
+        # OPTIONAL: Number of I/O threads
+        - name: KAFKA_NUM_IO_THREADS
+          value: "8"  # OPTIONAL - Default is 8
+        
+        # OPTIONAL: Log retention settings
+        - name: KAFKA_LOG_RETENTION_HOURS
+          value: "168"  # OPTIONAL - Default is 168 (7 days)
+        
+        # OPTIONAL: Log retention check interval
+        - name: KAFKA_LOG_RETENTION_CHECK_INTERVAL_MS
+          value: "300000"  # OPTIONAL - Default is 300000 (5 minutes)
+        
+        # OPTIONAL: Auto create topics
+        - name: KAFKA_AUTO_CREATE_TOPICS_ENABLE
+          value: "true"  # OPTIONAL - Default is true
+        
+        # OPTIONAL: Consumer group rebalance delay
+        - name: KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS
+          value: "3000"  # OPTIONAL - Default is 3000
+        
+        # ========== OPTIONAL: JVM Configuration ==========
+        
+        # OPTIONAL: JVM heap size (adjust based on workload)
+        - name: KAFKA_HEAP_OPTS
+          value: "-Xmx1G -Xms1G"  # OPTIONAL - But recommended to set explicitly
+        
+        # OPTIONAL: JVM performance options
+        - name: KAFKA_JVM_PERFORMANCE_OPTS
+          value: "-XX:+UseG1GC -XX:MaxGCPauseMillis=20 -XX:InitiatingHeapOccupancyPercent=35 -XX:G1HeapRegionSize=16M -XX:MinMetaspaceFreeRatio=50 -XX:MaxMetaspaceFreeRatio=80"
+        
+        # ========== RECOMMENDED: Resource Configuration ==========
+        
+        resources:  # OPTIONAL - But strongly recommended for production
+          requests:  # RECOMMENDED
+            cpu: "500m"      # RECOMMENDED - Minimum CPU
+            memory: "1.5Gi"  # RECOMMENDED - Minimum RAM
+          limits:  # RECOMMENDED
+            cpu: "2000m"     # RECOMMENDED - Maximum CPU
+            memory: "2Gi"    # RECOMMENDED - Maximum RAM
+        
+        # ========== MANDATORY: Volume Mounts ==========
+        
+        volumeMounts: 
+        - name: kafka-data  # Must match volumeClaimTemplates name
+          mountPath: /var/lib/kafka/data  #  Must match KAFKA_LOG_DIRS
+        
+        # ========== RECOMMENDED: Health Checks ==========
+        
+        # RECOMMENDED: Liveness probe - Restarts container if unhealthy
+        livenessProbe:  # OPTIONAL - But strongly recommended
+          tcpSocket:
+            port: 9092
+          initialDelaySeconds: 60  # OPTIONAL - Adjust based on startup time
+          periodSeconds: 10  # OPTIONAL - Default is 10
+          timeoutSeconds: 5  # OPTIONAL - Default is 1
+          failureThreshold: 3  # OPTIONAL - Default is 3
+        
+        # RECOMMENDED: Readiness probe - Removes from service if not ready
+        readinessProbe:  # OPTIONAL - But strongly recommended
+          tcpSocket:
+            port: 9092
+          initialDelaySeconds: 30  # OPTIONAL
+          periodSeconds: 10  # OPTIONAL
+          timeoutSeconds: 5  # OPTIONAL
+          failureThreshold: 3  # OPTIONAL
+        
+        # RECOMMENDED: Startup probe - Prevents other probes during startup
+        startupProbe:  # OPTIONAL - But recommended for slow-starting apps
+          tcpSocket:
+            port: 9092
+          initialDelaySeconds: 10  # OPTIONAL
+          periodSeconds: 5  # OPTIONAL
+          timeoutSeconds: 5  # OPTIONAL
+          failureThreshold: 30  # OPTIONAL - Allows up to 150s startup time
+  
+  # ========== MANDATORY: Persistent Volume Claim Templates ==========
+  
+  volumeClaimTemplates:  # MANDATORY - Required for StatefulSet with persistent data
+  - metadata:  # MANDATORY
+      name: kafka-data  # MANDATORY - Must match volumeMounts name
+      labels:  # OPTIONAL
+        app: kafka
+    spec:  # MANDATORY
+      accessModes:  # MANDATORY
+        - ReadWriteOnce  # MANDATORY - Volume mounted by single node
+      resources:  # MANDATORY
+        requests:  # MANDATORY
+          storage: 10Gi  # MANDATORY - Adjust based on data volume needs

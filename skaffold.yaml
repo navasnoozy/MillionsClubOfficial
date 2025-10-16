@@ -28,19 +28,6 @@ build:
         manual:
         - src: "src/**"
           dest: /app
-        #   strip: "src/"
-        # - src: "src/**/*.tsx"
-        #   dest: /app/src
-        #   strip: "src/"
-        # - src: "src/**/*.js"
-        #   dest: /app/src
-        #   strip: "src/"
-        # - src: "src/**/*.jsx"
-        #   dest: /app/src
-        #   strip: "src/"
-        # - src: "public/**/*"
-        #   dest: /app/public
-        #   strip: "public/"
 
 
     - image: navasnoozy/products
@@ -53,18 +40,7 @@ build:
             dest: /app
 
 
-    # - image: navasnoozy/query
-    #   context: query
-    #   docker:
-    #     dockerfile: Dockerfile
-    # - image: navasnoozy/moderation
-    #   context: moderation
-    #   docker:
-    #     dockerfile: Dockerfile
-    # - image: navasnoozy/event-bus
-    #   context: event-bus
-    #   docker:
-    #     dockerfile: Dockerfile
+
 
 
 
