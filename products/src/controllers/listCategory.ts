@@ -1,4 +1,4 @@
-import { NextFunction } from "express";
+import { NextFunction, Response, Request } from "express";
 import { Category } from "../models/categoryModel";
 import { sendResponse } from "@millionsclub/shared-libs/server";
 

@@ -2,7 +2,6 @@
 import { BadRequestError, sendResponse } from "@millionsclub/shared-libs/server";
 import { NextFunction, Request, Response } from "express";
 
-import mongoose from "mongoose";
 import { Product } from "../models/productModel";
 
 const getProduct = async (req: Request, res: Response, next: NextFunction) => {

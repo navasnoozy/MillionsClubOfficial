@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import { Subcategory } from "../../models/subCategory";
 import { sendResponse } from "@millionsclub/shared-libs/server";
+import { Subcategory } from "../models/subCategory";
 
 const listSubCategory = async (
   req: Request,
