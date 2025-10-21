@@ -4,9 +4,7 @@ import { currentUser, errorHandler, NotFoundError } from "@millionsclub/shared-l
 import cookieSession from "cookie-session";
 import dotenv from "dotenv";
 import express from "express";
-import adminRouter from "./routes/adminRoutes";
-import userRouter from "./routes/userRoutes";
-import imageRouter from "./routes/imageRoutes";
+import router from "./routes/routes";
 
 dotenv.config();
 
@@ -28,9 +26,7 @@ app.use(
 app.use(currentUser)
 
 
-app.use(adminRouter);
-app.use(userRouter);
-app.use(imageRouter);
+app.use(router);
 
 app.all("*path", async () => {
   throw new NotFoundError();

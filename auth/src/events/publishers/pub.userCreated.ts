@@ -1,3 +1,5 @@
+//auth/src/events/publishers/pub.userCreated.ts
+
 import { TOPICS, UserCreatedEvent } from "@millionsclub/shared-libs/server";
 import { authKafkaClient } from "../../config/kafka.client";
 
