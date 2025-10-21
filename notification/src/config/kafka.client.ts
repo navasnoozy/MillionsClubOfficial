@@ -9,7 +9,7 @@ const config: KafkaConfig = {
     "kafka-1.kafka.default.svc.cluster.local:9092",
     "kafka-2.kafka.default.svc.cluster.local:9092",
   ],
-  groupId: "product-consumer-group",
+  groupId: "notification-consumer-group",
 };
 export const productKafkaClient = new KafkaClient(config);
 
@@ -17,9 +17,9 @@ export const initKafka = async () => {
   try {
     await productKafkaClient.getConsumer();
 
-    console.log("Kafka initialized in PRODUCT service");
+    console.log("Kafka initialized in NOTIFICATION service");
   } catch (error) {
-    console.error("Kafka initilization error:", error);
+    console.error("Kafka initilization error in NOTIFICATION service:", error);
     throw error;
   }
 };
@@ -27,9 +27,9 @@ export const initKafka = async () => {
 export const disconnectKafka = async () => {
   try {
     await productKafkaClient.disconnect();
-    console.log("Kafka product service disconnected");
+    console.log("Kafka product service disconnected in NOTIFICATION service");
   } catch (error) {
-    console.error("Kafka disconnection error", error);
+    console.error("Kafka disconnection error in NOTIFICATION service", error);
   }
 };
 

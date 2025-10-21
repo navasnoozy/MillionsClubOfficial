@@ -1,6 +1,5 @@
-// products/src/events/consumers/userCreated.consumer.ts
-
-import { TOPICS, UserCreatedEvent } from "@millionsclub/shared-libs/server";
+//notification/src/events/consumers/cons.userCreated.ts
+import { AuthEvent, TOPICS } from "@millionsclub/shared-libs/server";
 import { productKafkaClient } from "../../config/kafka.client";
 import { EachMessagePayload } from "kafkajs";
 
@@ -13,8 +12,12 @@ export const subscribeToUserCreated = async () => {
           const value = message.value?.toString();
           if (!value) return;
 
-          const event = JSON.parse(value) as UserCreatedEvent;
-          console.log("User created event received ", event);
+          const event = JSON.parse(value) as AuthEvent;
+          
+          if (event.type = "user.created"){
+            
+          }
+
         } catch (error) {
           console.log("Error processing user.created event", error);
         }

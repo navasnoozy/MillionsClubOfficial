@@ -31,8 +31,6 @@ export interface UserDeletedEvent extends BaseEvent {
   };
 }
 
-export type UserEvent = UserCreatedEvent | UserUpdatedEvent | UserDeletedEvent;
-
 // Auth events
 export interface UserLoginEvent extends BaseEvent {
   type: "user.login";
@@ -67,4 +65,10 @@ export interface TokenRefreshEvent extends BaseEvent {
   };
 }
 
-export type AuthEvent = UserLoginEvent | UserLogoutEvent | TokenRefreshEvent;
+export type AuthEvent =
+  | UserLoginEvent
+  | UserLogoutEvent
+  | TokenRefreshEvent
+  | UserCreatedEvent
+  | UserUpdatedEvent
+  | UserDeletedEvent;

@@ -1,6 +1,6 @@
 {
   "name": "@millionsclub/shared-libs",
-  "version": "1.4.18",
+  "version": "1.4.19",
   "description": "",
   "files": [
     "build/**/*"
@@ -35,7 +35,6 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "@millionsclub/shared-libs": "^1.4.18",
     "@types/cookie-session": "^2.0.49",
     "cookie-session": "^2.1.0",
     "express": "^5.1.0",
