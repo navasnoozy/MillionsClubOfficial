@@ -9,7 +9,6 @@ export const OTP_CONFIG = {
   MAX_RESEND_ATTEMPTS_TOTAL: 10,
 
   // OTP generation
-  OTP_LENGTH: 6,
   OTP_MIN: 100000,
   OTP_MAX: 999999,
 } as const;

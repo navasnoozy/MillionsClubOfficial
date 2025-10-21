@@ -1,9 +1,12 @@
-//src/events/consumers/cons.authEvents.ts
+
+// src/events/consumers/cons.authEvents.ts
+
+
 import { AuthEvent, TOPICS } from "@millionsclub/shared-libs/server";
 import { EachMessagePayload } from "kafkajs";
-import { IOtp, Otp } from "../../models/userModel";
 import { notificationKafkaClient } from "../../config/kafka.client";
-import { sendMail } from "../../controllers/sendMail";
+import { createAndSendOtp } from "../../services/createAndsendOTP";
+
 
 export const subscribeToAuthEvents = async () => {
   try {
@@ -17,24 +20,23 @@ export const subscribeToAuthEvents = async () => {
           const event = JSON.parse(value) as AuthEvent;
 
           if (event.type === "user.created") {
-            const otpData: Partial<IOtp> = {
-              name: event.data.name,
-              userId: event.userId,
-              email: event.data.email,
-              otp: Math.floor(100000 + Math.random() * 900000),
-              expiresAt: new Date(Date.now() + 10 * 60 * 1000),
-            };
+            await createAndSendOtp(
+              event.userId,
+              event.data.email,
+              event.data.name
+            );
 
-            const newOtp = await Otp.create(otpData);
-            sendMail ()
+            console.log(
+              `Verification email sent to ${event.data.email} for user ${event.userId}`
+            );
           }
         } catch (error) {
-          console.log("Error processing user.created event", error);
+          console.error("Error processing Auth event:", error);
         }
       }
     );
   } catch (error) {
-    console.error("Failed to subscribe to user events", error);
+    console.error("Failed to subscribe to auth events:", error);
     throw error;
   }
 };
