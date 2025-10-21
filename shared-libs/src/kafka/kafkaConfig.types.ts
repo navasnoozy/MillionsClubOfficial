@@ -1,4 +1,4 @@
-//shared-libs/src/kafka/client.types.ts
+//shared-libs/src/kafka/kafkaConfig.types.ts
 import { EachMessagePayload } from "kafkajs";
 
 export interface KafkaConfig {

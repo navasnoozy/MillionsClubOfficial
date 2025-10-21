@@ -6,10 +6,6 @@ export interface ProductCreatedEvent extends BaseEvent {
   productId: string;
   data: {
     name: string;
-    // price: number;
-    // category: string;
-    // userId: string; // who created it
-    // createdAt: string;
   };
 }
 

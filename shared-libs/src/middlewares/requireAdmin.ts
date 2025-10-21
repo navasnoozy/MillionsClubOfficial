@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { BadRequestError, NotAuthorizedError } from "../server";
+import {  NotAuthorizedError } from "../server";
 
 export const requireAdmin = (
   req: Request,
