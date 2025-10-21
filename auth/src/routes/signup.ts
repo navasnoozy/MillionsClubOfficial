@@ -64,25 +64,3 @@ signupRouter.post(
 );
 
 export { signupRouter }
-
-
-
-// import { producer } from "../config/kafka.client";
-//     try {
-//       await producer.send({
-//         topic: "user.created",
-//         messages: [
-//           {
-//             key: user.id, // Add key for better partitioning
-//             value: JSON.stringify({
-//               userId: user.id,
-//               name: user.name,
-//               email: user.email,
-//             }),
-//           },
-//         ],
-//       });
-//     } catch (kafkaError) {
-//       console.error("Kafka publish failed:", kafkaError);
-//       // Continue with response - don't fail user registration
-//     }

@@ -1,0 +1,81 @@
+# infra/k8s/products-depl.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notification-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: notification
+  template:
+    metadata:
+      labels:
+        app: notification
+    spec:
+      # initContainers:
+      #   - name: wait-for-kafka
+      #     image: busybox:1.28
+      #     command: ['sh', '-c', 'until nslookup kafka.default.svc.cluster.local; do echo waiting for kafka; sleep 2; done; until nc -z kafka.default.svc.cluster.local 9092; do echo waiting for kafka; sleep 2; done;']    
+      containers:
+        - name: notification
+          image: navasnoozy/notification:latest # Replace with your Docker image name
+          imagePullPolicy: Never # Use 'Never or IfNotPresent' if you're using local Docker images with Minikube or Docker Desktop
+
+
+          env:
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
+
+
+            - name: MONGO_URI
+              valueFrom:
+                secretKeyRef:
+                  name: products-mongo-uri
+                  key: MONGO_URI 
+
+
+            - name: CLOUDINARY_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: cloudinary-secret
+                  key: CLOUDINARY_NAME   
+
+
+            - name: CLOUDINARY_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: cloudinary-secret
+                  key: CLOUDINARY_API_KEY     
+                  
+                       
+            - name: CLOUDINARY_API_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: cloudinary-secret
+                  key: CLOUDINARY_API_SECRET    
+
+                  
+
+            - name: KAFKAJS_NO_PARTITIONER_WARNING
+              value: "1"       # it will remove the kafka partitioning warning and use kafka default partitioning (new partitioning method), 
+         
+
+           
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: products-service
+spec:
+  selector:
+    app: products # This must match the labels on your pods/deployment
+  ports:
+    - name: products
+      protocol: TCP
+      port: 3000 # Port that the service exposes internally
+      targetPort: 3000 # Port your container is listening on (e.g., Express.js app)
