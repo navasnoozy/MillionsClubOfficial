@@ -21,12 +21,14 @@
     "express-rate-limit": "^8.1.0",
     "kafkajs": "^2.2.4",
     "mongoose": "^8.19.2",
-    "tsx": "^4.20.6"
+    "tsx": "^4.20.6",
+    "ws": "^8.18.3"
   },
   "devDependencies": {
     "@types/express": "^5.0.3",
     "@types/mongoose": "^5.11.96",
     "@types/node": "^24.9.1",
+    "@types/ws": "^8.18.1",
     "tsc-esm-fix": "^3.1.2",
     "typescript": "^5.9.3"
   }
