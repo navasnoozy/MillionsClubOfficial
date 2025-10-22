@@ -1,3 +1,5 @@
+//src/utils/generateSecureOTP.ts
+
 import crypto from "crypto";
 import { OTP_CONFIG } from "../config/constants";
 

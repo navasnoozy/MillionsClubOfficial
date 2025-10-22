@@ -1,23 +1,19 @@
-
-// =============================================
-// src/routes/routes.ts
-// =============================================
-// Updated routes with resend endpoint
-
+// src/routes/otpRoutes.ts
 import { requireAuth } from "@millionsclub/shared-libs/server";
 import { Router } from "express";
-import { sendMail, resendOTP, checkOTPStatus } from "../controllers/sendMail";
 import { otpResendLimiter, otpSendLimiter } from "../middleware/rateLimiter";
+import { checkOTPStatus, resendOTP, sendMail } from "../controllers/sendOtp";
+
 
 const router = Router();
 
 // Initial send (protected, with rate limiting)
-router.post("/sendmail", requireAuth, otpSendLimiter, sendMail);
+router.post("/sendotp", requireAuth, otpSendLimiter, sendMail);
 
 // Resend OTP (public, with stricter rate limiting)
-router.post("/resend-otp", otpResendLimiter, resendOTP);
+router.post("/resendotp", otpResendLimiter, resendOTP);
 
 // Check OTP status (public, no rate limit needed for read)
-router.get("/otp-status", checkOTPStatus);
+router.get("/status", checkOTPStatus);
 
 export default router;

@@ -11,7 +11,7 @@ export const sendGridMail = async (opts: {
   to: string;
   subject: string;
   html?: string;
-  text?: string; // Optional plain text version for better reusability
+  text?: string; 
 }) => {
   const { to, subject, html, text } = opts;
   const from = process.env.SEND_GRID_SENDER!;

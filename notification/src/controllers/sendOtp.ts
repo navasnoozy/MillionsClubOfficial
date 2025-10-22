@@ -1,7 +1,9 @@
-// src/controllers/sendMail.ts
+// src/controllers/otpController.ts
+// Renamed from sendMail.ts; consolidated logic, improved consistency
+// Now uses centralized otpService
 
 import { Request, Response } from "express";
-import { sendVerificationEmail, getOTPStatus } from "../services/emailService";
+import { sendVerificationEmail, getOTPStatus } from "../services/otpService";
 import {
   BadRequestError,
   sendResponse,
@@ -15,7 +17,7 @@ export const sendMail = async (req: Request, res: Response) => {
       throw new BadRequestError("Email is required");
     }
 
-    const result = await sendVerificationEmail({ email });
+    const result = await sendVerificationEmail({ email }); 
 
     if (!result.success) {
       return sendResponse(res, 429, result); // 429 Too Many Requests
@@ -39,9 +41,8 @@ export const sendMail = async (req: Request, res: Response) => {
   }
 };
 
-/**
- * Resend OTP endpoint (dedicated resend)
- */
+
+
 export const resendOTP = async (req: Request, res: Response) => {
   try {
     const { email } = req.body;
@@ -66,7 +67,7 @@ export const resendOTP = async (req: Request, res: Response) => {
         message: status.cooldownSeconds
           ? `Please wait ${status.cooldownSeconds} seconds before requesting another OTP`
           : "Cannot resend OTP at this time",
-        cooldownSeconds: status.cooldownSeconds,
+        data: { cooldownSeconds: status.cooldownSeconds },
       });
     }
 
@@ -79,7 +80,7 @@ export const resendOTP = async (req: Request, res: Response) => {
 
     sendResponse(res, 200, {
       ...result,
-      resendCount: status.resendCount,
+      data: { resendCount: status.resendCount },
     });
   } catch (error) {
     console.error("Error in resendOTP controller:", error);
@@ -109,7 +110,7 @@ export const checkOTPStatus = async (req: Request, res: Response) => {
       throw new BadRequestError("Email is required");
     }
 
-    const status = await getOTPStatus(email);
+    const status = await getOTPStatus(email as string);
 
     sendResponse(res, 200, {
       success: true,

@@ -1,8 +1,10 @@
+//src/services/createAndSendOtp.ts
+
 import { BadRequestError } from "@millionsclub/shared-libs/server";
 import { sendGridMail } from "./sendGridMail";
 import { EmailVerifyResult } from "../interfaces/SendVerificationEmail";
 import generateSecureOTP from "../utils/generateSecureOTP";
-import { Otp } from "../models/userModel";
+import { Otp } from "../models/otpModel";
 import { OTP_CONFIG } from "../config/constants";
 import { verifyOtpTemplate } from "../templates/verifyOtpTemplate";
 
@@ -11,11 +13,11 @@ export const createAndSendOtp = async (
   email: string,
   name: string
 ): Promise<EmailVerifyResult> => {
-
-    
   try {
     const otp = generateSecureOTP();
-    const expiresAt = new Date(Date.now() + OTP_CONFIG.EXPIRY_MINUTES * 60 * 1000);
+    const expiresAt = new Date(
+      Date.now() + OTP_CONFIG.EXPIRY_MINUTES * 60 * 1000
+    );
 
     // Create or update OTP record
     await Otp.findOneAndUpdate(
