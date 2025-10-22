@@ -1,12 +1,15 @@
 //src/app.ts
 
-import { currentUser, errorHandler, NotFoundError } from "@millionsclub/shared-libs/server";
+import {
+  currentUser,
+  errorHandler,
+  NotFoundError,
+} from "@millionsclub/shared-libs/server";
 import cookieSession from "cookie-session";
 import dotenv from "dotenv";
 import express from "express";
-import router from "./routes/routes";
-import http from 'http'
-import WebSocket from "ws"
+import otpRouter from "./routes/otpRouter";
+import websocketRouter from "./routes/websocketRouter";
 
 dotenv.config();
 
@@ -14,7 +17,6 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 
 app.set("trust proxy", true);
 
@@ -25,10 +27,10 @@ app.use(
   })
 );
 
-app.use(currentUser)
+app.use(currentUser);
 
-
-app.use(router);
+app.use(otpRouter);
+app.use(websocketRouter);
 
 app.all("*path", async () => {
   throw new NotFoundError();

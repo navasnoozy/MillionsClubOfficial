@@ -11,7 +11,7 @@ export * from "./middlewares/current-user";
 export * from "./middlewares/errorHandler";
 export * from "./middlewares/validateRequest";
 
-export * from "./middlewares/apiResponse-handler"
+export * from "./helpers/apiResponse-handler"
 
 export * from "./schemas/authSchema";
 
