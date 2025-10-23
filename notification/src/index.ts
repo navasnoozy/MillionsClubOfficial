@@ -6,20 +6,18 @@ import { MongoDatabase } from "./config/MongoDatabase";
 import { IDatabase } from "./interfaces/IDatabase";
 import { initKafka, disconnectKafka } from "./config/kafka.client";
 import { subscribeToAuthEvents } from "./events/consumers/cons.authEvents";
-import { WebSocketService } from "./config/WebSocket";
+import { WebSocketService } from "./WebSocket/WebSocketService";
+import { upgradeHandler } from "./WebSocket/upgradeHandler";
 
 const port = process.env.PORT || 3000;
 
 const server = http.createServer(app);
 
-export const wss = new WebSocketServer({ server });
-export const wsService = new WebSocketService(); //Singleton instance, export for consumers
+export const wss = new WebSocketServer({ noServer: true });
+export const wsService = new WebSocketService();
 
-// Optional: Global WS event handling (e.g., for broadcasting), but per-user logic goes in route
-wss.on("connection", (ws, req) => {
-  console.log("Raw WS connection attempted:", req.url);
-  // Auth & per-user logic handled in route upgrade, so this is fallback/error
-  ws.close(1008, "Auth required");
+server.on("upgrade", (req, socket, head) => {
+  upgradeHandler(req, socket, head, wss, wsService);
 });
 
 const startServer = async (database: IDatabase) => {
@@ -29,7 +27,7 @@ const startServer = async (database: IDatabase) => {
     await initKafka();
     await subscribeToAuthEvents();
 
-    app.listen(port, () => {
+    server.listen(port, () => {
       console.log(`Notification service running on port ${port}`);
     });
 

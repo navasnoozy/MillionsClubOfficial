@@ -1,4 +1,4 @@
-// src/services/sendGridMail.ts
+// notification/src/services/sendGridMail.ts
 import sgMail from "@sendgrid/mail";
 
 if (!process.env.SENDGRID_API_KEY || !process.env.SEND_GRID_SENDER) {

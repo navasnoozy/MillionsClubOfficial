@@ -1,4 +1,4 @@
-//src/config/WebSocket.ts
+//src/WebSocket/WebSocketService.ts
 
 import { WebSocket } from "ws";
 
@@ -27,11 +27,19 @@ export class WebSocketService implements IWebSocketService {
 
   removeConnection(userId: string): void {
     const userSocket = this.connections.get(userId);
+
     if (userSocket) {
-      userSocket.close(1000, "Disconnected");
       this.connections.delete(userId);
+
+      if (
+        userSocket.readyState === WebSocket.OPEN ||
+        userSocket.readyState === WebSocket.CONNECTING
+      ) {
+        userSocket.close(1000, "Disconnected");
+      }
+
       console.log(
-        `Removed WS for user ${userId}. Total connections: ${this.connections.size}`
+        `Removed WebSocket for user ${userId}. Total: ${this.connections.size}`
       );
     }
   }
@@ -39,7 +47,7 @@ export class WebSocketService implements IWebSocketService {
   sendNotification(userId: string, notification: any): void {
     const userSocket = this.connections.get(userId);
 
-    if (userSocket && userSocket.readyState === userSocket.OPEN) {
+    if (userSocket && userSocket.readyState === WebSocket.OPEN) {
       userSocket.send(
         JSON.stringify({ type: "notification", data: notification })
       );

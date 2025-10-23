@@ -9,7 +9,6 @@ import cookieSession from "cookie-session";
 import dotenv from "dotenv";
 import express from "express";
 import otpRouter from "./routes/otpRouter";
-import websocketRouter from "./routes/websocketRouter";
 
 dotenv.config();
 
@@ -30,7 +29,6 @@ app.use(
 app.use(currentUser);
 
 app.use(otpRouter);
-app.use(websocketRouter);
 
 app.all("*path", async () => {
   throw new NotFoundError();

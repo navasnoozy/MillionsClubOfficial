@@ -1,5 +1,5 @@
 
-// src/events/consumers/cons.authEvents.ts
+// notification/src/events/consumers/cons.authEvents.ts
 
 
 import { AuthEvent, TOPICS } from "@millionsclub/shared-libs/server";

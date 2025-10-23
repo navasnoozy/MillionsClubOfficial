@@ -1,4 +1,4 @@
-//src/services/createAndSendOtp.ts
+//notification/src/services/createAndSendOtp.ts
 
 import { BadRequestError } from "@millionsclub/shared-libs/server";
 import { sendGridMail } from "./sendGridMail";
