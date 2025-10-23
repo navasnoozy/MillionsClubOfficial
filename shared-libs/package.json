@@ -1,6 +1,6 @@
 {
   "name": "@millionsclub/shared-libs",
-  "version": "1.4.20",
+  "version": "1.4.23",
   "description": "",
   "files": [
     "build/**/*"

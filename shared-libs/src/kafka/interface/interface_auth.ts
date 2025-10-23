@@ -1,6 +1,6 @@
-//shared-libs/src/kafka/auth.types.ts
+//shared-libs/src/kafka/interface/interface_auth.ts
 
-import { BaseEvent } from "./kafkaConfig.types";
+import { BaseEvent } from "./interface_kafkaConfig";
 
 export interface UserCreatedEvent extends BaseEvent {
   type: "user.created";

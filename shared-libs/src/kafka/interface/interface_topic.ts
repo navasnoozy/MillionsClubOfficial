@@ -1,4 +1,4 @@
-//shared-libs/src/kafka/topic.types.ts
+//shared-libs/src/kafka/interface/interface_topic.ts
 // Topic definitions
 export const TOPICS = {
   AUTH_EVENTS: 'auth-events',

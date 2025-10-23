@@ -33,30 +33,3 @@ export const disconnectKafka = async () => {
   }
 };
 
-// import { Kafka } from "kafkajs";
-
-// export const authKafka = new Kafka({
-//   clientId: "auth-service",
-//   brokers: [
-//     "kafka-0.kafka.default.svc.cluster.local:9092",
-//     "kafka-1.kafka.default.svc.cluster.local:9092",
-//     "kafka-2.kafka.default.svc.cluster.local:9092",
-//   ],
-//   retry: {
-//     retries: 10,
-//     initialRetryTime: 3000,
-//     maxRetryTime: 30000,
-//   },
-// });
-
-// export const producer = authKafka.producer();
-
-// export const initKafka = async () => {
-//   try {
-//     await producer.connect();
-//     console.log("auth kafka producer connected");
-//   } catch (error) {
-//     console.log("error in auth kafka init", error);
-//     throw error; // Re-throw to stop server startup on Kafka failure
-//   }
-// };

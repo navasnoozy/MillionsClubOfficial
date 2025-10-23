@@ -6,12 +6,12 @@ export * from "./errors/not-found-error";
 export * from "./errors/reqValidationError";
 
 export * from "./middlewares/requireAuth";
-export * from "./middlewares/requireAdmin"
+export * from "./middlewares/requireAdmin";
 export * from "./middlewares/current-user";
 export * from "./middlewares/errorHandler";
 export * from "./middlewares/validateRequest";
 
-export * from "./helpers/apiResponse-handler"
+export * from "./helpers/apiResponse-handler";
 
 export * from "./schemas/authSchema";
 
@@ -23,13 +23,11 @@ export * from "./schemas/mongoIdValidationSchema";
 
 //KAFKA
 export * from "./kafka/kafka-client";
-export * from "./kafka/auth.types";
-export * from "./kafka/topic.types";
-export * from "./kafka/kafkaConfig.types";
-export * from "./kafka/product.types";
+export * from "./kafka/interface/interface_auth";
+export * from "./kafka/interface/interface_topic";
+export * from "./kafka/interface/interface_kafkaConfig";
+export * from "./kafka/interface/interface_product";
 
 // export * from './middlewares/multer'
 
 export * from "./types/CloudinarySignatureResponse";
-
-

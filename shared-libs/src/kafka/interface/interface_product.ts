@@ -1,5 +1,5 @@
-//shared-libs/src/kafka/product.types.ts
-import { BaseEvent } from "./kafkaConfig.types";
+//shared-libs/src/kafka/interface/interface_product.ts
+import { BaseEvent } from "./interface_kafkaConfig";
 
 export interface ProductCreatedEvent extends BaseEvent {
   type: "product.created";

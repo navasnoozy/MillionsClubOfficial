@@ -1,8 +1,12 @@
 //shared-libs/src/kafka/kafka-client.ts
 
 import { Consumer, Kafka, Producer } from "kafkajs";
-import { KafkaConfig, MessageHandler } from "./kafkaConfig.types";
-import { TopicName } from "./topic.types";
+import {
+  KafkaConfig,
+  MessageHandler,
+  SubscriptionOptions,
+} from "./interface/interface_kafkaConfig";
+import { TopicName } from "./interface/interface_topic";
 
 export class KafkaClient {
   private kafka: Kafka;
@@ -60,11 +64,18 @@ export class KafkaClient {
     });
   }
 
-  async subscribe(topic: TopicName, handler: MessageHandler): Promise<void> {
+  async subscribe(
+    topic: TopicName,
+    handler: MessageHandler,
+    options?: SubscriptionOptions
+  ): Promise<void> {
     const consumer = await this.getConsumer();
     await consumer.subscribe({ topic });
 
     await consumer.run({
+      autoCommit: options?.autoCommit ?? true,
+      autoCommitInterval: options?.autoCommitInterval,
+      autoCommitThreshold: options?.autoCommitThreshold,
       eachMessage: handler,
     });
   }
