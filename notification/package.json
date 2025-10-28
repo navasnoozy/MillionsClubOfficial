@@ -14,7 +14,7 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@millionsclub/shared-libs": "^1.4.22",
+    "@millionsclub/shared-libs": "^1.4.23",
     "@sendgrid/mail": "^8.1.6",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",

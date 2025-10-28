@@ -30,4 +30,4 @@ export * from "./kafka/interface/interface_product";
 
 // export * from './middlewares/multer'
 
-export * from "./types/CloudinarySignatureResponse";
+export * from "./interface/CloudinarySignatureResponse";

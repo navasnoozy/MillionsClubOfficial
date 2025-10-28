@@ -3,5 +3,4 @@ export * from "./schemas/productSchema";
 export * from "./schemas/productVariantSchema";
 export * from "./schemas/categorySchema";
 export * from "./schemas/subCategorySchema";
-export * from "./types/CloudinarySignatureResponse";
-
+export * from "./interface/CloudinarySignatureResponse";
