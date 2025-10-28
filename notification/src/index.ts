@@ -13,11 +13,11 @@ const port = process.env.PORT || 3000;
 
 const server = http.createServer(app);
 
-export const wss = new WebSocketServer({ noServer: true });
-export const wsService = new WebSocketService();
+export const webSocketServer = new WebSocketServer({ noServer: true });
+export const wsConnectionManager = new WebSocketService();
 
 server.on("upgrade", (req, socket, head) => {
-  upgradeHandler(req, socket, head, wss, wsService);
+  upgradeHandler(req, socket, head, webSocketServer, wsConnectionManager);
 });
 
 const startServer = async (database: IDatabase) => {
@@ -32,7 +32,7 @@ const startServer = async (database: IDatabase) => {
     });
 
     process.on("SIGTERM", async () => {
-      wsService.connections.forEach((ws) => ws.close());
+      wsConnectionManager.connections.forEach((ws) => ws.close());
 
       await database.disconnect();
 
@@ -40,7 +40,7 @@ const startServer = async (database: IDatabase) => {
     });
 
     process.on("SIGINT", async () => {
-      wsService.connections.forEach((ws) => ws.close());
+      wsConnectionManager.connections.forEach((ws) => ws.close());
 
       await database.disconnect();
 

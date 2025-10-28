@@ -10,8 +10,8 @@ export const upgradeHandler = (
   req: IncomingMessage,
   socket: Duplex,
   head: Buffer,
-  wss: WebSocketServer,
-  wsService: WebSocketService
+  webSocketServer: WebSocketServer,
+  wsConnectionManager: WebSocketService
 ) => {
 
   if (!req.url?.startsWith("/wsconnect")) {
@@ -30,11 +30,11 @@ export const upgradeHandler = (
 
   const userId = currentUser.id;
 
-  wss.handleUpgrade(req, socket, head, (ws) => {
-    wsService.addConnection(userId, ws);
+  webSocketServer.handleUpgrade(req, socket, head, (ws) => {
+    wsConnectionManager.addConnection(userId, ws);
 
-    ws.on("close", () => wsService.removeConnection(userId));
-    ws.on("error", () => wsService.removeConnection(userId));
+    ws.on("close", () => wsConnectionManager.removeConnection(userId));
+    ws.on("error", () => wsConnectionManager.removeConnection(userId));
 
     ws.send(
       JSON.stringify({

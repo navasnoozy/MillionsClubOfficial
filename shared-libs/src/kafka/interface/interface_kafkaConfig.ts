@@ -1,5 +1,5 @@
 //shared-libs/src/kafka/interface/interface_kafkaConfig.ts
-import { EachMessagePayload } from "kafkajs";
+import { EachBatchPayload, EachMessagePayload } from "kafkajs";
 
 export interface KafkaConfig {
   clientId: string;
@@ -11,11 +11,15 @@ export interface MessageHandler {
   (payload: EachMessagePayload): Promise<void>;
 }
 
-// Add this new interface
+export interface EachBatchHandler {
+  (payload: EachBatchPayload): Promise<void>;
+}
+
 export interface SubscriptionOptions {
   autoCommit?: boolean;
   autoCommitInterval?: number;
   autoCommitThreshold?: number;
+  useBatch?: boolean;
 }
 
 export interface BaseEvent {
