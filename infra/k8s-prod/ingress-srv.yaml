@@ -11,6 +11,7 @@ spec:
   rules:
     - host: # No host field - matches any hostname/IP
       http:
+
         paths:
           - path: /api/users(/|$)(.*)
             pathType: ImplementationSpecific
@@ -19,6 +20,7 @@ spec:
                 name: auth-service
                 port:
                   number: 3000
+
           - path: /api/products(/|$)(.*)
             pathType: ImplementationSpecific
             backend:
@@ -26,6 +28,7 @@ spec:
                 name: products-service 
                 port:
                   number: 3000
+
           - path: /api/image(/|$)(.*)
             pathType: ImplementationSpecific
             backend:
@@ -33,6 +36,7 @@ spec:
                 name: products-service 
                 port:
                   number: 3000
+
           - path: /(.*)
             pathType: ImplementationSpecific
             backend:
@@ -49,7 +53,7 @@ kind: Service
 metadata:
   annotations:
     service.beta.kubernetes.io/do-loadbalancer-enable-proxy-protocol: "true"
-    # service.beta.kubernetes.io/do-loadbalancer-hostname: "www.YOURDOMAIN.com" # Removing because i am not using custom domain name
+    # service.beta.kubernetes.io/do-loadbalancer-hostname: "www.YOURDOMAIN.com" # Removing because, not using custom domain name
     service.beta.kubernetes.io/do-loadbalancer-size-unit: "1"
     service.beta.kubernetes.io/do-loadbalancer-enable-backend-keepalive: "true"
   labels:

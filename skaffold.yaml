@@ -8,6 +8,8 @@ build:
     customTemplate:
       template: latest
   artifacts:
+
+
     - image: navasnoozy/auth
       context: auth
       docker:
@@ -32,6 +34,15 @@ build:
 
     - image: navasnoozy/products
       context: products
+      docker:
+        dockerfile: Dockerfile.dev
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: /app
+
+    - image: navasnoozy/notification
+      context: notification
       docker:
         dockerfile: Dockerfile.dev
       sync:
