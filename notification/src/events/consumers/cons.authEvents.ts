@@ -1,51 +1,41 @@
 // notification/src/events/consumers/cons.authEvents.ts
 
-import { AuthEvent, TOPICS } from "@millionsclub/shared-libs/server";
-import { EachMessagePayload } from "kafkajs";
+import { TOPICS } from "@millionsclub/shared-libs/server";
+import { EachBatchPayload } from "kafkajs";
 import { notificationKafkaClient } from "../../config/kafka.client";
-import { createAndSendOtp } from "../../services/createAndsendOTP";
-import { WebSocketService } from "../../WebSocket/WebSocketService";
+import { createAndSendInitialOtp } from "../../services/createAndsendOTP";
+import notifyUser from "../../WebSocket/helper/notifyUser";
 
 export const subscribeToAuthEvents = async () => {
   try {
     await notificationKafkaClient.subscribe(
       TOPICS.AUTH_EVENTS,
-      async ({ message }: EachMessagePayload) => {
-        try {
-          const value = message.value?.toString();
-          if (!value) return;
+      async ({
+        batch,
+        resolveOffset,
+        commitOffsetsIfNecessary,
+        heartbeat,
+      }: EachBatchPayload) => {
+        for (const message of batch.messages) {
+          try {
+            const {
+              userId,
+              data: { email, name },
+            } = JSON.parse(message.value?.toString()!);
 
-          const event = JSON.parse(value) as AuthEvent;
+            await createAndSendInitialOtp(userId, email, name);
 
-          if (event.type === "user.created") {
-            const result = await createAndSendOtp(
-              event.userId,
-              event.data.email,
-              event.data.name
-            );
+            await notifyUser(userId, "Verification mail successfully sent");
 
-            console.log(
-              `Verification email sent to ${event.data.email} for user ${event.userId}`
-            );
-
-            if (result === "success") {
-              const ws = new WebSocketService();
-              ws.sendNotification("email sending success");
-
-              await consumer.commitOffsets([
-                {
-                  topic,
-                  partition,
-                  offset: (Number(message.offset) + 1).toString(),
-                },
-              ]);
-            }
+            resolveOffset(message.offset);
+          } catch (error) {
+            console.log("Error processing message:", error);
           }
-        } catch (error) {
-          console.error("Error processing Auth event:", error);
         }
+        await heartbeat();
+        await commitOffsetsIfNecessary();
       },
-      { autoCommit: false }
+      { autoCommit: false, useBatch: true }
     );
   } catch (error) {
     console.error("Failed to subscribe to auth events:", error);

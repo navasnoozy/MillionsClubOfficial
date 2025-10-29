@@ -1,23 +1,37 @@
 // notification/src/services/sendGridMail.ts
 import sgMail from "@sendgrid/mail";
 
+// Validate environment variables at startup
 if (!process.env.SENDGRID_API_KEY || !process.env.SEND_GRID_SENDER) {
   throw new Error("Missing SENDGRID_API_KEY or SEND_GRID_SENDER in env");
 }
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-export const sendGridMail = async (opts: {
+interface EmailOptions {
   to: string;
   subject: string;
   html?: string;
-  text?: string; 
-}) => {
+  text?: string;
+}
+
+export const sendGridMail = async (opts: EmailOptions): Promise<{ success: boolean }> => {
   const { to, subject, html, text } = opts;
   const from = process.env.SEND_GRID_SENDER!;
 
+  // Validate inputs
   if (!html && !text) {
     throw new Error("Email content is required. Provide either 'html' or 'text'.");
+  }
+
+  if (!to || !subject) {
+    throw new Error("Email 'to' and 'subject' are required.");
+  }
+
+  // Basic email validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(to)) {
+    throw new Error(`Invalid email address: ${to}`);
   }
 
   const msg: any = { to, from, subject };
@@ -26,10 +40,15 @@ export const sendGridMail = async (opts: {
 
   try {
     await sgMail.send(msg);
-    console.log(`✅ Email sent to ${to}`);
+    console.log(`Email sent to ${to}`);
     return { success: true };
   } catch (err) {
-    console.error("❌ SendGrid Error:", err);
-    throw err;
+    console.error("SendGrid Error:", {
+      to,
+      subject,
+      statusCode: (err as any).code || 'unknown',
+      message: (err as any).message || 'Unknown error'
+    });
+    throw new Error("Failed to send email via SendGrid");
   }
 };

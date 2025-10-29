@@ -7,20 +7,22 @@ import { Otp, IOtp } from "../models/otpModel";
 import { OTP_CONFIG } from "../config/constants";
 import { EmailVerifyParams, EmailVerifyResult } from "../interfaces/SendVerificationEmail";
 
+interface CanSendOTP {
+  (otpRecord: IOtp): { allowed: boolean; reason?: string; cooldownSeconds?: number };
+}
+
 /**
  * Checks if OTP resend is allowed based on rate limits and expiry.
  */
-const canResendOTP = (otpRecord: IOtp): {
-  allowed: boolean;
-  reason?: string;
-  cooldownSeconds?: number;
-} => {
+export const canResendOTP: CanSendOTP = (otpRecord) => {
   const now = new Date();
 
+  // If OTP expired, allow immediate resend and reset counters
   if (otpRecord.expiresAt < now) {
     return { allowed: true };
   }
 
+  // Check total resend attempts
   if (otpRecord.resendCount >= OTP_CONFIG.MAX_RESEND_ATTEMPTS_TOTAL) {
     return {
       allowed: false,
@@ -28,6 +30,7 @@ const canResendOTP = (otpRecord: IOtp): {
     };
   }
 
+  // Check cooldown period
   if (otpRecord.lastResendAt) {
     const timeSinceLastResend = (now.getTime() - otpRecord.lastResendAt.getTime()) / 1000;
     const cooldownSeconds = OTP_CONFIG.MIN_RESEND_INTERVAL_SECONDS;
@@ -42,13 +45,18 @@ const canResendOTP = (otpRecord: IOtp): {
     }
   }
 
-  const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000);
-  if (otpRecord.lastResendAt && otpRecord.lastResendAt > oneHourAgo) {
-    if (otpRecord.resendCount >= OTP_CONFIG.MAX_RESEND_ATTEMPTS_PER_HOUR) {
-      return {
-        allowed: false,
-        reason: "Too many resend attempts. Please try again later.",
-      };
+  // Check hourly rate limit (if configured)
+  if (OTP_CONFIG.MAX_RESEND_ATTEMPTS_PER_HOUR) {
+    const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000);
+
+    // If last resend was within the hour
+    if (otpRecord.lastResendAt && otpRecord.lastResendAt > oneHourAgo) {
+      if (otpRecord.resendCount >= OTP_CONFIG.MAX_RESEND_ATTEMPTS_PER_HOUR) {
+        return {
+          allowed: false,
+          reason: "Too many resend attempts. Please try again in an hour.",
+        };
+      }
     }
   }
 
@@ -56,100 +64,70 @@ const canResendOTP = (otpRecord: IOtp): {
 };
 
 /**
- * Creates and sends initial OTP for new user (from Kafka event).
- * Upserts the record with resendCount: 0.
+ * Resends verification email for existing user.
+ * Use this for manual resend requests from the client.
  */
-export const createAndSendInitialOtp = async (
-  userId: string,
-  email: string,
-  name: string
-): Promise<EmailVerifyResult> => {
-  try {
-    const otp = generateSecureOTP();
-    const expiresAt = new Date(Date.now() + OTP_CONFIG.EXPIRY_MINUTES * 60 * 1000);
 
-    await Otp.findOneAndUpdate(
-      { userId },
-      {
-        name,
-        userId,
-        email,
-        otp,
-        expiresAt,
-        resendCount: 0,
-        lastResendAt: new Date(),
-      },
-      { upsert: true, new: true }
-    );
+interface Resendmail {
+  (params: EmailVerifyParams): Promise<EmailVerifyResult>;
+}
 
-    await sendGridMail({
-      to: email,
-      subject: "Millionsclub email verification",
-      html: verifyOtpTemplate({
-        name,
-        otp,
-        expiryMinutes: OTP_CONFIG.EXPIRY_MINUTES,
-      }),
-    });
-
-    return {
-      success: true,
-      message: "Verification email sent successfully",
-      canResend: true,
-    };
-  } catch (error) {
-    console.error("Error in createAndSendInitialOtp service:", error);
-    throw new BadRequestError("Failed to create and send initial OTP");
-  }
-};
-
-/**
- * Sends or resends verification email.
- * For initial send, uses userId if provided; falls back to email.
- * Performs resend checks if record exists.
- */
-export const sendVerificationEmail = async (
-  params: EmailVerifyParams
-): Promise<EmailVerifyResult> => {
+export const resendVerificationEmail: Resendmail = async (params) => {
   try {
     const { email, userId } = params;
 
-    if (!email) {
-      throw new BadRequestError("Email is required");
+    if (!email && !userId) {
+      throw new BadRequestError("Email or userId is required");
     }
 
+    // Find OTP record
     const query = userId ? { userId } : { email };
     const otpRecord = await Otp.findOne(query);
 
     if (!otpRecord) {
-      throw new BadRequestError("User record not found");
+      // Don't reveal if user exists - timing attack protection
+      return {
+        success: false,
+        message: "If an account exists, a verification email will be sent",
+        canResend: false,
+      };
     }
 
-    let isResend = otpRecord.otp > 0;
-    if (isResend) {
-      const resendCheck = canResendOTP(otpRecord);
+    // Check resend eligibility
+    const resendCheck = canResendOTP(otpRecord);
 
-      if (!resendCheck.allowed) {
-        return {
-          success: false,
-          message: resendCheck.reason || "Cannot resend OTP at this time",
-          canResend: false,
-          cooldownSeconds: resendCheck.cooldownSeconds,
-        };
-      }
+    if (!resendCheck.allowed) {
+      return {
+        success: false,
+        message: resendCheck.reason || "Cannot resend OTP at this time",
+        canResend: false,
+        cooldownSeconds: resendCheck.cooldownSeconds,
+      };
     }
 
+    // Generate new OTP
     const newOTP = generateSecureOTP();
     const expiresAt = new Date(Date.now() + OTP_CONFIG.EXPIRY_MINUTES * 60 * 1000);
+    const now = new Date();
 
+    // Handle resend count
+    const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000);
+    const otpExpired = otpRecord.expiresAt < now;
+    const hourPassed = otpRecord.lastResendAt && otpRecord.lastResendAt <= oneHourAgo;
+
+    if (otpExpired || hourPassed) {
+      otpRecord.resendCount = 1; // Reset and count this as first attempt
+    } else {
+      otpRecord.resendCount += 1;
+    }
+
+    // Update record
     otpRecord.otp = newOTP;
     otpRecord.expiresAt = expiresAt;
-    if (isResend) {
-      otpRecord.resendCount += 1;
-      otpRecord.lastResendAt = new Date();
-    }
+    otpRecord.lastResendAt = now;
     await otpRecord.save();
 
+    // Send email
     await sendGridMail({
       to: otpRecord.email,
       subject: "Millionsclub email verification",
@@ -163,26 +141,35 @@ export const sendVerificationEmail = async (
     return {
       success: true,
       message: "Verification email sent successfully",
-      canResend: true,
+      canResend: false, // Just sent, cooldown applies
     };
   } catch (error) {
-    console.error("Error in sendVerificationEmail service:", error);
+    console.error("Error in resendVerificationEmail:", {
+      errorMessage: error instanceof Error ? error.message : "Unknown error",
+    });
+
+    if (error instanceof BadRequestError) {
+      throw error;
+    }
+
     throw new BadRequestError("Failed to send verification email");
   }
 };
 
 /**
- * Retrieves OTP status for an email.
+ * Gets OTP status for UI display (cooldown timer, etc.)
  */
-export const getOTPStatus = async (
-  email: string
-): Promise<{
-  exists: boolean;
-  expired: boolean;
-  canResend: boolean;
-  cooldownSeconds?: number;
-  resendCount?: number;
-}> => {
+interface GetOTPStatus {
+  (email: string): Promise<{
+    exists: boolean;
+    expired: boolean;
+    canResend: boolean;
+    cooldownSeconds?: number;
+    resendCount?: number;
+  }>;
+}
+
+export const getOTPStatus: GetOTPStatus = async (email) => {
   try {
     const otpRecord = await Otp.findOne({ email });
 
@@ -212,7 +199,17 @@ export const getOTPStatus = async (
       resendCount: otpRecord.resendCount,
     };
   } catch (error) {
-    console.error("Error in getOTPStatus:", error);
+    console.error("Error in getOTPStatus:", {
+      errorMessage: error instanceof Error ? error.message : "Unknown error",
+    });
+
+    if (error instanceof BadRequestError) {
+      throw error;
+    }
+
     throw new BadRequestError("Failed to get OTP status");
   }
 };
+
+// Backward compatibility: alias the function
+export const sendVerificationEmail = resendVerificationEmail;

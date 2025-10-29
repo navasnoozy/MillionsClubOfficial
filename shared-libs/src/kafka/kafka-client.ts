@@ -1,8 +1,12 @@
-import { Consumer, Kafka, Producer } from "kafkajs";
+import {
+  Consumer,
+  Kafka,
+  Producer,
+  EachBatchHandler,
+  EachMessageHandler,
+} from "kafkajs";
 import {
   KafkaConfig,
-  MessageHandler,
-  EachBatchHandler,
   SubscriptionOptions,
 } from "./interface/interface_kafkaConfig";
 import { TopicName } from "./interface/interface_topic";
@@ -64,26 +68,26 @@ export class KafkaClient {
 
   async subscribe(
     topic: TopicName,
-    handler: MessageHandler | EachBatchHandler,
+    handler: EachMessageHandler | EachBatchHandler,
     options?: SubscriptionOptions
   ): Promise<void> {
     const consumer = await this.getConsumer();
     await consumer.subscribe({ topic });
-    
+
     // Fixed: Proper handler routing based on useBatch flag
     if (options?.useBatch) {
       await consumer.run({
         autoCommit: options?.autoCommit ?? true,
         autoCommitInterval: options?.autoCommitInterval,
         autoCommitThreshold: options?.autoCommitThreshold,
-        eachBatch: handler as EachBatchHandler, 
+        eachBatch: handler as EachBatchHandler,
       });
     } else {
       await consumer.run({
         autoCommit: options?.autoCommit ?? true,
         autoCommitInterval: options?.autoCommitInterval,
         autoCommitThreshold: options?.autoCommitThreshold,
-        eachMessage: handler as MessageHandler, 
+        eachMessage: handler as EachMessageHandler,
       });
     }
   }

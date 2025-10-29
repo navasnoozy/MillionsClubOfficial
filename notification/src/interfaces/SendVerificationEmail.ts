@@ -1,3 +1,5 @@
+//src/interfaces/SendVerificationEmail.ts
+
 export interface EmailVerifyParams {
   email: string;
   userId?: string;
