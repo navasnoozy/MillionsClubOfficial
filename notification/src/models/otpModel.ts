@@ -20,13 +20,13 @@ const otpSchema = new Schema<IOtp>(
     userId: { type: String, required: true, index: true },
     email: { type: String, required: true, index: true },
     otp: { type: Number, required: true },
-    expiresAt: { type: Date, required: true, index: true },
+    expiresAt: { type: Date, required: true },
     resendCount: { type: Number, default: 0 },
     lastResendAt: { type: Date },
   },
   { timestamps: true }
 );
 
-otpSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
+otpSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 86400 }); //24hr
 
 export const Otp = mongoose.model<IOtp>("Otp", otpSchema);

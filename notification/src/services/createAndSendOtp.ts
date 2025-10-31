@@ -1,3 +1,5 @@
+//src/services/createAndSendOtp.ts
+
 import { BadRequestError } from "@millionsclub/shared-libs/server";
 import { OTP_CONFIG } from "../config/constants";
 import { EmailVerifyResult } from "../interfaces/SendVerificationEmail";
