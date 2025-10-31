@@ -6,15 +6,12 @@ import { WebSocketService } from "./WebSocketService";
 import { Duplex } from "stream";
 import { IncomingMessage } from "http";
 
-export const upgradeHandler = (
-  req: IncomingMessage,
-  socket: Duplex,
-  head: Buffer,
-  webSocketServer: WebSocketServer,
-  wsConnectionManager: WebSocketService
-) => {
+export const upgradeHandler = (req: IncomingMessage, socket: Duplex, head: Buffer, webSocketServer: WebSocketServer, wsConnectionManager: WebSocketService) => {
+  const url = req.url || "";
 
-  if (!req.url?.startsWith("/wsconnect")) {
+  // Accept both /wsconnect and /api/notification/wsconnect
+  if (!url.includes("/wsconnect")) {
+    console.log(`WebSocket upgrade rejected - invalid path: ${url}`);
     socket.write("HTTP/1.1 404 Not Found\r\n\r\n");
     socket.destroy();
     return;

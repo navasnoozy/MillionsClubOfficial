@@ -11,6 +11,7 @@ export interface SubscriptionOptions {
   autoCommitInterval?: number;
   autoCommitThreshold?: number;
   useBatch?: boolean;
+  eachBatchAutoResolve?: boolean
 }
 
 export interface BaseEvent {

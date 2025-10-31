@@ -1,14 +1,5 @@
-import {
-  Consumer,
-  Kafka,
-  Producer,
-  EachBatchHandler,
-  EachMessageHandler,
-} from "kafkajs";
-import {
-  KafkaConfig,
-  SubscriptionOptions,
-} from "./interface/interface_kafkaConfig";
+import { Consumer, Kafka, Producer, EachBatchHandler, EachMessageHandler } from "kafkajs";
+import { KafkaConfig, SubscriptionOptions } from "./interface/interface_kafkaConfig";
 import { TopicName } from "./interface/interface_topic";
 
 export class KafkaClient {
@@ -49,11 +40,7 @@ export class KafkaClient {
     return this.consumer;
   }
 
-  async publishMessage<T>(
-    topic: TopicName,
-    message: T,
-    key?: string
-  ): Promise<void> {
+  async publishMessage<T>(topic: TopicName, message: T, key?: string): Promise<void> {
     const producer = await this.getProducer();
     await producer.send({
       topic,
@@ -66,11 +53,7 @@ export class KafkaClient {
     });
   }
 
-  async subscribe(
-    topic: TopicName,
-    handler: EachMessageHandler | EachBatchHandler,
-    options?: SubscriptionOptions
-  ): Promise<void> {
+  async subscribe(topic: TopicName, handler: EachMessageHandler | EachBatchHandler, options?: SubscriptionOptions): Promise<void> {
     const consumer = await this.getConsumer();
     await consumer.subscribe({ topic });
 
@@ -81,6 +64,7 @@ export class KafkaClient {
         autoCommitInterval: options?.autoCommitInterval,
         autoCommitThreshold: options?.autoCommitThreshold,
         eachBatch: handler as EachBatchHandler,
+        eachBatchAutoResolve: options.eachBatchAutoResolve ?? true,
       });
     } else {
       await consumer.run({

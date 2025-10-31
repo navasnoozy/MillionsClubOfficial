@@ -1,4 +1,4 @@
-#infra/k8s/ingress-srv.yaml
+#infra/k8s-dev/ingress-srv.yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -33,6 +33,15 @@ spec:
             backend:
               service:
                 name: products-service
+                port:
+                  number: 3000
+
+          # WebSocket route - MUST come before the generic /api/notification route
+          - path: /api/notification/wsconnect
+            pathType: Prefix
+            backend:
+              service:
+                name: notification-service
                 port:
                   number: 3000
 

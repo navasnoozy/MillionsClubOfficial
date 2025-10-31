@@ -2,22 +2,22 @@
 
 import { TOPICS } from "@millionsclub/shared-libs/server";
 import { EachBatchPayload } from "kafkajs";
+import { wsConnectionManager } from "../..";
 import { notificationKafkaClient } from "../../config/kafka.client";
-import notifyUser from "../../WebSocket/helper/notifyUser";
 import { createAndSendInitialOtp } from "../../services/createAndSendOtp";
+
+let trycount = 0;
 
 export const subscribeToAuthEvents = async () => {
   try {
     await notificationKafkaClient.subscribe(
       TOPICS.AUTH_EVENTS,
-      async ({
-        batch,
-        resolveOffset,
-        commitOffsetsIfNecessary,
-        heartbeat,
-      }: EachBatchPayload) => {
+      async ({ batch, resolveOffset, commitOffsetsIfNecessary, heartbeat }: EachBatchPayload) => {
         for (const message of batch.messages) {
           try {
+            await heartbeat();
+            console.log("//////// KAFKA TRY ", trycount + 1, "////////////////");
+
             const {
               userId,
               data: { email, name },
@@ -25,17 +25,17 @@ export const subscribeToAuthEvents = async () => {
 
             await createAndSendInitialOtp(userId, email, name);
 
-            await notifyUser(userId, "Verification mail successfully sent");
+            await wsConnectionManager.sendNotification(userId, "Verification mail successfully sent");
 
             resolveOffset(message.offset);
+
+            await commitOffsetsIfNecessary();
           } catch (error) {
-            console.log("Error processing message:", error);
+            console.log("Error processing KAFKA message:", error);
           }
         }
-        await heartbeat();
-        await commitOffsetsIfNecessary();
       },
-      { autoCommit: false, useBatch: true }
+      { autoCommit: true, useBatch: true }
     );
   } catch (error) {
     console.error("Failed to subscribe to auth events:", error);
