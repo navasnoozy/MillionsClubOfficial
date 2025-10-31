@@ -35,7 +35,7 @@ export const subscribeToAuthEvents = async () => {
           }
         }
       },
-      { autoCommit: true, useBatch: true }
+      { useBatch: true, eachBatchAutoResolve:false }
     );
   } catch (error) {
     console.error("Failed to subscribe to auth events:", error);
