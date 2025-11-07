@@ -1,4 +1,4 @@
-// auth/src/routes/signup.ts
+  // auth/src/routes/signup.ts
 import express from "express";
 import jwt from "jsonwebtoken";
 import {
@@ -39,9 +39,8 @@ signupRouter.post(
       userId: user.id,
       name: user.name,
       email: user.email,
-      role: "user",
+      data:'user'
     });
-
 
 
 

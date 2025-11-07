@@ -5,6 +5,7 @@ import { EachBatchPayload } from "kafkajs";
 import { wsConnectionManager } from "../..";
 import { notificationKafkaClient } from "../../config/kafka.client";
 import { createAndSendInitialOtp } from "../../services/createAndSendOtp";
+import { sendGridMail } from "../../services/sendGridMail";
 
 let trycount = 0;
 
@@ -23,7 +24,7 @@ export const subscribeToAuthEvents = async () => {
               data: { email, name },
             } = JSON.parse(message.value?.toString()!);
 
-            await createAndSendInitialOtp(userId, email, name);
+            await sendGridMail ({to: email,  subject: })
 
             await wsConnectionManager.sendNotification(userId, "Verification mail successfully sent");
 

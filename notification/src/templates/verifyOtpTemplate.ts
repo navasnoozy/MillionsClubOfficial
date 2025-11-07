@@ -1,4 +1,7 @@
 // src/templates/verifyOtpTemplate.ts
+interface 
+
+
 export const verifyOtpTemplate = (opts: {
   name?: string;
   otp: number;

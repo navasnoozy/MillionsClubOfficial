@@ -5,11 +5,9 @@ import { BaseEvent } from "./interface_kafkaConfig";
 export interface UserCreatedEvent extends BaseEvent {
   type: "user.created";
   userId: string;
-  data: {
-    email: string;
-    name: string;
-    role: "user" | "admin" | "moderator";
-  };
+  name: string,
+  email: string
+  data: any
 }
 
 export interface UserUpdatedEvent extends BaseEvent {

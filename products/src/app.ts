@@ -15,18 +15,18 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
 app.set("trust proxy", true);
 
 app.use(
   cookieSession({
+    httpOnly: true,
     signed: false,
-    secure: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
   })
 );
 
-app.use(currentUser)
-
+app.use(currentUser);
 
 app.use(adminRouter);
 app.use(userRouter);

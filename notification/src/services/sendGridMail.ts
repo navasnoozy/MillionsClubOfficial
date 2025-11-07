@@ -15,8 +15,12 @@ interface EmailOptions {
   text?: string;
 }
 
-export const sendGridMail = async (opts: EmailOptions): Promise<{ success: boolean }> => {
-  const { to, subject, html, text } = opts;
+interface SendGridMail {
+  (options: EmailOptions): Promise<{ success: boolean }>;
+}
+
+export const sendGridMail: SendGridMail = async (options) => {
+  const { to, subject, html, text } = options;
   const from = process.env.SEND_GRID_SENDER!;
 
   // Validate inputs
@@ -46,8 +50,8 @@ export const sendGridMail = async (opts: EmailOptions): Promise<{ success: boole
     console.error("SendGrid Error:", {
       to,
       subject,
-      statusCode: (err as any).code || 'unknown',
-      message: (err as any).message || 'Unknown error'
+      statusCode: (err as any).code || "unknown",
+      message: (err as any).message || "Unknown error",
     });
     throw new Error("Failed to send email via SendGrid");
   }

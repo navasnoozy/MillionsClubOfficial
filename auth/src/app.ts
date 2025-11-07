@@ -1,35 +1,29 @@
 // auth/src/app.ts
-import cookieSession from "cookie-session";
+import { NotFoundError, errorHandler } from "@millionsclub/shared-libs/server";
+import { toNodeHandler } from "better-auth/node";
 import dotenv from "dotenv";
 import express from "express";
-import { NotFoundError, errorHandler } from "@millionsclub/shared-libs/server";
-import { currentUserRouter } from "./routes/current-user";
-import { signinRouter } from "./routes/signin";
-import { signoutRouter } from "./routes/signout";
-import { signupRouter } from "./routes/signup";
-
+import { auth } from "./config/auth";
+import cookieSession from "cookie-session";
 
 const app = express();
 
-
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }))
-dotenv.config();
-
-app.set("trust proxy", true);
-
 app.use(
   cookieSession({
+    httpOnly: true,
     signed: false,
-    secure: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
   })
 );
 
-app.use(signupRouter);
-app.use(signinRouter);
-app.use(signoutRouter);
-app.use(currentUserRouter);
+app.all("/api/auth/*splat", toNodeHandler(auth));
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+dotenv.config();
+
+app.set("trust proxy", true);
 
 // Invalid route error
 app.all("*path", async () => {

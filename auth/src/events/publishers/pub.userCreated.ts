@@ -3,12 +3,11 @@
 import { TOPICS, UserCreatedEvent } from "@millionsclub/shared-libs/server";
 import { authKafkaClient } from "../../config/kafka.client";
 
-
 interface userData {
-    userId: string,
-      name: string,
-      email: string,
-      role: "user" | "admin" | "moderator";
+  userId: string;
+  name: string;
+  email: string;
+  data: any;
 }
 
 export const publishUserCreated = async (userData: userData) => {
@@ -16,11 +15,9 @@ export const publishUserCreated = async (userData: userData) => {
     const event: UserCreatedEvent = {
       type: "user.created",
       userId: userData.userId,
-      data: {
-        name: userData.name,
-        email: userData.email,
-        role: userData.role
-      },
+      name: userData.name,
+      email: userData.email,
+      data: userData.data,
       timestamp: Date.now(),
     };
 
