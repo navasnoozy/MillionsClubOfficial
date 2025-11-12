@@ -168,7 +168,7 @@ To access the app locally (via Ingress NGINX), you need to map the custom domain
      Add this line at the bottom (replace `<YOUR_CLUSTER_IP>`):
 
      ```
-     <YOUR_CLUSTER_IP>  millionsclub.local
+     <YOUR_CLUSTER_IP>  millionsclub.local.com
      ```
 
    * **Windows**
@@ -182,12 +182,12 @@ To access the app locally (via Ingress NGINX), you need to map the custom domain
      3. Add the line (replace `<YOUR_CLUSTER_IP>`):
 
         ```
-        <YOUR_CLUSTER_IP>  millionsclub.local
+        <YOUR_CLUSTER_IP>  millionsclub.local.com
         ```
 
 3. Save the file, then test in your browser:
 
-   http://millionsclub.local
+   http://millionsclub.local.com
 
 ✅ Now your local domain will point to the Kubernetes Ingress for MillionsClub.
 

@@ -15,11 +15,10 @@ import ErrorMessages from "../../../components/errorMessge";
 type Props = {
   onSubmit: (data: SignupSchema) => void;
   isLoading: boolean;
-  isError: boolean;
-  errors: { message: string; field: string }[];
+  error:string
 };
 
-const SignupForm = ({ onSubmit, isLoading, isError, errors }: Props) => {
+const SignupForm = ({ onSubmit, isLoading,error }: Props) => {
   const {
     register,
     handleSubmit,
@@ -91,7 +90,7 @@ const SignupForm = ({ onSubmit, isLoading, isError, errors }: Props) => {
           </AppLink>
         </Typography>
 
-        {isError && <ErrorMessages errors={errors} />}
+        {error && <ErrorMessages error={error} />}
       </Stack>
     </form>
   );

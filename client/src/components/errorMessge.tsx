@@ -1,21 +1,15 @@
 import { Alert, Stack } from "@mui/material";
 
 interface Props {
-  errors: { message: string; field: string }[];
+  error: string;
 }
 
-const ErrorMessages = ({ errors }: Props) => {
+const ErrorMessages = ({ error }: Props) => {
   return (
-    <Stack
-      alignItems={"center"}
-      sx={{ width: "100%", fontSize: "120px" }}
-      spacing={2}
-    >
-      {errors.map((error) => (
-        <Alert key={error.message} sx={{ fontSize: "15px" }} severity="error">
-          {error.message}
-        </Alert>
-      ))}
+    <Stack alignItems={"center"} sx={{ width: "100%", fontSize: "120px" }} spacing={2}>
+      <Alert  sx={{ fontSize: "15px" }} severity="error">
+        {error}
+      </Alert>
     </Stack>
   );
 };

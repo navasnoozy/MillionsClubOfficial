@@ -2,7 +2,6 @@
 
 import { TOPICS } from "@millionsclub/shared-libs/server";
 import { EachBatchPayload } from "kafkajs";
-import { wsConnectionManager } from "../..";
 import { notificationKafkaClient } from "../../config/kafka.client";
 import { sendGridMail } from "../../services/sendGridMail";
 import { verifyUrlTemplate } from "../../templates/verifyUrlTemplate";
@@ -18,12 +17,14 @@ export const subscribeToAuthEvents = async () => {
 
             const {
               userId,
-              data: { email, name, url },
+              name,
+              email,
+              data: { url },
             } = JSON.parse(message.value?.toString()!);
 
             await sendGridMail({ to: email, subject: "MillionsClub verification", html: verifyUrlTemplate({ name: name, verifyUrl: url }) });
 
-            await wsConnectionManager.sendNotification(userId, "Verification mail successfully sent");
+            // await wsConnectionManager.sendNotification(userId, "Verification mail successfully sent");
 
             resolveOffset(message.offset);
 

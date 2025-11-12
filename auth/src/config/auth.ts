@@ -33,15 +33,17 @@ export const auth = betterAuth({
   },
 
   emailVerification: {
-    sendVerificationEmail: async ({ user, url }, request) => {
-      await publishUserCreated({
-        userId: user.id,
-        name: user.name,
-        email: user.email,
-        data: {
-          url: url,
-        },
-      });
+    sendVerificationEmail: async ({ user, url }) => {
+      if (user.email && url) {
+        await publishUserCreated({
+          userId: user.id,
+          name: user.name,
+          email: user.email,
+          data: {
+            url: url,
+          },
+        });
+      }
     },
     sendOnSignUp: true,
     autoSignInAfterVerification: true,

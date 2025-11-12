@@ -42,7 +42,7 @@ spec:
               value: 8aMCd49QV9Bu8SVKOlrBmDiauThOpVlp
 
             - name: AUTH_BASE_URL
-              value: http://localhost:3000
+              value: http://millionsclub.local.com
               
             # - name: AUTH_BASE_URL
             #   valueFrom:

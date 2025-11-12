@@ -19,6 +19,13 @@ spec:
                 name: auth-service
                 port:
                   number: 3000
+          - path: /api/auth(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: auth-service
+                port:
+                  number: 3000
 
           - path: /api/products(/|$)(.*)
             pathType: ImplementationSpecific
