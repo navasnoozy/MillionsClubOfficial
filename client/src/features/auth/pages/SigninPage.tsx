@@ -7,12 +7,11 @@ import useSigninUser from "../hooks/useSignin";
 import { useAuthRedirect } from "../hooks/useAuthRedirect";
 import CardContainer from "../../../components/CardContainer";
 import SigninForm from "../components/SigninForm";
+import GoogleLogin from "./GoogleLogin";
 
 const SigninPage = () => {
   const navigate = useNavigate();
-  const [signinError, setSigninError] = useState<
-    { message: string; field: string }[]
-  >([]);
+  const [signinError, setSigninError] = useState<{ message: string; field: string }[]>([]);
 
   const { mutate: signin, isPending, isError } = useSigninUser();
 
@@ -34,12 +33,8 @@ const SigninPage = () => {
 
   return (
     <CardContainer heading="Login">
-      <SigninForm
-        onSubmit={handleSignin}
-        isLoading={isPending}
-        isError={isError}
-        errors={signinError}
-      />
+      <SigninForm onSubmit={handleSignin} isLoading={isPending} isError={isError} errors={signinError} />
+      <GoogleLogin />
     </CardContainer>
   );
 };

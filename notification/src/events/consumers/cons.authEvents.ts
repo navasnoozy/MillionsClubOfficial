@@ -6,7 +6,6 @@ import { wsConnectionManager } from "../..";
 import { notificationKafkaClient } from "../../config/kafka.client";
 import { createAndSendInitialOtp } from "../../services/createAndSendOtp";
 
-let trycount = 0;
 
 export const subscribeToAuthEvents = async () => {
   try {
@@ -16,7 +15,6 @@ export const subscribeToAuthEvents = async () => {
         for (const message of batch.messages) {
           try {
             await heartbeat();
-            console.log("//////// KAFKA TRY ", trycount + 1, "////////////////");
 
             const {
               userId,
