@@ -52,13 +52,13 @@ spec:
 
             - name: GOOGLE_CLIENT_ID
               valueFrom:
-                configMapKeyRef:
+                secretKeyRef:
                   name: google-oauth-secrets
                   key: GOOGLE_CLIENT_ID
 
             - name: GOOGLE_CLIENT_SECRET
               valueFrom:
-                configMapKeyRef:
+                secretKeyRef:
                   name: google-oauth-secrets
                   key: GOOGLE_CLIENT_SECRET
 

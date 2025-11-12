@@ -1,11 +1,11 @@
-import express from "express";
+// import express from "express";
 
-const router = express.Router();
+// const router = express.Router();
 
-router.get("/api/users/signout", (req, res) => {
-  req.session = null;
+// router.get("/api/users/signout", (req, res) => {
+//   req.session = null;
 
-  res.send({});
-});
+//   res.send({});
+// });
 
-export { router as signoutRouter };
+// export { router as signoutRouter };
