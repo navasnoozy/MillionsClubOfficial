@@ -38,6 +38,30 @@ spec:
                   name: auth-mongo-uri
                   key: MONGO_URI   
 
+            - name: BETTER_AUTH_SECRET
+              value: 8aMCd49QV9Bu8SVKOlrBmDiauThOpVlp
+
+            - name: AUTH_BASE_URL
+              value: http://millionsclub.local.com
+              
+            # - name: AUTH_BASE_URL
+            #   valueFrom:
+            #     configMapKeyRef:
+            #       name: auth-config
+            #       key: AUTH_BASE_URL
+
+            - name: GOOGLE_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: google-oauth-secrets
+                  key: GOOGLE_CLIENT_ID
+
+            - name: GOOGLE_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: google-oauth-secrets
+                  key: GOOGLE_CLIENT_SECRET
+
             - name: KAFKAJS_NO_PARTITIONER_WARNING
               value: "1"       # it will remove the kafka partitioning warning and use kafka default partitioning (new partitioning method), 
 

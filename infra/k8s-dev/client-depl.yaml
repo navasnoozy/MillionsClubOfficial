@@ -23,7 +23,7 @@ spec:
           - name: VITE_BASE_URL
             valueFrom:
               configMapKeyRef:
-                name: app-config
+                name: client-config
                 key: VITE_BASE_URL
 
 ---
