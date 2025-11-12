@@ -1,10 +1,9 @@
 // auth/src/index.ts
 
-
-import { app } from "./app";
 import connectDB from "./config/db";
 import { initKafka, disconnectKafka } from "./config/kafka.client";
 import { subscribeToProductCreated } from "./events/consumers/cons.productCreated";
+import { createApp } from "./app";
 
 const port = process.env.PORT || 3000;
 
@@ -14,6 +13,8 @@ const startServer = async () => {
     await initKafka();
 
     await subscribeToProductCreated();
+
+    const app = await createApp();
 
     app.listen(port, () => {
       console.log("server running on", port);
