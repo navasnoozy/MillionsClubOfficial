@@ -145,7 +145,7 @@ graph TB
 ## 🌍 Local Domain Setup
 
 To access the app locally (via Ingress NGINX), you need to map the custom domain  
-`millionsclub.local` to your local Kubernetes cluster (usually `127.0.0.1` or `minikube ip`).
+`millionsclub.local.com` to your local Kubernetes cluster (usually `127.0.0.1` or `minikube ip`).
 
 ### 🔧 Steps
 
