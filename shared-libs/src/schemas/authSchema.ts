@@ -1,3 +1,4 @@
+//shared-libs/src/schemas/authSchema.ts
 import { z } from "zod/v4";
 
 // Signup schema

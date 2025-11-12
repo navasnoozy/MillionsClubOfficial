@@ -4,7 +4,9 @@ import mongoose from "mongoose";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { jwt } from "better-auth/plugins";
 import jwtLib from "jsonwebtoken";
+import { APIError } from "better-auth/api";
 import { publishUserCreated } from "../events/publishers/pub.userCreated";
+import { z } from "zod";
 
 if (mongoose.connection.readyState !== 1) {
   throw new Error("Mongoose not connected. Call connectDB() before initializeAuth().");
@@ -29,24 +31,24 @@ export const auth = betterAuth({
     enabled: true,
     requireEmailVerification: false,
   },
+
   emailVerification: {
     sendVerificationEmail: async ({ user, url }, request) => {
-      // Better Auth provides the URL and token automatically
       await publishUserCreated({
         userId: user.id,
         name: user.name,
-        email: user.name,
+        email: user.email,
         data: {
           url: url,
         },
       });
     },
     sendOnSignUp: true,
-    autoSignInAfterVerification: true, // Auto sign in after verification
+    autoSignInAfterVerification: true,
   },
 
   session: {
-    expiresIn: 60 * 60 * 24, // 24 hours
+    expiresIn: 60 * 60 * 24,
   },
 
   user: {
@@ -60,6 +62,43 @@ export const auth = betterAuth({
         type: "boolean",
         required: false,
         defaultValue: true,
+      },
+    },
+  },
+
+  databaseHooks: {
+    user: {
+      create: {
+        before: async (user) => {
+          // Validate email
+          if (user.email) {
+            const emailResult = z.string().email().safeParse(user.email);
+            if (!emailResult.success) {
+              throw new APIError("BAD_REQUEST", {
+                message: "Invalid email address",
+              });
+            }
+          }
+
+          // Validate name
+          if (user.name) {
+            const nameResult = z.string().min(3, { message: "Name must be at least 3 characters" }).max(50, { message: "Name must be at most 50 characters" }).safeParse(user.name);
+
+            if (!nameResult.success) {
+              throw new APIError("BAD_REQUEST", {
+                message: nameResult.error.issues[0].message,
+              });
+            }
+          }
+
+          return {
+            data: {
+              ...user,
+              name: user.name?.trim(),
+              email: user.email?.toLowerCase(),
+            },
+          };
+        },
       },
     },
   },
@@ -80,12 +119,10 @@ export const auth = betterAuth({
 
   hooks: {
     after: createAuthMiddleware(async (ctx) => {
-      // Check if this is a sign-in or sign-up endpoint
       if (ctx.path.startsWith("/sign-in") || ctx.path.startsWith("/sign-up")) {
         const session = ctx.context.session;
 
         if (session) {
-          // Create JWT token manually using the same payload structure
           const jwtToken = jwtLib.sign(
             {
               id: session.user.id,
@@ -95,7 +132,6 @@ export const auth = betterAuth({
             process.env.BETTER_AUTH_SECRET!
           );
 
-          // Set JWT token as httpOnly cookie
           ctx.setCookie("jwt", jwtToken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",

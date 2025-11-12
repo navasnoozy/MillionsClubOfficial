@@ -1,4 +1,4 @@
-// auth/src/middleware/validation.ts
+//shared-libs/src/middlewares/validateRequest.ts
 import { Request, Response, NextFunction } from 'express';
 import { RequestValidationError } from '../errors/reqValidationError';
 import { ZodType } from 'zod/v4';

@@ -4,10 +4,8 @@ import { TOPICS } from "@millionsclub/shared-libs/server";
 import { EachBatchPayload } from "kafkajs";
 import { wsConnectionManager } from "../..";
 import { notificationKafkaClient } from "../../config/kafka.client";
-import { createAndSendInitialOtp } from "../../services/createAndSendOtp";
 import { sendGridMail } from "../../services/sendGridMail";
-
-let trycount = 0;
+import { verifyUrlTemplate } from "../../templates/verifyUrlTemplate";
 
 export const subscribeToAuthEvents = async () => {
   try {
@@ -17,14 +15,13 @@ export const subscribeToAuthEvents = async () => {
         for (const message of batch.messages) {
           try {
             await heartbeat();
-            console.log("//////// KAFKA TRY ", trycount + 1, "////////////////");
 
             const {
               userId,
-              data: { email, name },
+              data: { email, name, url },
             } = JSON.parse(message.value?.toString()!);
 
-            await sendGridMail ({to: email,  subject: })
+            await sendGridMail({ to: email, subject: "MillionsClub verification", html: verifyUrlTemplate({ name: name, verifyUrl: url }) });
 
             await wsConnectionManager.sendNotification(userId, "Verification mail successfully sent");
 
@@ -36,7 +33,7 @@ export const subscribeToAuthEvents = async () => {
           }
         }
       },
-      { useBatch: true, eachBatchAutoResolve:false }
+      { useBatch: true, eachBatchAutoResolve: false }
     );
   } catch (error) {
     console.error("Failed to subscribe to auth events:", error);

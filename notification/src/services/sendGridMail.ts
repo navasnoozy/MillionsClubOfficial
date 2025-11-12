@@ -1,4 +1,5 @@
 // notification/src/services/sendGridMail.ts
+import { BadRequestError } from "@millionsclub/shared-libs/server";
 import sgMail from "@sendgrid/mail";
 
 // Validate environment variables at startup
@@ -35,7 +36,7 @@ export const sendGridMail: SendGridMail = async (options) => {
   // Basic email validation
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(to)) {
-    throw new Error(`Invalid email address: ${to}`);
+    throw new BadRequestError(`Invalid email address: ${to}`);
   }
 
   const msg: any = { to, from, subject };
