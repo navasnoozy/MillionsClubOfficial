@@ -6,7 +6,6 @@ import { wsConnectionManager } from "../..";
 import { notificationKafkaClient } from "../../config/kafka.client";
 import { createAndSendInitialOtp } from "../../services/createAndSendOtp";
 
-
 export const subscribeToAuthEvents = async () => {
   try {
     await notificationKafkaClient.subscribe(
@@ -16,10 +15,7 @@ export const subscribeToAuthEvents = async () => {
           try {
             await heartbeat();
 
-            const {
-              userId,
-              data: { email, name },
-            } = JSON.parse(message.value?.toString()!);
+            const { userId, email, name } = JSON.parse(message.value?.toString()!);
 
             await createAndSendInitialOtp(userId, email, name);
 
@@ -30,10 +26,14 @@ export const subscribeToAuthEvents = async () => {
             await commitOffsetsIfNecessary();
           } catch (error) {
             console.log("Error processing KAFKA message:", error);
+            setTimeout(async () => {
+              resolveOffset(message.offset);
+              await commitOffsetsIfNecessary();
+            }, 5000);
           }
         }
       },
-      { useBatch: true, eachBatchAutoResolve:false }
+      { useBatch: true, eachBatchAutoResolve: false }
     );
   } catch (error) {
     console.error("Failed to subscribe to auth events:", error);

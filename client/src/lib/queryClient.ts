@@ -1,5 +1,6 @@
-import { QueryClient } from "@tanstack/react-query";
+///src/lib/queryClient.ts
 
+import { QueryClient } from "@tanstack/react-query";
 
 const queryClient = new QueryClient ();
 

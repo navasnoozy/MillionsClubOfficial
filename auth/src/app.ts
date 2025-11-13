@@ -34,16 +34,21 @@ export const createApp = async () => {
       sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     })
   );
-  app.use(signupRouter);
-  app.use(signinRouter);
-  app.use(signoutRouter);
-  app.use(currentUserRouter);
 
-  app.all("/api/auth/*splat", toNodeHandler(auth)); //the "*splat" latest express js v5 syntax
+  app.all("/api/auth/*splat", (req,res,next)=>{
+    console.log('// The better auth is handling things');
+    next()
+    
+  }, toNodeHandler(auth)); //the "*splat" latest express js v5 syntax
 
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.set("trust proxy", true);
+
+  app.use(signupRouter);
+  app.use(signinRouter);
+  app.use(signoutRouter);
+  app.use(currentUserRouter);
 
   app.all("*path", async () => {
     throw new NotFoundError();

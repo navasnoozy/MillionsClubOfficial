@@ -20,12 +20,15 @@ spec:
             - containerPort: 5173
             
           env:
-          - name: VITE_BASE_URL
-            valueFrom:
-              configMapKeyRef:
-                name: client-config
-                key: VITE_BASE_URL
 
+          # - name: VITE_BASE_URL
+          #   valueFrom:
+          #     configMapKeyRef:
+          #       name: client-config
+          #       key: VITE_BASE_URL
+          
+          - name: VITE_BASE_URL
+            value: http://millionsclub.com
 ---
 apiVersion: v1
 kind: Service

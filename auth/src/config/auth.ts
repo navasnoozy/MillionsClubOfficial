@@ -93,7 +93,6 @@ export const auth = betterAuth({
           });
         }
       }
-      return ctx;
     }),
   },
 });

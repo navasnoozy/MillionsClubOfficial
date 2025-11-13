@@ -18,12 +18,17 @@ spec:
           imagePullPolicy: Always # Use 'Never' if you're using local Docker images with Minikube or Docker Desktop
           ports:
             - containerPort: 5173
+
           env:
+
+          # - name: VITE_BASE_URL
+          #   valueFrom:
+          #     configMapKeyRef:
+          #       name: app-config
+          #       key: VITE_BASE_URL
+          
           - name: VITE_BASE_URL
-            valueFrom:
-              configMapKeyRef:
-                name: app-config
-                key: VITE_BASE_URL
+            value: http://millionsclub.com
 
 ---
 apiVersion: v1

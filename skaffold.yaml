@@ -16,9 +16,9 @@ build:
         dockerfile: Dockerfile.dev
       sync:
         manual:
-          - src: "src/**/*.ts"
+          - src: "src/**"
             dest: /app
-          - src: "dist/**/*.js"
+          - src: "dist/**"
             dest: /app/dist
 
 
@@ -38,7 +38,7 @@ build:
         dockerfile: Dockerfile.dev
       sync:
         manual:
-          - src: "src/**/*.ts"
+          - src: "src/**/*"
             dest: /app
 
     - image: navasnoozy/notification
@@ -47,7 +47,7 @@ build:
         dockerfile: Dockerfile.dev
       sync:
         manual:
-          - src: "src/**/*.ts"
+          - src: "src/**/*"
             dest: /app
 
 

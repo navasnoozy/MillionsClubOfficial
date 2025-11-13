@@ -1,12 +1,7 @@
 // auth/src/routes/signup.ts
 import express from "express";
 import jwt from "jsonwebtoken";
-import {
-  BadRequestError,
-  validateRequest,
-  signupSchema,
-  sendResponse,
-} from "@millionsclub/shared-libs/server";
+import { BadRequestError, validateRequest, signupSchema, sendResponse } from "@millionsclub/shared-libs/server";
 import { User } from "../models/userModel";
 import { hashPassword } from "../utils/hashPassword";
 import { publishUserCreated } from "../events/publishers/pub.userCreated";
@@ -14,8 +9,16 @@ import { publishUserCreated } from "../events/publishers/pub.userCreated";
 const signupRouter = express.Router();
 signupRouter.post(
   "/api/users/signup",
+  (req, res, next) => {
+    const data = req.body
+    console.log("////// in signup router with data///////", JSON.stringify(data));
+
+    next();
+  },
   validateRequest(signupSchema),
   async (req, res) => {
+    console.log("//// reached in signup//////");
+
     const body = req.body;
     const { name, email, password } = body;
 
@@ -42,9 +45,6 @@ signupRouter.post(
       role: "user",
     });
 
-
-
-
     const jwt_token = jwt.sign(
       {
         id: user.id,
@@ -58,9 +58,9 @@ signupRouter.post(
       jwt: jwt_token,
     };
 
-    sendResponse (res, 201,{success:true})
+    sendResponse(res, 201, { success: true });
     return;
   }
 );
 
-export { signupRouter }
+export { signupRouter };
