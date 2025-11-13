@@ -89,7 +89,7 @@ Each service has:
 
 ```mermaid
 graph TB
-    User[👤 User/Client<br/>Browser] --> Ingress[🌐 NGINX Ingress<br/>millionsclub.local]
+    User[👤 User/Client<br/>Browser] --> Ingress[🌐 NGINX Ingress<br/>millionsclub.com]
     
     subgraph "External Access"
         Ingress
@@ -145,7 +145,7 @@ graph TB
 ## 🌍 Local Domain Setup
 
 To access the app locally (via Ingress NGINX), you need to map the custom domain  
-`millionsclub.local.com` to your local Kubernetes cluster (usually `127.0.0.1` or `minikube ip`).
+`millionsclub.com` to your local Kubernetes cluster (usually `127.0.0.1` or `minikube ip`).
 
 ### 🔧 Steps
 
@@ -168,7 +168,7 @@ To access the app locally (via Ingress NGINX), you need to map the custom domain
      Add this line at the bottom (replace `<YOUR_CLUSTER_IP>`):
 
      ```
-     <YOUR_CLUSTER_IP>  millionsclub.local.com
+     <YOUR_CLUSTER_IP>  millionsclub.com
      ```
 
    * **Windows**
@@ -182,12 +182,12 @@ To access the app locally (via Ingress NGINX), you need to map the custom domain
      3. Add the line (replace `<YOUR_CLUSTER_IP>`):
 
         ```
-        <YOUR_CLUSTER_IP>  millionsclub.local.com
+        <YOUR_CLUSTER_IP>  millionsclub.com
         ```
 
 3. Save the file, then test in your browser:
 
-   http://millionsclub.local.com
+   http://millionsclub.com
 
 ✅ Now your local domain will point to the Kubernetes Ingress for MillionsClub.
 

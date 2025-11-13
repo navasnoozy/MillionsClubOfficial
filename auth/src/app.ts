@@ -7,6 +7,7 @@ import { signupRouter } from "./routes/signup";
 import { signinRouter } from "./routes/signin";
 import { signoutRouter } from "./routes/signout";
 import { currentUserRouter } from "./routes/current-user";
+import cors from "cors";
 
 dotenv.config();
 
@@ -14,6 +15,16 @@ export const createApp = async () => {
   const { auth } = await import("./config/auth"); // lazy import AFTER DB ready
 
   const app = express();
+
+  app.use(
+    cors({
+      origin: [
+        "http://localhost:3000", // your React app
+        "http://millionsclub.com", // optional local domain
+      ],
+      credentials: true, // allows cookies and authorization headers
+    })
+  );
 
   app.use(
     cookieSession({
@@ -28,7 +39,7 @@ export const createApp = async () => {
   app.use(signoutRouter);
   app.use(currentUserRouter);
 
-  app.all("/api/auth/*splat", toNodeHandler(auth));
+  app.all("/api/auth/*splat", toNodeHandler(auth)); //the "*splat" latest express js v5 syntax
 
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));

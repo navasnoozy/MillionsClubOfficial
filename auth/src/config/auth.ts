@@ -17,10 +17,14 @@ export const auth = betterAuth({
   baseURL: process.env.AUTH_BASE_URL,
   secret: process.env.BETTER_AUTH_SECRET!,
 
+  trustedOrigins: ["http://localhost:4000", "millionsclub.com"],
+
   socialProviders: {
     google: {
+      prompt: "select_account",
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      redirectURI: "http://millionsclub.com/api/auth/callback/google",
     },
   },
 
@@ -66,6 +70,8 @@ export const auth = betterAuth({
 
   hooks: {
     after: createAuthMiddleware(async (ctx) => {
+      console.log("after is working//////////////////");
+
       if (ctx.path.startsWith("/sign-in")) {
         const session = ctx.context.session;
 

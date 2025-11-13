@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     host: '0.0.0.0',
     port: 5173,
-     allowedHosts: ['millionsclub.local.com'], //  Allow your custom domain
+     allowedHosts: ['millionsclub.com'], //  Allow your custom domain
 
     //  watch: { // TO SYNC BETTER, BUT MORE CPU USAGE
     //   usePolling: true,

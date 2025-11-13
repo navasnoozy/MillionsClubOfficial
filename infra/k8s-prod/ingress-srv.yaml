@@ -1,19 +1,26 @@
 #infra/k8s/ingress-srv.yaml
 apiVersion: networking.k8s.io/v1
-kind: Ingress 
+kind: Ingress
 metadata:
   name: ingress-service
   annotations:
     nginx.ingress.kubernetes.io/use-regex: "true"
-    nginx.ingress.kubernetes.io/proxy-body-size: "30m"  # recieving larger file
+    nginx.ingress.kubernetes.io/proxy-body-size: "30m" # recieving larger file
 spec:
   ingressClassName: nginx
   rules:
     - host: # No host field - matches any hostname/IP
       http:
-
         paths:
           - path: /api/users(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: auth-service
+                port:
+                  number: 3000
+
+          - path: /api/auth(/|$)(.*)
             pathType: ImplementationSpecific
             backend:
               service:
@@ -25,7 +32,7 @@ spec:
             pathType: ImplementationSpecific
             backend:
               service:
-                name: products-service 
+                name: products-service
                 port:
                   number: 3000
 
@@ -33,7 +40,7 @@ spec:
             pathType: ImplementationSpecific
             backend:
               service:
-                name: products-service 
+                name: products-service
                 port:
                   number: 3000
 
@@ -44,8 +51,6 @@ spec:
                 name: client-service
                 port:
                   number: 3000
-
-
 
 ---
 apiVersion: v1
@@ -83,5 +88,3 @@ spec:
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/instance: ingress-nginx
     app.kubernetes.io/component: controller
-
-

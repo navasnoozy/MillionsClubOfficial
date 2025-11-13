@@ -9,7 +9,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: millionsclub.local.com
+    - host: millionsclub.com
       http:
         paths:
           - path: /api/users(/|$)(.*)
