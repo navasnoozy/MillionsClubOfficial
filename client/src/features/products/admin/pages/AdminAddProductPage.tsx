@@ -25,7 +25,6 @@ const AdminAddProductPage = () => {
   const handleAddProduct = (data: AddProductSchema) => {
     addProduct(data, {
       onSuccess: (res) => {
-        console.log('checking res ', res);
         
         navigate(`/admin/addvariant/${res._id}`)},
       onError: (error) => apiErrorHandler(error, setError),

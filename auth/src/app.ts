@@ -35,11 +35,7 @@ export const createApp = async () => {
     })
   );
 
-  app.all("/api/auth/*splat", (req,res,next)=>{
-    console.log('// The better auth is handling things');
-    next()
-    
-  }, toNodeHandler(auth)); //the "*splat" latest express js v5 syntax
+  app.all("/api/auth/*splat", toNodeHandler(auth)); //the "*splat" latest express js v5 syntax
 
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));

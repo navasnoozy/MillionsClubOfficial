@@ -17,7 +17,7 @@ export const auth = betterAuth({
   baseURL: process.env.AUTH_BASE_URL,
   secret: process.env.BETTER_AUTH_SECRET!,
 
-  trustedOrigins: ["http://localhost:4000", "millionsclub.com"],
+  trustedOrigins: ["http://localhost:4000", "millionsclub.com", "https://millionsclub.com"],
 
   socialProviders: {
     google: {
@@ -54,43 +54,40 @@ export const auth = betterAuth({
     },
   },
 
-  plugins: [
-    jwt({
-      jwt: {
-        definePayload: ({ user }) => {
-          return {
-            id: user.id,
-            email: user.email,
-            role: user.role,
-          };
-        },
-      },
-    }),
-  ],
-
+  // Add hooks for post-authentication actions
   hooks: {
     after: createAuthMiddleware(async (ctx) => {
-      console.log("after is working//////////////////");
+      console.log("check path/////// ", JSON.stringify(ctx));
+      if (ctx.path.startsWith("/callback")) {
+        const user = ctx.context.newSession?.user;
 
-      if (ctx.path.startsWith("/sign-in")) {
-        const session = ctx.context.session;
-
-        if (session) {
-          const jwtToken = jwtLib.sign(
+        if (user) {
+          const jwt_token = jwtLib.sign(
             {
-              id: session.user.id,
-              email: session.user.email,
-              role: session.user.role || "user",
+              id: user.id,
+              email: user.email,
+              role: user.role,
             },
-            process.env.BETTER_AUTH_SECRET!
+            process.env.JWT_KEY!
           );
 
-          ctx.setCookie("jwt", jwtToken, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "lax",
-            path: "/",
-          });
+          console.log("jwt signed version ", jwt_token, "completed");
+
+          try {
+            const sessionObj = { jwt: jwt_token };
+            const serialized_token = Buffer.from(JSON.stringify(sessionObj)).toString("base64url");
+            // Set custom cookie with JWT
+            ctx.setCookie("session", serialized_token, {
+              httpOnly: true,
+              secure: process.env.NODE_ENV === "production",
+              sameSite: "lax",
+              path: "/",
+            });
+
+            console.log(" req session seted");
+          } catch (error) {
+            console.error("Failed to generate JWT//////:", error);
+          }
         }
       }
     }),

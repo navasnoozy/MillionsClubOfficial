@@ -19,7 +19,6 @@ const SignupPage = () => {
 
 
   const handleSignup = (data: SignupSchema) => {
-    console.log('//// client signup data', data);
     
     signup(data, {
       onSuccess: () => navigate("/"),

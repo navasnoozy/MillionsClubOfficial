@@ -5,8 +5,6 @@ import useCurrentUser from "./useCurrentUser";
 export const useAuthRedirect = () => {
   const navigate = useNavigate();
   const { data: currentUser, isLoading } = useCurrentUser();
-  console.log();
-  
 
   useEffect(() => {
     if (!isLoading && !currentUser) {

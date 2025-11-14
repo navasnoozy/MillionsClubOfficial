@@ -1,4 +1,4 @@
-# auth/Dockerfile
+# auth/Dockerfile.dev
 # Build stage
 FROM node:24.7.0-alpine
 
