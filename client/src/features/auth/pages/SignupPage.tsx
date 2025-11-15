@@ -7,19 +7,18 @@ import type { SignupSchema } from "@millionsclub/shared-libs/client";
 import useSignupUser from "../hooks/useSignup";
 import CardContainer from "../../../components/CardContainer";
 import SignupForm from "../components/SignupForm";
+import Divider from "../components/Divider";
+import GoogleLogin from "./GoogleLogin";
+import AuthSwitchLink from "../components/AuthSwitchLink";
 
 const SignupPage = () => {
-  const [signupError, setSignupError] = useState<
-    { message: string; field: string }[]
-  >([]);
+  const [signupError, setSignupError] = useState<{ message: string; field: string }[]>([]);
 
   const navigate = useNavigate();
 
   const { mutate: signup, isPending: signupLoading, isError } = useSignupUser();
 
-
   const handleSignup = (data: SignupSchema) => {
-    
     signup(data, {
       onSuccess: () => navigate("/"),
       onError: (error) => {
@@ -33,12 +32,10 @@ const SignupPage = () => {
 
   return (
     <CardContainer heading={"Create Account"}>
-      <SignupForm
-        onSubmit={handleSignup}
-        isLoading={signupLoading}
-        isError={isError}
-        errors={signupError}
-      />
+      <SignupForm onSubmit={handleSignup} isLoading={signupLoading} isError={isError} errors={signupError} />
+      <AuthSwitchLink mode="signup" />
+      <Divider />
+      <GoogleLogin />
     </CardContainer>
   );
 };

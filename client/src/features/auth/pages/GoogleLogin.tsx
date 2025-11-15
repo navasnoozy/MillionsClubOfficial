@@ -1,19 +1,17 @@
-
 //client/src/features/auth/pages/GoogleLogin.tsx
 import { Button } from "@mui/material";
 import { authClient } from "../lib/Oauth-client";
+import GoogleIcon from '@mui/icons-material/Google';
 
 const GoogleLogin = () => {
   const signIn = async () => {
-    const { data, error } = await authClient.signIn.social({
+    await authClient.signIn.social({
       provider: "google",
       callbackURL: "/",
     });
-
-    console.log(`/// data ${JSON.stringify(data)}, /// error ${error}`);
   };
 
-  return <Button onClick={() => signIn()}>Google</Button>;
+  return <Button size="small" variant="outlined" sx={{py:1 ,my:1}} onClick={() => signIn()}><GoogleIcon sx={{color:'white', mx:1}} />Google</Button>;
 };
 
 export default GoogleLogin;
