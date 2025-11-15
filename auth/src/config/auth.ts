@@ -57,7 +57,6 @@ export const auth = betterAuth({
   // Add hooks for post-authentication actions
   hooks: {
     after: createAuthMiddleware(async (ctx) => {
-      console.log("check path/////// ", JSON.stringify(ctx));
       if (ctx.path.startsWith("/callback")) {
         const user = ctx.context.newSession?.user;
 
@@ -71,11 +70,9 @@ export const auth = betterAuth({
             process.env.JWT_KEY!
           );
 
-          console.log("jwt signed version ", jwt_token, "completed");
-
           try {
             const sessionObj = { jwt: jwt_token };
-            const serialized_token = Buffer.from(JSON.stringify(sessionObj)).toString("base64url");
+            const serialized_token = Buffer.from(JSON.stringify(sessionObj)).toString("base64");
             // Set custom cookie with JWT
             ctx.setCookie("session", serialized_token, {
               httpOnly: true,
@@ -83,10 +80,8 @@ export const auth = betterAuth({
               sameSite: "lax",
               path: "/",
             });
-
-            console.log(" req session seted");
           } catch (error) {
-            console.error("Failed to generate JWT//////:", error);
+            console.error("Failed to generate JWT:", error);
           }
         }
       }
