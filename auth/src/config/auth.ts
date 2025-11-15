@@ -1,7 +1,6 @@
 import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { createAuthMiddleware } from "better-auth/api";
-import { jwt } from "better-auth/plugins";
 import jwtLib from "jsonwebtoken";
 import mongoose from "mongoose";
 
@@ -73,6 +72,9 @@ export const auth = betterAuth({
           try {
             const sessionObj = { jwt: jwt_token };
             const serialized_token = Buffer.from(JSON.stringify(sessionObj)).toString("base64");
+
+            resetBetterAuthCookes(ctx);
+
             // Set custom cookie with JWT
             ctx.setCookie("session", serialized_token, {
               httpOnly: true,
@@ -88,3 +90,18 @@ export const auth = betterAuth({
     }),
   },
 });
+
+const resetBetterAuthCookes = (ctx: any) => {
+  ctx.setCookie("better-auth.session_token", "", {
+    httpOnly: true,
+    maxAge: 0,
+    sameSite: "lax",
+    path: "/",
+  });
+  ctx.setCookie("better-auth.state", "", {
+    httpOnly: true,
+    maxAge: 0,
+    sameSite: "lax",
+    path: "/",
+  });
+};
