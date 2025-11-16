@@ -23,7 +23,7 @@ export const publishUserCreated = async (userData: userData) => {
       timestamp: Date.now(),
     };
 
-    await authKafkaClient.publishMessage(TOPICS.AUTH_EVENTS, event);
+    await authKafkaClient.publishMessage(TOPICS.AUTH_EVENTS, event,);
   } catch (error) {
     console.error("Failed to publish product created event", error);
     // Don't throw error - product creation should succeed even if event fails

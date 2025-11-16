@@ -1,6 +1,6 @@
-import { Consumer, Kafka, Producer, EachBatchHandler, EachMessageHandler } from "kafkajs";
+import { Consumer, Kafka, Producer, EachBatchHandler, EachMessageHandler, Message } from "kafkajs";
 import { KafkaConfig, SubscriptionOptions } from "./interface/interface_kafkaConfig";
-import { TopicName } from "./interface/interface_topic";
+import { TopicNames } from "../server";
 
 export class KafkaClient {
   private kafka: Kafka;
@@ -40,20 +40,22 @@ export class KafkaClient {
     return this.consumer;
   }
 
-  async publishMessage<T>(topic: TopicName, message: T, key?: string): Promise<void> {
+  async publishMessage<T>(topic: TopicNames, message: Message): Promise<void> {
     const producer = await this.getProducer();
     await producer.send({
       topic,
       messages: [
         {
-          key,
-          value: JSON.stringify(message),
+          key: message.key,
+          value: JSON.stringify(message.value),
+          partition: message.partition,
+          timestamp: message.timestamp,
         },
       ],
     });
   }
 
-  async subscribe(topic: TopicName, handler: EachMessageHandler | EachBatchHandler, options?: SubscriptionOptions): Promise<void> {
+  async subscribe(topic: TopicNames, handler: EachMessageHandler | EachBatchHandler, options?: SubscriptionOptions): Promise<void> {
     const consumer = await this.getConsumer();
     await consumer.subscribe({ topic });
 
