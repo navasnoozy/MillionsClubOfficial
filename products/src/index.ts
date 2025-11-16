@@ -3,7 +3,6 @@ import { app } from "./app";
 import { MongoDatabase } from "./config/MongoDatabase";
 import { IDatabase } from "./interfaces/IDatabase";
 import { initKafka, disconnectKafka } from "./config/kafka.client";
-import { subscribeToUserCreated } from "./events/consumers/cons.userCreated";
 
 const port = process.env.PORT || 3000;
 
@@ -12,7 +11,6 @@ const startServer = async (database: IDatabase) => {
     await database.connect();
     
     await initKafka();
-    await subscribeToUserCreated();
 
     app.listen(port, () => {
       console.log(`Product service running on port ${port}`);

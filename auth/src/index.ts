@@ -2,7 +2,6 @@
 
 import connectDB from "./config/db";
 import { initKafka, disconnectKafka } from "./config/kafka.client";
-import { subscribeToProductCreated } from "./events/consumers/cons.productCreated";
 import { createApp } from "./app";
 
 const port = process.env.PORT || 3000;
@@ -12,7 +11,6 @@ const startServer = async () => {
     await connectDB();
     await initKafka();
 
-    await subscribeToProductCreated();
 
     const app = await createApp();
 
