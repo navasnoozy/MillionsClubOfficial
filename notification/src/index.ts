@@ -7,6 +7,7 @@ import { IDatabase } from "./interfaces/IDatabase";
 import { initKafka, disconnectKafka } from "./config/kafka.client";
 import { WebSocketService } from "./WebSocket/WebSocketService";
 import { upgradeHandler } from "./WebSocket/upgradeHandler";
+import { addKafkaEventListers } from "./events";
 
 const port = process.env.PORT || 3000;
 

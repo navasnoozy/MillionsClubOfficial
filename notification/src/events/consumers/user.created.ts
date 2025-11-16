@@ -1,13 +1,14 @@
 import { EachBatchPayload } from "kafkajs";
 import createAndSendInitialOtp from "../../services/createAndSendOtp";
 import { wsConnectionManager } from "../..";
+import { UserCreatedMsg } from "@millionsclub/shared-libs/server";
 
 const user_created = async ({ batch, resolveOffset, commitOffsetsIfNecessary, heartbeat }: EachBatchPayload) => {
   for (const message of batch.messages) {
     try {
       await heartbeat();
 
-      const { userId, email, name } = JSON.parse(message.value?.toString()!);
+      const { userId, email, name } : UserCreatedMsg = JSON.parse(message.value?.toString()!);
 
       await createAndSendInitialOtp(userId, email, name);
 
