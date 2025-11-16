@@ -1,0 +1,30 @@
+import { EachBatchPayload } from "kafkajs";
+import createAndSendInitialOtp from "../../services/createAndSendOtp";
+import { wsConnectionManager } from "../..";
+
+const user_created = async ({ batch, resolveOffset, commitOffsetsIfNecessary, heartbeat }: EachBatchPayload) => {
+  for (const message of batch.messages) {
+    try {
+      await heartbeat();
+
+      const { userId, email, name } = JSON.parse(message.value?.toString()!);
+
+      await createAndSendInitialOtp(userId, email, name);
+
+      await wsConnectionManager.sendNotification(userId, "Verification mail successfully sent");
+
+      resolveOffset(message.offset);
+
+      await commitOffsetsIfNecessary();
+    } catch (error) {
+      console.log("Error processing KAFKA message:", error);
+      setTimeout(async () => {
+        resolveOffset(message.offset);
+        await commitOffsetsIfNecessary();
+      }, 5000);
+    }
+  }
+};
+
+
+export default user_created;

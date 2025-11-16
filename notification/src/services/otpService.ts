@@ -3,7 +3,7 @@ import { BadRequestError } from "@millionsclub/shared-libs/server";
 import { sendGridMail } from "./sendGridMail";
 import { verifyOtpTemplate } from "../templates/verifyOtpTemplate";
 import generateSecureOTP from "../utils/generateSecureOTP";
-import { Otp, IOtp } from "../models/otpModel";
+import { EmailOtp, IOtp } from "../models/otpModel";
 import { OTP_CONFIG } from "../config/constants";
 import { EmailVerifyParams, EmailVerifyResult } from "../interfaces/SendVerificationEmail";
 
@@ -82,7 +82,7 @@ export const resendVerificationEmail: Resendmail = async (params) => {
 
     // Find OTP record
     const query = userId ? { userId } : { email };
-    const otpRecord = await Otp.findOne(query);
+    const otpRecord = await EmailOtp.findOne(query);
 
     if (!otpRecord) {
       // Don't reveal if user exists - timing attack protection
@@ -171,7 +171,7 @@ interface GetOTPStatus {
 
 export const getOTPStatus: GetOTPStatus = async (email) => {
   try {
-    const otpRecord = await Otp.findOne({ email });
+    const otpRecord = await EmailOtp.findOne({ email });
 
     if (!otpRecord) {
       return { exists: false, expired: false, canResend: false };

@@ -5,7 +5,6 @@ import { WebSocketServer } from "ws";
 import { MongoDatabase } from "./config/MongoDatabase";
 import { IDatabase } from "./interfaces/IDatabase";
 import { initKafka, disconnectKafka } from "./config/kafka.client";
-import { subscribeToAuthEvents } from "./events/consumers/cons.authEvents";
 import { WebSocketService } from "./WebSocket/WebSocketService";
 import { upgradeHandler } from "./WebSocket/upgradeHandler";
 
@@ -25,7 +24,7 @@ const startServer = async (database: IDatabase) => {
     await database.connect();
 
     await initKafka();
-    await subscribeToAuthEvents();
+    await addKafkaEventListers();
 
     server.listen(port, () => {
       console.log(`Notification service running on port ${port}`);

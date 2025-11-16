@@ -29,4 +29,4 @@ const otpSchema = new Schema<IOtp>(
 
 otpSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 86400 }); //24hr
 
-export const Otp = mongoose.model<IOtp>("Otp", otpSchema);
+export const EmailOtp = mongoose.model<IOtp>("Otp", otpSchema);

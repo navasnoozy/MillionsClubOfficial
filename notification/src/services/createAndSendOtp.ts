@@ -3,24 +3,19 @@
 import { BadRequestError } from "@millionsclub/shared-libs/server";
 import { OTP_CONFIG } from "../config/constants";
 import { EmailVerifyResult } from "../interfaces/SendVerificationEmail";
-import { Otp } from "../models/otpModel";
+import { EmailOtp } from "../models/otpModel";
 import { verifyOtpTemplate } from "../templates/verifyOtpTemplate";
 import generateSecureOTP from "../utils/generateSecureOTP";
 import { canResendOTP } from "./otpService";
 import { sendGridMail } from "./sendGridMail";
 
-/**
- * Creates and sends OTP for new user registration (called from Kafka event).
- * This is the ONLY function that should be called for initial OTP creation.
- */
 interface CreateSendOTP {
   (userId: string, email: string, name: string): Promise<EmailVerifyResult>;
 }
 
-export const createAndSendInitialOtp: CreateSendOTP = async (userId, email, name) => {
+const createAndSendInitialOtp: CreateSendOTP = async (userId, email, name) => {
   try {
-    // Check if there's an existing OTP request within cooldown
-    const existingOtp = await Otp.findOne({ userId });
+    const existingOtp = await EmailOtp.findOne({ userId });
 
     if (existingOtp) {
       const resendCheck = canResendOTP(existingOtp);
@@ -53,7 +48,7 @@ export const createAndSendInitialOtp: CreateSendOTP = async (userId, email, name
     }
 
     // Upsert OTP record
-    await Otp.findOneAndUpdate(
+    await EmailOtp.findOneAndUpdate(
       { userId },
       {
         name,
@@ -97,3 +92,5 @@ export const createAndSendInitialOtp: CreateSendOTP = async (userId, email, name
     throw new BadRequestError("Failed to send verification email");
   }
 };
+
+export default createAndSendInitialOtp;

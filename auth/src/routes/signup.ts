@@ -34,22 +34,6 @@ signupRouter.post("/api/users/signup", validateRequest(signupSchema), async (req
     role: "user",
   });
 
-  const jwt_token = jwt.sign(
-    {
-      id: user.id,
-      email: user.email,
-      role: user.role,
-    },
-    process.env.JWT_KEY!
-  );
-
-  console.log('singed version on singup', jwt_token,' finished');
-  
-
-  req.session = {
-    jwt: jwt_token,
-  };
-
   sendResponse(res, 201, { success: true });
   return;
 });
