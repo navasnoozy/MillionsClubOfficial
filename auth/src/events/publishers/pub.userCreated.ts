@@ -1,6 +1,5 @@
 //auth/src/events/publishers/pub.userCreated.ts
-
-import { TOPICS, UserCreatedEvent } from "@millionsclub/shared-libs/server";
+import { KafkaMessage } from "@millionsclub/shared-libs/server";
 import { authKafkaClient } from "../../config/kafka.client";
 
 interface userData {
@@ -12,18 +11,20 @@ interface userData {
 
 export const publishUserCreated = async (userData: userData) => {
   try {
-    const event: UserCreatedEvent = {
-      type: "user.created",
-      userId: userData.userId,
-      name: userData.name,
-      email: userData.email,
-      data: {
-        role: userData.role,
+    const message: KafkaMessage = {
+      key: userData.userId,
+      value: {
+        userId: userData.userId,
+        name: userData.name,
+        email: userData.email,
+        data: {
+          role: userData.role,
+        },
       },
       timestamp: Date.now(),
     };
 
-    await authKafkaClient.publishMessage(TOPICS.AUTH_EVENTS, event,);
+    await authKafkaClient.publishMessage("user_created", message);
   } catch (error) {
     console.error("Failed to publish product created event", error);
     // Don't throw error - product creation should succeed even if event fails

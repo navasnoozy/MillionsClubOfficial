@@ -11,10 +11,11 @@ export interface SubscriptionOptions {
   autoCommitInterval?: number;
   autoCommitThreshold?: number;
   useBatch?: boolean;
-  eachBatchAutoResolve?: boolean
+  eachBatchAutoResolve?: boolean;
 }
 
-export interface BaseEvent {
+export interface BaseMessage {
+  key: string;
   timestamp: number;
-  eventId?: string;
+  partition?: number | string;
 }

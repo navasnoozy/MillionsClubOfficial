@@ -23,10 +23,9 @@ export * from "./schemas/mongoIdValidationSchema";
 
 //KAFKA
 export * from "./kafka/kafka-client";
-export * from "./kafka/interface/interface_auth";
+export * from "./kafka/interface/interface_message";
 export * from "./kafka/interface/interface_topic";
 export * from "./kafka/interface/interface_kafkaConfig";
-export * from "./kafka/interface/interface_product";
 
 // export * from './middlewares/multer'
 

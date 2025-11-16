@@ -1,6 +1,7 @@
-import { Consumer, Kafka, Producer, EachBatchHandler, EachMessageHandler, Message } from "kafkajs";
+import { Consumer, Kafka, Producer, EachBatchHandler, EachMessageHandler } from "kafkajs";
 import { KafkaConfig, SubscriptionOptions } from "./interface/interface_kafkaConfig";
 import { TopicNames } from "../server";
+import { KafkaMessage } from "./interface/interface_topic";
 
 export class KafkaClient {
   private kafka: Kafka;
@@ -40,7 +41,7 @@ export class KafkaClient {
     return this.consumer;
   }
 
-  async publishMessage<T>(topic: TopicNames, message: Message): Promise<void> {
+  async publishMessage<T>(topic: TopicNames, message: KafkaMessage): Promise<void> {
     const producer = await this.getProducer();
     await producer.send({
       topic,
@@ -49,7 +50,7 @@ export class KafkaClient {
           key: message.key,
           value: JSON.stringify(message.value),
           partition: message.partition,
-          timestamp: message.timestamp,
+          timestamp: message.timestamp.toString(),
         },
       ],
     });
