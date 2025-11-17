@@ -4,7 +4,7 @@ import http from "http";
 import { WebSocketServer } from "ws";
 import { MongoDatabase } from "./config/MongoDatabase";
 import { IDatabase } from "./interfaces/IDatabase";
-import { initKafka, disconnectKafka } from "./config/kafka.client";
+import { initKafka, disconnectKafka, startKafkaConsumer } from "./config/kafka.client";
 import { WebSocketService } from "./WebSocket/WebSocketService";
 import { upgradeHandler } from "./WebSocket/upgradeHandler";
 import { addKafkaEventListers } from "./events";
@@ -26,6 +26,7 @@ const startServer = async (database: IDatabase) => {
 
     await initKafka();
     await addKafkaEventListers();
+     await startKafkaConsumer();   // <-- required final step
 
     server.listen(port, () => {
       console.log(`Notification service running on port ${port}`);

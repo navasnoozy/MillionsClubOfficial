@@ -1,3 +1,5 @@
+//shared-libs/src/kafka/kafka-client.ts
+
 import { Consumer, Kafka, Producer, EachBatchHandler, EachMessageHandler } from "kafkajs";
 import { KafkaConfig, SubscriptionOptions } from "./interface/interface_kafkaConfig";
 import { TopicNames } from "../server";
@@ -8,6 +10,11 @@ export class KafkaClient {
   private producer: Producer | null = null;
   private consumer: Consumer | null = null;
   private config: KafkaConfig;
+  private hasRunStarted = false;
+
+  // handler registry
+  private batchHandlers: Record<string, EachBatchHandler> = {};
+  private messageHandlers: Record<string, EachMessageHandler> = {};
 
   constructor(config: KafkaConfig) {
     this.config = config;
@@ -41,7 +48,7 @@ export class KafkaClient {
     return this.consumer;
   }
 
-  async publishMessage<T>(topic: TopicNames, message: KafkaMessage): Promise<void> {
+  async publishMessage(topic: TopicNames, message: KafkaMessage): Promise<void> {
     const producer = await this.getProducer();
     await producer.send({
       topic,
@@ -49,35 +56,49 @@ export class KafkaClient {
         {
           key: message.key,
           value: JSON.stringify(message.value),
-          partition: message.partition,
-          timestamp: message.timestamp.toString(),
         },
       ],
     });
   }
 
-  async subscribe(topic: TopicNames, handler: EachMessageHandler | EachBatchHandler, options?: SubscriptionOptions): Promise<void> {
+  // ---------- FIX ONLY HERE ----------
+  async subscribe(
+    topic: TopicNames,
+    handler: EachMessageHandler | EachBatchHandler,
+    options?: SubscriptionOptions
+  ): Promise<void> {
+
     const consumer = await this.getConsumer();
     await consumer.subscribe({ topic });
 
-    // Fixed: Proper handler routing based on useBatch flag
+    // store handlers only — DO NOT RUN HERE
     if (options?.useBatch) {
-      await consumer.run({
-        autoCommit: options?.autoCommit ?? true,
-        autoCommitInterval: options?.autoCommitInterval,
-        autoCommitThreshold: options?.autoCommitThreshold,
-        eachBatch: handler as EachBatchHandler,
-        eachBatchAutoResolve: options.eachBatchAutoResolve ?? true,
-      });
+      this.batchHandlers[topic] = handler as EachBatchHandler;
     } else {
-      await consumer.run({
-        autoCommit: options?.autoCommit ?? true,
-        autoCommitInterval: options?.autoCommitInterval,
-        autoCommitThreshold: options?.autoCommitThreshold,
-        eachMessage: handler as EachMessageHandler,
-      });
+      this.messageHandlers[topic] = handler as EachMessageHandler;
     }
   }
+
+  // ---------- NEW METHOD: only ONE run loop ----------
+  async startConsumer(): Promise<void> {
+    if (this.hasRunStarted) return;
+    this.hasRunStarted = true;
+
+    const consumer = await this.getConsumer();
+
+    await consumer.run({
+      autoCommit: false, // safe default, handler can manage commit
+      eachBatch: async (payload) => {
+        const handler = this.batchHandlers[payload.batch.topic];
+        if (handler) return handler(payload);
+      },
+      eachMessage: async (payload) => {
+        const handler = this.messageHandlers[payload.topic];
+        if (handler) return handler(payload);
+      },
+    });
+  }
+  // -------------------------------------
 
   async disconnect(): Promise<void> {
     if (this.producer) {
