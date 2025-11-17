@@ -26,7 +26,7 @@ const startServer = async (database: IDatabase) => {
 
     await initKafka();
     await addKafkaEventListers();
-     await startKafkaConsumer();   // <-- required final step
+    await startKafkaConsumer();
 
     server.listen(port, () => {
       console.log(`Notification service running on port ${port}`);

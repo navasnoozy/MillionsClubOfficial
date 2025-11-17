@@ -1,7 +1,7 @@
 // auth/src/index.ts
 
 import connectDB from "./config/db";
-import { initKafka, disconnectKafka } from "./config/kafka.client";
+import { initKafka, disconnectKafka, startKafkaConsumer } from "./config/kafka.client";
 import { createApp } from "./app";
 
 const port = process.env.PORT || 3000;
@@ -10,7 +10,7 @@ const startServer = async () => {
   try {
     await connectDB();
     await initKafka();
-
+    startKafkaConsumer;
 
     const app = await createApp();
 

@@ -7,4 +7,11 @@ export interface UserCreatedMsg {
   data?: any;
 }
 
-export type AllMessages = UserCreatedMsg;
+export interface EmailVerified {
+  userId: string;
+  name: string;
+  email: string;
+  data?: any;
+}
+
+export type AllMessages = UserCreatedMsg | EmailVerified

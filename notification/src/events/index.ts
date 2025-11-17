@@ -1,8 +1,11 @@
+//notification/src/events/index.ts
 import { notificationKafkaClient } from "../config/kafka.client";
-import user_created from "./consumers/user.created";
+import handle_user_created from "./consumers/user.created";
 
 export const addKafkaEventListers = async () => {
-  await notificationKafkaClient.subscribe("user_created", user_created, {
+  console.log('entered to event listner');
+  
+  await notificationKafkaClient.subscribe("user.created", handle_user_created, {
     useBatch: true,
   });
 };

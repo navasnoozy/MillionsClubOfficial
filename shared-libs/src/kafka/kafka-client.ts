@@ -12,7 +12,7 @@ export class KafkaClient {
   private config: KafkaConfig;
   private hasRunStarted = false;
 
-  // handler registry
+  // storing handler into object
   private batchHandlers: Record<string, EachBatchHandler> = {};
   private messageHandlers: Record<string, EachMessageHandler> = {};
 
@@ -61,42 +61,43 @@ export class KafkaClient {
     });
   }
 
-  // ---------- FIX ONLY HERE ----------
-  async subscribe(
-    topic: TopicNames,
-    handler: EachMessageHandler | EachBatchHandler,
-    options?: SubscriptionOptions
-  ): Promise<void> {
-
+  async subscribe(topic: TopicNames, handler: EachMessageHandler | EachBatchHandler, options?: SubscriptionOptions): Promise<void> {
     const consumer = await this.getConsumer();
     await consumer.subscribe({ topic });
+    // store handlers only — NOT RUN HERE
 
-    // store handlers only — DO NOT RUN HERE
-    if (options?.useBatch) {
+    if (this.config.useBatch) {
       this.batchHandlers[topic] = handler as EachBatchHandler;
     } else {
       this.messageHandlers[topic] = handler as EachMessageHandler;
     }
   }
 
-  // ---------- NEW METHOD: only ONE run loop ----------
+  // only ONE run loop
   async startConsumer(): Promise<void> {
+
     if (this.hasRunStarted) return;
     this.hasRunStarted = true;
 
     const consumer = await this.getConsumer();
 
-    await consumer.run({
-      autoCommit: false, // safe default, handler can manage commit
-      eachBatch: async (payload) => {
-        const handler = this.batchHandlers[payload.batch.topic];
-        if (handler) return handler(payload);
-      },
-      eachMessage: async (payload) => {
-        const handler = this.messageHandlers[payload.topic];
-        if (handler) return handler(payload);
-      },
-    });
+    if (this.config.useBatch) {
+      await consumer.run({
+        autoCommit: false,
+        eachBatch: async (payload) => {
+          const handler = this.batchHandlers[payload.batch.topic];
+          if (handler) return handler(payload);
+        },
+      });
+    } else {
+      await consumer.run({
+        autoCommit: false,
+        eachMessage: async (payload) => {
+          const handler = this.messageHandlers[payload.topic];
+          if (handler) return handler(payload);
+        },
+      });
+    }
   }
   // -------------------------------------
 

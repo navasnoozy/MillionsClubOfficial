@@ -25,6 +25,16 @@ export const initKafka = async () => {
   }
 };
 
+export const startKafkaConsumer = async () => {
+  try {
+    await productKafkaClient.startConsumer();
+    console.log("Kafka consumer started in PRODUCT service");
+  } catch (error) {
+    console.error("Kafka consumer start error:", error);
+    throw error;
+  }
+};
+
 export const disconnectKafka = async () => {
   try {
     await productKafkaClient.disconnect();

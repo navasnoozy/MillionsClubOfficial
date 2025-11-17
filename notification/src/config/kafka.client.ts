@@ -17,6 +17,7 @@ export const notificationKafkaClient = new KafkaClient(config);
 export const initKafka = async () => {
   try {
     await notificationKafkaClient.getConsumer();
+    await notificationKafkaClient.getProducer()
     console.log("Kafka initialized in NOTIFICATION service");
   } catch (error) {
     console.error("Kafka initialization error:", error);

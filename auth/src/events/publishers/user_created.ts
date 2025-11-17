@@ -9,7 +9,7 @@ interface userData {
   role: "user" | "admin" | "moderator";
 }
 
-export const publishUserCreated = async (userData: userData) => {
+export const publish_user_created = async (userData: userData) => {
   try {
     const message: KafkaMessage = {
       key: userData.userId,
@@ -21,10 +21,9 @@ export const publishUserCreated = async (userData: userData) => {
           role: userData.role,
         },
       },
-      timestamp: Date.now(),
     };
 
-    await authKafkaClient.publishMessage("user_created", message);
+    await authKafkaClient.publishMessage("user.created", message);
   } catch (error) {
     console.error("Failed to publish product created event", error);
     // Don't throw error - product creation should succeed even if event fails
