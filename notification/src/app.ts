@@ -23,10 +23,6 @@ app.use(
   })
 );
 
-app.use((re,res, next) => {
-  console.log("app is running");
-  next();
-});
 
 app.use(currentUser);
 

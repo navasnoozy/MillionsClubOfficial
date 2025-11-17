@@ -19,6 +19,10 @@ const handle_user_created = async ({ batch, resolveOffset, commitOffsetsIfNecess
       await commitOffsetsIfNecessary();
     } catch (error) {
       console.log("Error processing KAFKA message:", error);
+      setTimeout( async() => {
+        resolveOffset(message.offset);
+        await commitOffsetsIfNecessary();
+      }, 5000);
     }
   }
 };
