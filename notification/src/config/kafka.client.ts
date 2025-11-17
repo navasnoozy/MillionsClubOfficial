@@ -10,6 +10,7 @@ const config: KafkaConfig = {
     "kafka-2.kafka.default.svc.cluster.local:9092",
   ],
   groupId: "notification-consumer-group",
+  useBatch:true
 };
 
 export const notificationKafkaClient = new KafkaClient(config);
