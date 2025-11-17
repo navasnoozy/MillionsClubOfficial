@@ -4,12 +4,9 @@ import { KafkaClient, KafkaConfig } from "@millionsclub/shared-libs/server";
 
 const config: KafkaConfig = {
   clientId: "product-service",
-  brokers: [
-    "kafka-0.kafka.default.svc.cluster.local:9092",
-    "kafka-1.kafka.default.svc.cluster.local:9092",
-    "kafka-2.kafka.default.svc.cluster.local:9092",
-  ],
+  brokers: ["kafka-0.kafka.default.svc.cluster.local:9092", "kafka-1.kafka.default.svc.cluster.local:9092", "kafka-2.kafka.default.svc.cluster.local:9092"],
   groupId: "product-consumer-group",
+  useBatch: true,
 };
 export const productKafkaClient = new KafkaClient(config);
 

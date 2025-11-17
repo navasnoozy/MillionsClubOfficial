@@ -1,16 +1,20 @@
 // auth/src/index.ts
 
-import connectDB from "./config/db";
+import { MongoDatabase } from "./config/db";
 import { initKafka, disconnectKafka, startKafkaConsumer } from "./config/kafka.client";
 import { createApp } from "./app";
+import { addKafkaEventListers } from "./events";
+import { IDatabase } from "./interface/IDatabase";
 
 const port = process.env.PORT || 3000;
 
-const startServer = async () => {
+const startServer = async (database: IDatabase) => {
   try {
-    await connectDB();
+    await database.connect();
+
     await initKafka();
-    startKafkaConsumer;
+    addKafkaEventListers();
+    startKafkaConsumer();
 
     const app = await createApp();
 
@@ -26,4 +30,7 @@ const startServer = async () => {
   }
 };
 
-startServer();
+// Dependency injection
+const mongoUri = process.env.MONGO_URI!;
+const database = new MongoDatabase(mongoUri);
+startServer(database);

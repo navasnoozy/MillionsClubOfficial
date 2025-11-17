@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { NotAuthorizedError } from '../errors/not-authorizedError';
 
 
-export const requireAuth = (
+export const require_auth = (
   req: Request,
   res: Response,
   next: NextFunction

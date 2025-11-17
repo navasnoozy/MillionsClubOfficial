@@ -11,6 +11,7 @@ const emailVerification = async (req: Request, res: Response) => {
 
     if (!otp) {
       throw new BadRequestError("Invalid OTP");
+      
     }
 
     const numericOtp = Number(otp);
@@ -20,6 +21,8 @@ const emailVerification = async (req: Request, res: Response) => {
     }
 
     const otpData = await EmailOtp.findOne({ email });
+    console.log();
+    
 
     if (!otpData || otpData.otp !== numericOtp) {
       return sendResponse(res, 404, {

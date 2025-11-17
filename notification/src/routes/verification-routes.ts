@@ -4,7 +4,7 @@ import { emailVerification } from "../controllers/verify-email";
 
 const verificationRouter = Router ();
 
-verificationRouter.post('/verifyemail', emailVerification)
+verificationRouter.post('/api/notification/verify-email', emailVerification)
 
 
 export default verificationRouter

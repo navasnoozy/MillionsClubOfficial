@@ -1,7 +1,7 @@
 //shared-libs/src/kafka/kafka-client.ts
 
 import { Consumer, Kafka, Producer, EachBatchHandler, EachMessageHandler } from "kafkajs";
-import { KafkaConfig, SubscriptionOptions } from "./interface/interface_kafkaConfig";
+import { KafkaConfig } from "./interface/interface_kafkaConfig";
 import { TopicNames } from "../server";
 import { KafkaMessage } from "./interface/interface_topic";
 

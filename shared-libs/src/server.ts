@@ -5,8 +5,8 @@ export * from "./errors/not-authorizedError";
 export * from "./errors/not-found-error";
 export * from "./errors/reqValidationError";
 
-export * from "./middlewares/requireAuth";
-export * from "./middlewares/requireAdmin";
+export * from "./middlewares/require-auth";
+export * from "./middlewares/require-admin";
 export * from "./middlewares/current-user";
 export * from "./middlewares/errorHandler";
 export * from "./middlewares/validateRequest";

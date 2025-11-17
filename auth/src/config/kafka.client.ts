@@ -3,12 +3,9 @@ import { KafkaClient, KafkaConfig } from "@millionsclub/shared-libs/server";
 
 const config: KafkaConfig = {
   clientId: "auth-service",
-  brokers: [
-    "kafka-0.kafka.default.svc.cluster.local:9092",
-    "kafka-1.kafka.default.svc.cluster.local:9092",
-    "kafka-2.kafka.default.svc.cluster.local:9092",
-  ],
+  brokers: ["kafka-0.kafka.default.svc.cluster.local:9092", "kafka-1.kafka.default.svc.cluster.local:9092", "kafka-2.kafka.default.svc.cluster.local:9092"],
   groupId: "auth-consumer-group",
+  useBatch: true,
 };
 
 export const authKafkaClient = new KafkaClient(config);
@@ -34,7 +31,6 @@ export const startKafkaConsumer = async () => {
   }
 };
 
-
 export const disconnectKafka = async () => {
   try {
     await authKafkaClient.disconnect();
@@ -43,4 +39,3 @@ export const disconnectKafka = async () => {
     console.error(" Kafka disconnection error:", error);
   }
 };
-

@@ -5,7 +5,7 @@ import {
   addProductVariantSchema,
   addSubCategorySchema,
   mongoIdValidationSchema,
-  requireAdmin,
+  require_admin,
   updateProductSchema,
   validateRequest,
 } from "@millionsclub/shared-libs/server";
@@ -28,19 +28,19 @@ const adminRouter = Router();
 // PRODUCT /////
 ////////////////
 adminRouter.post(
-  "/api/products/add",requireAdmin,
+  "/api/products/add",require_admin,
   validateRequest(addProductSchema),
   addProduct
 );
 
 adminRouter.patch(
-  "/api/products/update/:id",requireAdmin,
+  "/api/products/update/:id",require_admin,
   validateRequest(mongoIdValidationSchema, "params"),
   validateRequest(updateProductSchema),
   updateProduct
 );
 adminRouter.delete(
-  "/api/products/delete/:id",requireAdmin,
+  "/api/products/delete/:id",require_admin,
   validateRequest(mongoIdValidationSchema, "params"),
   deleteProduct
 );
@@ -52,19 +52,19 @@ adminRouter.delete(
 // VARIANT /////
 ///////////////
 adminRouter.post(
-  "/api/products/:id/addvariant",requireAdmin,
+  "/api/products/:id/addvariant",require_admin,
   validateRequest(mongoIdValidationSchema,'params'),
   validateRequest(addProductVariantSchema),
   addVariant
 );
 adminRouter.patch(
-  "/api/products/variant/:id",requireAdmin,
+  "/api/products/variant/:id",require_admin,
   validateRequest(mongoIdValidationSchema, "params"),
   updateVariant
 );
 
 adminRouter.delete(
-  "/api/products/variant/:id",requireAdmin,
+  "/api/products/variant/:id",require_admin,
   validateRequest(mongoIdValidationSchema, "params"),
   deleteVaraint
 );
@@ -74,13 +74,13 @@ adminRouter.delete(
 // CATEGORY //////
 /////////////////////////////////////////////////////////////
 adminRouter.post(
-  "/api/products/category/add",requireAdmin,
+  "/api/products/category/add",require_admin,
   validateRequest(addCategorySchema),
   addCategory
 );
 
 adminRouter.delete(
-  "/api/products/category/delete/:id",requireAdmin,
+  "/api/products/category/delete/:id",require_admin,
   validateRequest(mongoIdValidationSchema, "params"),
   deletCategory
 );
@@ -96,19 +96,19 @@ adminRouter.patch(
 // SUB - CATEGORY //////
 //////////////////////////////////////////////////////////
 adminRouter.post(
-  "/api/products/subcategory/add",requireAdmin,
+  "/api/products/subcategory/add",require_admin,
   validateRequest(addSubCategorySchema),
   addSubCategory
 );
 
 adminRouter.delete(
-  "/api/products/subcategory/delete/:id",requireAdmin,
+  "/api/products/subcategory/delete/:id",require_admin,
   validateRequest(mongoIdValidationSchema, "params"),
   deleteSubCategory
 );
 
 adminRouter.patch(
-  "/api/products/subcategory/update/:id",requireAdmin,
+  "/api/products/subcategory/update/:id",require_admin,
   validateRequest(mongoIdValidationSchema, "params"),
   validateRequest(updateProductSchema),
   updateSubCategory

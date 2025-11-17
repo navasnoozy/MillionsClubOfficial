@@ -1,5 +1,5 @@
 // src/routes/otpRoutes.ts
-import { requireAuth } from "@millionsclub/shared-libs/server";
+import { require_auth } from "@millionsclub/shared-libs/server";
 import { Router } from "express";
 import { otpResendLimiter, otpSendLimiter } from "../middleware/rate-limiter";
 import { sendMail } from "../controllers/send-otp";
@@ -8,10 +8,10 @@ import { resendOTP } from "../controllers/resend-otp";
 
 const otpRouter = Router();
 
-otpRouter.post("/sendotp", requireAuth, otpSendLimiter, sendMail);
+otpRouter.post("/api/notification/send-otp", require_auth, otpSendLimiter, sendMail);
 
-otpRouter.post("/resendotp", otpResendLimiter, resendOTP);
+otpRouter.post("/api/notification/resend-otp", otpResendLimiter, resendOTP);
 
-otpRouter.get("/status", checkOTPStatus);
+otpRouter.get("/api/notification/status", checkOTPStatus);
 
 export default otpRouter;
