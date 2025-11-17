@@ -4,7 +4,8 @@ import { currentUser, errorHandler, NotFoundError } from "@millionsclub/shared-l
 import cookieSession from "cookie-session";
 import dotenv from "dotenv";
 import express from "express";
-import otpRouter from "./routes/otpRouter";
+import otpRouter from "./routes/otp-routes";
+import verificationRouter from "./routes/verification-routes";
 
 dotenv.config();
 
@@ -30,6 +31,7 @@ app.use((re,res, next) => {
 app.use(currentUser);
 
 app.use(otpRouter);
+app.use(verificationRouter);
 
 app.all("*path", async () => {
   throw new NotFoundError();

@@ -2,12 +2,12 @@
 
 import { BadRequestError } from "@millionsclub/shared-libs/server";
 import { OTP_CONFIG } from "../config/constants";
-import { EmailVerifyResult } from "../interfaces/SendVerificationEmail";
+import { EmailVerifyResult } from "../interfaces/send-verification-mail";
 import { EmailOtp } from "../models/otpModel";
 import { verifyOtpTemplate } from "../templates/verifyOtpTemplate";
-import generateSecureOTP from "../utils/generateSecureOTP";
-import { canResendOTP } from "./otpService";
-import { sendGridMail } from "./sendGridMail";
+import generateSecureOTP from "../utils/generate-otp";
+import { canResendOTP } from "./otp-services";
+import { sendGridMail } from "./send-grid-mail";
 
 interface CreateSendOTP {
   (userId: string, email: string, name: string): Promise<EmailVerifyResult>;

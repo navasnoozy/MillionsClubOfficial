@@ -61,7 +61,7 @@ export class KafkaClient {
     });
   }
 
-  async subscribe(topic: TopicNames, handler: EachMessageHandler | EachBatchHandler, options?: SubscriptionOptions): Promise<void> {
+  async subscribe(topic: TopicNames, handler: EachMessageHandler | EachBatchHandler): Promise<void> {
     const consumer = await this.getConsumer();
     await consumer.subscribe({ topic });
     // store handlers only — NOT RUN HERE

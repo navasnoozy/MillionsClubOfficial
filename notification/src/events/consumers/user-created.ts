@@ -1,5 +1,5 @@
 import { EachBatchPayload } from "kafkajs";
-import createAndSendInitialOtp from "../../services/createAndSendOtp";
+import createAndSendInitialOtp from "../../services/create-and-send-otp";
 import { wsConnectionManager } from "../..";
 import { UserCreatedMsg } from "@millionsclub/shared-libs/server";
 

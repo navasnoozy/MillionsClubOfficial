@@ -8,8 +8,8 @@ export interface UserCreatedMsg {
 }
 
 export interface EmailVerified {
-  userId: string;
-  name: string;
+  userId?: string;
+  name?: string;
   email: string;
   data?: any;
 }

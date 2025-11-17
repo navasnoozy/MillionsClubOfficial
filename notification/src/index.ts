@@ -2,11 +2,11 @@
 import { app } from "./app";
 import http from "http";
 import { WebSocketServer } from "ws";
-import { MongoDatabase } from "./config/MongoDatabase";
+import { MongoDatabase } from "./config/Mongo-database";
 import { IDatabase } from "./interfaces/IDatabase";
-import { initKafka, disconnectKafka, startKafkaConsumer } from "./config/kafka.client";
-import { WebSocketService } from "./WebSocket/WebSocketService";
-import { upgradeHandler } from "./WebSocket/upgradeHandler";
+import { initKafka, disconnectKafka, startKafkaConsumer } from "./config/kafka-client";
+import { WebSocketService } from "./WebSocket/web-socket-services";
+import { upgradeHandler } from "./WebSocket/upgrade-handler";
 import { addKafkaEventListers } from "./events";
 
 const port = process.env.PORT || 3000;

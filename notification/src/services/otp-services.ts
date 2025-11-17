@@ -1,11 +1,11 @@
 // src/services/otpService.ts
 import { BadRequestError } from "@millionsclub/shared-libs/server";
-import { sendGridMail } from "./sendGridMail";
+import { sendGridMail } from "./send-grid-mail";
 import { verifyOtpTemplate } from "../templates/verifyOtpTemplate";
-import generateSecureOTP from "../utils/generateSecureOTP";
+import generateSecureOTP from "../utils/generate-otp";
 import { EmailOtp, IOtp } from "../models/otpModel";
 import { OTP_CONFIG } from "../config/constants";
-import { EmailVerifyParams, EmailVerifyResult } from "../interfaces/SendVerificationEmail";
+import { EmailVerifyParams, EmailVerifyResult } from "../interfaces/send-verification-mail";
 
 interface CanSendOTP {
   (otpRecord: IOtp): { allowed: boolean; reason?: string; cooldownSeconds?: number };

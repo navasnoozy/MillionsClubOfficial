@@ -2,7 +2,7 @@
 
 import { WebSocketServer } from "ws";
 import { extractCurrentUserFromWS } from "./auth/ws-current-user";
-import { WebSocketService } from "./WebSocketService";
+import { WebSocketService } from "./web-socket-services";
 import { Duplex } from "stream";
 import { IncomingMessage } from "http";
 

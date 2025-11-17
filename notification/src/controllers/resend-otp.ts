@@ -1,5 +1,5 @@
 import { BadRequestError, sendResponse } from "@millionsclub/shared-libs/server";
-import { getOTPStatus, sendVerificationEmail } from "../services/otpService";
+import { getOTPStatus, sendVerificationEmail } from "../services/otp-services";
 import { Request, Response } from "express";
 
 export const resendOTP = async (req: Request, res: Response) => {

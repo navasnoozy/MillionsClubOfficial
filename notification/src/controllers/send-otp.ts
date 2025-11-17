@@ -3,11 +3,8 @@
 // Now uses centralized otpService
 
 import { Request, Response } from "express";
-import { sendVerificationEmail, getOTPStatus } from "../services/otpService";
-import {
-  BadRequestError,
-  sendResponse,
-} from "@millionsclub/shared-libs/server";
+import { sendVerificationEmail, getOTPStatus } from "../services/otp-services";
+import { BadRequestError, sendResponse } from "@millionsclub/shared-libs/server";
 
 export const sendMail = async (req: Request, res: Response) => {
   try {
@@ -17,7 +14,7 @@ export const sendMail = async (req: Request, res: Response) => {
       throw new BadRequestError("Email is required");
     }
 
-    const result = await sendVerificationEmail({ email }); 
+    const result = await sendVerificationEmail({ email });
 
     if (!result.success) {
       return sendResponse(res, 429, result); // 429 Too Many Requests
@@ -40,7 +37,3 @@ export const sendMail = async (req: Request, res: Response) => {
     });
   }
 };
-
-
-
-

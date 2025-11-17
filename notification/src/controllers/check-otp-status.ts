@@ -1,5 +1,5 @@
 import { BadRequestError, sendResponse } from "@millionsclub/shared-libs/server";
-import { getOTPStatus } from "../services/otpService";
+import { getOTPStatus } from "../services/otp-services";
 import { Request, Response } from "express";
 
 /**

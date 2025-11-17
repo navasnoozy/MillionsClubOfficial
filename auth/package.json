@@ -15,7 +15,7 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
-    "@millionsclub/shared-libs": "^1.5.2",
+    "@millionsclub/shared-libs": "^1.5.4",
     "bcrypt": "^6.0.0",
     "better-auth": "^1.3.34",
     "cookie-session": "^2.1.1",
