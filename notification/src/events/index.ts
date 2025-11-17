@@ -5,5 +5,5 @@ import handle_user_created from "./consumers/user.created";
 export const addKafkaEventListers = async () => {
   console.log('entered to event listner');
   
-  await notificationKafkaClient.subscribe("user.created", handle_user_created);
+  await notificationKafkaClient.subscribe("user.created", handle_user_created,{eachBatchAutoResolve:false});
 };

@@ -75,7 +75,6 @@ export class KafkaClient {
 
   // only ONE run loop
   async startConsumer(): Promise<void> {
-
     if (this.hasRunStarted) return;
     this.hasRunStarted = true;
 
@@ -84,6 +83,7 @@ export class KafkaClient {
     if (this.config.useBatch) {
       await consumer.run({
         autoCommit: false,
+        eachBatchAutoResolve: false,
         eachBatch: async (payload) => {
           const handler = this.batchHandlers[payload.batch.topic];
           if (handler) return handler(payload);
