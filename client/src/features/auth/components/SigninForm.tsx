@@ -4,6 +4,7 @@ import { signinSchema } from "@millionsclub/shared-libs/client";
 import { Button, CircularProgress, Stack, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 import ErrorMessages from "../../../components/errorMessge";
+import LinkButton from "../../../components/LinkButton";
 
 type Props = {
   onSubmit: (data: SigninSchema) => void;
@@ -28,10 +29,12 @@ const SigninForm = ({ onSubmit, isLoading, isError, errors }: Props) => {
 
         <TextField {...register("password")} label="Password" type="password" variant="standard" error={!!validationError.password} helperText={validationError.password?.message} fullWidth />
 
-        <Button disabled={isLoading} type="submit" size="large" variant="contained">
+     
+        <LinkButton type="submit" variant="contained">
+          {" "}
           Signin
           {isLoading && <CircularProgress sx={{ marginLeft: 1 }} size="2rem" />}
-        </Button>
+        </LinkButton>
 
         {isError && <ErrorMessages errors={errors} />}
       </Stack>

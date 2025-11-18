@@ -1,34 +1,58 @@
-// components/RouteErrorBoundary.tsx
-import React from "react";
+// components/ErrorBoundary.tsx
+import { useRouteError, isRouteErrorResponse, Link } from 'react-router';
+import { Box, Typography, Button } from '@mui/material';
 
-class ErrorBoundary extends React.Component<{}, { hasError: boolean; error?: Error }> {
-  constructor(props: {}) {
-    super(props);
-    this.state = { hasError: false };
+export default function ErrorBoundary() {
+  const error = useRouteError();
+  
+  if (isRouteErrorResponse(error)) {
+    return (
+      <Box sx={{ p: 4, textAlign: 'center' }}>
+        <Typography variant="h4" color="error" gutterBottom>
+          {error.status} {error.statusText}
+        </Typography>
+        <Typography variant="body1" sx={{ mb: 2 }}>
+          {error.data}
+        </Typography>
+        <Button component={Link} to="/" variant="contained">
+          Go Home
+        </Button>
+      </Box>
+    );
   }
 
-  static getDerivedStateFromError(error: Error) {
-    return { hasError: true, error };
+  if (error instanceof Error) {
+    return (
+      <Box sx={{ p: 4 }}>
+        <Typography variant="h4" color="error" gutterBottom>
+          Error
+        </Typography>
+        <Typography variant="body1" sx={{ mb: 2 }}>
+          {error.message}
+        </Typography>
+        {import.meta.env.DEV && (
+          <>
+            <Typography variant="subtitle2">Stack trace:</Typography>
+            <pre style={{ overflow: 'auto', background: '#f5f5f5', padding: '1rem' }}>
+              {error.stack}
+            </pre>
+          </>
+        )}
+        <Button component={Link} to="/" variant="contained">
+          Go Home
+        </Button>
+      </Box>
+    );
   }
 
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error("Route error caught:", error, errorInfo);
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return (
-        <div style={{ padding: 20 }}>
-          <h2>Something went wrong while loading this page.</h2>
-          <pre>{this.state.error?.message}</pre>
-        </div>
-      );
-    }
-
-    // React Router expects this component to render something,
-    // even if error hasn't occurred yet.
-    return null;
-  }
+  return (
+    <Box sx={{ p: 4, textAlign: 'center' }}>
+      <Typography variant="h4" color="error">
+        Unknown Error
+      </Typography>
+      <Button component={Link} to="/" variant="contained" sx={{ mt: 2 }}>
+        Go Home
+      </Button>
+    </Box>
+  );
 }
-
-export default ErrorBoundary;

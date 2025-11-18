@@ -16,6 +16,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import HomePage from './pages/HomePage';
 import RequireAdmin from './components/admin/RequireAdmin';
 import UnauthorizedPage from './pages/UnauthorizedPage';
+import Verification from './features/auth/pages/Verification';
 
 
 const router = createBrowserRouter([
@@ -24,7 +25,7 @@ const router = createBrowserRouter([
     element: <Layout />,
     errorElement: <ErrorBoundary />,
     children: [
-      { index: true, element: <HomePage />, errorElement: <ErrorBoundary /> },
+      { index: true, element: <HomePage />, errorElement: <ErrorBoundary  /> },
       {
         path: 'signup',
         element: <SignupPage />,
@@ -36,6 +37,11 @@ const router = createBrowserRouter([
         errorElement: <ErrorBoundary />,
       },
       {
+        path: 'verification',
+        element: <Verification />,
+        errorElement: <ErrorBoundary />,
+      },
+       {
         path: 'unauthorized',
         element: <UnauthorizedPage />,
         errorElement: <ErrorBoundary />,

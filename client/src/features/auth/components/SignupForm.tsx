@@ -5,6 +5,7 @@ import type { SignupSchema } from "@millionsclub/shared-libs/client";
 import { signupSchema } from "@millionsclub/shared-libs/client";
 import AppLink from "../../../components/CustomLink";
 import ErrorMessages from "../../../components/errorMessge";
+import LinkButton from "../../../components/LinkButton";
 
 type Props = {
   onSubmit: (data: SignupSchema) => void;
@@ -48,10 +49,11 @@ const SignupForm = ({ onSubmit, isLoading, isError, errors }: Props) => {
           fullWidth
         />
 
-        <Button disabled={isLoading} type="submit" size="large" variant="contained">
+        <LinkButton type="submit" variant="contained">
+          {" "}
           Signup
           {isLoading && <CircularProgress sx={{ marginLeft: 1 }} size="2rem" />}
-        </Button>
+        </LinkButton>
 
         {isError && <ErrorMessages errors={errors} />}
       </Stack>

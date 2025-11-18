@@ -9,6 +9,7 @@ import { NavLinks } from "./NavLinks";
 import { UserMenu } from "./UserMenu";
 import { Box } from "@mui/material";
 import { useState } from "react";
+import ThemeToggle from "../ThemeToggle";
 
 export const NavBar: React.FC = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
@@ -22,7 +23,7 @@ export const NavBar: React.FC = () => {
   const handleCloseUserMenu = () => setAnchorElUser(null);
 
   return (
-    <AppBar position="static" sx={{  boxShadow: '0 0px 2px  rgba(0, 251, 255, 0.75)',}}>
+    <AppBar position="static" sx={{  boxShadow: '0 4px 7px  rgba(128, 128, 127, 1)',}}>
       <Container maxWidth={false}>
         <Toolbar disableGutters>
           <Logo variant="desktop" />
@@ -36,7 +37,9 @@ export const NavBar: React.FC = () => {
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <NavLinks onLinkClick={handleCloseNavMenu} />
           </Box>
+              <ThemeToggle />
           <Box sx={{ flexGrow: 0 }}>
+        
             <UserMenu
               anchorEl={anchorElUser}
               open={Boolean(anchorElUser)}
