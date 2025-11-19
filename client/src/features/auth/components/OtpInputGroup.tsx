@@ -2,25 +2,29 @@ import { Stack, TextField, type StackProps } from "@mui/material";
 import { forwardRef, useRef, useState, type ForwardedRef } from "react";
 import handleOnChange from "../handlers/handleOnChange";
 import handleClearInput from "../handlers/handleClearInput";
+import LinkButton from "../../../components/LinkButton";
 
 const OtpInputGroup = forwardRef<HTMLDivElement, StackProps>((stackProps, ref: ForwardedRef<HTMLDivElement>) => {
   const [otp, setOtp] = useState<string[]>(() => Array(6).fill(""));
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   return (
-    <Stack {...stackProps} ref={ref} direction="row" justifyContent="center" spacing={1}>
-      {otp.map((value, index: number) => (
-        <TextField
-          key={index}
-          inputRef={(el) => (inputRefs.current[index] = el)}
-          value={value}
-          onChange={(e) => handleOnChange({ otp, setOtp, inputRefs, e, index })}
-          onKeyDown={(e) => handleClearInput({ otp, setOtp, inputRefs, e, index })}
-          slotProps={slotProps}
-          sx={sxProps}
-        />
-      ))}
-    </Stack>
+    <>
+      <Stack {...stackProps} ref={ref} direction="row" justifyContent="center" spacing={1}>
+        {otp.map((value, index: number) => (
+          <TextField
+            key={index}
+            inputRef={(el) => (inputRefs.current[index] = el)}
+            value={value}
+            onChange={(e) => handleOnChange({ otp, setOtp, inputRefs, e, index })}
+            onKeyDown={(e) => handleClearInput({ otp, setOtp, inputRefs, e, index })}
+            slotProps={slotProps}
+            sx={sxProps}
+          />
+        ))}
+      </Stack>
+      <LinkButton variant="contained" >Verify Account</LinkButton>
+    </>
   );
 });
 
