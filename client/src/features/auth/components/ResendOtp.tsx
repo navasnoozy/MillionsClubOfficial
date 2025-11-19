@@ -3,7 +3,7 @@ import useResendotp from "../hooks/useResendotp";
 import { useState } from "react";
 
 const ResendOtp = ({ email }: { email: string | null }) => {
-  const { mutate: resendotp, data } = useResendotp();
+  const { mutate: resendotp } = useResendotp();
   const [_status, setStatus] = useState();
 
   if (!email) throw new Response("Email parameter is required", { status: 400 });

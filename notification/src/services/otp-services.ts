@@ -5,10 +5,15 @@ import { verifyOtpTemplate } from "../templates/verifyOtpTemplate";
 import generateSecureOTP from "../utils/generate-otp";
 import { EmailOtp, IOtp } from "../models/otpModel";
 import { OTP_CONFIG } from "../config/constants";
-import { EmailVerifyParams, EmailVerifyResult } from "../interfaces/send-verification-mail";
+import {
+  EmailVerifyParams,
+  EmailVerifyResult,
+} from "../interfaces/send-verification-mail";
 
 interface CanSendOTP {
-  (otpRecord: IOtp): { allowed: boolean; reason?: string; cooldownSeconds?: number };
+  (
+    otpRecord: IOtp
+  ): { allowed: boolean; reason?: string; cooldownSeconds?: number };
 }
 
 /**
@@ -32,11 +37,14 @@ export const canResendOTP: CanSendOTP = (otpRecord) => {
 
   // Check cooldown period
   if (otpRecord.lastResendAt) {
-    const timeSinceLastResend = (now.getTime() - otpRecord.lastResendAt.getTime()) / 1000;
+    const timeSinceLastResend =
+      (now.getTime() - otpRecord.lastResendAt.getTime()) / 1000;
     const cooldownSeconds = OTP_CONFIG.MIN_RESEND_INTERVAL_SECONDS;
 
     if (timeSinceLastResend < cooldownSeconds) {
-      const remainingSeconds = Math.ceil(cooldownSeconds - timeSinceLastResend);
+      const remainingSeconds = Math.ceil(
+        cooldownSeconds - timeSinceLastResend
+      );
       return {
         allowed: false,
         reason: `Please wait ${remainingSeconds} seconds before requesting another OTP`,
@@ -49,7 +57,6 @@ export const canResendOTP: CanSendOTP = (otpRecord) => {
   if (OTP_CONFIG.MAX_RESEND_ATTEMPTS_PER_HOUR) {
     const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000);
 
-    // If last resend was within the hour
     if (otpRecord.lastResendAt && otpRecord.lastResendAt > oneHourAgo) {
       if (otpRecord.resendCount >= OTP_CONFIG.MAX_RESEND_ATTEMPTS_PER_HOUR) {
         return {
@@ -65,9 +72,7 @@ export const canResendOTP: CanSendOTP = (otpRecord) => {
 
 /**
  * Resends verification email for existing user.
- * Use this for manual resend requests from the client.
  */
-
 interface Resendmail {
   (params: EmailVerifyParams): Promise<EmailVerifyResult>;
 }
@@ -85,21 +90,28 @@ export const resendVerificationEmail: Resendmail = async (params) => {
     const otpRecord = await EmailOtp.findOne(query);
 
     if (!otpRecord) {
-      // Don't reveal if user exists - timing attack protection
+      // Do not reveal existence (security)
       return {
         success: false,
         message: "If an account exists, a verification email will be sent",
+        errors: [
+          { message: "If an account exists, a verification email will be sent" },
+        ],
         canResend: false,
       };
     }
 
-    // Check resend eligibility
+    // Check if resend allowed
     const resendCheck = canResendOTP(otpRecord);
 
     if (!resendCheck.allowed) {
       return {
         success: false,
-        message: resendCheck.reason || "Cannot resend OTP at this time",
+        message:
+          resendCheck.reason || "Cannot resend OTP at this time",
+        errors: [
+          { message: resendCheck.reason || "Cannot resend OTP at this time" },
+        ],
         canResend: false,
         cooldownSeconds: resendCheck.cooldownSeconds,
       };
@@ -107,16 +119,19 @@ export const resendVerificationEmail: Resendmail = async (params) => {
 
     // Generate new OTP
     const newOTP = generateSecureOTP();
-    const expiresAt = new Date(Date.now() + OTP_CONFIG.EXPIRY_MINUTES * 60 * 1000);
+    const expiresAt = new Date(
+      Date.now() + OTP_CONFIG.EXPIRY_MINUTES * 60 * 1000
+    );
     const now = new Date();
 
-    // Handle resend count
+    // Resend counter logic
     const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000);
     const otpExpired = otpRecord.expiresAt < now;
-    const hourPassed = otpRecord.lastResendAt && otpRecord.lastResendAt <= oneHourAgo;
+    const hourPassed =
+      otpRecord.lastResendAt && otpRecord.lastResendAt <= oneHourAgo;
 
     if (otpExpired || hourPassed) {
-      otpRecord.resendCount = 1; // Reset and count this as first attempt
+      otpRecord.resendCount = 1;
     } else {
       otpRecord.resendCount += 1;
     }
@@ -141,7 +156,7 @@ export const resendVerificationEmail: Resendmail = async (params) => {
     return {
       success: true,
       message: "Verification email sent successfully",
-      canResend: false, // Just sent, cooldown applies
+      canResend: false,
     };
   } catch (error) {
     console.error("Error in resendVerificationEmail:", {
@@ -211,5 +226,4 @@ export const getOTPStatus: GetOTPStatus = async (email) => {
   }
 };
 
-// Backward compatibility: alias the function
 export const sendVerificationEmail = resendVerificationEmail;

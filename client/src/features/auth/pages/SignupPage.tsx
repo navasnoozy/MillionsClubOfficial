@@ -20,7 +20,9 @@ const SignupPage = () => {
 
   const handleSignup = (data: SignupSchema) => {
     signup(data, {
-      onSuccess: () => navigate("/"),
+      onSuccess: (res) => {
+        navigate(`/verification?email=${res.data.email}`);
+      },
       onError: (error) => {
         if (axios.isAxiosError(error)) {
           const errors = error.response?.data.error;

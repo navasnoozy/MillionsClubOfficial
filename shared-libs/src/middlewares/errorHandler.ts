@@ -2,18 +2,20 @@
 
 import { NextFunction, Request, Response } from "express";
 import { CustomError } from "../errors/custom-error";
+import { sendResponse } from "../helpers/apiResponse-handler";
 
-export const errorHandler = (
-  error: Error,
-  _req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const errorHandler = (error: Error, _req:Request, res:Response, next:NextFunction) => {
   if (error instanceof CustomError) {
-    res.status(error.statusCode).send({ error: error.serializeError() });
-    
-    return;
+    return sendResponse(res, error.statusCode, {
+      success: false,
+      message: error.message,
+      errors: error.serializeError(),
+    });
   }
 
-  res.status(400).send("something went wrong...");
+  return sendResponse(res, 400, {
+    success: false,
+    message: "Something went wrong",
+    errors: [{ message: error.message }]
+  });
 };

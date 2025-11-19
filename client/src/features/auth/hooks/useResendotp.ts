@@ -1,7 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
 import axiosInstance from "../../../lib/axios";
 
-
+interface Response {
+  success: boolean;
+  message: string;
+}
 
 const useResendotp = () => {
   return useMutation({

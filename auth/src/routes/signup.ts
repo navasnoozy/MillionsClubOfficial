@@ -34,7 +34,7 @@ signupRouter.post("/api/users/signup", validateRequest(signupSchema), async (req
     role: "user",
   });
 
-  sendResponse(res, 201, { success: true });
+  sendResponse(res, 201, { success: true, data: { email: user.email } });
   return;
 });
 
