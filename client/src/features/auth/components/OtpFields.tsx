@@ -1,11 +1,15 @@
 import { Stack, TextField, type StackProps } from "@mui/material";
-import { forwardRef, useRef, useState, type ForwardedRef } from "react";
-import handleOnChange from "../handlers/handleOnChange";
+import { forwardRef, useRef, type ForwardedRef } from "react";
 import handleClearInput from "../handlers/handleClearInput";
-import LinkButton from "../../../components/LinkButton";
+import handleOnChange from "../handlers/handleOnChange";
 
-const OtpInputGroup = forwardRef<HTMLDivElement, StackProps>((stackProps, ref: ForwardedRef<HTMLDivElement>) => {
-  const [otp, setOtp] = useState<string[]>(() => Array(6).fill(""));
+interface Props extends StackProps {
+  otp: string[];
+  setOtp: React.Dispatch<React.SetStateAction<string[]>>;
+  disabled: boolean;
+}
+
+const OtpFields = forwardRef<HTMLDivElement, Props>(({ otp, setOtp, disabled, ...stackProps }, ref) => {
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   return (
@@ -13,6 +17,7 @@ const OtpInputGroup = forwardRef<HTMLDivElement, StackProps>((stackProps, ref: F
       <Stack {...stackProps} ref={ref} direction="row" justifyContent="center" spacing={1}>
         {otp.map((value, index: number) => (
           <TextField
+            disabled={disabled}
             key={index}
             inputRef={(el) => (inputRefs.current[index] = el)}
             value={value}
@@ -23,14 +28,13 @@ const OtpInputGroup = forwardRef<HTMLDivElement, StackProps>((stackProps, ref: F
           />
         ))}
       </Stack>
-      <LinkButton variant="contained" >Verify Account</LinkButton>
     </>
   );
 });
 
-OtpInputGroup.displayName = "OtpInputGroup";
+OtpFields.displayName = "OtpInputGroup";
 
-export default OtpInputGroup;
+export default OtpFields;
 
 const slotProps = {
   htmlInput: {

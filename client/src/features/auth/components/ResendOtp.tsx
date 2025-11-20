@@ -1,76 +1,53 @@
 import { Alert, Button, Stack, Typography } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import Flip from "../../../components/animations/Flip";
 import useResendotp from "../hooks/useResendotp";
+import Timer from "../../../components/Timer";
 
 const RESEND_TIMEOUT = 60;
 
 const ResendOtp = ({ email }: { email: string | null }) => {
-  const { mutate: resendotp } = useResendotp();
-  const [status, setStatus] = useState<{ success: boolean; message: string }>({ success: true, message: "" });
-  const [resendTimer, setResendTimer] = useState(RESEND_TIMEOUT);
-  const intervalRef = useRef<number | null>(null);
-  const [isRunning, setIsRunning] = useState(true);
+  const { mutate: resendotp, isPending } = useResendotp();
 
-  useEffect(() => {
-    intervalRef.current = window.setInterval(() => {
-      setResendTimer((prev) => {
-        if (prev === 0) {
-          if (intervalRef.current !== null) {
-            clearInterval(intervalRef.current);
-            intervalRef.current = null;
-            setIsRunning(false);
-          }
-          return 0;
-        }
-
-        return prev - 1;
-      });
-    }, 1000);
-
-    return () => {
-      if (intervalRef.current !== null) {
-        clearInterval(intervalRef.current);
-        intervalRef.current = null;
-      }
-    };
-  }, [isRunning]);
+  const [status, setStatus] = useState({ success: true, message: "" });
+  const [time, setTime] = useState(RESEND_TIMEOUT);
+  const [running, setRunning] = useState(true);
 
   if (!email) throw new Response("Email parameter is required", { status: 400 });
 
   const handleResendOtp = () => {
     resendotp(email, {
-      onSuccess: (data) => {
-        setStatus(() => ({ success: data.success, message: data.message }));
-        setIsRunning(true);
-        setResendTimer(60);
+      onSuccess: (res) => {
+        setStatus({ success: res.success, message: res.message });
+        setTime(RESEND_TIMEOUT);
+        setRunning(true);
       },
-      onError: (data) => {
-        setStatus(() => ({ success: false, message: data.response?.data.message || "" }));
+      onError: (err) => {
+        setStatus({ success: false, message: err.response?.data.message || "" });
       },
     });
   };
 
-  const show = resendTimer > 55 && status.message;
+  const show = time > 55 && status.message;
 
   return (
     <>
+      <Timer time={time} running={running} onTick={() => setTime((t) => t - 1)} onFinish={() => setRunning(false)} />
+
       {!show ? (
         <Flip key="timer">
-          <Stack paddingY={2} direction="row" justifyContent="center" alignItems="center">
+          <Stack paddingY={2} direction={{xs:'column', sm:'row'}} justifyContent="center" alignItems="center">
             <Typography>Didn't receive the code</Typography>
 
-            <Button disabled={isRunning} onClick={handleResendOtp} sx={{ textTransform: "none" }}>
-              {isRunning ? `Resend in 00:${resendTimer}` : "Resend code"}
+            <Button disabled={running} loading={isPending} onClick={handleResendOtp} sx={{ textTransform: "none" }}>
+              {running ? `Resend in 00:${time}` : "Resend code"}
             </Button>
           </Stack>
         </Flip>
       ) : (
         <Flip key="status">
           <Stack paddingY={3} direction="row" justifyContent="center" alignItems="center">
-            <Alert severity={status.success ? 'success' : 'error'}>
-             {status.message}
-            </Alert>
+            <Alert severity={status.success ? "success" : "error"}>{status.message}</Alert>
           </Stack>
         </Flip>
       )}

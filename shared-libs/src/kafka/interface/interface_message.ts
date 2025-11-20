@@ -4,6 +4,7 @@ export interface UserCreatedMsg {
   userId: string;
   name: string;
   email: string;
+  role: "user" | "admin" | "moderator";
   data?: any;
 }
 
@@ -14,4 +15,4 @@ export interface EmailVerified {
   data?: any;
 }
 
-export type AllMessages = UserCreatedMsg | EmailVerified
+export type AllMessages = UserCreatedMsg | EmailVerified;
