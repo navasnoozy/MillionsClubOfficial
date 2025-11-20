@@ -1,16 +1,18 @@
 import { useMutation } from "@tanstack/react-query";
 import axiosInstance from "../../../lib/axios";
+import type { AxiosError } from "axios";
 
-interface Response {
+interface ApiResponse {
   success: boolean;
   message: string;
 }
 
 const useResendotp = () => {
-  return useMutation({
+  return useMutation<ApiResponse, AxiosError<ApiResponse>, string>({
     mutationKey: ["sendotp"],
     mutationFn: async (email: string) => {
-      const { data } = await axiosInstance.post("/api/notification/resend-otp", email);
+      const { data } = await axiosInstance.post<ApiResponse>("/api/notification/resend-otp", { email });
+
       return data;
     },
   });

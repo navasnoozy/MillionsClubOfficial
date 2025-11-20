@@ -6,6 +6,8 @@ import OtpInputGroup from "../components/OtpInputGroup";
 import ResendOtp from "../components/ResendOtp";
 
 const VerificationPage = () => {
+  console.log('verification page running');
+  
   const [searchParams] = useSearchParams();
 
   const email = searchParams.get("email");

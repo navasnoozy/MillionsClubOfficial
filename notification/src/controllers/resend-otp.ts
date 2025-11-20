@@ -5,6 +5,8 @@ import { Request, Response } from "express";
 export const resendOTP = async (req: Request, res: Response) => {
   const { email = null } = req.body;
 
+  console.log(JSON.stringify(req.body));
+
   if (!email) {
     throw new BadRequestError("Email is required");
   }

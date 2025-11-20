@@ -10,7 +10,7 @@ const otpRouter = Router();
 
 otpRouter.post("/api/notification/send-otp", require_auth, otpSendLimiter, sendMail);
 
-otpRouter.post("/api/notification/resend-otp", otpResendLimiter, resendOTP);
+otpRouter.post("/api/notification/resend-otp", resendOTP);
 
 otpRouter.get("/api/notification/status", checkOTPStatus);
 
