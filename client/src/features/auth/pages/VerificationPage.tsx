@@ -13,6 +13,7 @@ import useVerifyEmail from "../hooks/useVerifyEmail";
 const VerificationPage = () => {
   const [otp, setOtp] = useState<string[]>(() => Array(6).fill(""));
   const [verifyStatus, setVerifyStatus] = useState(false);
+  const [error, setError] = useState("");
 
   const [searchParams] = useSearchParams();
 
@@ -30,7 +31,8 @@ const VerificationPage = () => {
           setVerifyStatus(res.success);
         },
         onError: (error) => {
-          setVerifyStatus(error.response?.data.success || false);
+          setVerifyStatus(false);
+          setError(error.response?.data.message || "Could not verify, Try again");
         },
       }
     );
@@ -45,13 +47,13 @@ const VerificationPage = () => {
           <Typography color="gray">We've sent a 6-digit verification code to your email address.</Typography>
           <Box color="gray">{email}</Box>
           <Shake verifyStatus={verifyStatus}>
-            <OtpFields otp={otp} setOtp={setOtp} disabled={isPending} sx={{ my: 2 }} />
+            <OtpFields otp={otp} setOtp={setOtp} error={error} verifyStatus={verifyStatus} disabled={isPending} sx={{ mt: 2 }} />
+            <Typography visibility={error? 'visible' :'hidden'} sx={{mb:1, fontSize:'15px', color:'red', fontStyle:'italic' }}>this error happen yesterday</Typography>
           </Shake>
           <LinkButton disabled={isPending} loading={isPending} onClick={() => handleverifyemail()} variant="contained">
             Verify Account
           </LinkButton>
           <ResendOtp email={email} />
-         
         </>
       )}
     </CardContainer>

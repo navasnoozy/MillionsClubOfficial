@@ -8,9 +8,9 @@ const handle_user_created = async ({ batch, resolveOffset, commitOffsetsIfNecess
     try {
       await heartbeat();
 
-      const { userId, email, name }: UserCreatedMsg = JSON.parse(message.value?.toString()!);
+      const { userId, email, name, role }: UserCreatedMsg = JSON.parse(message.value?.toString()!);
 
-      await createAndSendInitialOtp(userId, email, name);
+      await createAndSendInitialOtp(userId, email, name, role);
 
       await wsConnectionManager.sendNotification(userId, "Verification mail successfully sent");
 

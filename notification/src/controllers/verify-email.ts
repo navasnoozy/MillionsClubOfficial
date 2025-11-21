@@ -41,15 +41,18 @@ const emailVerification = async (req: Request, res: Response) => {
     email: otpData.email,
   });
 
-  await EmailOtp.deleteOne({ _id: otpData._id });
-
   const jwt_token = jwt.sign(
     {
       id: otpData.id,
       email: otpData.email,
+      role: otpData.role,
     },
     process.env.JWT_KEY!
   );
+
+  req.session = { jwt: jwt_token };
+
+  await EmailOtp.deleteOne({ _id: otpData._id });
 
   return sendResponse(res, 200, {
     success: true,

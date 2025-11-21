@@ -17,9 +17,7 @@ export const publish_user_created = async (userData: userData) => {
         userId: userData.userId,
         name: userData.name,
         email: userData.email,
-        data: {
-          role: userData.role,
-        },
+        role: userData.role,
       },
     };
 

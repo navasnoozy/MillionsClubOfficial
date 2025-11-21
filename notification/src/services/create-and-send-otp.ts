@@ -10,10 +10,10 @@ import { canResendOTP } from "./otp-services";
 import { sendGridMail } from "./send-grid-mail";
 
 interface CreateSendOTP {
-  (userId: string, email: string, name: string): Promise<EmailVerifyResult>;
+  (userId: string, email: string, name: string, role:string): Promise<EmailVerifyResult>;
 }
 
-const createAndSendInitialOtp: CreateSendOTP = async (userId, email, name) => {
+const createAndSendInitialOtp: CreateSendOTP = async (userId, email, name, role) => {
   try {
     const existingOtp = await EmailOtp.findOne({ userId });
 
@@ -54,6 +54,7 @@ const createAndSendInitialOtp: CreateSendOTP = async (userId, email, name) => {
         name,
         userId,
         email,
+        role,
         otp,
         expiresAt,
         resendCount: newResendCount,

@@ -1,8 +1,9 @@
-import { Alert, Button, Stack, Typography } from "@mui/material";
+import { Button, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 import Flip from "../../../components/animations/Flip";
 import useResendotp from "../hooks/useResendotp";
 import Timer from "../../../components/Timer";
+import Alert from "../../../components/Alert";
 
 const RESEND_TIMEOUT = 60;
 
@@ -36,7 +37,7 @@ const ResendOtp = ({ email }: { email: string | null }) => {
 
       {!show ? (
         <Flip key="timer">
-          <Stack paddingY={2} direction={{xs:'column', sm:'row'}} justifyContent="center" alignItems="center">
+          <Stack paddingY={2} direction={{ xs: "column", sm: "row" }} justifyContent="center" alignItems="center">
             <Typography>Didn't receive the code</Typography>
 
             <Button disabled={running} loading={isPending} onClick={handleResendOtp} sx={{ textTransform: "none" }}>
@@ -47,7 +48,7 @@ const ResendOtp = ({ email }: { email: string | null }) => {
       ) : (
         <Flip key="status">
           <Stack paddingY={3} direction="row" justifyContent="center" alignItems="center">
-            <Alert severity={status.success ? "success" : "error"}>{status.message}</Alert>
+            <Alert success={status.success}>{status.message}</Alert>
           </Stack>
         </Flip>
       )}
