@@ -12,7 +12,7 @@ import AuthSwitchLink from "../components/AuthSwitchLink";
 
 const SigninPage = () => {
   const navigate = useNavigate();
-  const [signinError, setSigninError] = useState<{ message: string; field: string }[]>([]);
+  const [error, setError] = useState<string>("");
 
   const { mutate: signin, isPending, isError } = useSigninUser();
 
@@ -25,8 +25,7 @@ const SigninPage = () => {
       },
       onError: (error) => {
         if (axios.isAxiosError(error)) {
-          const errors = error.response?.data.error;
-          setSigninError(errors);
+          setError(error.response?.data.messsage || "Something went wrong");
         }
       },
     });
@@ -34,7 +33,7 @@ const SigninPage = () => {
 
   return (
     <CardContainer heading="Login">
-      <SigninForm onSubmit={handleSignin} isLoading={isPending} isError={isError} errors={signinError} />
+      <SigninForm onSubmit={handleSignin} isLoading={isPending} isError={isError} error={error} />
       <AuthSwitchLink mode="signin" />
       <Divider />
       <GoogleLogin />

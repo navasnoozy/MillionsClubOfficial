@@ -12,7 +12,7 @@ import GoogleLogin from "./GoogleLogin";
 import AuthSwitchLink from "../components/AuthSwitchLink";
 
 const SignupPage = () => {
-  const [signupError, setSignupError] = useState<{ message: string; field: string }[]>([]);
+  const [error, setError] = useState<string>("");
 
   const navigate = useNavigate();
 
@@ -21,12 +21,11 @@ const SignupPage = () => {
   const handleSignup = (data: SignupSchema) => {
     signup(data, {
       onSuccess: (res) => {
-        navigate(`/verification?email=${res.data.email}`);
+        navigate(`/verification?email=${res.data?.email}`);
       },
       onError: (error) => {
         if (axios.isAxiosError(error)) {
-          const errors = error.response?.data.error;
-          setSignupError(errors);
+          setError(error.response?.data.messsage || "Something went wrong");
         }
       },
     });
@@ -34,7 +33,7 @@ const SignupPage = () => {
 
   return (
     <CardContainer heading={"Create Account"}>
-      <SignupForm onSubmit={handleSignup} isLoading={signupLoading} isError={isError} errors={signupError} />
+      <SignupForm onSubmit={handleSignup} isLoading={signupLoading} isError={isError} error={error} />
       <AuthSwitchLink mode="signup" />
       <Divider />
       <GoogleLogin />

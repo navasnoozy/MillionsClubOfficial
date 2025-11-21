@@ -1,20 +1,19 @@
-import { Button, CircularProgress, Stack, TextField, Typography } from "@mui/material";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { SignupSchema } from "@millionsclub/shared-libs/client";
 import { signupSchema } from "@millionsclub/shared-libs/client";
-import AppLink from "../../../components/CustomLink";
-import ErrorMessages from "../../../components/errorMessge";
+import { CircularProgress, Stack, TextField } from "@mui/material";
+import { useForm } from "react-hook-form";
+import Alert from "../../../components/Alert";
 import LinkButton from "../../../components/LinkButton";
 
 type Props = {
   onSubmit: (data: SignupSchema) => void;
   isLoading: boolean;
   isError: boolean;
-  errors: { message: string; field: string }[];
+  error: string;
 };
 
-const SignupForm = ({ onSubmit, isLoading, isError, errors }: Props) => {
+const SignupForm = ({ onSubmit, isLoading, isError, error }: Props) => {
   const {
     register,
     handleSubmit,
@@ -55,7 +54,7 @@ const SignupForm = ({ onSubmit, isLoading, isError, errors }: Props) => {
           {isLoading && <CircularProgress sx={{ marginLeft: 1 }} size="2rem" />}
         </LinkButton>
 
-        {isError && <ErrorMessages errors={errors} />}
+        {isError && <Alert success={false}>{error}</Alert>}
       </Stack>
     </form>
   );

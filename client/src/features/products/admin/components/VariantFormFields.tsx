@@ -4,14 +4,13 @@ import { Controller, useFormContext } from 'react-hook-form';
 
 import type { AddProductVariant } from '@millionsclub/shared-libs/client';
 import TongleButton from '../../components/Switch';
-import ErrorMessages from '../../../../components/errorMessge';
 
-type Props = {
-  isError: boolean;
-  errors: { message: string; field: string }[];
-};
+// type Props = {
+//   isError: boolean;
+//   errors: { message: string; field: string }[];
+// };
 
-const VariantFormFields =({ isError, errors }: Props)=> {
+const VariantFormFields =()=> {
   const {
     register,
     control,
@@ -55,7 +54,6 @@ const VariantFormFields =({ isError, errors }: Props)=> {
         render={({ field }) => <TongleButton label="Active Status" checked={field.value} onChange={(_, checked) => field.onChange(checked)} />}
       />
 
-      {isError && <ErrorMessages errors={errors} />}
     </Stack>
   );
 }

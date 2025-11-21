@@ -6,14 +6,13 @@ import { useEffect } from 'react';
 import useCategories from '../../../categories/hooks/useCategories';
 import RHFDropdown from '../../../../components/RHFDropdown';
 import TongleButton from '../../components/Switch';
-import ErrorMessages from '../../../../components/errorMessge';
 
-type Props = {
-  isError: boolean;
-  errors: { message: string; field: string }[];
-};
+// type Props = {
+//   isError: boolean;
+//   errors: { message: string; field: string }[];
+// };
 
-const ProductFormField = ({ isError, errors }: Props)=> {
+const ProductFormField = ()=> {
   const {
     register,
     control,
@@ -85,7 +84,6 @@ const ProductFormField = ({ isError, errors }: Props)=> {
         render={({ field }) => <TongleButton label="Active Status" checked={field.value} onChange={(_, checked) => field.onChange(checked)} />}
       />
 
-      {isError && <ErrorMessages errors={errors} />}
     </Stack>
   );
 }

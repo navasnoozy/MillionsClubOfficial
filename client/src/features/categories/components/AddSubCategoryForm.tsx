@@ -1,16 +1,15 @@
 import type { AddSubCategory } from '@millionsclub/shared-libs/client';
 import { Stack, TextField } from '@mui/material';
 import { useFormContext } from 'react-hook-form';
-import ErrorMessages from '../../../components/errorMessge';
 import RHFDropdown from '../../../components/RHFDropdown';
 import useCategories from '../hooks/useCategories';
 
-type Props = {
-  isError: boolean;
-  errors: { message: string; field: string }[];
-};
+// type Props = {
+//   isError: boolean;
+//   errors: { message: string; field: string }[];
+// };
 
-const AddSubCategoryForm = ({ isError, errors }: Props) => {
+const AddSubCategoryForm = () => {
   const { data: categories } = useCategories();
 
   const {
@@ -42,7 +41,7 @@ const AddSubCategoryForm = ({ isError, errors }: Props) => {
         {categories && <RHFDropdown name="parentCategoryId" options={categories} label="Select Main Category" />}
       </Stack>
 
-      {isError && <ErrorMessages errors={errors} />}
+
     </Stack>
   );
 };

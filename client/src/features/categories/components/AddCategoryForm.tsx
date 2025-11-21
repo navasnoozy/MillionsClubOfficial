@@ -1,15 +1,14 @@
 import type { AddCategory } from "@millionsclub/shared-libs/client";
 import { Stack, TextField } from "@mui/material";
 import { useFormContext } from "react-hook-form";
-import ErrorMessages from "../../../components/errorMessge";
-// import useCategories from "../../categories/hooks/useCategories";
 
-type Props = {
-  isError: boolean;
-  errors: { message: string; field: string }[];
-};
 
-const AddCategoryForm = ({ isError, errors }: Props) => {
+// type Props = {
+//   isError: boolean;
+//   errors: { message: string; field: string }[];
+// };
+
+const AddCategoryForm = () => {
   const {
     register,
     formState: { errors: formErrors },
@@ -40,7 +39,6 @@ const AddCategoryForm = ({ isError, errors }: Props) => {
         fullWidth
       />
 
-      {isError && <ErrorMessages errors={errors} />}
     </Stack>
   );
 };
