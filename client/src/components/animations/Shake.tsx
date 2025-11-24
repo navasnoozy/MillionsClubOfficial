@@ -1,24 +1,32 @@
-import { motion } from "motion/react";
-import { type ReactNode } from "react";
+import { motion, useAnimation } from "motion/react";
+import { type ReactNode, useEffect } from "react";
 
-const shake = {
-  animate: {
-    x: [0, -6, 6, -6, 6, 0],
-    transition: {
-      duration: 0.35,
-      easing: ["ease-in-out", "ease-in-out", "ease-in-out", "ease-in-out", "ease-in-out"],
-    },
+const shakeConfig = {
+  x: [0, -6, 6, -6, 6, 0],
+  transition: {
+    duration: 0.35,
+    easing: ["ease-in-out", "ease-in-out", "ease-in-out", "ease-in-out", "ease-in-out"],
   },
 };
 
 interface Props {
-  verifyStatus: boolean;
+  // We use a number here. Every time it increments, we shake.
+  shouldShake: number; 
   children: ReactNode;
 }
 
-export const Shake = ({ verifyStatus, children }: Props) => {
+export const Shake = ({ shouldShake, children }: Props) => {
+  const controls = useAnimation();
+
+  useEffect(() => {
+    // Only shake if the trigger number is greater than 0
+    if (shouldShake > 0) {
+      controls.start(shakeConfig);
+    }
+  }, [shouldShake, controls]);
+
   return (
-    <motion.div key={verifyStatus ? "ok" : "error"} animate={!verifyStatus ? shake.animate : undefined}>
+    <motion.div animate={controls}>
       {children}
     </motion.div>
   );

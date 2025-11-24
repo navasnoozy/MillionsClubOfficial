@@ -15,9 +15,11 @@ const VerificationPage = () => {
   const [otp, setOtp] = useState<string[]>(() => Array(6).fill(""));
   const [verifyStatus, setVerifyStatus] = useState(false);
   const [error, setError] = useState("");
+  
+  // 1. Add this state to control the shake
+  const [shakeTrigger, setShakeTrigger] = useState(0);
 
   const [searchParams] = useSearchParams();
-
   const email = searchParams.get("email");
 
   if (!email) throw new Response("Email parameter is required", { status: 400 });
@@ -26,12 +28,12 @@ const VerificationPage = () => {
 
   useEffect(() => {
     let timer: any;
-
     if (verifyStatus === true) {
       timer = setTimeout(() => {
         navigate("/", { replace: true });
       }, 2000);
     }
+    return () => clearTimeout(timer);
   }, [verifyStatus, navigate]);
 
   const handleverifyemail = () => {
@@ -44,6 +46,9 @@ const VerificationPage = () => {
         onError: (error) => {
           setVerifyStatus(false);
           setError(error.response?.data.message || "Could not verify, Try again");
+          
+          // 2. Increment the trigger to force the animation
+          setShakeTrigger(prev => prev + 1);
         },
       }
     );
@@ -57,12 +62,15 @@ const VerificationPage = () => {
         <>
           <Typography color="gray">We've sent a 6-digit verification code to your email.</Typography>
           <Box color="gray">{email}</Box>
-          <Shake verifyStatus={verifyStatus}>
+          
+          {/* 3. Pass the trigger to the Shake component */}
+          <Shake shouldShake={shakeTrigger}>
             <OtpFields otp={otp} setOtp={setOtp} error={error} verifyStatus={verifyStatus} disabled={isPending} sx={{ mt: 2 }} />
             <Typography visibility={error ? "visible" : "hidden"} sx={{ mb: 1, fontSize: "15px", color: "red", fontStyle: "italic" }}>
               {error}
             </Typography>
           </Shake>
+          
           <LinkButton disabled={isPending} loading={isPending} onClick={() => handleverifyemail()} variant="contained">
             Verify Account
           </LinkButton>
