@@ -7,6 +7,7 @@ import express from "express";
 import adminRouter from "./routes/adminRoutes";
 import userRouter from "./routes/userRoutes";
 import imageRouter from "./routes/imageRoutes";
+import cors from "cors";
 
 dotenv.config();
 
@@ -15,18 +16,28 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
 app.set("trust proxy", true);
 
 app.use(
-  cookieSession({
-    signed: false,
-    secure: true,
+  cors({
+    origin: [
+      "http://localhost:3000", // your React app
+      "http://millionsclub.com", // optional local domain
+    ],
+    credentials: true, // allows cookies and authorization headers
   })
 );
 
-app.use(currentUser)
+app.use(
+  cookieSession({
+    httpOnly: true,
+    signed: false,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+  })
+);
 
+app.use(currentUser);
 
 app.use(adminRouter);
 app.use(userRouter);

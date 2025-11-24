@@ -48,7 +48,7 @@ const VerificationPage = () => {
           <Box color="gray">{email}</Box>
           <Shake verifyStatus={verifyStatus}>
             <OtpFields otp={otp} setOtp={setOtp} error={error} verifyStatus={verifyStatus} disabled={isPending} sx={{ mt: 2 }} />
-            <Typography visibility={error? 'visible' :'hidden'} sx={{mb:1, fontSize:'15px', color:'red', fontStyle:'italic' }}>this error happen yesterday</Typography>
+            <Typography visibility={error? 'visible' :'hidden'} sx={{mb:1, fontSize:'15px', color:'red', fontStyle:'italic' }}>{error}</Typography>
           </Shake>
           <LinkButton disabled={isPending} loading={isPending} onClick={() => handleverifyemail()} variant="contained">
             Verify Account
