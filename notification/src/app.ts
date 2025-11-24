@@ -20,10 +20,10 @@ app.set("trust proxy", true);
 app.use(
   cors({
     origin: [
-      "http://localhost:3000", // your React app
-      "http://millionsclub.com", // optional local domain
+      "http://localhost:3000",
+      "http://millionsclub.com", 
     ],
-    credentials: true, // allows cookies and authorization headers
+    credentials: true,
   })
 );
 

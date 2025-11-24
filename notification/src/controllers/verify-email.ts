@@ -43,7 +43,7 @@ const emailVerification = async (req: Request, res: Response) => {
 
   const jwt_token = jwt.sign(
     {
-      id: otpData.id,
+      id: otpData.userId,
       email: otpData.email,
       role: otpData.role,
     },

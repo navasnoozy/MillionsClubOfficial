@@ -2,6 +2,7 @@ import { Stack, TextField, type StackProps } from "@mui/material";
 import { forwardRef, useRef } from "react";
 import handleClearInput from "../handlers/handleClearInput";
 import handleOnChange from "../handlers/handleOnChange";
+import handleOnPaste from "../handlers/handleOnPaste";
 
 interface Props extends StackProps {
   otp: string[];
@@ -25,12 +26,13 @@ const OtpFields = forwardRef<HTMLDivElement, Props>(({ otp, setOtp, error, verif
             value={value}
             onChange={(e) => handleOnChange({ otp, setOtp, inputRefs, e, index })}
             onKeyDown={(e) => handleClearInput({ otp, setOtp, inputRefs, e, index })}
+            onPaste={(e) => handleOnPaste({ setOtp, inputRefs, e, index })}
             slotProps={slotProps}
             sx={{
               ...sxProps, // spread existing styles
               "& .MuiOutlinedInput-notchedOutline": {
                 borderRadius: 2,
-                borderColor:`${error ? 'red' : verifyStatus ? 'green':'#c4c4c4'}`
+                borderColor: `${error ? "red" : verifyStatus ? "green" : "#c4c4c4"}`,
               },
             }}
           />
