@@ -13,7 +13,7 @@ const startServer = async (database: IDatabase) => {
     await initKafka();
 
     app.listen(port, () => {
-      console.log(`Oder service running on port ${port}`);
+      console.log(`Payment service running on port ${port}`);
     });
 
     process.on("SIGTERM", async () => {
