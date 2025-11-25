@@ -51,6 +51,8 @@ const slotProps = {
     maxLength: 1,
     inputMode: "numeric",
     pattern: "[0-9]*",
+    autoComplete: "one-time-code",
+    autoCorrect: "off",
   },
 };
 

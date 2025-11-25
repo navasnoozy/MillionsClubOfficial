@@ -3,24 +3,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: auth-deployment
+  name: payment-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: auth
+      app: payment
   template:
     metadata:
       labels:
-        app: auth
+        app: payment
     spec:
       # initContainers:
       #   - name: wait-for-kafka
       #     image: busybox:1.28
       #     command: ['sh', '-c', 'until nslookup kafka.default.svc.cluster.local; do echo waiting for kafka; sleep 2; done; until nc -z kafka.default.svc.cluster.local 9092; do echo waiting for kafka; sleep 2; done;']
       containers:
-        - name: auth
-          image: navasnoozy/auth:latest # Replace with your Docker image name
+        - name: payment
+          image: navasnoozy/payment:latest # Replace with your Docker image name
           imagePullPolicy: Never # Use 'Never' if you're using local Docker images with Minikube or Docker Desktop
 
           env:
@@ -33,11 +33,9 @@ spec:
             - name: MONGO_URI
               valueFrom:
                 secretKeyRef:
-                  name: auth-mongo-uri
+                  name: payment-mongo-uri
                   key: MONGO_URI
 
-            - name: BETTER_AUTH_SECRET
-              value: 8aMCd49QV9Bu8SVKOlrBmDiauThOpVlp
 
             - name: BASE_URL
               value: http://millionsclub.com
@@ -46,7 +44,7 @@ spec:
             #   valueFrom:
             #     configMapKeyRef:
             #       name: auth-config
-            #       key: AUTH_BASE_URL # change the auth base url to 
+            #       key: AUTH_BASE_URL
 
             - name: GOOGLE_CLIENT_ID
               valueFrom:
@@ -67,12 +65,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: auth-service
+  name: payment-service
 spec:
   selector:
-    app: auth # This must match the labels on your pods/deployment
+    app: payment # This must match the labels on your pods/deployment
   ports:
-    - name: auth
+    - name: payment
       protocol: TCP
       port: 3000 # Port that the service exposes internally
       targetPort: 3000 # Port your container is listening on (e.g., Express.js app)

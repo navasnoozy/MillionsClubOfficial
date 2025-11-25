@@ -10,7 +10,6 @@ const shakeConfig = {
 };
 
 interface Props {
-  // We use a number here. Every time it increments, we shake.
   shouldShake: number; 
   children: ReactNode;
 }
@@ -19,7 +18,6 @@ export const Shake = ({ shouldShake, children }: Props) => {
   const controls = useAnimation();
 
   useEffect(() => {
-    // Only shake if the trigger number is greater than 0
     if (shouldShake > 0) {
       controls.start(shakeConfig);
     }

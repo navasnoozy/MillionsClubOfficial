@@ -1,0 +1,46 @@
+//notification/src/config/kafka.client.ts
+
+import { KafkaClient, KafkaConfig } from "@millionsclub/shared-libs/server";
+
+const config: KafkaConfig = {
+  clientId: "notification-service",
+  brokers: [
+    "kafka-0.kafka.default.svc.cluster.local:9092",
+    "kafka-1.kafka.default.svc.cluster.local:9092",
+    "kafka-2.kafka.default.svc.cluster.local:9092",
+  ],
+  groupId: "notification-consumer-group",
+  useBatch:true
+};
+
+export const notificationKafkaClient = new KafkaClient(config);
+
+export const initKafka = async () => {
+  try {
+    await notificationKafkaClient.getConsumer();
+    await notificationKafkaClient.getProducer()
+    console.log("Kafka initialized in NOTIFICATION service");
+  } catch (error) {
+    console.error("Kafka initialization error:", error);
+    throw error;
+  }
+};
+
+export const startKafkaConsumer = async () => {
+  try {
+    await notificationKafkaClient.startConsumer();
+    console.log("Kafka consumer started in NOTIFICATION service");
+  } catch (error) {
+    console.error("Kafka consumer start error:", error);
+    throw error;
+  }
+};
+
+export const disconnectKafka = async () => {
+  try {
+    await notificationKafkaClient.disconnect();
+    console.log("Kafka disconnected in NOTIFICATION service");
+  } catch (error) {
+    console.error("Kafka disconnection error", error);
+  }
+};

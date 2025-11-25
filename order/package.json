@@ -1,0 +1,39 @@
+{
+  "name": "notification",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "Navas NoOzy ck",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "CHOKIDAR_USEPOLLING=true tsx watch src/index.ts",
+    "build": "tsc && tsc-esm-fix",
+    "start": "node dist/index.js",
+    "clean": "rm -rf dist",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "@millionsclub/shared-libs": "^1.5.9",
+    "@sendgrid/mail": "^8.1.6",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "kafkajs": "^2.2.4",
+    "mongoose": "^8.19.2",
+    "tsx": "^4.20.6",
+    "ws": "^8.18.3"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/mongoose": "^5.11.96",
+    "@types/node": "^24.9.1",
+    "@types/ws": "^8.18.1",
+    "tsc-esm-fix": "^3.1.2",
+    "typescript": "^5.9.3"
+  }
+}

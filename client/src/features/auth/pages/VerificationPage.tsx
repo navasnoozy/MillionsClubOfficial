@@ -62,8 +62,7 @@ const VerificationPage = () => {
         <>
           <Typography color="gray">We've sent a 6-digit verification code to your email.</Typography>
           <Box color="gray">{email}</Box>
-          
-          {/* 3. Pass the trigger to the Shake component */}
+        
           <Shake shouldShake={shakeTrigger}>
             <OtpFields otp={otp} setOtp={setOtp} error={error} verifyStatus={verifyStatus} disabled={isPending} sx={{ mt: 2 }} />
             <Typography visibility={error ? "visible" : "hidden"} sx={{ mb: 1, fontSize: "15px", color: "red", fontStyle: "italic" }}>
