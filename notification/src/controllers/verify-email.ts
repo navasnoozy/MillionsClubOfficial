@@ -1,4 +1,4 @@
-//src/controllers/verifyEmail.ts
+//notification/src/controllers/verify-email.ts
 
 import { BadRequestError, sendResponse } from "@millionsclub/shared-libs/server";
 import { Request, Response } from "express";

@@ -1,13 +1,13 @@
-import express from "express";
 import { NotFoundError, errorHandler } from "@millionsclub/shared-libs/server";
 import { toNodeHandler } from "better-auth/node";
-import cookieSession from "cookie-session";
+import cors from "cors";
 import dotenv from "dotenv";
-import { signupRouter } from "./routes/signup";
+import express from "express";
+import { currentUserRouter } from "./routes/current-user";
 import { signinRouter } from "./routes/signin";
 import { signoutRouter } from "./routes/signout";
-import { currentUserRouter } from "./routes/current-user";
-import cors from "cors";
+import { signupRouter } from "./routes/signup";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
@@ -26,14 +26,7 @@ export const createApp = async () => {
     })
   );
 
-  app.use(
-    cookieSession({
-      httpOnly: true,
-      signed: false,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-    })
-  );
+  app.use(cookieParser());
 
   app.all("/api/auth/*splat", toNodeHandler(auth)); //the "*splat" latest express js v5 syntax
 

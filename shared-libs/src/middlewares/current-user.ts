@@ -1,11 +1,11 @@
 //shared-libs/src/middlewares/current-user.ts
-import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
+import { Request, Response, NextFunction } from "express";
+import jwt from "jsonwebtoken";
 
 interface UserPayload {
   id: string;
   email: string;
-  role: 'user' | 'admin' | 'moderator';
+  role: "user" | "admin" | "moderator";
 }
 
 declare global {
@@ -17,16 +17,20 @@ declare global {
 }
 
 export const currentUser = (req: Request, res: Response, next: NextFunction) => {
+  const authHeader = req.headers["authorization"];
 
-  if (!req.session?.jwt) {
+  if (!authHeader) {
     return next();
   }
 
+  const token = authHeader.split(" ")[1];
+
   try {
-    const payload = jwt.verify(req.session.jwt, process.env.JWT_KEY!) as UserPayload;
+    const payload = jwt.verify(token, process.env.JWT_KEY!) as UserPayload;
     req.currentUser = payload;
   } catch (error) {
     console.log(error);
   }
+
   next();
 };

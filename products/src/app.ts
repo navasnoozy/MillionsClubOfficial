@@ -8,6 +8,7 @@ import adminRouter from "./routes/adminRoutes";
 import userRouter from "./routes/userRoutes";
 import imageRouter from "./routes/imageRoutes";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
@@ -15,6 +16,7 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 app.set("trust proxy", true);
 
@@ -28,14 +30,7 @@ app.use(
   })
 );
 
-app.use(
-  cookieSession({
-    httpOnly: true,
-    signed: false,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-  })
-);
+
 
 app.use(currentUser);
 

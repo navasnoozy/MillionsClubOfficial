@@ -27,34 +27,32 @@ router.post("/api/users/signin", validateRequest(signinSchema), async (req, res)
     throw new BadRequestError("Invalid Email id or password");
   }
 
-  if (isPasswordMatch) {
-    const jwt_access_token = jwt.sign(
-      {
-        id: user._id,
-        email: user.email,
-        role: user.role,
-      },
-      process.env.JWT_KEY!,
-      { expiresIn: "15m" }
-    );
+  const jwt_access_token = jwt.sign(
+    {
+      id: user._id,
+      email: user.email,
+      role: user.role,
+    },
+    process.env.JWT_KEY!,
+    { expiresIn: "15m" }
+  );
 
-    const jwt_refresh_token = jwt.sign(
-      {
-        id: user._id,
-      },
-      process.env.JWT_KEY!,
-      { expiresIn: "7d" }
-    );
+  const jwt_refresh_token = jwt.sign(
+    {
+      id: user._id,
+    },
+    process.env.JWT_KEY!,
+    { expiresIn: "7d" }
+  );
 
-    res.cookie("refresh_token", jwt_refresh_token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      path: "/api/users/refresh-token",
-    });
+  res.cookie("refresh_token", jwt_refresh_token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/api/users/refresh-token",
+  });
 
-    sendResponse(res, 200, { success: true, data: { accessToken: jwt_access_token } });
-  }
+  sendResponse(res, 200, { success: true, data: { accessToken: jwt_access_token } });
 
   return;
 });
