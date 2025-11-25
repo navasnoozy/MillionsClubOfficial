@@ -1,6 +1,6 @@
 import { Schema, model, Document, Model } from "mongoose";
 
-type Role = "user" | "admin" | "moderator";
+export type Role = "user" | "admin" | "moderator";
 type Provider = "credentials" | "google" | "github" | "facebook";
 
 export interface UserAttrs {

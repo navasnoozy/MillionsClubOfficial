@@ -41,22 +41,37 @@ const emailVerification = async (req: Request, res: Response) => {
     email: otpData.email,
   });
 
-  const jwt_token = await jwt.sign(
+  const jwt_access_token = jwt.sign(
     {
       id: otpData.userId,
       email: otpData.email,
       role: otpData.role,
     },
-    process.env.JWT_KEY!
+    process.env.JWT_KEY!,
+    { expiresIn: "15m" }
   );
 
-  req.session = { jwt: jwt_token };
+  const jwt_refresh_token = jwt.sign(
+    {
+      id: otpData.userId,
+    },
+    process.env.JWT_KEY!,
+    { expiresIn: "7d" }
+  );
+
+  res.cookie("refresh_token", jwt_refresh_token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/api/users/refresh-token",
+  });
 
   await EmailOtp.deleteOne({ _id: otpData._id });
 
   return sendResponse(res, 200, {
     success: true,
     message: "Email verified",
+    data: { accessToken: jwt_access_token },
   });
 };
 
