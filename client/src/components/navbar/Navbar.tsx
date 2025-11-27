@@ -17,7 +17,10 @@ export const NavBar: React.FC = () => {
 
   const handleOpenNavMenu = (e: React.MouseEvent<HTMLElement>) =>
     setAnchorElNav(e.currentTarget);
-  const handleCloseNavMenu = () => setAnchorElNav(null);
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+    
+  }
   const handleOpenUserMenu = (e: React.MouseEvent<HTMLElement>) =>
     setAnchorElUser(e.currentTarget);
   const handleCloseUserMenu = () => setAnchorElUser(null);

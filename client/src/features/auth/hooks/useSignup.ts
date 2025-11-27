@@ -5,7 +5,7 @@ import type { AxiosError } from "axios";
 
 interface ApiResponse {
   success: boolean;
-  messsage:string;
+  message: string;
   data?: { email: string };
 }
 

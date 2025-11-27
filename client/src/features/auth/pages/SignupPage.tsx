@@ -10,22 +10,23 @@ import SignupForm from "../components/SignupForm";
 import Divider from "../components/Divider";
 import GoogleLogin from "./GoogleLogin";
 import AuthSwitchLink from "../components/AuthSwitchLink";
+import useAppNavigate from "../../../hooks/useAppNavigate";
 
 const SignupPage = () => {
   const [error, setError] = useState<string>("");
-
-  const navigate = useNavigate();
+  const { goToVerifyPage } = useAppNavigate();
 
   const { mutate: signup, isPending: signupLoading, isError } = useSignupUser();
 
   const handleSignup = (data: SignupSchema) => {
     signup(data, {
       onSuccess: (res) => {
-        navigate(`/verification?email=${res.data?.email}`);
+        goToVerifyPage(res.data?.email);
       },
       onError: (error) => {
         if (axios.isAxiosError(error)) {
-          setError(error.response?.data.messsage || "Something went wrong");
+          const msg = error.response?.data?.message || error.message || "Something went wrong. Please try again.";
+          setError(msg);
         }
       },
     });

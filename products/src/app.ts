@@ -1,7 +1,6 @@
 //src/app.ts
 
 import { currentUser, errorHandler, NotFoundError } from "@millionsclub/shared-libs/server";
-import cookieSession from "cookie-session";
 import dotenv from "dotenv";
 import express from "express";
 import adminRouter from "./routes/adminRoutes";

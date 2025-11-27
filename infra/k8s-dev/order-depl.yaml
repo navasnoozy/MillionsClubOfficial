@@ -1,76 +1,76 @@
-# infra/k8s/order-depl.yaml
+# # infra/k8s/order-depl.yaml
 
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: order-deployment
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: order
-  template:
-    metadata:
-      labels:
-        app: order
-    spec:
-      # initContainers:
-      #   - name: wait-for-kafka
-      #     image: busybox:1.28
-      #     command: ['sh', '-c', 'until nslookup kafka.default.svc.cluster.local; do echo waiting for kafka; sleep 2; done; until nc -z kafka.default.svc.cluster.local 9092; do echo waiting for kafka; sleep 2; done;']
-      containers:
-        - name: order
-          image: navasnoozy/order:latest # Replace with your Docker image name
-          imagePullPolicy: Never # Use 'Never' if you're using local Docker images with Minikube or Docker Desktop
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: order-deployment
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: order
+#   template:
+#     metadata:
+#       labels:
+#         app: order
+#     spec:
+#       # initContainers:
+#       #   - name: wait-for-kafka
+#       #     image: busybox:1.28
+#       #     command: ['sh', '-c', 'until nslookup kafka.default.svc.cluster.local; do echo waiting for kafka; sleep 2; done; until nc -z kafka.default.svc.cluster.local 9092; do echo waiting for kafka; sleep 2; done;']
+#       containers:
+#         - name: order
+#           image: navasnoozy/order:latest # Replace with your Docker image name
+#           imagePullPolicy: Never # Use 'Never' if you're using local Docker images with Minikube or Docker Desktop
 
-          env:
-            - name: JWT_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: jwt-secret
-                  key: JWT_KEY
+#           env:
+#             - name: JWT_KEY
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: jwt-secret
+#                   key: JWT_KEY
 
-            - name: MONGO_URI
-              valueFrom:
-                secretKeyRef:
-                  name: order-mongo-uri
-                  key: MONGO_URI
+#             - name: MONGO_URI
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: order-mongo-uri
+#                   key: MONGO_URI
 
 
-            - name: BASE_URL
-              value: http://millionsclub.com
+#             - name: BASE_URL
+#               value: http://millionsclub.com
 
-            # - name: BASE_URL
-            #   valueFrom:
-            #     configMapKeyRef:
-            #       name: auth-config
-            #       key: AUTH_BASE_URL
+#             # - name: BASE_URL
+#             #   valueFrom:
+#             #     configMapKeyRef:
+#             #       name: auth-config
+#             #       key: AUTH_BASE_URL
 
-            - name: GOOGLE_CLIENT_ID
-              valueFrom:
-                secretKeyRef:
-                  name: google-oauth-secrets
-                  key: GOOGLE_CLIENT_ID
+#             - name: GOOGLE_CLIENT_ID
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: google-oauth-secrets
+#                   key: GOOGLE_CLIENT_ID
 
-            - name: GOOGLE_CLIENT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: google-oauth-secrets
-                  key: GOOGLE_CLIENT_SECRET
+#             - name: GOOGLE_CLIENT_SECRET
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: google-oauth-secrets
+#                   key: GOOGLE_CLIENT_SECRET
 
-            - name: KAFKAJS_NO_PARTITIONER_WARNING
-              value: "1" # it will remove the kafka partitioning warning and use kafka default partitioning (new partitioning method),
+#             - name: KAFKAJS_NO_PARTITIONER_WARNING
+#               value: "1" # it will remove the kafka partitioning warning and use kafka default partitioning (new partitioning method),
 
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: order-service
-spec:
-  selector:
-    app: order # This must match the labels on your pods/deployment
-  ports:
-    - name: order
-      protocol: TCP
-      port: 3000 # Port that the service exposes internally
-      targetPort: 3000 # Port your container is listening on (e.g., Express.js app)
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: order-service
+# spec:
+#   selector:
+#     app: order # This must match the labels on your pods/deployment
+#   ports:
+#     - name: order
+#       protocol: TCP
+#       port: 3000 # Port that the service exposes internally
+#       targetPort: 3000 # Port your container is listening on (e.g., Express.js app)

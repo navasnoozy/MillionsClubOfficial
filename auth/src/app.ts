@@ -26,12 +26,11 @@ export const createApp = async () => {
     })
   );
 
-  app.use(cookieParser());
-
   app.all("/api/auth/*splat", toNodeHandler(auth)); //the "*splat" latest express js v5 syntax
 
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
+  app.use(cookieParser());
   app.set("trust proxy", true);
 
   app.use(signupRouter);

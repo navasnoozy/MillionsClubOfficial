@@ -9,10 +9,11 @@ import SigninForm from "../components/SigninForm";
 import GoogleLogin from "./GoogleLogin";
 import Divider from "../components/Divider";
 import AuthSwitchLink from "../components/AuthSwitchLink";
+import useAppNavigate from "../../../hooks/useAppNavigate";
 
 const SigninPage = () => {
-  const navigate = useNavigate();
   const [error, setError] = useState<string>("");
+  const { goHome } = useAppNavigate();
 
   const { mutate: signin, isPending, isError } = useSigninUser();
 
@@ -21,7 +22,7 @@ const SigninPage = () => {
   const handleSignin = (data: SigninSchema) => {
     signin(data, {
       onSuccess: () => {
-        navigate("/");
+        goHome();
       },
       onError: (error) => {
         if (axios.isAxiosError(error)) {

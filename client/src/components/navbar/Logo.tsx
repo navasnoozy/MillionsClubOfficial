@@ -1,7 +1,11 @@
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import Typography from "@mui/material/Typography";
+import useAppNavigate from '../../hooks/useAppNavigate';
 
-export const Logo = ({ variant }: { variant: "desktop" | "mobile" }) => (
+export const Logo = ({ variant }: { variant: "desktop" | "mobile" }) => {
+  const {goHome} = useAppNavigate()
+
+ return (
   <>
     <ShoppingBasketIcon
       sx={{
@@ -17,7 +21,7 @@ export const Logo = ({ variant }: { variant: "desktop" | "mobile" }) => (
       variant={variant === "desktop" ? "h6" : "h5"}
       noWrap
       component="a"
-      href="/"
+      onClick={()=>goHome()}
       sx={{
         mr: 2,
         display: {
@@ -36,4 +40,5 @@ export const Logo = ({ variant }: { variant: "desktop" | "mobile" }) => (
     </Typography>
 
   </>
-);
+)
+};

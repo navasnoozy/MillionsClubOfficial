@@ -1,10 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axiosInstance from "../../../lib/axios";
+import axiosInstance, { setAccessToken } from "../../../lib/axios";
 import type { AxiosError } from "axios";
 
 interface ApiResponse {
   success: boolean;
   message: string;
+  data?: { email: string; accessToken: string };
 }
 
 interface Payload {
@@ -21,8 +22,13 @@ const useVerifyEmail = () => {
 
       return data;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["currentUser"] });
+      if (data.data?.accessToken) {
+        console.log();
+        
+        setAccessToken(data.data.accessToken);
+      }
     },
   });
 };

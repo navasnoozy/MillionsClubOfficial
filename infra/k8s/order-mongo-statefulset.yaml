@@ -1,63 +1,63 @@
-# infra/k8s/order-mongo-statefulset.yaml
-apiVersion: apps/v1
-kind: StatefulSet
-metadata:
-  name: order-mongo-statefulset # K8s will prefix pod names with this. You’ll get:
-spec:
-  serviceName: "order-mongo"
-  replicas: 1  # set >1 for replica set
-  selector:
-    matchLabels:
-      app: order-mongodb
-  template:
-    metadata:
-      labels:
-        app: order-mongodb
-    spec:
-      containers:
-        - name: order-mongo
-          image: mongo:latest
+# # infra/k8s/order-mongo-statefulset.yaml
+# apiVersion: apps/v1
+# kind: StatefulSet
+# metadata:
+#   name: order-mongo-statefulset # K8s will prefix pod names with this. You’ll get:
+# spec:
+#   serviceName: "order-mongo"
+#   replicas: 1  # set >1 for replica set
+#   selector:
+#     matchLabels:
+#       app: order-mongodb
+#   template:
+#     metadata:
+#       labels:
+#         app: order-mongodb
+#     spec:
+#       containers:
+#         - name: order-mongo
+#           image: mongo:latest
 
           
-          env:
+#           env:
           
-          - name: MONGO_INITDB_ROOT_USERNAME   #special environment variables that the official MongoDB Docker image recognizes.
-            valueFrom:
-              secretKeyRef:
-                name: mongo-credentials
-                key: username
+#           - name: MONGO_INITDB_ROOT_USERNAME   #special environment variables that the official MongoDB Docker image recognizes.
+#             valueFrom:
+#               secretKeyRef:
+#                 name: mongo-credentials
+#                 key: username
 
-          - name: MONGO_INITDB_ROOT_PASSWORD  #special environment variables that the official MongoDB Docker image recognizes.
-            valueFrom:
-              secretKeyRef:
-                name: mongo-credentials
-                key: password
+#           - name: MONGO_INITDB_ROOT_PASSWORD  #special environment variables that the official MongoDB Docker image recognizes.
+#             valueFrom:
+#               secretKeyRef:
+#                 name: mongo-credentials
+#                 key: password
 
-          ports:
-            - containerPort: 27017
-              name: mongodb
-          volumeMounts:
-            - name: data
-              mountPath: /data/db
-  volumeClaimTemplates:
-    - metadata:
-        name: data
-      spec:
-        accessModes: ["ReadWriteOnce"]
-        resources:
-          requests:
-            storage: 5Gi
+#           ports:
+#             - containerPort: 27017
+#               name: mongodb
+#           volumeMounts:
+#             - name: data
+#               mountPath: /data/db
+#   volumeClaimTemplates:
+#     - metadata:
+#         name: data
+#       spec:
+#         accessModes: ["ReadWriteOnce"]
+#         resources:
+#           requests:
+#             storage: 5Gi
 
----
+# ---
 
-apiVersion: v1
-kind: Service
-metadata:
-  name: order-mongo-service
-spec:
-  clusterIP: None
-  selector:
-    app: order-mongodb
-  ports:
-    - port: 27017
-      name: mongodb
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: order-mongo-service
+# spec:
+#   clusterIP: None
+#   selector:
+#     app: order-mongodb
+#   ports:
+#     - port: 27017
+#       name: mongodb
