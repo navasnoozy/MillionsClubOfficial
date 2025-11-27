@@ -9,7 +9,13 @@ let accessToken: string | null = null;
 
 export const setAccessToken = (token: string | null) => {
   accessToken = token;
-  console.log(accessToken, "access toekn after setting up");
+
+  //To avoid unnecessary api call to refresh token
+  if (token) {
+    localStorage.setItem("persist", "true");
+  } else {
+    localStorage.removeItem("persist");
+  }
 };
 
 axiosInstance.interceptors.request.use(async (config) => {

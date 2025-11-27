@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axiosInstance from "../../../lib/axios";
+import axiosInstance, { setAccessToken } from "../../../lib/axios";
 
 const useSignout = () => {
   const queryClient = useQueryClient();
@@ -11,6 +11,7 @@ const useSignout = () => {
     },
     onSuccess: () => {
       queryClient.setQueryData(["currentUser"], null);
+      setAccessToken(null);
     },
   });
 };

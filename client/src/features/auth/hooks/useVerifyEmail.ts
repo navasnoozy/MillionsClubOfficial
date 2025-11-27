@@ -28,6 +28,7 @@ const useVerifyEmail = () => {
         console.log();
         
         setAccessToken(data.data.accessToken);
+        localStorage.setItem("persist", "true");
       }
     },
   });

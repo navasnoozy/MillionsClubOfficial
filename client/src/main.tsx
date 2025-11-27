@@ -11,7 +11,6 @@ import { RouterProvider } from "react-router";
 import queryClient from "./lib/queryClient.ts";
 import "./main.css";
 import router from "./Router.tsx";
-// import { store } from "./store/store.ts";
 import { theme } from "./theme.ts";
 import { store } from "./store/store.ts";
 

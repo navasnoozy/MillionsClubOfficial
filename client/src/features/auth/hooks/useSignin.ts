@@ -20,9 +20,8 @@ const useSigninUser = () => {
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["currentUser"] });
       if (data.data?.accessToken) {
-        console.log('checking access token ',data.data?.accessToken );
-        
         setAccessToken(data.data.accessToken);
+        localStorage.setItem("persist", "true");
       }
     },
   });

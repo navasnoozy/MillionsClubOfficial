@@ -17,45 +17,48 @@ import HomePage from "./pages/HomePage";
 import RequireAdmin from "./components/admin/RequireAdmin";
 import UnauthorizedPage from "./pages/UnauthorizedPage";
 import VerificationPage from "./features/auth/pages/VerificationPage";
+import PersistLogin from "./components/PersistLogin";
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <Layout />,
-    errorElement: <ErrorBoundary />,
+
+    element: <PersistLogin />, 
     children: [
-      { index: true, element: <HomePage />, errorElement: <ErrorBoundary /> },
+
       {
-        path: "signup",
-        element: <SignupPage />,
+        path: "/",
+        element: <Layout />,
         errorElement: <ErrorBoundary />,
+        children: [
+          { index: true, element: <HomePage /> }, 
+          {
+            path: "signup",
+            element: <SignupPage />,
+          },
+          {
+            path: "signin",
+            element: <SigninPage />,
+          },
+          {
+            path: "verification",
+            element: <VerificationPage />,
+          },
+          {
+            path: "unauthorized",
+            element: <UnauthorizedPage />,
+          },
+        ],
       },
+      
       {
-        path: "signin",
-        element: <SigninPage />,
+        path: "/admin",
+        element: (
+          <RequireAdmin>
+            <AdminLayout />
+          </RequireAdmin>
+        ),
         errorElement: <ErrorBoundary />,
-      },
-      {
-        path: "verification",
-        element: <VerificationPage />,
-        errorElement: <ErrorBoundary />,
-      },
-      {
-        path: "unauthorized",
-        element: <UnauthorizedPage />,
-        errorElement: <ErrorBoundary />,
-      },
-    ],
-  },
-  {
-    path: "/admin",
-    element: (
-      <RequireAdmin>
-        <AdminLayout />
-      </RequireAdmin>
-    ),
-    errorElement: <ErrorBoundary />,
-    children: [
+           children: [
       {
         index: true,
         element: <AdminDashboard />,
@@ -96,8 +99,12 @@ const router = createBrowserRouter([
         element: <OrderManagement />,
         errorElement: <ErrorBoundary />,
       },
+    ]
+      },
     ],
   },
 ]);
 
 export default router;
+
+

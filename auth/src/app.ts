@@ -8,6 +8,7 @@ import { signinRouter } from "./routes/signin";
 import { signoutRouter } from "./routes/signout";
 import { signupRouter } from "./routes/signup";
 import cookieParser from "cookie-parser";
+import { refreshTokenRouter } from "./routes/refresh-token";
 
 dotenv.config();
 
@@ -37,6 +38,7 @@ export const createApp = async () => {
   app.use(signinRouter);
   app.use(signoutRouter);
   app.use(currentUserRouter);
+  app.use(refreshTokenRouter);
 
   app.all("*path", async () => {
     throw new NotFoundError();
