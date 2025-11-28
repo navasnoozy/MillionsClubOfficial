@@ -12,7 +12,7 @@ const subcategorySchema = new Schema({
 },{timestamps:true});
 
 
-//DELETE THE SUB CATEGORY FROM PARENT WHEN SUB DELETED
+//UPDATING PARENT CATEGORY BY DELETING THE SUB CATEGORY WHEN SUB DELETED
 subcategorySchema.post("findOneAndDelete", async (doc) => {
   if (!doc) return;
   await Category.updateMany(
