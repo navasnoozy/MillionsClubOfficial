@@ -1,8 +1,7 @@
-//notification/src/events/index.ts
+// // src/events/index.ts
 
-import { authKafkaClient } from "../config/kafka.client";
-import handle_email_verified from "./consumers/consumer";
+// import { productKafkaClient } from "../config/kafka.client";
 
-export const addKafkaEventListers = async () => {
-  await authKafkaClient.subscribe("email.verified", handle_email_verified);
-};
+// export const addKafkaEventListers = async () => {
+//   await productKafkaClient.subscribe("email.verified", handle_email_verified);
+// };

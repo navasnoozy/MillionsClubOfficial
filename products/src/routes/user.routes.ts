@@ -15,4 +15,4 @@ router.get("/api/products/category", listCategory);
 
 router.get("/api/products/subcategory", listSubCategory);
 
-export {router as productRoutes}
+export { router };

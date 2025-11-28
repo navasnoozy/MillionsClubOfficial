@@ -3,11 +3,14 @@
 import { currentUser, errorHandler, NotFoundError } from "@millionsclub/shared-libs/server";
 import dotenv from "dotenv";
 import express from "express";
-import adminRouter from "./routes/Admin/adminRoutes";
-import router from "./routes/user.routes";
 import imageRoutes from "./routes/Admin/image.routes";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import { categoryRoutes } from "./routes/Admin/category.routes";
+import { productRoutes } from "./routes/Admin/product.routes";
+import { router } from "./routes/user.routes";
+import { subCategoryRouter } from "./routes/Admin/subCategory.routes";
+import { productVariantRoutes } from "./routes/Admin/variant.routes";
 
 dotenv.config();
 
@@ -31,9 +34,12 @@ app.use(
 
 app.use(currentUser);
 
-app.use(adminRouter);
 app.use(router);
+app.use(categoryRoutes);
 app.use(imageRoutes);
+app.use(productRoutes);
+app.use(subCategoryRouter);
+app.use(productVariantRoutes);
 
 app.all("*path", async () => {
   throw new NotFoundError();

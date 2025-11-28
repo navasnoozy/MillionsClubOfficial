@@ -12,4 +12,4 @@ router.delete("/api/products/category/:id", require_admin, validateRequest(mongo
 
 router.patch("/api/products/category/:id", validateRequest(mongoIdValidationSchema, "params"), validateRequest(updateProductSchema), updateCategory);
 
-export { router as CategoryRoutes };
+export { router as categoryRoutes };
