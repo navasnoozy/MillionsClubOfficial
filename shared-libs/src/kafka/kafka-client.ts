@@ -48,7 +48,7 @@ export class KafkaClient {
     return this.consumer;
   }
 
-  async publishMessage(topic: TopicNames, message: KafkaMessage): Promise<void> {
+  async publishMessage<T extends TopicNames>(topic: T, message: KafkaMessage<T>): Promise<void> {
     const producer = await this.getProducer();
     await producer.send({
       topic,

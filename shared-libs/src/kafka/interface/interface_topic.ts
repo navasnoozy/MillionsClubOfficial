@@ -1,16 +1,27 @@
-//shared-libs/src/kafka/interface/interface_topic.ts
-// Topic definitions
+// shared-libs/src/kafka/interface/interface_topic.ts
 
-import { AllMessages } from "./interface_message";
+import { ProductCreatedMsg, UserCreatedMsg } from "./interface_message";
 
-const AUTH_EVENTS = { user_created: "user.created", user_deleted: "user.deleted" } as const;
-const NOTIFICATION_EVENTS = { user_verified: "email.verified" } as const;
-const PRODUCT_EVENTS = { product_created: "product.created" } as const;
+export const TOPIC_EVENTS = {
+  "user.created": "user.created",
+  "user.deleted": "user.deleted",
+  "email.verified": "email.verified",
+  "product.created": "product.created",
+} as const;
 
-const ALL_EVENTS = { ...AUTH_EVENTS, ...NOTIFICATION_EVENTS, ...PRODUCT_EVENTS } as const;
-export type TopicNames = (typeof ALL_EVENTS)[keyof typeof ALL_EVENTS];
+export type TopicNames = keyof typeof TOPIC_EVENTS;
 
-export interface KafkaMessage {
-  key: string;
-  value: AllMessages;
+// Map topic → message type
+export interface TopicPayloadMap {
+  "user.created": UserCreatedMsg;
+  "user.deleted": any;
+  "email.verified": any;
+  "product.created": ProductCreatedMsg;
 }
+
+// Generic Kafka message
+export interface KafkaMessage<T extends TopicNames> {
+  key: string;
+  value: TopicPayloadMap[T];
+}
+

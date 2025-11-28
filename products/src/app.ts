@@ -3,9 +3,9 @@
 import { currentUser, errorHandler, NotFoundError } from "@millionsclub/shared-libs/server";
 import dotenv from "dotenv";
 import express from "express";
-import adminRouter from "./routes/adminRoutes";
-import userRouter from "./routes/userRoutes";
-import imageRouter from "./routes/imageRoutes";
+import adminRouter from "./routes/Admin/adminRoutes";
+import router from "./routes/user.routes";
+import imageRoutes from "./routes/Admin/image.routes";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
@@ -29,13 +29,11 @@ app.use(
   })
 );
 
-
-
 app.use(currentUser);
 
 app.use(adminRouter);
-app.use(userRouter);
-app.use(imageRouter);
+app.use(router);
+app.use(imageRoutes);
 
 app.all("*path", async () => {
   throw new NotFoundError();

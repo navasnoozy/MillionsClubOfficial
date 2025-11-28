@@ -6,18 +6,13 @@ import { listCategory } from "../controllers/listCategory";
 import { listProducts } from "../controllers/listProducts";
 import { listSubCategory } from "../controllers/listSubCategory";
 
-const userRouter = Router();
+const router = Router();
 
-//PRODUCT
-userRouter.get(
-  "/api/products/list",
-  listProducts
-);
-userRouter.get("/api/products/:id", getProduct);
+router.get("/api/products", listProducts);
+router.get("/api/products/:id", getProduct);
 
-//CATEGORIES
-userRouter.get("/api/products/category/list", listCategory);
+router.get("/api/products/category", listCategory);
 
-userRouter.get("/api/products/category/list", listSubCategory);
+router.get("/api/products/subcategory", listSubCategory);
 
-export default userRouter;
+export {router as productRoutes}

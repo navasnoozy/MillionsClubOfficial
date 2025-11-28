@@ -1,10 +1,11 @@
 // notification/src/events/publishers/user_created.ts
-import { EmailVerified, KafkaMessage } from "@millionsclub/shared-libs/server";
+
+import { KafkaMessage } from "@millionsclub/shared-libs/server";
 import { notificationKafkaClient } from "../../config/kafka-client";
 
-export const publish_email_verified = async (userData: EmailVerified) => {
+export const publish_email_verified = async (Data: EmailVerified) => {
   try {
-    const message: KafkaMessage = {
+    const message: KafkaMessage<'email.verified'> = {
       key: userData.userId || userData.email,
       value: {
         email: userData.email,
@@ -13,7 +14,6 @@ export const publish_email_verified = async (userData: EmailVerified) => {
 
     await notificationKafkaClient.publishMessage("email.verified", message);
   } catch (error) {
-    console.error("Failed to publish product created event", error);
-    // Don't throw error - product creation should succeed even if event fails
+    console.error("Failed to publish email created event", error);
   }
 };

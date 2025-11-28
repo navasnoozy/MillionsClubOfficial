@@ -1,18 +1,17 @@
 // products/src/controllers/admin/product/addVariant.ts
-import {
-  AddProductVariant,
-  sendResponse,
-} from '@millionsclub/shared-libs/server';
-import { NextFunction, Request, Response } from 'express';
-import { ProductVariants } from '../../../models/productVariantModel';
-import { Product } from '../../../models/productModel';
-import { removeImageTags } from '../../../services/removeImageTags';
+import { AddProductVariant, BadRequestError, sendResponse } from "@millionsclub/shared-libs/server";
+import { NextFunction, Request, Response } from "express";
+import { ProductVariants } from "../../../models/productVariantModel";
+import { Product } from "../../../models/productModel";
+import { removeImageTags } from "../../../services/removeImageTags";
 
 const addVariant = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    console.log('add variant reached');
-    
     const productId = req.params.id;
+
+    if (!productId) {
+      throw new BadRequestError("Product id required");
+    }
 
     const { color, size, images, isActive }: AddProductVariant = req.body;
 
@@ -37,11 +36,11 @@ const addVariant = async (req: Request, res: Response, next: NextFunction) => {
 
     sendResponse(res, 201, {
       success: true,
-      message: 'Product variant created successfully',
+      message: "Product variant created successfully",
       data: newVariant,
     });
   } catch (error) {
-    console.error('Error while adding product variant:', error);
+    console.error("Error while adding product variant:", error);
     next(error);
   }
 };
