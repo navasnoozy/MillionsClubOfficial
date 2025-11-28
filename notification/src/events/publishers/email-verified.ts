@@ -1,14 +1,14 @@
 // notification/src/events/publishers/user_created.ts
 
-import { KafkaMessage } from "@millionsclub/shared-libs/server";
+import { EmailVerified, KafkaMessage } from "@millionsclub/shared-libs/server";
 import { notificationKafkaClient } from "../../config/kafka-client";
 
-export const publish_email_verified = async (Data: EmailVerified) => {
+export const publish_email_verified = async (data: EmailVerified) => {
   try {
-    const message: KafkaMessage<'email.verified'> = {
-      key: userData.userId || userData.email,
+    const message: KafkaMessage<"email.verified"> = {
+      key: data.userId || data.email,
       value: {
-        email: userData.email,
+        email: data.email,
       },
     };
 
