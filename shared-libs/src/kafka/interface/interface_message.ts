@@ -95,10 +95,10 @@ export interface SubcategoryDeletedMsg {
 export interface ProductCreatedMsg {
   productId: string;
   title: string;
-  basePrice?: string;
+  basePrice?: number;
   images?: {
-    secure_url: string;
-    public_id: string;
+    secure_url?: string | null;
+    public_id?: string | null;
   }[];
   variantIds?: string[];
   isActive: boolean;
@@ -113,8 +113,8 @@ export interface ProductUpdatedMsg {
     subCategoryId?: string;
     basePrice?: number;
     images?: {
-      secure_url: string;
-      public_id: string;
+      secure_url?: string | null;
+      public_id?: string | null;
     }[];
     description?: string;
     isActive?: boolean;
@@ -132,12 +132,9 @@ export interface ProductDeletedMsg {
 export interface VariantCreatedMsg {
   variantId: string;
   productId: string;
-  color: string;
   size: string;
-  images: {
-    secure_url: string;
-    public_id: string;
-  }[];
+  price: number;
+  quantity: number;
   isActive: boolean;
 }
 
@@ -145,12 +142,9 @@ export interface VariantUpdatedMsg {
   variantId: string;
   productId: string;
   updatedFields: {
-    color?: string;
     size?: string;
-    images?: {
-      secure_url: string;
-      public_id: string;
-    }[];
+    price?: number;
+    quantity?: number;
     isActive?: boolean;
   };
 }

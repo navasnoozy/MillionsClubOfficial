@@ -1,4 +1,4 @@
-// auth/src/errors/custom-Error.ts 
+
 
 export abstract class CustomError extends Error {
   abstract statusCode: number;

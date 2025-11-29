@@ -2,15 +2,18 @@
 import { app } from "./app";
 import { IDatabase } from "./interfaces/IDatabase";
 import { MongoDatabase } from "./config/Mongo-database";
-import { disconnectKafka, initKafka } from "./config/kafka-client";
+import { disconnectKafka, initKafka, startKafkaConsumer } from "./config/kafka-client";
+import { registerKafkaEventListers } from "./events";
 
 const port = process.env.PORT || 3000;
 
 const startServer = async (database: IDatabase) => {
   try {
     await database.connect();
-    
+
     await initKafka();
+    registerKafkaEventListers();
+    startKafkaConsumer()
 
     app.listen(port, () => {
       console.log(`Oder service running on port ${port}`);

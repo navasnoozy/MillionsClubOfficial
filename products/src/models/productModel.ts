@@ -6,42 +6,59 @@ const productSchema = new Schema(
       type: String,
       required: true,
       unique: true,
+      trim: true
     },
+
+    color: {
+      type: String,
+      required: true,
+      trim: true
+    },
+
     brand: {
       type: String,
+      trim: true
     },
+
     categoryId: {
       type: Schema.Types.ObjectId,
-      required: true,
+      required: true
     },
+
     subCategoryId: {
       type: Schema.Types.ObjectId,
-      required: true,
+      required: true
     },
+
     basePrice: {
       type: Number,
     },
+
     images: [
       {
         secure_url: String,
-        public_id: String,
-      },
+        public_id: String
+      }
     ],
+
     description: {
-      type: String,
+      type: String
     },
+
     isActive: {
       type: Boolean,
+      default: true
     },
+
     variantIds: [
       {
         type: Schema.Types.ObjectId,
-        ref: "ProductVariants",
-      },
-    ],
+        ref: "ProductVariants"
+      }
+    ]
   },
   {
-    timestamps: true,
+    timestamps: true
   }
 );
 

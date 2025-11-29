@@ -1,34 +1,22 @@
-
-import {
-  AddProductSchema,
-  BadRequestError,
-  sendResponse,
-} from '@millionsclub/shared-libs/server';
-import { NextFunction, Request, Response } from 'express';
-import { Product } from '../../../models/productModel';
-import { removeImageTags } from '../../../services/removeImageTags';
+import { AddProductSchema, BadRequestError, sendResponse } from "@millionsclub/shared-libs/server";
+import { NextFunction, Request, Response } from "express";
+import { Product } from "../../../models/productModel";
+import { removeImageTags } from "../../../services/removeImageTags";
+import { publish_product_created } from "../../../events/publishers/product_created";
 
 const addProduct = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const {
-      title,
-      brand,
-      categoryId,
-      subCategoryId,
-      basePrice,
-      images,
-      description,
-      isActive,
-    }: AddProductSchema = req.body;
+    const { title, brand, color, categoryId, subCategoryId, basePrice, images, description, isActive }: AddProductSchema = req.body;
 
     const existingProduct = await Product.findOne({ title });
     if (existingProduct) {
-      throw new BadRequestError('Product already exists', 'title');
+      throw new BadRequestError("Product already exists", "title");
     }
 
     const newProductData: AddProductSchema = {
       title,
       brand,
+      color,
       categoryId,
       subCategoryId,
       basePrice,
@@ -44,13 +32,21 @@ const addProduct = async (req: Request, res: Response, next: NextFunction) => {
 
     const newProduct = await Product.create(newProductData);
 
+    publish_product_created({
+      productId: newProduct._id.toString(),
+      title: newProduct.title,
+      basePrice: newProduct.basePrice || undefined,
+      images: newProduct.images,
+      isActive: newProduct.isActive,
+    });
+
     sendResponse(res, 201, {
       success: true,
-      message: 'Product created successfully',
+      message: "Product created successfully",
       data: newProduct,
     });
   } catch (error) {
-    console.error('Error while adding product:', error);
+    console.error("Error while adding product:", error);
     next(error);
   }
 };

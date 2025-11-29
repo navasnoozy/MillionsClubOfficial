@@ -3,6 +3,6 @@
 import { authKafkaClient } from "../config/kafka.client";
 import handle_email_verified from "./consumers/email_verfied";
 
-export const addKafkaEventListers = async () => {
+export const registerKafkaEventListers = async () => {
   await authKafkaClient.subscribe("email.verified", handle_email_verified);
 };
