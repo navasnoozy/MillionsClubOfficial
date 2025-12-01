@@ -1,4 +1,4 @@
-# infra/k8s/kafka-ui-depl.yaml
+# infra/k8s-kafka/kafka-ui-depl.yml
 apiVersion: apps/v1 #  API version for deployment kind
 kind: Deployment #
 metadata:
@@ -41,6 +41,7 @@ kind: Service
 metadata:
   name: kafka-ui #  Headless service for stable DNS
 spec:
+  type: NodePort
   selector:
     app: kafka-ui #  Must match pod label
   ports:
