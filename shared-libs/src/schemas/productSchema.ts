@@ -40,10 +40,6 @@ export const productBaseSchema = z.object({
     .length(4, { message: "Exactly 4 images are required" })
     .optional(),
 
-  variantIds: z
-    .array(z.string().min(1, { message: "Variant must be required" }))
-    .min(1, { message: "At least one variant is required" })
-    .optional(),
 });
 
 // Required fields for creation

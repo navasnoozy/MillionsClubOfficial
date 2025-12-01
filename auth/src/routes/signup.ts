@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import { BadRequestError, validateRequest, signupSchema, sendResponse } from "@millionsclub/shared-libs/server";
 import { User } from "../models/userModel";
 import { hashPassword } from "../utils/hashPassword";
-import { publish_user_created } from "../events/publishers/user_created";
+import { publish_user_created } from "../events/publishers/user-created";
 
 const signupRouter = express.Router();
 signupRouter.post("/api/users/signup", validateRequest(signupSchema), async (req, res) => {

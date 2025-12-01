@@ -18,16 +18,13 @@ export interface UserCreatedMsg {
 export interface UserUpdatedMsg {
   userId: string;
   email?: string;
-  updatedFields: {
-    name?: string;
-    email?: string;
-    password?: string;
-    role?: Role;
-    image?: string;
-    providers?: Provider[];
-    providerIds?: Map<string, string>;
-    isActive?: boolean;
-  };
+  name?: string | undefined;
+  password?: string | undefined;
+  role?: Role | undefined;
+  image?: string | undefined;
+  providers?: Provider[];
+  providerIds?: Map<string, string>;
+  isActive?: boolean | undefined;
 }
 
 export interface UserDeletedMsg {
@@ -55,8 +52,8 @@ export interface CategoryCreatedMsg {
 export interface CategoryUpdatedMsg {
   categoryId: string;
   updatedFields: {
-    name?: string;
-    slug?: string;
+    name?: string | undefined;
+    slug?: string | undefined;
     subcategoryIds?: string[];
   };
 }
@@ -78,8 +75,8 @@ export interface SubcategoryCreatedMsg {
 export interface SubcategoryUpdatedMsg {
   subcategoryId: string;
   updatedFields: {
-    name?: string;
-    slug?: string;
+    name?: string | undefined;
+    slug?: string | undefined;
     parentCategoryId?: string;
   };
 }
@@ -97,29 +94,21 @@ export interface ProductCreatedMsg {
   title: string;
   basePrice?: number;
   images?: {
-    secure_url?: string | null;
-    public_id?: string | null;
+    secure_url?: string | undefined;
+    public_id?: string | undefined;
   }[];
-  variantIds?: string[];
   isActive: boolean;
 }
 
 export interface ProductUpdatedMsg {
   productId: string;
-  updatedFields: {
-    title?: string;
-    brand?: string;
-    categoryId?: string;
-    subCategoryId?: string;
-    basePrice?: number;
-    images?: {
-      secure_url?: string | null;
-      public_id?: string | null;
-    }[];
-    description?: string;
-    isActive?: boolean;
-    variantIds?: string[];
-  };
+  title?: string | undefined;
+  basePrice?: number | undefined;
+  images?: {
+    secure_url?: string | undefined;
+    public_id?: string | undefined;
+  }[];
+  isActive?: boolean | undefined;
 }
 
 export interface ProductDeletedMsg {
@@ -140,13 +129,10 @@ export interface VariantCreatedMsg {
 
 export interface VariantUpdatedMsg {
   variantId: string;
-  productId: string;
-  updatedFields: {
-    size?: string;
-    price?: number;
-    quantity?: number;
-    isActive?: boolean;
-  };
+  size?: string | undefined;
+  price?: number | undefined;
+  quantity?: number | undefined;
+  isActive?: boolean | undefined;
 }
 
 export interface VariantDeletedMsg {

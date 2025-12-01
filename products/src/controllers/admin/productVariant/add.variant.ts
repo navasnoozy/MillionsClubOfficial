@@ -4,6 +4,7 @@ import { NextFunction, Request, Response } from "express";
 import { ProductVariants } from "../../../models/productVariantModel";
 import { Product } from "../../../models/productModel";
 import { removeImageTags } from "../../../services/removeImageTags";
+import { publish_product_variant_created } from "../../../events/publishers/product-variant-created";
 
 const addVariant = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -13,26 +14,36 @@ const addVariant = async (req: Request, res: Response, next: NextFunction) => {
       throw new BadRequestError("Product id required");
     }
 
-    const { color, size, images, isActive }: AddProductVariant = req.body;
+    const { size, price, quantity, isActive = true }: AddProductVariant = req.body;
 
     const variantData: AddProductVariant = {
-      color,
       size,
-      images,
+      quantity,
+      price,
       productId,
       isActive,
     };
 
-    const publicIds = images?.map((img) => img.public_id) ?? [];
-    if (publicIds.length > 0) {
-      await removeImageTags(publicIds);
-    }
-
     const newVariant = await ProductVariants.create(variantData);
 
-    await Product.findByIdAndUpdate(productId, {
-      $addToSet: { variantIds: newVariant._id },
-    });
+    const product = await Product.findByIdAndUpdate(
+      productId,
+      {
+        $addToSet: { variantIds: newVariant._id },
+      },
+      { new: true }
+    );
+
+    if (newVariant && product) {
+      publish_product_variant_created({
+        variantId: newVariant._id.toString(),
+        productId: product._id.toString(),
+        size: newVariant.size,
+        price: newVariant.price,
+        quantity: newVariant.quantity,
+        isActive: newVariant.isActive ?? true,
+      });
+    }
 
     sendResponse(res, 201, {
       success: true,

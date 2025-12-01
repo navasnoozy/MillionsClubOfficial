@@ -2,7 +2,7 @@ import { AddProductSchema, BadRequestError, sendResponse } from "@millionsclub/s
 import { NextFunction, Request, Response } from "express";
 import { Product } from "../../../models/productModel";
 import { removeImageTags } from "../../../services/removeImageTags";
-import { publish_product_created } from "../../../events/publishers/product_created";
+import { publish_product_created } from "../../../events/publishers/product-created";
 
 const addProduct = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -11,6 +11,11 @@ const addProduct = async (req: Request, res: Response, next: NextFunction) => {
     const existingProduct = await Product.findOne({ title });
     if (existingProduct) {
       throw new BadRequestError("Product already exists", "title");
+    }
+
+    const publicIds = images?.map((img) => img.public_id) ?? [];
+    if (publicIds.length > 0) {
+      await removeImageTags(publicIds);
     }
 
     const newProductData: AddProductSchema = {
@@ -25,20 +30,20 @@ const addProduct = async (req: Request, res: Response, next: NextFunction) => {
       isActive,
     };
 
-    const publicIds = images?.map((img) => img.public_id) ?? [];
-    if (publicIds.length > 0) {
-      await removeImageTags(publicIds);
-    }
-
     const newProduct = await Product.create(newProductData);
 
-    publish_product_created({
-      productId: newProduct._id.toString(),
-      title: newProduct.title,
-      basePrice: newProduct.basePrice || undefined,
-      images: newProduct.images,
-      isActive: newProduct.isActive,
-    });
+    if (newProduct) {
+      publish_product_created({
+        productId: newProduct._id.toString(),
+        title: newProduct.title,
+        basePrice: newProduct.basePrice || undefined,
+        images: newProduct.images.map((item) => ({
+          secure_url: item.secure_url || undefined,
+          public_id: item.public_id || undefined,
+        })),
+        isActive: newProduct.isActive,
+      });
+    }
 
     sendResponse(res, 201, {
       success: true,

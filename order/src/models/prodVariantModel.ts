@@ -1,10 +1,24 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema, Document } from "mongoose";
 
-const productVariantSchema = new Schema(
+export interface VariantDoc extends Document<string> {
+  _id: string;
+  productId: string;
+  size: string;
+  price: number;
+  quantity: number;
+  isActive: boolean;
+}
+
+
+const productVariantSchema = new Schema<VariantDoc>(
   {
+    _id: {
+      type: String,
+      required: true,
+    },
     productId: {
-      type: Schema.Types.ObjectId,
-      ref: "Product",
+      type: String,
+      ref: "Product", 
       required: true,
     },
     size: {
@@ -20,7 +34,6 @@ const productVariantSchema = new Schema(
       required: true,
       min: 0,
     },
-
     isActive: {
       type: Boolean,
       default: true,
@@ -34,12 +47,15 @@ productVariantSchema.post("findOneAndDelete", async (doc) => {
 
   try {
     const ProductModel = mongoose.model("Product");
-
-    await ProductModel.updateMany({ variantIds: doc._id }, { $pull: { variantIds: doc._id } });
+    
+    await ProductModel.updateMany(
+      { variantIds: doc._id }, 
+      { $pull: { variantIds: doc._id } }
+    );
     console.log(`Removed variant reference ${doc._id} from Products.`);
   } catch (err) {
     console.error("Error cleaning up product references:", err);
   }
 });
 
-export const ProductVariants = mongoose.model("ProductVariants", productVariantSchema);
+export const ProductVariant = mongoose.model<VariantDoc>("ProductVariant", productVariantSchema);

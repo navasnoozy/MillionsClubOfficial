@@ -1,23 +1,16 @@
-//auth/src/events/publishers/pub.userCreated.ts
-import { KafkaMessage, ProductCreatedMsg } from "@millionsclub/shared-libs/server";
+import { KafkaMessage, ProductUpdatedMsg } from "@millionsclub/shared-libs/server";
 import { productKafkaClient } from "../../config/kafka.client";
 
-
-export const publish_product_updated = async (data: ProductCreatedMsg) => {
+export const publish_product_updated = async (data: ProductUpdatedMsg) => {
   try {
-    const message: KafkaMessage<"product.created"> = {
+    const message: KafkaMessage<"product.updated"> = {
       key: data.productId,
       value: {
-        productId: data.productId,
-        title: data.title,
-        basePrice: data.basePrice,
-        images: data.images,
-        isActive: data.isActive,
-        variantIds: data.variantIds,
+        ...data,
       },
     };
 
-    await productKafkaClient.publishMessage("product.created", message);
+    await productKafkaClient.publishMessage("product.updated", message);
   } catch (error) {
     console.error("Failed to publish product updated event", error);
   }

@@ -1,36 +1,20 @@
-import {
-  BadRequestError,
-  sendResponse,
-  UpdateProductSchema,
-} from "@millionsclub/shared-libs/server";
+import { BadRequestError, sendResponse, UpdateProductSchema } from "@millionsclub/shared-libs/server";
 import { NextFunction, Request, Response } from "express";
 import { Product } from "../../../models/productModel";
-import { filterUndefined } from "../../../utils/filterUndefined";
+import { filterOutEmpty } from "../../../utils/filter-out-empty";
+import { publish_product_updated } from "../../../events/publishers/product_updated";
 
-const updateProduct = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+const updateProduct = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const _id = req.params.id;
-    const {
-      title,
-      brand,
-      categoryId,
-      subCategoryId,
-      basePrice,
-      description,
-      isActive,
-      variantIds,
-    }: UpdateProductSchema = req.body;
+    const { title, brand, categoryId, subCategoryId, basePrice, description, isActive }: UpdateProductSchema = req.body;
 
     const existingProduct = await Product.findById(_id);
 
     if (!existingProduct) throw new BadRequestError("Product not found");
 
     const updateOperations = {
-      ...filterUndefined({
+      ...filterOutEmpty({
         title,
         brand,
         categoryId,
@@ -39,14 +23,20 @@ const updateProduct = async (
         description,
         isActive,
       }),
-      ...(variantIds?.length && {
-        $addToSet: { variantIds: { $each: variantIds } },
-      }),
     };
 
-    await Product.findByIdAndUpdate(_id, updateOperations);
+    const updated = await Product.findByIdAndUpdate(_id, updateOperations, { new: true });
 
-      sendResponse(res, 200,{success:true,message:'Product updation success'})
+    if (updated) {
+      publish_product_updated({
+        productId: updated._id.toString(),
+        title: updated.title,
+        basePrice: updated.basePrice ?? undefined,
+        isActive: updated.isActive,
+      });
+    }
+
+    sendResponse(res, 200, { success: true, message: "Product updation success" });
 
     return;
   } catch (error) {

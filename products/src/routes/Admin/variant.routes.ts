@@ -6,11 +6,11 @@ import { Router } from "express";
 
 const router = Router();
 
-router.post("/api/product/variant/:id", require_admin, validateRequest(mongoIdValidationSchema, "params"), validateRequest(addProductVariantSchema), addVariant);
+router.post("/api/products/variant/:id", require_admin, validateRequest(mongoIdValidationSchema, "params"), validateRequest(addProductVariantSchema), addVariant);
 
 
-router.patch("/api/product/variant/:id", require_admin, validateRequest(mongoIdValidationSchema, "params"), updateVariant);
+router.patch("/api/products/variant/:id", require_admin, validateRequest(mongoIdValidationSchema, "params"), updateVariant);
 
-router.delete("/api/product/variant/:id", require_admin, validateRequest(mongoIdValidationSchema, "params"), deleteVaraint);
+router.delete("/api/products/variant/:id", require_admin, validateRequest(mongoIdValidationSchema, "params"), deleteVaraint);
 
 export { router as productVariantRoutes };
