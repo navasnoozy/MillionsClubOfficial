@@ -73,9 +73,7 @@ export const resendOtpController = async (req: Request, res: Response) => {
   const resendCheck = canResendOTP(otpRecord);
 
   if (!resendCheck.allowed) {
-    const message = resendCheck.cooldownSeconds
-      ? `Please wait ${resendCheck.cooldownSeconds} seconds before requesting another OTP`
-      : resendCheck.reason || `Cannot resend OTP at this time`;
+    const message = resendCheck.cooldownSeconds ? `Please wait ${resendCheck.cooldownSeconds} seconds before requesting another OTP` : resendCheck.reason || `Cannot resend OTP at this time`;
 
     throw new BadRequestError(message);
   }
@@ -102,7 +100,6 @@ export const resendOtpController = async (req: Request, res: Response) => {
   otpRecord.lastResendAt = now;
   await otpRecord.save();
 
-  // Publish event to send email
   await publish_user_created({
     userId: otpRecord.userId,
     name: otpRecord.name,
@@ -113,7 +110,7 @@ export const resendOtpController = async (req: Request, res: Response) => {
 
   sendResponse(res, 200, {
     success: true,
-    message: "Verification email sent successfully",
+    message: "A new OTP has been sent",
     data: { resendCount: otpRecord.resendCount },
   });
   return;

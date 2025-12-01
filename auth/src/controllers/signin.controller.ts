@@ -44,7 +44,7 @@ export const signinController = async (req: Request, res: Response) => {
     { expiresIn: "4m" }
   );
 
-  await Session.create({ userId: user._id }, { userId: user._id, refreshToken: jwt_refresh_token, lastUsedAt: new Date() });
+  await Session.create({ userId: user._id, refreshToken: jwt_refresh_token, lastUsedAt: new Date() });
 
   res.cookie("refresh_token", jwt_refresh_token, {
     httpOnly: true,

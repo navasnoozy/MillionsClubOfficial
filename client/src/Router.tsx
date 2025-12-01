@@ -18,19 +18,18 @@ import RequireAdmin from "./components/admin/RequireAdmin";
 import UnauthorizedPage from "./pages/UnauthorizedPage";
 import VerificationPage from "./features/auth/pages/VerificationPage";
 import PersistLogin from "./components/PersistLogin";
+import OauthCallback from "./features/auth/components/OauthCallback";
 
 const router = createBrowserRouter([
   {
-
-    element: <PersistLogin />, 
+    element: <PersistLogin />,
     children: [
-
       {
         path: "/",
         element: <Layout />,
         errorElement: <ErrorBoundary />,
         children: [
-          { index: true, element: <HomePage /> }, 
+          { index: true, element: <HomePage /> },
           {
             path: "signup",
             element: <SignupPage />,
@@ -47,9 +46,13 @@ const router = createBrowserRouter([
             path: "unauthorized",
             element: <UnauthorizedPage />,
           },
+          {
+            path: "oauth/callback",
+            element: <OauthCallback />,
+          },
         ],
       },
-      
+
       {
         path: "/admin",
         element: (
@@ -58,53 +61,51 @@ const router = createBrowserRouter([
           </RequireAdmin>
         ),
         errorElement: <ErrorBoundary />,
-           children: [
-      {
-        index: true,
-        element: <AdminDashboard />,
-        errorElement: <ErrorBoundary />,
-      },
-      {
-        path: "productmanagement",
-        element: <ProductManagement />,
-        errorElement: <ErrorBoundary />,
-      },
-      {
-        path: "addproduct",
-        element: <AdminAddProductPage />,
-        errorElement: <ErrorBoundary />,
-      },
-      {
-        path: "addvariant/:id",
-        element: <AdminAddVariantPage />,
-        errorElement: <ErrorBoundary />,
-      },
-      {
-        path: "categorymanagement",
-        element: <CategoryManagement />,
-        errorElement: <ErrorBoundary />,
-      },
-      {
-        path: "addcategory",
-        element: <AddCategoryPage />,
-        errorElement: <ErrorBoundary />,
-      },
-      {
-        path: "addsubcategory",
-        element: <AddSubCategoryPage />,
-        errorElement: <ErrorBoundary />,
-      },
-      {
-        path: "ordermanagement",
-        element: <OrderManagement />,
-        errorElement: <ErrorBoundary />,
-      },
-    ]
+        children: [
+          {
+            index: true,
+            element: <AdminDashboard />,
+            errorElement: <ErrorBoundary />,
+          },
+          {
+            path: "productmanagement",
+            element: <ProductManagement />,
+            errorElement: <ErrorBoundary />,
+          },
+          {
+            path: "addproduct",
+            element: <AdminAddProductPage />,
+            errorElement: <ErrorBoundary />,
+          },
+          {
+            path: "addvariant/:id",
+            element: <AdminAddVariantPage />,
+            errorElement: <ErrorBoundary />,
+          },
+          {
+            path: "categorymanagement",
+            element: <CategoryManagement />,
+            errorElement: <ErrorBoundary />,
+          },
+          {
+            path: "addcategory",
+            element: <AddCategoryPage />,
+            errorElement: <ErrorBoundary />,
+          },
+          {
+            path: "addsubcategory",
+            element: <AddSubCategoryPage />,
+            errorElement: <ErrorBoundary />,
+          },
+          {
+            path: "ordermanagement",
+            element: <OrderManagement />,
+            errorElement: <ErrorBoundary />,
+          },
+        ],
       },
     ],
   },
 ]);
 
 export default router;
-
-

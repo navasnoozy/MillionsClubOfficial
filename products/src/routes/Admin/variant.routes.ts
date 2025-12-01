@@ -8,7 +8,6 @@ const router = Router();
 
 router.post("/api/products/variant/:id", require_admin, validateRequest(mongoIdValidationSchema, "params"), validateRequest(addProductVariantSchema), addVariant);
 
-
 router.patch("/api/products/variant/:id", require_admin, validateRequest(mongoIdValidationSchema, "params"), updateVariant);
 
 router.delete("/api/products/variant/:id", require_admin, validateRequest(mongoIdValidationSchema, "params"), deleteVaraint);

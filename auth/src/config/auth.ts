@@ -3,6 +3,7 @@ import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { createAuthMiddleware } from "better-auth/api";
 import jwtLib from "jsonwebtoken";
 import mongoose from "mongoose";
+import { Session } from "../models/sessionModel";
 
 if (mongoose.connection.readyState !== 1) {
   throw new Error("Mongoose not connected. Call connectDB() before initializeAuth().");
@@ -60,27 +61,24 @@ export const auth = betterAuth({
         const user = ctx.context.newSession?.user;
 
         if (user) {
-          const jwt_token = jwtLib.sign(
+          const jwt_refresh_token = jwtLib.sign(
             {
               id: user.id,
-              email: user.email,
-              role: user.role,
             },
-            process.env.JWT_KEY!
+            process.env.JWT_KEY!,
+            { expiresIn: "7d" }
           );
 
           try {
-            const sessionObj = { jwt: jwt_token };
-            const serialized_token = Buffer.from(JSON.stringify(sessionObj)).toString("base64");
+            await Session.create({ userId: user.id, refreshToken: jwt_refresh_token, lastUsedAt: new Date() });
 
             resetBetterAuthCookes(ctx);
 
-            // Set custom cookie with JWT
-            ctx.setCookie("session", serialized_token, {
+            ctx.setCookie("refresh_token", jwt_refresh_token, {
               httpOnly: true,
               secure: process.env.NODE_ENV === "production",
               sameSite: "lax",
-              path: "/",
+              path: "/api/users/refresh-token",
             });
           } catch (error) {
             console.error("Failed to generate JWT:", error);

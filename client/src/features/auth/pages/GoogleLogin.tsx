@@ -7,11 +7,16 @@ const GoogleLogin = () => {
   const signIn = async () => {
     await authClient.signIn.social({
       provider: "google",
-      callbackURL: "/",
+      callbackURL: "/oauth/callback",
     });
   };
 
-  return <Button size="small" variant="outlined" sx={{py:1 ,my:1}} onClick={() => signIn()}><GoogleGradientIcon sx={{fontSize:'17px', mr:1}} />Google</Button>;
+  return (
+    <Button size="small" variant="outlined" sx={{ py: 1, my: 1 }} onClick={() => signIn()}>
+      <GoogleGradientIcon sx={{ fontSize: "17px", mr: 1 }} />
+      Google
+    </Button>
+  );
 };
 
 export default GoogleLogin;
