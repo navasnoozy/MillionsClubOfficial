@@ -34,7 +34,7 @@ router.post("/api/users/signin", validateRequest(signinSchema), async (req, res)
       role: user.role,
     },
     process.env.JWT_KEY!,
-    { expiresIn: "15m" }
+    { expiresIn: "1m" }
   );
 
   const jwt_refresh_token = jwt.sign(
@@ -42,7 +42,7 @@ router.post("/api/users/signin", validateRequest(signinSchema), async (req, res)
       id: user._id,
     },
     process.env.JWT_KEY!,
-    { expiresIn: "7d" }
+    { expiresIn: "4m" }
   );
 
   res.cookie("refresh_token", jwt_refresh_token, {

@@ -1,4 +1,4 @@
-//notification/src/events/index.ts
+//order/src/events/index.ts
 
 import { orderKafkaClient } from "../config/kafka-client";
 import handle_product_created from "./consumers/product-created";

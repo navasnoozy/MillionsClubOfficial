@@ -50,6 +50,16 @@ build:
           - src: "src/**/*"
             dest: /app
 
+    - image: navasnoozy/order
+      context: order
+      docker:
+        dockerfile: Dockerfile.dev
+      sync:
+        manual:
+          - src: "src/**/*"
+            dest: /app
+
+
 
 
 

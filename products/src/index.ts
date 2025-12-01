@@ -12,8 +12,8 @@ const startServer = async (database: IDatabase) => {
     await database.connect();
 
     await initKafka();
-    registerKafkaEventListers();
-    startKafkaConsumer();
+    await registerKafkaEventListers();
+    await startKafkaConsumer();
 
     app.listen(port, () => {
       console.log(`Product service running on port ${port}`);

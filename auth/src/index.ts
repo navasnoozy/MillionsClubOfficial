@@ -13,8 +13,8 @@ const startServer = async (database: IDatabase) => {
     await database.connect();
 
     await initKafka();
-    registerKafkaEventListers();
-    startKafkaConsumer();
+    await registerKafkaEventListers();
+    await startKafkaConsumer();
 
     const app = await createApp();
 

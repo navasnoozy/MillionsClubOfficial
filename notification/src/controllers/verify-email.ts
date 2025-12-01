@@ -48,7 +48,7 @@ const emailVerification = async (req: Request, res: Response) => {
       role: otpData.role,
     },
     process.env.JWT_KEY!,
-    { expiresIn: "15m" }
+    { expiresIn: "1m" }
   );
 
   const jwt_refresh_token = jwt.sign(
@@ -56,7 +56,7 @@ const emailVerification = async (req: Request, res: Response) => {
       id: otpData.userId,
     },
     process.env.JWT_KEY!,
-    { expiresIn: "7d" }
+    { expiresIn: "4m" }
   );
 
   res.cookie("refresh_token", jwt_refresh_token, {
