@@ -3,17 +3,17 @@ import { app } from "./app";
 import { MongoDatabase } from "./config/MongoDatabase";
 import { IDatabase } from "./interfaces/IDatabase";
 import { initKafka, disconnectKafka, startKafkaConsumer } from "./config/kafka.client";
-import { registerKafkaEventListers } from "./events";
+import { registerKafkaEventListers } from "./events/consumers";
 
 const port = process.env.PORT || 3000;
 
 const startServer = async (database: IDatabase) => {
   try {
     await database.connect();
-    
+
     await initKafka();
-    registerKafkaEventListers()
-    startKafkaConsumer()
+    registerKafkaEventListers();
+    startKafkaConsumer();
 
     app.listen(port, () => {
       console.log(`Product service running on port ${port}`);
