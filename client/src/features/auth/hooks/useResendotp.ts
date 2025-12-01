@@ -11,7 +11,7 @@ const useResendotp = () => {
   return useMutation<ApiResponse, AxiosError<ApiResponse>, string>({
     mutationKey: ["sendotp"],
     mutationFn: async (email: string) => {
-      const { data } = await axiosInstance.post<ApiResponse>("/api/notification/resend-otp", { email });
+      const { data } = await axiosInstance.post<ApiResponse>("/api/users/resend-otp", { email });
 
       return data;
     },
