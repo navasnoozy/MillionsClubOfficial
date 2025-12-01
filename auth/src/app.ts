@@ -9,6 +9,9 @@ import { signoutRouter } from "./routes/signout";
 import { signupRouter } from "./routes/signup";
 import cookieParser from "cookie-parser";
 import { refreshTokenRouter } from "./routes/refresh-token";
+import { verifyEmailRouter } from "./routes/verify-email";
+import { resendOtpRouter } from "./routes/resend-otp";
+import { checkOtpStatusRouter } from "./routes/check-otp-status";
 
 dotenv.config();
 
@@ -39,6 +42,9 @@ export const createApp = async () => {
   app.use(signoutRouter);
   app.use(currentUserRouter);
   app.use(refreshTokenRouter);
+  app.use(verifyEmailRouter);
+  app.use(resendOtpRouter);
+  app.use(checkOtpStatusRouter);
 
   app.all("*path", async () => {
     throw new NotFoundError();

@@ -1,12 +1,12 @@
-//notification/src/controllers/verify-email.ts
-
-import { BadRequestError, sendResponse } from "@millionsclub/shared-libs/server";
+// auth/src/controllers/verify-email.controller.ts
 import { Request, Response } from "express";
+import { BadRequestError, sendResponse } from "@millionsclub/shared-libs/server";
 import { EmailOtp } from "../models/otpModel";
-import { publish_email_verified } from "../events/publishers/email-verified";
+import { User } from "../models/userModel";
 import jwt from "jsonwebtoken";
+import { Session } from "../models/sessionModel";
 
-const emailVerification = async (req: Request, res: Response) => {
+export const verifyEmailController = async (req: Request, res: Response) => {
   const { email, otp } = req.body;
 
   if (!otp) {
@@ -36,10 +36,8 @@ const emailVerification = async (req: Request, res: Response) => {
     });
   }
 
-  await publish_email_verified({
-    userId: otpData.userId,
-    email: otpData.email,
-  });
+  // Update user email verified status
+  await User.findOneAndUpdate({ email: email }, { emailVerified: true });
 
   const jwt_access_token = jwt.sign(
     {
@@ -59,6 +57,11 @@ const emailVerification = async (req: Request, res: Response) => {
     { expiresIn: "4m" }
   );
 
+  await Session.create(
+    { userId: otpData.userId },
+    { userId: otpData.userId, refreshToken: jwt_refresh_token, lastUsedAt: new Date() }
+  );
+
   res.cookie("refresh_token", jwt_refresh_token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
@@ -74,5 +77,3 @@ const emailVerification = async (req: Request, res: Response) => {
     data: { accessToken: jwt_access_token },
   });
 };
-
-export { emailVerification };

@@ -1,25 +1,38 @@
 import { EachBatchPayload } from "kafkajs";
-import createAndSendInitialOtp from "../../services/create-and-send-otp";
 import { wsConnectionManager } from "../..";
 import { UserCreatedMsg } from "@millionsclub/shared-libs/server";
+import { sendGridMail } from "../../services/send-grid-mail";
+import { verifyOtpTemplate } from "../../templates/verifyOtpTemplate";
+import { OTP_CONFIG } from "../../config/constants";
 
 const handle_user_created = async ({ batch, resolveOffset, commitOffsetsIfNecessary, heartbeat }: EachBatchPayload) => {
   for (const message of batch.messages) {
     try {
       await heartbeat();
 
-      const { userId, email, name, role }: UserCreatedMsg = JSON.parse(message.value?.toString()!);
+      const { userId, email, name, otp }: UserCreatedMsg = JSON.parse(message.value?.toString()!);
 
-      await createAndSendInitialOtp(userId, email, name, role);
+      // Only send email - OTP is created by Auth service
+      if (otp) {
+        await sendGridMail({
+          to: email,
+          subject: "Millionsclub email verification",
+          html: verifyOtpTemplate({
+            name,
+            otp,
+            expiryMinutes: OTP_CONFIG.EXPIRY_MINUTES,
+          }),
+        });
 
-      await wsConnectionManager.sendNotification(userId, "Verification mail successfully sent");
+        await wsConnectionManager.sendNotification(userId, "Verification mail successfully sent");
+      }
 
       resolveOffset(message.offset);
 
       await commitOffsetsIfNecessary();
     } catch (error) {
       console.log("Error processing KAFKA message:", error);
-      setTimeout( async() => {
+      setTimeout(async () => {
         resolveOffset(message.offset);
         await commitOffsetsIfNecessary();
       }, 5000);
@@ -28,3 +41,4 @@ const handle_user_created = async ({ batch, resolveOffset, commitOffsetsIfNecess
 };
 
 export default handle_user_created;
+

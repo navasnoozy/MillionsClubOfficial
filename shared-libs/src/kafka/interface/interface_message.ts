@@ -12,6 +12,7 @@ export interface UserCreatedMsg {
   name: string;
   email: string;
   role: Role;
+  otp?: number;
   data?: any;
 }
 

@@ -1,5 +1,5 @@
 //auth/src/events/publishers/pub.userCreated.ts
-import { KafkaMessage } from "@millionsclub/shared-libs/server";
+import { KafkaMessage, UserCreatedMsg } from "@millionsclub/shared-libs/server";
 import { authKafkaClient } from "../../config/kafka.client";
 
 interface userData {
@@ -7,9 +7,10 @@ interface userData {
   name: string;
   email: string;
   role: "user" | "admin" | "moderator";
+  otp?: number;
 }
 
-export const publish_user_created = async (userData: userData) => {
+export const publish_user_created = async (userData: UserCreatedMsg) => {
   try {
     const message: KafkaMessage<"user.created"> = {
       key: userData.userId,
@@ -18,6 +19,7 @@ export const publish_user_created = async (userData: userData) => {
         name: userData.name,
         email: userData.email,
         role: userData.role,
+        otp: userData.otp,
       },
     };
 
