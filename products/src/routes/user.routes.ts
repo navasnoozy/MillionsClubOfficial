@@ -10,7 +10,6 @@ const router = Router();
 
 router.get("/api/products", listProducts);
 
-
 router.get("/api/products/category", listCategory);
 
 router.get("/api/products/subcategory", listSubCategory);
