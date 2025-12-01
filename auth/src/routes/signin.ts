@@ -4,6 +4,7 @@ import { signinSchema, validateRequest, BadRequestError, sendResponse } from "@m
 import { comparePassword } from "../utils/hashPassword";
 import { User } from "../models/userModel";
 import jwt from "jsonwebtoken";
+import { Session } from "../models/sessionModel";
 
 const router = express.Router();
 
@@ -44,6 +45,8 @@ router.post("/api/users/signin", validateRequest(signinSchema), async (req, res)
     process.env.JWT_KEY!,
     { expiresIn: "4m" }
   );
+
+  await Session.create({ userId: user._id }, { userId: user._id, refreshToken: jwt_refresh_token, lastUsedAt: new Date() });
 
   res.cookie("refresh_token", jwt_refresh_token, {
     httpOnly: true,

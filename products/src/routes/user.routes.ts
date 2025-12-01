@@ -9,10 +9,12 @@ import { listSubCategory } from "../controllers/listSubCategory";
 const router = Router();
 
 router.get("/api/products", listProducts);
-router.get("/api/products/:id", getProduct);
+
 
 router.get("/api/products/category", listCategory);
 
 router.get("/api/products/subcategory", listSubCategory);
+
+router.get("/api/products/:id", getProduct);
 
 export { router };
