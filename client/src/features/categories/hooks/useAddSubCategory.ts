@@ -8,7 +8,7 @@ const useAddSubCategory = () => {
     mutationKey: ["subcategory"],
     mutationFn: async (data: AddSubCategory) => {
       const res = await axiosInstance.post(
-        `/api/products/subcategory/add`,
+        `/api/products/subcategory`,
         data
       );
       return res.data;

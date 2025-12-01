@@ -12,7 +12,7 @@ const useSubCategories = () => {
   return useQuery<Categories[]>({
     queryKey: ["subcategories"],
     queryFn: async () => {
-      const res = await axiosInstance.get("/api/products/category/list");
+      const res = await axiosInstance.get("/api/products/category");
       return res.data.data;
     },
     staleTime: 1000 * 60 * 60 * 24,

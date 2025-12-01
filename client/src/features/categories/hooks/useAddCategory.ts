@@ -7,7 +7,7 @@ const useAddCategory = () => {
   
   return useMutation({
     mutationFn: async (data: AddCategory) => {
-      const res = await axiosInstance.post('/api/products/category/add', data);
+      const res = await axiosInstance.post('/api/products/category', data);
       return res.data.data;
     },
     onSuccess: () => {
