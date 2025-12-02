@@ -143,11 +143,11 @@ const AppDrawer = () => {
         </DrawerHeader>
         <Divider />
         <List>
-          {adminLinks.pages.map((item, index) => (
+          {adminLinks.pages.map((item) => (
             <ListItem key={item.label} disablePadding>
               <ListItemButton onClick={() => handleClick(item.to)}>
                 <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                 {item.icon}
                 </ListItemIcon>
                 <ListItemText primary={item.label} />
               </ListItemButton>
