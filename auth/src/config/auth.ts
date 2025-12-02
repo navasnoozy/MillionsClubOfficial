@@ -3,6 +3,7 @@ import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { createAuthMiddleware } from "better-auth/api";
 import jwtLib from "jsonwebtoken";
 import mongoose from "mongoose";
+import { cookieOptions } from "./cookieOptions";
 import { Session } from "../models/sessionModel";
 
 if (mongoose.connection.readyState !== 1) {
@@ -14,7 +15,7 @@ const db = client.db();
 
 export const auth = betterAuth({
   database: mongodbAdapter(db, { client }),
-  baseURL: process.env.BASE_URL,
+  baseURL: process.env.AUTH_BASE_URL,
   secret: process.env.BETTER_AUTH_SECRET!,
 
   trustedOrigins: ["http://localhost:4000", "millionsclub.com", "https://millionsclub.com"],
@@ -60,9 +61,6 @@ export const auth = betterAuth({
       if (ctx.path.startsWith("/callback")) {
         const user = ctx.context.newSession?.user;
 
-        console.log('user checking in auth ', JSON.stringify(user));
-        
-
         if (user) {
           const jwt_refresh_token = jwtLib.sign(
             {
@@ -72,23 +70,15 @@ export const auth = betterAuth({
             { expiresIn: "7d" }
           );
 
-            console.log('token check auth ', JSON.stringify(jwt_refresh_token));
-
           try {
             await Session.create({ userId: user.id, refreshToken: jwt_refresh_token, lastUsedAt: new Date() });
 
             resetBetterAuthCookes(ctx);
 
-            
-             console.log('setting token re');
-             
+            // Set custom cookie with JWT
             ctx.setCookie("refresh_token", jwt_refresh_token, {
-              httpOnly: true,
-              secure: process.env.NODE_ENV === "production",
-              sameSite: "lax",
-              // path: "/api/users/refresh-token",
+              ...cookieOptions,
             });
-              console.log('setting token completed');
           } catch (error) {
             console.error("Failed to generate JWT:", error);
           }

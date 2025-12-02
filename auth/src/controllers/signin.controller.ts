@@ -2,9 +2,10 @@
 import { Request, Response } from "express";
 import { BadRequestError, sendResponse } from "@millionsclub/shared-libs/server";
 import { comparePassword } from "../utils/hashPassword";
-import { User } from "../models/userModel";
+
 import jwt from "jsonwebtoken";
 import { Session } from "../models/sessionModel";
+import { User } from "../models/userModel";
 
 export const signinController = async (req: Request, res: Response) => {
   const body = req.body;

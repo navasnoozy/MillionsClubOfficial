@@ -7,7 +7,7 @@ const GoogleLogin = () => {
   const signIn = async () => {
     await authClient.signIn.social({
       provider: "google",
-      callbackURL: "/",
+      callbackURL: "/oauth/callback",
     });
   };
 

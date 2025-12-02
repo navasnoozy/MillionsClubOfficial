@@ -1,7 +1,7 @@
 import { Schema, model, Document, Model } from "mongoose";
 
 export type Role = "user" | "admin" | "moderator";
-type Provider = "credentials" | "google" | "github" | "facebook";
+export type Provider = "credentials" | "google" | "github" | "facebook";
 
 export interface UserAttrs {
   name: string;
@@ -38,54 +38,70 @@ export interface UserModel extends Model<UserDoc> {
 const userSchema = new Schema<UserDoc, UserModel>(
   {
     name: { type: String, required: true, trim: true },
-    email: { type: String, required: true, unique: true, lowercase: true, trim: true },
+
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
+    },
+
     password: {
       type: String,
       required: function (this: UserDoc) {
-        const prov = this.providers;
-        if (!Array.isArray(prov)) return true;
-        if (prov.length === 1 && prov[0] === "credentials") return true;
-        return false;
+        const prov = this.providers ?? ["credentials"];
+        return prov.includes("credentials");
       },
     },
+
     providers: {
       type: [String],
       enum: ["credentials", "google", "github", "facebook"],
       default: ["credentials"],
     },
+
     providerIds: {
       type: Map,
       of: String,
+      default: undefined,
     },
+
     role: {
       type: String,
       enum: ["user", "admin", "moderator"],
       default: "user",
     },
-    image: {
-      type: String,
-    },
+
+    image: String,
+
     isActive: { type: Boolean, default: true },
+
     emailVerified: { type: Boolean, default: false },
+
     lastLogin: { type: Date },
   },
   {
     timestamps: true,
     toJSON: {
+      virtuals: true,
       transform(_doc, ret) {
-        const obj = ret as any;
+        const obj: any = ret; // TS-safe for delete operations
+
         obj.id = obj._id;
         delete obj._id;
         delete obj.__v;
         delete obj.password;
+
         return obj;
       },
     },
   }
 );
 
-userSchema.statics.build = (attrs: UserAttrs) => {
-  return new User(attrs);
+// Safe build method
+userSchema.statics.build = function (attrs: UserAttrs) {
+  return new this(attrs);
 };
 
-export const User = model<UserDoc, UserModel>("User", userSchema);
+export const User = model<UserDoc, UserModel>("User", userSchema, 'user');

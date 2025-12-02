@@ -1,23 +1,15 @@
 // auth/src/controllers/refresh-token.controller.ts
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { NotAuthorizedError, sendResponse } from "@millionsclub/shared-libs/server";
 import jwt from "jsonwebtoken";
 import { jwt_payload } from "../interface/jwt_payload";
-import { User } from "../models/userModel";
+
 import { Session } from "../models/sessionModel";
+import { cookieOptions } from "../config/cookieOptions";
+import { User } from "../models/userModel";
 
-export const refreshTokenController = async (req: Request, res: Response) => {
+export const refreshTokenController = async (req: Request, res: Response, next: NextFunction) => {
   const refreshToken = req.cookies.refresh_token;
-
-  console.log('checking access token back', refreshToken);
-  
-
-  const cookieOptions = {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: process.env.NODE_ENV === "production" ? ("none" as const) : ("lax" as const),
-    path: "/api/users/refresh-token",
-  };
 
   if (!refreshToken) {
     throw new NotAuthorizedError();
@@ -30,6 +22,7 @@ export const refreshTokenController = async (req: Request, res: Response) => {
       userId: payload.id,
       refreshToken,
     });
+
 
     if (!session) {
       res.clearCookie("refresh_token", cookieOptions);
@@ -64,6 +57,6 @@ export const refreshTokenController = async (req: Request, res: Response) => {
   } catch (error) {
     console.log(error);
     res.clearCookie("refresh_token", cookieOptions);
-    throw new NotAuthorizedError();
+    next(error);
   }
 };

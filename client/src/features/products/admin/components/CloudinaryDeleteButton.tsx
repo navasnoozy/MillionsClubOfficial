@@ -17,7 +17,6 @@ const CloudinaryDeleteButton = ({ public_id, index, resetPreview }: Props) => {
   const handleClick = () => {
     deleteImage(public_id, {
       onSuccess: () => {
-        console.log('image deleted');
 
         const current = watch('images') ?? [];
         const updatedImages = [...current];
