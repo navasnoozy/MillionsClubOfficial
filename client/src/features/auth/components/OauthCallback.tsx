@@ -16,7 +16,10 @@ const OauthCallback = () => {
 
     const hydrateAuth = async () => {
       try {
-        const response = await axiosInstance.post("/api/users/refresh-token");
+        const response = await axiosInstance.post("/api/users/refresh-token", {}, { withCredentials: true });
+
+        console.log(response, 'seee your response');
+        
 
         const { accessToken } = response.data.data;
 
@@ -32,7 +35,7 @@ const OauthCallback = () => {
     };
 
     hydrateAuth();
-  }, [goHome, goToLogin, queryClient]); 
+  }, [goHome, goToLogin, queryClient]);
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", mt: 10 }}>

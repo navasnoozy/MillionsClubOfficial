@@ -9,6 +9,9 @@ import { Session } from "../models/sessionModel";
 export const refreshTokenController = async (req: Request, res: Response) => {
   const refreshToken = req.cookies.refresh_token;
 
+  console.log('checking access token back', refreshToken);
+  
+
   const cookieOptions = {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
