@@ -1,10 +1,9 @@
 // client/src/features/auth/pages/OauthCallback.tsx
 import { Box, CircularProgress, Typography } from "@mui/material";
 import { useQueryClient } from "@tanstack/react-query"; // Import QueryClient
-import axios from "axios";
 import { useEffect, useRef } from "react";
 import useAppNavigate from "../../../hooks/useAppNavigate";
-import { setAccessToken } from "../../../lib/axios";
+import { refreshAccessToken } from "../../../lib/axios";
 
 const OauthCallback = () => {
   const { goHome, goToLogin } = useAppNavigate();
@@ -17,14 +16,7 @@ const OauthCallback = () => {
 
     const hydrateAuth = async () => {
       try {
-        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/users/refresh-token`, {}, { withCredentials: true });
-
-        
-
-        const { accessToken } = response.data.data;
-
-        setAccessToken(accessToken);
-
+        await refreshAccessToken();
         await queryClient.invalidateQueries({ queryKey: ["currentUser"] });
 
         goHome();

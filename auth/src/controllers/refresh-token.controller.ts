@@ -23,7 +23,6 @@ export const refreshTokenController = async (req: Request, res: Response, next: 
       refreshToken,
     });
 
-
     if (!session) {
       res.clearCookie("refresh_token", cookieOptions);
       throw new NotAuthorizedError();

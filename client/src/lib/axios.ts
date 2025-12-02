@@ -1,3 +1,4 @@
+// client/src/lib/axios.ts
 import axios from "axios";
 
 const axiosInstance = axios.create({
@@ -9,12 +10,27 @@ let accessToken: string | null = null;
 
 export const setAccessToken = (token: string | null) => {
   accessToken = token;
-
-  //To avoid unnecessary api call to refresh token
   if (token) {
     localStorage.setItem("persist", "true");
   } else {
     localStorage.removeItem("persist");
+  }
+};
+
+export const refreshAccessToken = async () => {
+  try {
+    const response = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/api/users/refresh-token`,
+      {},
+      { withCredentials: true }
+    );
+
+    const newAccessToken = response.data.data.accessToken;
+    setAccessToken(newAccessToken);
+    return newAccessToken;
+  } catch (error) {
+    setAccessToken(null);
+    throw error;
   }
 };
 
@@ -34,17 +50,11 @@ axiosInstance.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/users/refresh-token`, {}, { withCredentials: true });
-
-        const newAccessToken = response.data.data.accessToken;
-
-        setAccessToken(newAccessToken);
-
+        const newAccessToken = await refreshAccessToken();
+        
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-
         return axiosInstance(originalRequest);
       } catch (refreshError) {
-        setAccessToken(null);
         return Promise.reject(refreshError);
       }
     }
