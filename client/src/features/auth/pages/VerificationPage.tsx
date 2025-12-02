@@ -46,8 +46,6 @@ const VerificationPage = () => {
         onError: (error) => {
           setVerifyStatus(false);
           setError(error.response?.data.message || "Could not verify, Try again");
-          
-          // 2. Increment the trigger to force the animation
           setShakeTrigger(prev => prev + 1);
         },
       }

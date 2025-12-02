@@ -2,13 +2,7 @@
 import { KafkaMessage, UserCreatedMsg } from "@millionsclub/shared-libs/server";
 import { authKafkaClient } from "../../config/kafka.client";
 
-interface userData {
-  userId: string;
-  name: string;
-  email: string;
-  role: "user" | "admin" | "moderator";
-  otp?: number;
-}
+
 
 export const publish_user_created = async (userData: UserCreatedMsg) => {
   try {

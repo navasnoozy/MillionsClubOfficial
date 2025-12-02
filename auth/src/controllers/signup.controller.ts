@@ -34,12 +34,10 @@ export const signupController = async (req: Request, res: Response) => {
 
   // Store OTP in database
   await EmailOtp.findOneAndUpdate(
-    { userId: user.id },
+    { userId: user.email },
     {
-      name: user.name,
       userId: user.id,
       email: user.email,
-      role: "user",
       otp,
       expiresAt,
       resendCount: 0,

@@ -10,9 +10,8 @@ const handle_user_created = async ({ batch, resolveOffset, commitOffsetsIfNecess
     try {
       await heartbeat();
 
-      const { userId, email, name, otp }: UserCreatedMsg = JSON.parse(message.value?.toString()!);
+      const {  email, name, otp }: UserCreatedMsg = JSON.parse(message.value?.toString()!);
 
-      // Only send email - OTP is created by Auth service
       if (otp) {
         await sendGridMail({
           to: email,
@@ -24,7 +23,6 @@ const handle_user_created = async ({ batch, resolveOffset, commitOffsetsIfNecess
           }),
         });
 
-        await wsConnectionManager.sendNotification(userId, "Verification mail successfully sent");
       }
 
       resolveOffset(message.offset);

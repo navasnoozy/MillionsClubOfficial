@@ -5,6 +5,7 @@ import jwtLib from "jsonwebtoken";
 import mongoose from "mongoose";
 import { cookieOptions } from "./cookieOptions";
 import { Session } from "../models/sessionModel";
+import { Provider } from "../models/userModel";
 
 if (mongoose.connection.readyState !== 1) {
   throw new Error("Mongoose not connected. Call connectDB() before initializeAuth().");
