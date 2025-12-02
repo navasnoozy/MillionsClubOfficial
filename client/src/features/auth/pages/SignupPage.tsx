@@ -1,8 +1,5 @@
-import { useNavigate } from "react-router";
-
 import axios from "axios";
 import { useState } from "react";
-
 import type { SignupSchema } from "@millionsclub/shared-libs/client";
 import useSignupUser from "../hooks/useSignup";
 import CardContainer from "../../../components/CardContainer";

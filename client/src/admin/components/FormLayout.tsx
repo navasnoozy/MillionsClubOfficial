@@ -1,9 +1,9 @@
 // src/components/FormPage.tsx
-import React from 'react';
-import { FormProvider, type UseFormReturn, type FieldValues } from 'react-hook-form';
-import { Grid } from '@mui/material';
-import CardContainer from '../../../../components/CardContainer';
-import SubmitButton from './SubmitButton';
+import React from "react";
+import { FormProvider, type UseFormReturn, type FieldValues } from "react-hook-form";
+import { Grid } from "@mui/material";
+import CardContainer from "../../components/CardContainer";
+import SubmitButton from "./SubmitButton";
 
 type Props<T extends FieldValues> = {
   heading: string;
@@ -17,17 +17,7 @@ type Props<T extends FieldValues> = {
   alerts?: React.ReactNode;
 };
 
-const FormLayout = <T extends FieldValues>({
-  heading,
-  methods,
-  onSubmit,
-  left,
-  right,
-  submitLabel = 'Submit',
-  isLoading = false,
-  showAlerts = false,
-  alerts,
-}: Props<T>) => {
+const FormLayout = <T extends FieldValues>({ heading, methods, onSubmit, left, right, submitLabel = "Submit", isLoading = false, showAlerts = false, alerts }: Props<T>) => {
   return (
     <CardContainer heading={heading}>
       <FormProvider {...methods}>

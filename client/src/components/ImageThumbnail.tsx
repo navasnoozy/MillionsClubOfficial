@@ -1,6 +1,6 @@
-import { Box } from '@mui/material';
-import ProductImageAddButton from '../features/products/admin/components/ProductImageAddButton';
-import CloudinaryDeleteButton from '../features/products/admin/components/CloudinaryDeleteButton';
+import { Box } from "@mui/material";
+import ProductImageAddButton from "../admin/components/ProductImageAddButton";
+import CloudinaryDeleteButton from "../admin/components/CloudinaryDeleteButton";
 
 interface Props {
   item: { secure_url?: string; public_id?: string } | null;
@@ -13,25 +13,25 @@ const ImageThumbnail = ({ item, index, onPreview }: Props) => {
     <Box
       paddingY={1}
       sx={{
-        position: 'relative',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        '&:hover .add-image-btn, &:hover .delete-image-btn': { opacity: 1 },
+        position: "relative",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        "&:hover .add-image-btn, &:hover .delete-image-btn": { opacity: 1 },
       }}
     >
       <Box
         component="img"
-        src={item?.secure_url || '/imageplaceholder.png'}
+        src={item?.secure_url || "/imageplaceholder.png"}
         alt="thumbnail"
         loading="lazy"
         onClick={() => item?.secure_url && onPreview(item.secure_url)}
         sx={{
-          aspectRatio: '1 / 1',
-          objectFit: 'contain',
+          aspectRatio: "1 / 1",
+          objectFit: "contain",
           borderRadius: 1,
-          width: '100%',
-          cursor: item?.secure_url ? 'pointer' : 'default',
+          width: "100%",
+          cursor: item?.secure_url ? "pointer" : "default",
         }}
       />
 

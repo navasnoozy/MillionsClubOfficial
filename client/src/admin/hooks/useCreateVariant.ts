@@ -1,6 +1,6 @@
-import type { AddProductVariant } from '@millionsclub/shared-libs/client';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import axiosInstance from '../../../../lib/axios';
+import type { AddProductVariant } from "@millionsclub/shared-libs/client";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axiosInstance from "../../lib/axios";
 
 const useCreateVariant = (id: string | undefined) => {
   const queryClient = useQueryClient();
@@ -12,7 +12,7 @@ const useCreateVariant = (id: string | undefined) => {
     },
 
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['products'] });
+      queryClient.invalidateQueries({ queryKey: ["products"] });
     },
   });
 };

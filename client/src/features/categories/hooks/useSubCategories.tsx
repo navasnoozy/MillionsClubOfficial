@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axiosInstance from "../../../lib/axios";
 
+
 interface Categories {
   _id: string;
   name: string;

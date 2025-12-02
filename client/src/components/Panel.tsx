@@ -1,5 +1,5 @@
 import { Box } from "@mui/material"
-import LinkButton from "../../../components/LinkButton"
+import LinkButton from "./LinkButton"
 
 
 

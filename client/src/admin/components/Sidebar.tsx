@@ -20,10 +20,10 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
-
 import { useNavigate } from "react-router";
-import { adminLinks } from "../../config/adminLinks";
-import { UserMenu } from "../navbar/UserMenu";
+import { adminLinks } from "../config/adminLinks";
+import { UserMenu } from "../../components/navbar/UserMenu";
+
 
 const drawerWidth = 240;
 

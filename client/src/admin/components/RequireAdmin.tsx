@@ -3,12 +3,11 @@ import { Grid, Skeleton } from "@mui/material";
 import type { ReactNode } from "react";
 import useCurrentUser from "../../features/auth/hooks/useCurrentUser";
 
-
 interface Props {
-     children : ReactNode
+  children: ReactNode;
 }
 
-const RequireAdmin = ({children}: Props) => {
+const RequireAdmin = ({ children }: Props) => {
   const { data: user, isLoading } = useCurrentUser();
   const location = useLocation();
 
@@ -21,13 +20,13 @@ const RequireAdmin = ({children}: Props) => {
       </Grid>
     );
 
-    if (!user) {
-     return <Navigate to="/signin" state={{from: location}} replace />
-    };
+  if (!user) {
+    return <Navigate to="/signin" state={{ from: location }} replace />;
+  }
 
-    if (user.role !== 'admin'){
-     return <Navigate to="/unauthorized" replace />
-    }
+  if (user.role !== "admin") {
+    return <Navigate to="/unauthorized" replace />;
+  }
 
   return children;
 };

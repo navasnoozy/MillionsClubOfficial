@@ -9,11 +9,11 @@ import {
   CardMedia,
   TableContainer,
 } from '@mui/material';
-import TongleButton from '../../components/Switch';
-import tableHeadings from '../config/tableHeading';
+import ImagePreview from '../../components/ImagePreview';
 import Panel from '../../components/Panel';
-import useProducts from '../../hooks/useProducts';
-import ImagePreview from '../../../../components/ImagePreview';
+import TongleButton from '../../components/Switch';
+import useProducts from '../../features/products/hooks/useProducts';
+import tableHeadings from '../config/tableHeading';
 
 const ProductManagement = () => {
   const { data: products } = useProducts();

@@ -1,10 +1,10 @@
-import { useFormContext, useWatch } from 'react-hook-form';
-import type { AddProductSchema, AddProductVariant } from '@millionsclub/shared-libs/client';
-import ImageFrame from '../../../../components/ImageFrame';
+import { useFormContext, useWatch } from "react-hook-form";
+import type { AddProductSchema, AddProductVariant } from "@millionsclub/shared-libs/client";
+import ImageFrame from "../../components/ImageFrame";
 
 const ProductImageUploader = () => {
   const { control } = useFormContext<AddProductSchema | AddProductVariant>();
-  const watchedImages = useWatch({ control, name: 'images' }) ?? [];
+  const watchedImages = useWatch({ control, name: "images" }) ?? [];
   const images: { secure_url: string; public_id: string }[] = watchedImages;
 
   const paddedImages = [...images, ...Array(Math.max(0, 4 - images.length)).fill(null)];
