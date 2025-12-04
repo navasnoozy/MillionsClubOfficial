@@ -4,7 +4,7 @@ import { signupSchema } from "@millionsclub/shared-libs/client";
 import { CircularProgress, Stack, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 import Alert from "../../../components/Alert";
-import AppButton from "../../../components/LinkButton";
+import AppButton from "../../../components/AppButton";
 
 type Props = {
   onSubmit: (data: SignupSchema) => void;

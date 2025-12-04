@@ -7,8 +7,7 @@ import { useNavigate } from "react-router";
 import CardContainer from "../../components/CardContainer";
 import AddCategoryForm from "../components/AddCategoryForm";
 import useAddCategory from "../hooks/useAddCategory";
-import AppButton from "../../components/LinkButton";
-
+import AppButton from "../../components/AppButton";
 
 const AddCategoryPage = () => {
   const navigate = useNavigate();
@@ -32,7 +31,7 @@ const AddCategoryPage = () => {
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(handleAddCategory)}>
           <Stack spacing={3}>
-            <AddCategoryForm  />
+            <AddCategoryForm />
 
             <AppButton isLoading={isPending} disabled={isPending}>
               ADD CATEGORY

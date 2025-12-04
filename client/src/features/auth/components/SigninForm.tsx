@@ -3,7 +3,7 @@ import type { SigninSchema } from "@millionsclub/shared-libs/client";
 import { signinSchema } from "@millionsclub/shared-libs/client";
 import { CircularProgress, Stack, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
-import AppButton from "../../../components/LinkButton";
+import AppButton from "../../../components/AppButton";
 import Alert from "../../../components/Alert";
 
 type Props = {

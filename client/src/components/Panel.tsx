@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import AppButton from "./LinkButton";
+import AppButton from "./AppButton";
 
 const Panel = () => {
   return (

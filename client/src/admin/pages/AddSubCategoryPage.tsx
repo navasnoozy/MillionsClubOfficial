@@ -7,7 +7,7 @@ import { useNavigate } from "react-router";
 import CardContainer from "../../components/CardContainer";
 import AddSubCategoryForm from "../components/AddSubCategoryForm";
 import useAddSubCategory from "../hooks/useAddSubCategory";
-import AppButton from "../../components/LinkButton";
+import AppButton from "../../components/AppButton";
 
 const AddSubCategoryPage = () => {
   const navigate = useNavigate();

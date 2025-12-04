@@ -5,7 +5,7 @@ import { useNavigate, useSearchParams } from "react-router";
 import { AnimatedTick } from "../../../components/animations/AnimatedTickMark";
 import { Shake } from "../../../components/animations/Shake";
 import CardContainer from "../../../components/CardContainer";
-import AppButton from "../../../components/LinkButton";
+import AppButton from "../../../components/AppButton";
 import OtpFields from "../components/OtpFields";
 import ResendOtp from "../components/ResendOtp";
 import useVerifyEmail from "../hooks/useVerifyEmail";

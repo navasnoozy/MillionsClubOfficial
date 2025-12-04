@@ -3,7 +3,7 @@ import React from "react";
 import { FormProvider, type UseFormReturn, type FieldValues } from "react-hook-form";
 import { Grid } from "@mui/material";
 import CardContainer from "../../components/CardContainer";
-import AppButton from "../../components/LinkButton";
+import AppButton from "../../components/AppButton";
 
 type Props<T extends FieldValues> = {
   heading: string;
