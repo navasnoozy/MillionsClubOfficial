@@ -1,10 +1,10 @@
 import express from "express";
 import { currentUser, signinSchema, signupSchema, validateRequest } from "@millionsclub/shared-libs/server";
-import { currentUserController } from "../controllers/current-user.controller";
-import { refreshTokenController } from "../controllers/refresh-token.controller";
-import { signinController } from "../controllers/signin.controller";
-import { signoutController } from "../controllers/signout.controller";
-import { signupController } from "../controllers/signup.controller";
+import { currentUserController } from "../controllers/current-user";
+import { refreshTokenController } from "../controllers/refresh-token";
+import { signinController } from "../controllers/signin";
+import { signoutController } from "../controllers/signout";
+import { signupController } from "../controllers/signup";
 
 const router = express.Router();
 

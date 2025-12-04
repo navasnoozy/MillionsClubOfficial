@@ -1,6 +1,6 @@
 // auth/src/routes/verify-email.ts
 import express from "express";
-import { verifyEmailController } from "../controllers/verify-email.controller";
+import { verifyEmailController } from "../controllers/verify-email";
 
 const router = express.Router();
 

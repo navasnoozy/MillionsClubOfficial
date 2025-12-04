@@ -1,8 +1,8 @@
 // auth/src/routes/check-otp-status.ts
 import express from "express";
-import { checkOtpStatusController } from "../controllers/check-otp-status.controller";
+import { checkOtpStatusController } from "../controllers/check-otp-status";
 import { otpResendLimiter } from "../middleware/rate-limiter";
-import { resendOtpController } from "../controllers/resend-otp.controller";
+import { resendOtpController } from "../controllers/resend-otp";
 
 const router = express.Router();
 
