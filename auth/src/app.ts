@@ -1,17 +1,13 @@
-import { NotFoundError, errorHandler } from "@millionsclub/shared-libs/server";
+import { NotFoundError, errorHandler, require_admin } from "@millionsclub/shared-libs/server";
 import { toNodeHandler } from "better-auth/node";
+import cookieParser from "cookie-parser";
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
-import { currentUserRouter } from "./routes/current-user";
-import { signinRouter } from "./routes/signin";
-import { signoutRouter } from "./routes/signout";
-import { signupRouter } from "./routes/signup";
-import cookieParser from "cookie-parser";
-import { refreshTokenRouter } from "./routes/refresh-token";
-import { verifyEmailRouter } from "./routes/verify-email";
-import { resendOtpRouter } from "./routes/resend-otp";
-import { checkOtpStatusRouter } from "./routes/check-otp-status";
+import { otpRoutes } from "./routes/otp.routes";
+import { adminRoutes } from "./routes/admin.routes";
+import { authRoutes } from "./routes/auth.routes";
+import { verificationRoutes } from "./routes/verify-email.route";
 
 dotenv.config();
 
@@ -37,14 +33,10 @@ export const createApp = async () => {
   app.use(cookieParser());
   app.set("trust proxy", true);
 
-  app.use(signupRouter);
-  app.use(signinRouter);
-  app.use(signoutRouter);
-  app.use(currentUserRouter);
-  app.use(refreshTokenRouter);
-  app.use(verifyEmailRouter);
-  app.use(resendOtpRouter);
-  app.use(checkOtpStatusRouter);
+  app.use("/api/users", authRoutes);
+  app.use("/api/verify", verificationRoutes);
+  app.use("/api/otp", otpRoutes);
+  app.use("/api/admin", adminRoutes);
 
   app.all("*path", async () => {
     throw new NotFoundError();

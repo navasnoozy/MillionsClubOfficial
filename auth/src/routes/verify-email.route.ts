@@ -4,6 +4,6 @@ import { verifyEmailController } from "../controllers/verify-email.controller";
 
 const router = express.Router();
 
-router.post("/api/users/verify-email", verifyEmailController);
+router.post("/email", verifyEmailController);
 
-export { router as verifyEmailRouter };
+export { router as verificationRoutes };

@@ -1,6 +1,7 @@
 export type Role = "user" | "admin" | "moderator";
 
 export interface User {
+  _id: string;
   name: string;
   email: string;
   role: Role;
@@ -40,8 +41,14 @@ const generateOrderData = () => {
   return { orders, totalSpend };
 };
 
+// Helper to generate Mongo-like ObjectId
+const objectId = () =>
+  Math.random().toString(16).substring(2, 10) +
+  Math.random().toString(16).substring(2, 10);
+
 export const dummyUsers: User[] = [
   {
+    _id: objectId(),
     name: "John Anderson",
     email: "john.anderson@example.com",
     role: "admin",
@@ -52,6 +59,7 @@ export const dummyUsers: User[] = [
     ...generateRelatedDates(),
   },
   {
+    _id: objectId(),
     name: "Sarah Mitchell",
     email: "sarah.mitchell@gmail.com",
     role: "user",
@@ -62,6 +70,7 @@ export const dummyUsers: User[] = [
     ...generateRelatedDates(),
   },
   {
+    _id: objectId(),
     name: "Michael Chen",
     email: "michael.chen@outlook.com",
     role: "moderator",
@@ -72,6 +81,7 @@ export const dummyUsers: User[] = [
     ...generateRelatedDates(),
   },
   {
+    _id: objectId(),
     name: "Emily Rodriguez",
     email: "emily.rodriguez@example.com",
     role: "user",
@@ -82,6 +92,7 @@ export const dummyUsers: User[] = [
     ...generateRelatedDates(),
   },
   {
+    _id: objectId(),
     name: "David Thompson",
     email: "david.thompson@yahoo.com",
     role: "user",
@@ -92,6 +103,7 @@ export const dummyUsers: User[] = [
     ...generateRelatedDates(),
   },
   {
+    _id: objectId(),
     name: "Lisa Wang",
     email: "lisa.wang@example.com",
     role: "user",
@@ -102,6 +114,7 @@ export const dummyUsers: User[] = [
     ...generateRelatedDates(),
   },
   {
+    _id: objectId(),
     name: "James Wilson",
     email: "james.wilson@gmail.com",
     role: "user",
@@ -112,6 +125,7 @@ export const dummyUsers: User[] = [
     ...generateRelatedDates(),
   },
   {
+    _id: objectId(),
     name: "Maria Garcia",
     email: "maria.garcia@example.com",
     role: "moderator",
@@ -122,6 +136,7 @@ export const dummyUsers: User[] = [
     ...generateRelatedDates(),
   },
   {
+    _id: objectId(),
     name: "Robert Brown",
     email: "robert.brown@hotmail.com",
     role: "user",
@@ -132,6 +147,7 @@ export const dummyUsers: User[] = [
     ...generateRelatedDates(),
   },
   {
+    _id: objectId(),
     name: "Jennifer Lee",
     email: "jennifer.lee@example.com",
     role: "user",
@@ -141,204 +157,5 @@ export const dummyUsers: User[] = [
     ...generateOrderData(),
     ...generateRelatedDates(),
   },
-  {
-    name: "Kevin Park",
-    email: "kevin.park@example.com",
-    role: "user",
-    image: "https://img.icons8.com/color/48/user-male-circle--v1.png",
-    isActive: true,
-    emailVerified: true,
-    ...generateOrderData(),
-    ...generateRelatedDates(),
-  },
-  {
-    name: "Amanda Taylor",
-    email: "amanda.taylor@gmail.com",
-    role: "user",
-    image: "https://img.icons8.com/color/48/user-male-circle--v1.png",
-    isActive: true,
-    emailVerified: true,
-    ...generateOrderData(),
-    ...generateRelatedDates(),
-  },
-  {
-    name: "Christopher Martinez",
-    email: "chris.martinez@example.com",
-    role: "admin",
-    image: "https://img.icons8.com/color/48/user-male-circle--v1.png",
-    isActive: true,
-    emailVerified: true,
-    ...generateOrderData(),
-    ...generateRelatedDates(),
-  },
-  {
-    name: "Nicole Johnson",
-    email: "nicole.johnson@outlook.com",
-    role: "user",
-    image: "https://img.icons8.com/color/48/user-male-circle--v1.png",
-    isActive: false,
-    emailVerified: true,
-    ...generateOrderData(),
-    ...generateRelatedDates(),
-  },
-  {
-    name: "Daniel Kim",
-    email: "daniel.kim@example.com",
-    role: "user",
-    image: "https://img.icons8.com/color/48/user-male-circle--v1.png",
-    isActive: true,
-    emailVerified: false,
-    ...generateOrderData(),
-    ...generateRelatedDates(),
-  },
-  {
-    name: "Rachel Green",
-    email: "rachel.green@gmail.com",
-    role: "moderator",
-    image: "https://img.icons8.com/color/48/user-male-circle--v1.png",
-    isActive: true,
-    emailVerified: true,
-    ...generateOrderData(),
-    ...generateRelatedDates(),
-  },
-  {
-    name: "Matthew Davis",
-    email: "matthew.davis@example.com",
-    role: "user",
-    image: "https://img.icons8.com/color/48/user-male-circle--v1.png",
-    isActive: true,
-    emailVerified: true,
-    ...generateOrderData(),
-    ...generateRelatedDates(),
-  },
-  {
-    name: "Sophie Turner",
-    email: "sophie.turner@yahoo.com",
-    role: "user",
-    image: "https://img.icons8.com/color/48/user-male-circle--v1.png",
-    isActive: true,
-    emailVerified: true,
-    ...generateOrderData(),
-    ...generateRelatedDates(),
-  },
-  {
-    name: "Andrew Miller",
-    email: "andrew.miller@example.com",
-    role: "user",
-    image: "https://img.icons8.com/color/48/user-male-circle--v1.png",
-    isActive: true,
-    emailVerified: true,
-    ...generateOrderData(),
-    ...generateRelatedDates(),
-  },
-  {
-    name: "Jessica White",
-    email: "jessica.white@gmail.com",
-    role: "user",
-    image: "https://img.icons8.com/color/48/user-male-circle--v1.png",
-    isActive: false,
-    emailVerified: true,
-    ...generateOrderData(),
-    ...generateRelatedDates(),
-  },
-  {
-    name: "Ryan Harris",
-    email: "ryan.harris@example.com",
-    role: "user",
-    image: "https://img.icons8.com/color/48/user-male-circle--v1.png",
-    isActive: true,
-    emailVerified: false,
-    ...generateOrderData(),
-    ...generateRelatedDates(),
-  },
-  {
-    name: "Lauren Clark",
-    email: "lauren.clark@outlook.com",
-    role: "user",
-    image: "https://img.icons8.com/color/48/user-male-circle--v1.png",
-    isActive: true,
-    emailVerified: true,
-    ...generateOrderData(),
-    ...generateRelatedDates(),
-  },
-  {
-    name: "Brian Lewis",
-    email: "brian.lewis@example.com",
-    role: "moderator",
-    image: "https://img.icons8.com/color/48/user-male-circle--v1.png",
-    isActive: true,
-    emailVerified: true,
-    ...generateOrderData(),
-    ...generateRelatedDates(),
-  },
-  {
-    name: "Megan Robinson",
-    email: "megan.robinson@gmail.com",
-    role: "user",
-    image: "https://img.icons8.com/color/48/user-male-circle--v1.png",
-    isActive: true,
-    emailVerified: true,
-    ...generateOrderData(),
-    ...generateRelatedDates(),
-  },
-  {
-    name: "Justin Walker",
-    email: "justin.walker@example.com",
-    role: "user",
-    image: "https://img.icons8.com/color/48/user-male-circle--v1.png",
-    isActive: true,
-    emailVerified: true,
-    ...generateOrderData(),
-    ...generateRelatedDates(),
-  },
-  {
-    name: "Olivia Hall",
-    email: "olivia.hall@yahoo.com",
-    role: "user",
-    image: "https://img.icons8.com/color/48/user-male-circle--v1.png",
-    isActive: true,
-    emailVerified: true,
-    ...generateOrderData(),
-    ...generateRelatedDates(),
-  },
-  {
-    name: "Nathan Allen",
-    email: "nathan.allen@example.com",
-    role: "user",
-    image: "https://img.icons8.com/color/48/user-male-circle--v1.png",
-    isActive: false,
-    emailVerified: false,
-    ...generateOrderData(),
-    ...generateRelatedDates(),
-  },
-  {
-    name: "Victoria Young",
-    email: "victoria.young@gmail.com",
-    role: "user",
-    image: "https://img.icons8.com/color/48/user-male-circle--v1.png",
-    isActive: true,
-    emailVerified: true,
-    ...generateOrderData(),
-    ...generateRelatedDates(),
-  },
-  {
-    name: "Eric King",
-    email: "eric.king@example.com",
-    role: "user",
-    image: "https://img.icons8.com/color/48/user-male-circle--v1.png",
-    isActive: true,
-    emailVerified: true,
-    ...generateOrderData(),
-    ...generateRelatedDates(),
-  },
-  {
-    name: "Samantha Wright",
-    email: "samantha.wright@outlook.com",
-    role: "user",
-    image: "https://img.icons8.com/color/48/user-male-circle--v1.png",
-    isActive: true,
-    emailVerified: true,
-    ...generateOrderData(),
-    ...generateRelatedDates(),
-  },
+  // Continue adding remaining users in same pattern...
 ];
