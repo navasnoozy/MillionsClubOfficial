@@ -4,7 +4,7 @@ import { signupSchema } from "@millionsclub/shared-libs/client";
 import { CircularProgress, Stack, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 import Alert from "../../../components/Alert";
-import LinkButton from "../../../components/LinkButton";
+import AppButton from "../../../components/LinkButton";
 
 type Props = {
   onSubmit: (data: SignupSchema) => void;
@@ -48,11 +48,11 @@ const SignupForm = ({ onSubmit, isLoading, isError, error }: Props) => {
           fullWidth
         />
 
-        <LinkButton type="submit" variant="contained">
+        <AppButton type="submit" variant="contained">
           {" "}
           Signup
           {isLoading && <CircularProgress sx={{ marginLeft: 1 }} size="2rem" />}
-        </LinkButton>
+        </AppButton>
 
         {isError && <Alert success={false}>{error}</Alert>}
       </Stack>

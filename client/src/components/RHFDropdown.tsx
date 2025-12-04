@@ -23,7 +23,7 @@ const RHFDropdown = ({ name, options, label, disabled }: RHFDropdownProps) => {
       defaultValue=""
       render={({ field: { value, onChange } }) => (
         <Dropdown
-          value={value || ''}
+          value={value}
           onChange={onChange}
           options={options}
           label={label}

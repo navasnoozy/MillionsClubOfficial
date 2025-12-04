@@ -1,5 +1,6 @@
 import { Box } from "@mui/material";
-import AppLink from "../components/CustomLink";
+import AppLink from "../../components/CustomLink";
+
 
 const AdminDashboard = () => {
   return (

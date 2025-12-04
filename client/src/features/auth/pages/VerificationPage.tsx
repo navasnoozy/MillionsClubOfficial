@@ -5,7 +5,7 @@ import { useNavigate, useSearchParams } from "react-router";
 import { AnimatedTick } from "../../../components/animations/AnimatedTickMark";
 import { Shake } from "../../../components/animations/Shake";
 import CardContainer from "../../../components/CardContainer";
-import LinkButton from "../../../components/LinkButton";
+import AppButton from "../../../components/LinkButton";
 import OtpFields from "../components/OtpFields";
 import ResendOtp from "../components/ResendOtp";
 import useVerifyEmail from "../hooks/useVerifyEmail";
@@ -15,7 +15,7 @@ const VerificationPage = () => {
   const [otp, setOtp] = useState<string[]>(() => Array(6).fill(""));
   const [verifyStatus, setVerifyStatus] = useState(false);
   const [error, setError] = useState("");
-  
+
   // 1. Add this state to control the shake
   const [shakeTrigger, setShakeTrigger] = useState(0);
 
@@ -46,7 +46,7 @@ const VerificationPage = () => {
         onError: (error) => {
           setVerifyStatus(false);
           setError(error.response?.data.message || "Could not verify, Try again");
-          setShakeTrigger(prev => prev + 1);
+          setShakeTrigger((prev) => prev + 1);
         },
       }
     );
@@ -60,17 +60,17 @@ const VerificationPage = () => {
         <>
           <Typography color="gray">We've sent a 6-digit verification code to your email.</Typography>
           <Box color="gray">{email}</Box>
-        
+
           <Shake shouldShake={shakeTrigger}>
             <OtpFields otp={otp} setOtp={setOtp} error={error} verifyStatus={verifyStatus} disabled={isPending} sx={{ mt: 2 }} />
             <Typography visibility={error ? "visible" : "hidden"} sx={{ mb: 1, fontSize: "15px", color: "red", fontStyle: "italic" }}>
               {error}
             </Typography>
           </Shake>
-          
-          <LinkButton disabled={isPending} loading={isPending} onClick={() => handleverifyemail()} variant="contained">
+
+          <AppButton disabled={isPending} loading={isPending} onClick={() => handleverifyemail()} variant="contained">
             Verify Account
-          </LinkButton>
+          </AppButton>
           <ResendOtp email={email} />
         </>
       )}

@@ -3,7 +3,7 @@ import React from "react";
 import { FormProvider, type UseFormReturn, type FieldValues } from "react-hook-form";
 import { Grid } from "@mui/material";
 import CardContainer from "../../components/CardContainer";
-import SubmitButton from "./SubmitButton";
+import AppButton from "../../components/LinkButton";
 
 type Props<T extends FieldValues> = {
   heading: string;
@@ -28,9 +28,9 @@ const FormLayout = <T extends FieldValues>({ heading, methods, onSubmit, left, r
             <Grid size={{ xs: 12, md: 6 }}>{right}</Grid>
 
             <Grid size={12}>
-              <SubmitButton isLoading={isLoading} disabled={isLoading}>
+              <AppButton isLoading={isLoading} disabled={isLoading}>
                 {submitLabel}
-              </SubmitButton>
+              </AppButton>
             </Grid>
           </Grid>
 

@@ -10,10 +10,10 @@ interface AdminLinks {
 export const adminLinks: AdminLinks = {
   pages: [
     { label: "Dashboard", to: "/admin", icon: <BarChart /> },
-    { label: "Orders", to: "/admin/ordermanagement", icon: <ReceiptLong /> },
-    { label: "Products", to: "/admin/productmanagement", icon: <ShoppingBag /> },
+    { label: "Orders", to: "/admin/orders", icon: <ReceiptLong /> },
+    { label: "Products", to: "/admin/inventory", icon: <ShoppingBag /> },
     { label: "Users", to: "/admin/users", icon: <ContactPage /> },
-    { label: "Categories", to: "/admin/categorymanagement", icon: <Category /> },
+    { label: "Categories", to: "/admin/categories", icon: <Category /> },
     { label: "Settings", to: "/admin/settings", icon: <SettingsApplications /> },
   ],
 };

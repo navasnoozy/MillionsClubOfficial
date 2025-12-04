@@ -7,7 +7,7 @@ import CategoryManagement from "./admin/pages/CategoryManagement";
 import OrderManagement from "./admin/pages/OrderManagement";
 import AdminLayout from "./layouts/AdminLayout";
 import Layout from "./layouts/Layout";
-import AdminDashboard from "./admin/AdminDashboard";
+
 import HomePage from "./pages/HomePage";
 import UnauthorizedPage from "./pages/UnauthorizedPage";
 import VerificationPage from "./features/auth/pages/VerificationPage";
@@ -18,6 +18,8 @@ import AddSubCategoryPage from "./admin/pages/AddSubCategoryPage";
 import AdminAddProductPage from "./admin/pages/AdminAddProductPage";
 import AdminAddVariantPage from "./admin/pages/AdminAddVariantPage";
 import ProductManagement from "./admin/pages/ProductManagement";
+import AdminDashboard from "./admin/pages/AdminDashboard";
+import UserManagement from "./admin/pages/UserManagement";
 
 const router = createBrowserRouter([
   {
@@ -67,7 +69,7 @@ const router = createBrowserRouter([
             errorElement: <ErrorBoundary />,
           },
           {
-            path: "productmanagement",
+            path: "inventory",
             element: <ProductManagement />,
             errorElement: <ErrorBoundary />,
           },
@@ -82,7 +84,7 @@ const router = createBrowserRouter([
             errorElement: <ErrorBoundary />,
           },
           {
-            path: "categorymanagement",
+            path: "categories",
             element: <CategoryManagement />,
             errorElement: <ErrorBoundary />,
           },
@@ -97,8 +99,13 @@ const router = createBrowserRouter([
             errorElement: <ErrorBoundary />,
           },
           {
-            path: "ordermanagement",
+            path: "orders",
             element: <OrderManagement />,
+            errorElement: <ErrorBoundary />,
+          },
+          {
+            path: "users",
+            element: <UserManagement />,
             errorElement: <ErrorBoundary />,
           },
         ],

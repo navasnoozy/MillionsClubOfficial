@@ -6,7 +6,7 @@ const customShadows = [...defaultTheme.shadows] as Shadows;
 customShadows[1] = "1px 2px 4px rgba(88, 186, 42, 0.93)"; // Paper default elevation
 
 export const theme = createTheme({
-  defaultColorScheme: "light", 
+  defaultColorScheme: "light",
   colorSchemes: {
     light: {
       palette: {
@@ -14,8 +14,8 @@ export const theme = createTheme({
           main: "#ba612aff",
         },
         background: {
-          default: "#FCFAF8", 
-          paper: "#ffffff", 
+          default: "#FCFAF8",
+          paper: "#ffffff",
         },
       },
     },
@@ -24,12 +24,12 @@ export const theme = createTheme({
         primary: {
           main: "#86624B",
         },
-       
       },
     },
   },
   typography: {
     fontFamily: ["Roboto", '"Helvetica Neue"', "Arial", "sans-serif"].join(","),
   },
-   shadows: customShadows, 
+  //  shadows: customShadows,
+   shape:{borderRadius:2}
 });

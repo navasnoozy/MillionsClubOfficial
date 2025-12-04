@@ -6,8 +6,8 @@ import { FormProvider, useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import CardContainer from "../../components/CardContainer";
 import AddCategoryForm from "../components/AddCategoryForm";
-import SubmitButton from "../components/SubmitButton";
 import useAddCategory from "../hooks/useAddCategory";
+import AppButton from "../../components/LinkButton";
 
 
 const AddCategoryPage = () => {
@@ -34,9 +34,9 @@ const AddCategoryPage = () => {
           <Stack spacing={3}>
             <AddCategoryForm  />
 
-            <SubmitButton isLoading={isPending} disabled={isPending}>
+            <AppButton isLoading={isPending} disabled={isPending}>
               ADD CATEGORY
-            </SubmitButton>
+            </AppButton>
           </Stack>
         </form>
       </FormProvider>

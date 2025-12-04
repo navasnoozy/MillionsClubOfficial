@@ -6,9 +6,8 @@ import { FormProvider, useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import CardContainer from "../../components/CardContainer";
 import AddSubCategoryForm from "../components/AddSubCategoryForm";
-import SubmitButton from "../components/SubmitButton";
 import useAddSubCategory from "../hooks/useAddSubCategory";
-
+import AppButton from "../../components/LinkButton";
 
 const AddSubCategoryPage = () => {
   const navigate = useNavigate();
@@ -17,6 +16,9 @@ const AddSubCategoryPage = () => {
 
   const methods = useForm<AddSubCategory>({
     resolver: zodResolver(addSubCategorySchema),
+    defaultValues: {
+      parentCategoryId: "",
+    },
   });
 
   const handleAddSubCategories = (data: AddSubCategory) => {
@@ -33,11 +35,11 @@ const AddSubCategoryPage = () => {
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(handleAddSubCategories)}>
           <Stack spacing={3}>
-            <AddSubCategoryForm  />
+            <AddSubCategoryForm />
 
-            <SubmitButton isLoading={isPending} disabled={isPending}>
+            <AppButton isLoading={isPending} disabled={isPending}>
               ADD SUB CATEGORY
-            </SubmitButton>
+            </AppButton>
           </Stack>
         </form>
       </FormProvider>

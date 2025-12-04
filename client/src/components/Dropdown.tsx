@@ -1,5 +1,5 @@
-import { FormControl, Select, MenuItem, FormHelperText, Box } from '@mui/material';
-import type { SelectChangeEvent } from '@mui/material/Select';
+import { FormControl, MenuItem, Select } from "@mui/material";
+import type { SelectChangeEvent } from "@mui/material/Select";
 
 type Option = { _id: string; name: string };
 
@@ -8,23 +8,30 @@ type DropdownProps = {
   onChange: (event: SelectChangeEvent<string>) => void;
   options: Option[];
   label?: string;
-  errorMessage?: string;
   disabled?: boolean;
 };
 
-const Dropdown = ({ value, onChange, options, label, errorMessage, disabled }: DropdownProps) => {
+const Dropdown = ({ value, onChange, options, label, disabled }: DropdownProps) => {
   return (
-    <FormControl sx={{ width: 300 }} size="small" error={!!errorMessage}>
+    <FormControl sx={{ width: 300 }} size="small">
       <Select
+        sx={{
+          border: "1px solid rgba(0,0,0,0.12)", // subtle border
+          height: 40,
+          pl: 1.2,
+          "& fieldset": { border: "none" }, // remove default outline
+          "&.Mui-focused": {
+            border: "1px solid rgba(0,0,0,0.2)", // slightly darker on focus
+          },
+        }}
         value={value}
         onChange={onChange}
         displayEmpty
         disabled={disabled}
-        inputProps={{ 'aria-label': label || 'select' }}
-        
+        inputProps={{ "aria-label": label || "select" }}
       >
-        <MenuItem value="" disabled >
-          {label || 'Select'}
+        <MenuItem value="" disabled>
+          {label || "Select"}
         </MenuItem>
         {options.map((opt) => (
           <MenuItem key={opt._id} value={opt._id}>
@@ -32,10 +39,6 @@ const Dropdown = ({ value, onChange, options, label, errorMessage, disabled }: D
           </MenuItem>
         ))}
       </Select>
-    {/* Reserve consistent space for error text */}
-      <Box sx={{ minHeight: 24, display: 'flex', alignItems: 'center' }}>
-        {errorMessage && <FormHelperText>{errorMessage}</FormHelperText>}
-      </Box>
     </FormControl>
   );
 };

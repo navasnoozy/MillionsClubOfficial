@@ -1,16 +1,19 @@
-import { Box } from "@mui/material"
-import LinkButton from "./LinkButton"
-
-
+import { Box } from "@mui/material";
+import AppButton from "./LinkButton";
 
 const Panel = () => {
   return (
-   <Box sx={{ display:'flex', justifyContent:'space-between'}}>
-      <LinkButton to='/admin' size="small" variant="contained" color="primary">   Dashboard</LinkButton>
-        <LinkButton to='/admin/addproduct' size="small" variant="contained" color="primary">   Add Product</LinkButton>
-        
+    <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+      <AppButton to="/admin" size="small" variant="contained" color="primary">
+        {" "}
+        Dashboard
+      </AppButton>
+      <AppButton to="/admin/addproduct" size="small" variant="contained" color="primary">
+        {" "}
+        Add Product
+      </AppButton>
     </Box>
-  )
-}
+  );
+};
 
-export default Panel
+export default Panel;

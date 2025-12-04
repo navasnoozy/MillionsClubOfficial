@@ -1,23 +1,12 @@
-import {configureStore, createSlice} from '@reduxjs/toolkit';
+// import { configureStore } from "@reduxjs/toolkit";
+
+// const store = configureStore ({
+//      reducer: {
+//           users: 
+//      }
+// });
 
 
-
-
-const demoslice = createSlice ({
-     name: 'demo',
-     initialState: ['demo'],
-     reducers: {}
-})
-
-
-
-export const store = configureStore ({
-     reducer: {
-          demo: demoslice.reducer
-     }
-});
-
-
-
-export type RootState = ReturnType <typeof store.getState>
-export type AppDispatch = typeof store.dispatch 
+// export default store;
+// export type RootState = ReturnType <typeof store.getState>;
+// export type AppDispatch = typeof store.dispatch;
