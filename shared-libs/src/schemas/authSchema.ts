@@ -6,11 +6,16 @@ export const signupSchema = z
 
     email: z.email({ error: "Invalid email address" }),
 
+    isActive: z
+      .enum(["true", "false"])
+      .transform((val) => val === "true")
+      .optional(),
+
     password: z
       .string({ error: "Password is required" })
       .min(8, { error: "Password must be at least 8 characters" })
-      .regex(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]+$/, {
-        message: "Password must include at least one letter and one number",
+      .regex(/^(?:(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]+)?$/, {
+        error: "Password must include at least one letter and one number",
       }),
 
     confirmPassword: z.string({ error: "Confirm Password is required" }).min(8, { error: "Confirm Password must be at least 8 characters" }),

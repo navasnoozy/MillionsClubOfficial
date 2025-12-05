@@ -1,21 +1,21 @@
-# infra/k8s/products-mongo-statefulset.yaml
+# infra/k8s/inventory-mongo-statefulset.yaml
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: products-mongo-statefulset # K8s will prefix pod names with this. You’ll get:
+  name: inventory-mongo-statefulset # K8s will prefix pod names with this. You’ll get:
 spec:
-  serviceName: 'products-mongo'
+  serviceName: 'inventory-mongo'
   replicas: 1 # set >1 for replica set
   selector:
     matchLabels:
-      app: products-mongodb
+      app: inventory-mongodb
   template:
     metadata:
       labels:
-        app: products-mongodb
+        app: inventory-mongodb
     spec:
       containers:
-        - name: products-mongo
+        - name: inventory-mongo
           image: mongo:latest
 
           env:
@@ -49,11 +49,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: products-mongo-service
+  name: inventory-mongo-service
 spec:
   clusterIP: None
   selector:
-    app: products-mongodb
+    app: inventory-mongodb
   ports:
     - port: 27017
       name: mongodb

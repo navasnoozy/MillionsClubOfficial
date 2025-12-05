@@ -36,7 +36,7 @@ export const createApp = async () => {
   app.use("/api/users", authRoutes);
   app.use("/api/verify", verificationRoutes);
   app.use("/api/otp", otpRoutes);
-  app.use("/api/admin", adminRoutes);
+  // app.use("/api/admin", adminRoutes);
 
   app.all("*path", async () => {
     throw new NotFoundError();

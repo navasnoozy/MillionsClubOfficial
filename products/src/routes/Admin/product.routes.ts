@@ -6,9 +6,9 @@ import { updateProduct } from "../../controllers/admin/product/update.product";
 
 const router = Router();
 
-router.post("/api/products", require_admin, validateRequest(createProductSchema), addProduct);
+router.post("/products", validateRequest(createProductSchema), addProduct);
 
-router.patch("/api/products/:id", require_admin, validateRequest(idSchema, "params"), validateRequest(updateProductSchema), updateProduct);
+router.patch("/products/:id", require_admin, validateRequest(idSchema, "params"), validateRequest(updateProductSchema), updateProduct);
 
 router.delete("/api/products/:id", require_admin, validateRequest(idSchema, "params"), deleteProduct);
 

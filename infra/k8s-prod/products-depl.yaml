@@ -2,24 +2,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: products-deployment
+  name: inventory-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: products
+      app: inventory
   template:
     metadata:
       labels:
-        app: products
+        app: inventory
     spec:
       # initContainers:
       #   - name: wait-for-kafka
       #     image: busybox:1.28
       #     command: ['sh', '-c', 'until nslookup kafka.default.svc.cluster.local; do echo waiting for kafka; sleep 2; done; until nc -z kafka.default.svc.cluster.local 9092; do echo waiting for kafka; sleep 2; done;']    
       containers:
-        - name: products
-          image: navasnoozy/products:latest # Replace with your Docker image name
+        - name: inventory
+          image: navasnoozy/inventory:latest # Replace with your Docker image name
           imagePullPolicy: Always # Use 'Never or IfNotPresent' if you're using local Docker images with Minikube or Docker Desktop
           env:
             - name: JWT_KEY
@@ -32,7 +32,7 @@ spec:
             - name: MONGO_URI
               valueFrom:
                 secretKeyRef:
-                  name: products-mongo-uri
+                  name: inventory-mongo-uri
                   key: MONGO_URI 
 
 
@@ -65,12 +65,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: products-service
+  name: inventory-service
 spec:
   selector:
-    app: products # This must match the labels on your pods/deployment
+    app: inventory # This must match the labels on your pods/deployment
   ports:
-    - name: products
+    - name: inventory
       protocol: TCP
       port: 3000 # Port that the service exposes internally
       targetPort: 3000 # Port your container is listening on (e.g., Express.js app)

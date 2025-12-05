@@ -73,7 +73,7 @@ const userSchema = new Schema<UserDoc, UserModel>(
       default: "user",
     },
 
-    image: String,
+    image: {type: String},
 
     isActive: { type: Boolean, default: true },
 
