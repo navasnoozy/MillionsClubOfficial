@@ -1,21 +1,22 @@
-// shared-libs/src/schemas/subCategorySchema.ts
-import { z } from "zod/v4";
+import { z } from "zod";
 
-export const subcategoryBaseSchema = z.object({
-  name: z.string().min(1, { error: "Subcategory name is required" }).max(50, { error: "Subcategory name must not exceed 100 characters" }),
+const baseSubCategorySchema = z.object({
+  name: z.string({ error: "Subcategory name is required" })
+    .min(1, { error: "Subcategory name is required" })
+    .max(50, { error: "Subcategory name must not exceed 50 characters" }),
 
   slug: z
-    .string()
+    .string({ error: "Slug is required" })
     .min(1, { error: "Slug is required" })
-    .max(50, { error: "Slug must not exceed 100 characters" })
+    .max(50, { error: "Slug must not exceed 50 characters" })
     .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, {
-      error: "Slug must be lowercase, hyphenated, and alphanumeric only",
+      message: "Slug must be lowercase, hyphenated, and alphanumeric only",
     }),
 });
 
-export const addSubCategorySchema = subcategoryBaseSchema.required({
+export const createSubCategorySchema = baseSubCategorySchema.required({
   name: true,
   slug: true,
 });
 
-export type AddSubCategory = z.infer<typeof addSubCategorySchema>;
+export type CreateSubCategoryInput = z.infer<typeof createSubCategorySchema>;

@@ -19,7 +19,7 @@ export * from "./schemas/productSchema";
 export * from "./schemas/productVariantSchema";
 export * from "./schemas/categorySchema";
 export * from "./schemas/subCategorySchema";
-export * from "./schemas/mongoIdValidationSchema";
+export * from "./schemas/idSchema";
 
 //KAFKA
 export * from "./kafka/kafka-client";

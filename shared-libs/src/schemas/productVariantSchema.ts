@@ -1,36 +1,36 @@
-//shared-libs/src/schemas/productVariantSchema.ts
+import { z } from "zod";
 
-import { z } from "zod/v4";
-
-export const productVariantBaseSchema = z.object({
+// Internal Base Schema
+const baseProductVariantSchema = z.object({
   productId: z
-    .string()
-    .min(1, { message: "Product ID is required" }),
+    .string({ error: "Product ID is required" })
+    .min(1, { error: "Product ID is required" }),
 
   size: z
-    .string()
-    .min(1, { message: "Size is required" }),
+    .string({ error: "Size is required" })
+    .min(1, { error: "Size is required" }),
 
   price: z
-    .number({ message: "Price must be a numeric value" })
-    .nonnegative({ message: "Price must be a positive number" }),
+    .number({ error: "Price must be a numeric value" })
+    .nonnegative({ error: "Price must be a positive number" }),
 
   quantity: z
-    .number({ message: "Quantity must be a number" })
-    .int({ message: "Quantity must be an integer" })
-    .min(0, { message: "Quantity cannot be negative" }),
+    .number({ error: "Quantity must be a number" })
+    .int({ error: "Quantity must be an integer" })
+    .min(0, { error: "Quantity cannot be negative" }),
 
   isActive: z
     .boolean()
     .optional(),
 });
 
-export const addProductVariantSchema = productVariantBaseSchema.required({
+export const createProductVariantSchema = baseProductVariantSchema.required({
   productId: true,
   size: true,
   price: true,
   quantity: true,
-  // isActive stays optional
+
 });
 
-export type AddProductVariant = z.infer<typeof addProductVariantSchema>;
+
+export type CreateProductVariantInput = z.infer<typeof createProductVariantSchema>;

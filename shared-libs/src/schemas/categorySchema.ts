@@ -1,25 +1,27 @@
-// shared-libs/src/schemas/categorySchema.ts
-import { z } from "zod/v4";
+import { z } from "zod";
 import { paginationSchema } from "./commonSchema";
 
-export const categoryBaseSchema = z.object({
-  name: z.string().min(1, { error: "Category name is required" }).max(50, { error: "Category name must not exceed 100 characters" }),
+const baseCategorySchema = z.object({
+  name: z.string({ error: "Category name is required" })
+    .min(1, { error: "Category name is required" })
+    .max(50, { error: "Category name must not exceed 100 characters" }),
 
   slug: z
-    .string()
+    .string({ error: "Slug is required" })
     .min(1, { error: "Slug is required" })
     .max(50, { error: "Slug must not exceed 100 characters" })
+    // Regex logic requires 'message'
     .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, {
-      error: "Slug must be lowercase, hyphenated, and alphanumeric only",
+      message: "Slug must be lowercase, hyphenated, and alphanumeric only",
     }),
 });
 
-export const addCategorySchema = categoryBaseSchema.required({
+export const createCategorySchema = baseCategorySchema.required({
   name: true,
   slug: true,
 });
 
-export const getCategoriesQuerySchema = paginationSchema.extend({
+export const categoryQuerySchema = paginationSchema.extend({
   isActive: z
     .enum(["true", "false"])
     .transform((val) => val === "true")
@@ -28,6 +30,6 @@ export const getCategoriesQuerySchema = paginationSchema.extend({
   sort: z.enum(["name_asc", "name_desc", "newest"]).default("name_asc"),
 });
 
-export type GetCategoriesQuery = z.infer<typeof getCategoriesQuerySchema>;
 
-export type AddCategory = z.infer<typeof addCategorySchema>;
+export type CreateCategoryInput = z.infer<typeof createCategorySchema>;
+export type CategoryQueryInput = z.infer<typeof categoryQuerySchema>;

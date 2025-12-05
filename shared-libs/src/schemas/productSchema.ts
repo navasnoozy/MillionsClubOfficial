@@ -1,10 +1,9 @@
-//shared-libs/src/schemas/productSchema.ts
 import { z } from "zod";
 import { paginationSchema } from './commonSchema'; 
 
 const objectIdRegex = /^[0-9a-fA-F]{24}$/;
 
-export const productBaseSchema = z.object({
+const baseProductSchema = z.object({
   id: z.string().optional(),
 
   title: z.string({ error: "Title is required" })
@@ -54,7 +53,7 @@ export const productBaseSchema = z.object({
     .optional(),
 });
 
-export const addProductSchema = productBaseSchema.required({
+export const createProductSchema = baseProductSchema.required({
   title: true,
   brand: true,
   categoryId: true,
@@ -62,11 +61,9 @@ export const addProductSchema = productBaseSchema.required({
   images: true,
 });
 
-export const updateProductSchema = productBaseSchema.partial();
+export const updateProductSchema = baseProductSchema.partial();
 
-
-
-export const getProductsQuerySchema = paginationSchema.extend({
+export const productQuerySchema = paginationSchema.extend({
   categoryId: z.string()
     .regex(objectIdRegex, { error: "Invalid Category ID" })
     .optional(),
@@ -83,22 +80,20 @@ export const getProductsQuerySchema = paginationSchema.extend({
   sort: z.enum(['newest', 'price_asc', 'price_desc', 'name_asc', 'name_desc'])
     .default('newest'),
 
-
   isActive: z.enum(['true', 'false'])
     .transform((val) => val === 'true')
     .optional(),
 })
 .refine((data) => {
-
   if (data.minPrice != null && data.maxPrice != null) {
     return data.minPrice <= data.maxPrice;
   }
   return true;
 }, {
-  message: "Min price cannot be greater than Max price",
+  message: "Min price cannot be greater than Max price", 
   path: ["minPrice"], 
 });
 
-export type AddProductSchema = z.infer<typeof addProductSchema>;
-export type UpdateProductSchema = z.infer<typeof updateProductSchema>;
-export type GetProductsQuery = z.infer<typeof getProductsQuerySchema>;
+export type CreateProductInput = z.infer<typeof createProductSchema>;
+export type UpdateProductInput = z.infer<typeof updateProductSchema>;
+export type ProductQueryInput = z.infer<typeof productQuerySchema>;
