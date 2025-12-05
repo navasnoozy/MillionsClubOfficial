@@ -1,4 +1,5 @@
-import { z } from "zod";
+// shared-libs/src/schemas/categorySchema.ts
+import { z } from "zod/v4";
 import { paginationSchema } from "./commonSchema";
 
 export const categoryBaseSchema = z.object({
@@ -9,7 +10,7 @@ export const categoryBaseSchema = z.object({
     .min(1, { error: "Slug is required" })
     .max(50, { error: "Slug must not exceed 100 characters" })
     .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, {
-      message: "Slug must be lowercase, hyphenated, and alphanumeric only",
+      error: "Slug must be lowercase, hyphenated, and alphanumeric only",
     }),
 });
 
@@ -28,4 +29,5 @@ export const getCategoriesQuerySchema = paginationSchema.extend({
 });
 
 export type GetCategoriesQuery = z.infer<typeof getCategoriesQuerySchema>;
+
 export type AddCategory = z.infer<typeof addCategorySchema>;

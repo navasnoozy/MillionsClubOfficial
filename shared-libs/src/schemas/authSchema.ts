@@ -1,4 +1,5 @@
-import { z } from "zod";
+// shared-libs/src/schemas/authSchema.ts
+import { z } from "zod/v4";
 
 // Signup schema
 export const signupSchema = z
@@ -12,7 +13,7 @@ export const signupSchema = z
       .string()
       .min(8, { error: "Password must be at least 8 characters" })
       .regex(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*?&]+$/, {
-        message: "Password must include at least one letter and one number", // Regex still uses 'message' in v4 often, but 'error' is safer standard
+        error: "Password must include at least one letter and one number",
       }),
     confirmPassword: z
       .string()
@@ -20,7 +21,7 @@ export const signupSchema = z
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ["confirmPassword"],
-    message: "Passwords do not match", // Refine still uses 'message' in v4
+    error: "Passwords do not match",
   });
 
 // Sign In Schema
