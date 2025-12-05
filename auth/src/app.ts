@@ -8,6 +8,7 @@ import { otpRoutes } from "./routes/otp.routes";
 import { adminRoutes } from "./routes/admin.routes";
 import { authRoutes } from "./routes/auth.routes";
 import { verificationRoutes } from "./routes/verify-email.route";
+import seedUsers from './data/dummyUsers'
 
 dotenv.config();
 
@@ -36,13 +37,15 @@ export const createApp = async () => {
   app.use("/api/users", authRoutes);
   app.use("/api/verify", verificationRoutes);
   app.use("/api/otp", otpRoutes);
-  // app.use("/api/admin", adminRoutes);
+  app.use("/api/admin", adminRoutes);
 
   app.all("*path", async () => {
     throw new NotFoundError();
   });
 
   app.use(errorHandler);
+
+   seedUsers()
 
   return app;
 };

@@ -1,22 +1,22 @@
-import { useQuery } from '@tanstack/react-query';
-import axiosInstance from '../../../lib/axios';
-import type { AddProductSchema, AddProductVariant } from '@millionsclub/shared-libs/client';
+import { useQuery } from "@tanstack/react-query";
+import axiosInstance from "../../../lib/axios";
+import type { CreateProductInput, CreateProductVariantInput } from "@millionsclub/shared-libs/client";
 
-interface ProductResponse extends Omit<AddProductSchema, 'variantIds'> {
+interface ProductResponse extends Omit<CreateProductInput, "variantIds"> {
   createdAt: Date;
   updatedAt: Date;
-  variantIds: AddProductVariant[];
+  variantIds: CreateProductVariantInput[];
 }
 
 const useProducts = () => {
   return useQuery<ProductResponse[]>({
-    queryKey: ['products'],
+    queryKey: ["products"],
     queryFn: async () => {
       try {
-        const res = await axiosInstance.get('/api/inventory/products');
+        const res = await axiosInstance.get("/api/inventory/products");
         return res.data.data;
       } catch (err) {
-        console.error('Error fetching products:', err);
+        console.error("Error fetching products:", err);
         throw err;
       }
     },

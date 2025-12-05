@@ -11,6 +11,8 @@ import { productRoutes } from "./routes/Admin/product.routes";
 import { publicRoutes } from "./routes/public.routes";
 import { subCategoryRouter } from "./routes/Admin/subCategory.routes";
 import { productVariantRoutes } from "./routes/Admin/variant.routes";
+import seedDatabase from "./data/dummydata"
+
 
 dotenv.config();
 
@@ -46,5 +48,7 @@ app.all("*path", async () => {
 });
 
 app.use(errorHandler);
+
+// seedDatabase
 
 export { app };
