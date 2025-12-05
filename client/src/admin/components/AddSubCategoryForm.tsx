@@ -1,4 +1,4 @@
-import type { AddSubCategory } from "@millionsclub/shared-libs/client";
+import type { CreateSubCategoryInput } from "@millionsclub/shared-libs/client";
 import { Stack, TextField } from "@mui/material";
 import { useFormContext } from "react-hook-form";
 import RHFDropdown from "../../components/RHFDropdown";
@@ -15,7 +15,7 @@ const AddSubCategoryForm = () => {
   const {
     register,
     formState: { errors: formErrors },
-  } = useFormContext<AddSubCategory>();
+  } = useFormContext<CreateSubCategoryInput>();
 
   return (
     <Stack spacing={3} width={"100%"} height={"100%"} alignItems="center">

@@ -1,4 +1,4 @@
-import type { AddCategory } from "@millionsclub/shared-libs/client";
+import type { CreateCategoryInput } from "@millionsclub/shared-libs/client";
 import { Stack, TextField } from "@mui/material";
 import { useFormContext } from "react-hook-form";
 
@@ -12,7 +12,7 @@ const AddCategoryForm = () => {
   const {
     register,
     formState: { errors: formErrors },
-  } = useFormContext<AddCategory>();
+  } = useFormContext<CreateCategoryInput>();
 
   return (
     <Stack

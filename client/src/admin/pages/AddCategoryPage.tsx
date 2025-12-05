@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { AddCategory } from "@millionsclub/shared-libs/client";
-import { addCategorySchema } from "@millionsclub/shared-libs/client";
+import type { CreateCategoryInput } from "@millionsclub/shared-libs/client";
+import { createCategorySchema } from "@millionsclub/shared-libs/client";
 import { Stack } from "@mui/material";
 import { FormProvider, useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
@@ -13,11 +13,11 @@ const AddCategoryPage = () => {
   const navigate = useNavigate();
   const { mutate: addCategory, isPending } = useAddCategory();
 
-  const methods = useForm<AddCategory>({
-    resolver: zodResolver(addCategorySchema),
+  const methods = useForm<CreateCategoryInput>({
+    resolver: zodResolver(createCategorySchema),
   });
 
-  const handleAddCategory = (data: AddCategory) => {
+  const handleAddCategory = (data: CreateCategoryInput) => {
     addCategory(data, {
       onSuccess: () => {
         navigate(`/admin/categorymanagement`);

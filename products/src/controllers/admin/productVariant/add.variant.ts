@@ -1,10 +1,9 @@
 // products/src/controllers/admin/product/addVariant.ts
-import { AddProductVariant, BadRequestError, sendResponse } from "@millionsclub/shared-libs/server";
+import { BadRequestError, CreateProductVariantInput, sendResponse } from "@millionsclub/shared-libs/server";
 import { NextFunction, Request, Response } from "express";
-import { ProductVariants } from "../../../models/productVariantModel";
-import { Product } from "../../../models/productModel";
-import { removeImageTags } from "../../../services/removeImageTags";
 import { publish_product_variant_created } from "../../../events/publishers/product-variant-created";
+import { Product } from "../../../models/productModel";
+import { ProductVariants } from "../../../models/productVariantModel";
 
 const addVariant = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -14,9 +13,9 @@ const addVariant = async (req: Request, res: Response, next: NextFunction) => {
       throw new BadRequestError("Product id required");
     }
 
-    const { size, price, quantity, isActive = true }: AddProductVariant = req.body;
+    const { size, price, quantity, isActive = true }: CreateProductVariantInput = req.body;
 
-    const variantData: AddProductVariant = {
+    const variantData: CreateProductVariantInput = {
       size,
       quantity,
       price,

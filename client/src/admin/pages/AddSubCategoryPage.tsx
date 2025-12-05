@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { AddSubCategory } from "@millionsclub/shared-libs/client";
-import { addSubCategorySchema } from "@millionsclub/shared-libs/client";
+import type { CreateSubCategoryInput } from "@millionsclub/shared-libs/client";
+import { createSubCategorySchema } from "@millionsclub/shared-libs/client";
 import { Stack } from "@mui/material";
 import { FormProvider, useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
@@ -14,14 +14,14 @@ const AddSubCategoryPage = () => {
 
   const { mutate: addSubCategory, isPending } = useAddSubCategory();
 
-  const methods = useForm<AddSubCategory>({
-    resolver: zodResolver(addSubCategorySchema),
+  const methods = useForm<CreateSubCategoryInput>({
+    resolver: zodResolver(createSubCategorySchema),
     defaultValues: {
       parentCategoryId: "",
     },
   });
 
-  const handleAddSubCategories = (data: AddSubCategory) => {
+  const handleAddSubCategories = (data: CreateSubCategoryInput) => {
     addSubCategory(data, {
       onSuccess: () => {
         navigate(`/admin/categorymanagement`);

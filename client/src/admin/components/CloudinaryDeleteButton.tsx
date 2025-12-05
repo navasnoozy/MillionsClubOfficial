@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import { useFormContext } from "react-hook-form";
-import type { AddProductSchema } from "@millionsclub/shared-libs/client";
+import type { CreateProductInput } from "@millionsclub/shared-libs/client";
 import useDeleteImage from "../../hooks/useDeleteImage";
 import DeleteButton from "../../components/DeleteButton";
 
@@ -11,7 +11,7 @@ interface Props {
 }
 
 const CloudinaryDeleteButton = ({ public_id, index, resetPreview }: Props) => {
-  const { setValue, watch } = useFormContext<AddProductSchema>();
+  const { setValue, watch } = useFormContext<CreateProductInput>();
   const { mutate: deleteImage, isPending } = useDeleteImage();
 
   const handleClick = () => {

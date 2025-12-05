@@ -1,4 +1,4 @@
-import { AddProductSchema, BadRequestError, sendResponse } from "@millionsclub/shared-libs/server";
+import { createProductSchema,CreateProductInput, BadRequestError, sendResponse } from "@millionsclub/shared-libs/server";
 import { NextFunction, Request, Response } from "express";
 import { Product } from "../../../models/productModel";
 import { removeImageTags } from "../../../services/removeImageTags";
@@ -6,7 +6,7 @@ import { publish_product_created } from "../../../events/publishers/product-crea
 
 const addProduct = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { title, brand, color, categoryId, subCategoryId, basePrice, images, description, isActive }: AddProductSchema = req.body;
+    const { title, brand, color, categoryId, subCategoryId, basePrice, images, description, isActive }: CreateProductInput = req.body;
 
     const existingProduct = await Product.findOne({ title });
     if (existingProduct) {
@@ -18,7 +18,7 @@ const addProduct = async (req: Request, res: Response, next: NextFunction) => {
       await removeImageTags(publicIds);
     }
 
-    const newProductData: AddProductSchema = {
+    const newProductData: CreateProductInput = {
       title,
       brand,
       color,

@@ -7,7 +7,7 @@ const getUsers = async (req: Request, res: Response, next: NextFunction) => {
 
     const {limit} = req.query;
 
-    const users = User.find().limit()
+    // const users = User.find().limit()
 
 
   } catch (error) {

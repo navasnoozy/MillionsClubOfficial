@@ -1,7 +1,7 @@
 // src/features/products/ProductFormFields.tsx
 import { Stack, TextField } from "@mui/material";
 import { Controller, useFormContext, useWatch } from "react-hook-form";
-import type { AddProductSchema } from "@millionsclub/shared-libs/client";
+import type { CreateProductInput } from "@millionsclub/shared-libs/client";
 import { useEffect } from "react";
 import RHFDropdown from "../../components/RHFDropdown";
 import TongleButton from "../../components/Switch";
@@ -18,7 +18,7 @@ const ProductFormField = () => {
     control,
     setValue,
     formState: { errors: formErrors },
-  } = useFormContext<AddProductSchema>();
+  } = useFormContext<CreateProductInput>();
 
   const { data: categories = [] } = useCategories();
 

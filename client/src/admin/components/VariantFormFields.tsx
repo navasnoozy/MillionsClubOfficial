@@ -2,7 +2,7 @@
 import { Stack, TextField } from "@mui/material";
 import { Controller, useFormContext } from "react-hook-form";
 
-import type { AddProductVariant } from "@millionsclub/shared-libs/client";
+import type { CreateProductVariantInput } from "@millionsclub/shared-libs/client";
 import TongleButton from "../../components/Switch";
 
 // type Props = {
@@ -15,11 +15,11 @@ const VariantFormFields = () => {
     register,
     control,
     formState: { errors: formErrors },
-  } = useFormContext<AddProductVariant>();
+  } = useFormContext<CreateProductVariantInput>();
 
   return (
     <Stack spacing={3} width="100%" justifyContent="space-between">
-      <TextField {...register("color")} label="Color" variant="standard" error={!!formErrors.color} helperText={formErrors.color?.message} fullWidth />
+
 
       <TextField {...register("size")} label="Size" variant="standard" error={!!formErrors.size} helperText={formErrors.size?.message} fullWidth />
 

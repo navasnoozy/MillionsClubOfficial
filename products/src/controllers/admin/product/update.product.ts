@@ -1,4 +1,4 @@
-import { BadRequestError, sendResponse, UpdateProductSchema } from "@millionsclub/shared-libs/server";
+import { BadRequestError, sendResponse, UpdateProductInput } from "@millionsclub/shared-libs/server";
 import { NextFunction, Request, Response } from "express";
 import { Product } from "../../../models/productModel";
 import { filterOutEmpty } from "../../../utils/filter-out-empty";
@@ -7,7 +7,7 @@ import { publish_product_updated } from "../../../events/publishers/product_upda
 const updateProduct = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const _id = req.params.id;
-    const { title, brand, categoryId, subCategoryId, basePrice, description, isActive }: UpdateProductSchema = req.body;
+    const { title, brand, categoryId, subCategoryId, basePrice, description, isActive }: UpdateProductInput = req.body;
 
     const existingProduct = await Product.findById(_id);
 

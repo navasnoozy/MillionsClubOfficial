@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router";
-import { addProductVariantSchema, type AddProductVariant } from "@millionsclub/shared-libs/client";
+import { createProductVariantSchema, type CreateProductVariantInput } from "@millionsclub/shared-libs/client";
 import FormLayout from "../components/FormLayout";
 import InfoAlerts from "../components/InfoAlerts";
 import ProductImageUploader from "../components/ProductImageUploader";
@@ -15,12 +15,12 @@ const AdminAddVariantPage = () => {
 
   const { mutate: addVariant, isPending } = useCreateVariant(id);
 
-  const methods = useForm<AddProductVariant>({
-    resolver: zodResolver(addProductVariantSchema),
+  const methods = useForm<CreateProductVariantInput>({
+    resolver: zodResolver(createProductVariantSchema),
     mode: "onSubmit",
   });
 
-  const handleAddVariant = (data: AddProductVariant) => {
+  const handleAddVariant = (data: CreateProductVariantInput) => {
     addVariant(data, {
       onSuccess: () => navigate("/admin/productmanagement"),
     });
