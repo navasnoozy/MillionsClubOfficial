@@ -7,8 +7,8 @@ import { require_admin } from "@millionsclub/shared-libs/server";
 
 const imageRoutes = Router();
 
-imageRoutes.get("/config",  getCloudinaryConfig);
-imageRoutes.post("/signature",  generateCloudinarySignature);
+imageRoutes.get("/image/config",  getCloudinaryConfig);
+imageRoutes.post("/image/signature",  generateCloudinarySignature);
 imageRoutes.delete("/image",  deleteCloudinaryImage);
 
 export default imageRoutes;

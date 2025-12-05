@@ -8,8 +8,8 @@ const router = Router();
 
 router.post("/products", validateRequest(createProductSchema), addProduct);
 
-router.patch("/products/:id", require_admin, validateRequest(idSchema, "params"), validateRequest(updateProductSchema), updateProduct);
+router.patch("/products/:id", validateRequest(idSchema, "params"), validateRequest(updateProductSchema), updateProduct);
 
-router.delete("/api/products/:id", require_admin, validateRequest(idSchema, "params"), deleteProduct);
+router.delete("/products/:id",  validateRequest(idSchema, "params"), deleteProduct);
 
 export { router as productRoutes };

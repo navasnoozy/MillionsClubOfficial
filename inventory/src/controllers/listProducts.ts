@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { sendResponse } from "@millionsclub/shared-libs/server";
 import { Product } from "../models/productModel";
 
-const listProducts = async (req: Request, res: Response, next: NextFunction) => {
+const getProducts = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const page = Math.max(parseInt(req.query.page as string) || 1, 1);
     const limit = Math.min(parseInt(req.query.limit as string) || 10, 100);
@@ -25,4 +25,4 @@ const listProducts = async (req: Request, res: Response, next: NextFunction) => 
   }
 };
 
-export { listProducts };
+export { getProducts as listProducts };

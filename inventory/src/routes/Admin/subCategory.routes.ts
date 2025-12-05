@@ -6,10 +6,10 @@ import { Router } from "express";
 
 const router = Router();
 
-router.post("/subcategory/:id", validateRequest(idSchema, "params"), validateRequest(createSubCategorySchema), addSubCategory);
+router.post("/subcategories/:id", validateRequest(idSchema, "params"), validateRequest(createSubCategorySchema), addSubCategory);
 
-router.delete("/subcategory/:id", validateRequest(idSchema, "params"), deleteSubCategory);
+router.delete("/subcategories/:id", validateRequest(idSchema, "params"), deleteSubCategory);
 
-router.patch("/subcategory/:id", validateRequest(idSchema, "params"), validateRequest(updateProductSchema), updateSubCategory);
+router.patch("/subcategories/:id", validateRequest(idSchema, "params"), validateRequest(updateProductSchema), updateSubCategory);
 
 export { router as subCategoryRouter };

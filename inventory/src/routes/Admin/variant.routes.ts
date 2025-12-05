@@ -6,10 +6,10 @@ import { Router } from "express";
 
 const router = Router();
 
-router.post("/api/products/variant/:id", require_admin, validateRequest(idSchema, "params"), validateRequest(createProductVariantSchema), addVariant);
+router.post("/products/variant/:id", require_admin, validateRequest(idSchema, "params"), validateRequest(createProductVariantSchema), addVariant);
 
-router.patch("/api/products/variant/:id", require_admin, validateRequest(idSchema, "params"), updateVariant);
+router.patch("/products/variant/:id", require_admin, validateRequest(idSchema, "params"), updateVariant);
 
-router.delete("/api/products/variant/:id", require_admin, validateRequest(idSchema, "params"), deleteVaraint);
+router.delete("/products/variant/:id", require_admin, validateRequest(idSchema, "params"), deleteVaraint);
 
 export { router as productVariantRoutes };

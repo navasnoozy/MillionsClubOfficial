@@ -6,10 +6,10 @@ import { Router } from "express";
 
 const router = Router();
 
-router.post("/category",  validateRequest(createCategorySchema), addCategory);
+router.post("/categories",  validateRequest(createCategorySchema), addCategory);
 
-router.delete("/category/:id",  validateRequest(idSchema, "params"), deletCategory);
+router.delete("/categories/:id",  validateRequest(idSchema, "params"), deletCategory);
 
-router.patch("/category/:id", validateRequest(idSchema, "params"), validateRequest(updateProductSchema), updateCategory);
+router.patch("/categories/:id", validateRequest(idSchema, "params"), validateRequest(updateProductSchema), updateCategory);
 
 export { router as categoryRoutes };

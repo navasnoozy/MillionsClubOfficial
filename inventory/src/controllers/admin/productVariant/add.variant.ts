@@ -5,7 +5,7 @@ import { publish_product_variant_created } from "../../../events/publishers/prod
 import { Product } from "../../../models/productModel";
 import { ProductVariants } from "../../../models/productVariantModel";
 
-const addVariant = async (req: Request, res: Response, next: NextFunction) => {
+const createVariant = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const productId = req.params.id;
 
@@ -55,4 +55,4 @@ const addVariant = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export { addVariant };
+export { createVariant as addVariant };
