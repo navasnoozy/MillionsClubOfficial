@@ -1,5 +1,5 @@
 import { KafkaMessage, VariantCreatedMsg } from "@millionsclub/shared-libs/server";
-import { productKafkaClient } from "../../config/kafka.client";
+import { inventoryKafkaClient } from "../../config/kafka.client";
 
 export const publish_product_variant_created = async (data: VariantCreatedMsg) => {
   try {
@@ -10,7 +10,7 @@ export const publish_product_variant_created = async (data: VariantCreatedMsg) =
       },
     };
 
-    await productKafkaClient.publishMessage("variant.created", message);
+    await inventoryKafkaClient.publishMessage("variant.created", message);
   } catch (error) {
     console.error("Failed to publish Prod variant created event", error);
   }

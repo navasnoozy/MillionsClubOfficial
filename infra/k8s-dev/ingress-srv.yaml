@@ -27,11 +27,11 @@ spec:
                 port:
                   number: 3000
 
-          - path: /api/products(/|$)(.*)
+          - path: /api/inventory(/|$)(.*)
             pathType: ImplementationSpecific
             backend:
               service:
-                name: products-service
+                name: inventory-service
                 port:
                   number: 3000
 
@@ -39,7 +39,7 @@ spec:
             pathType: ImplementationSpecific
             backend:
               service:
-                name: products-service
+                name: inventory-service
                 port:
                   number: 3000
 

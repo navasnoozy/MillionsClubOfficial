@@ -7,7 +7,7 @@ const useCreateProduct = () => {
 
   return useMutation({
     mutationFn: async (product: CreateProductInput) => {
-      const res = await axiosInstance.post("/api/products/add", product);
+      const res = await axiosInstance.post("/api/inventory/products", product);
       return res.data.data;
     },
     onSuccess: () => {

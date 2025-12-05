@@ -3,19 +3,19 @@
 import { KafkaClient, KafkaConfig } from "@millionsclub/shared-libs/server";
 
 const config: KafkaConfig = {
-  clientId: "product-service",
+  clientId: "inventory-service",
   brokers: ["kafka-0.kafka.default.svc.cluster.local:9092", "kafka-1.kafka.default.svc.cluster.local:9092", "kafka-2.kafka.default.svc.cluster.local:9092"],
-  groupId: "product-consumer-group",
+  groupId: "inventory-consumer-group",
   useBatch: true,
 };
-export const productKafkaClient = new KafkaClient(config);
+export const inventoryKafkaClient = new KafkaClient(config);
 
 export const initKafka = async () => {
   try {
-    await productKafkaClient.getProducer();
-    await productKafkaClient.getConsumer();
+    await inventoryKafkaClient.getProducer();
+    await inventoryKafkaClient.getConsumer();
 
-    console.log("Kafka initialized in PRODUCT service");
+    console.log("Kafka initialized in INVENTORY service");
   } catch (error) {
     console.error("Kafka initilization error:", error);
     throw error;
@@ -24,7 +24,7 @@ export const initKafka = async () => {
 
 export const startKafkaConsumer = async () => {
   try {
-    await productKafkaClient.startConsumer();
+    await inventoryKafkaClient.startConsumer();
     console.log("Kafka consumer started in PRODUCT service");
   } catch (error) {
     console.error("Kafka consumer start error:", error);
@@ -34,7 +34,7 @@ export const startKafkaConsumer = async () => {
 
 export const disconnectKafka = async () => {
   try {
-    await productKafkaClient.disconnect();
+    await inventoryKafkaClient.disconnect();
     console.log("Kafka product service disconnected");
   } catch (error) {
     console.error("Kafka disconnection error", error);

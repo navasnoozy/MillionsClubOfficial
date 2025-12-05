@@ -1,5 +1,5 @@
 import { KafkaMessage, ProductUpdatedMsg } from "@millionsclub/shared-libs/server";
-import { productKafkaClient } from "../../config/kafka.client";
+import { inventoryKafkaClient } from "../../config/kafka.client";
 
 export const publish_product_updated = async (data: ProductUpdatedMsg) => {
   try {
@@ -10,7 +10,7 @@ export const publish_product_updated = async (data: ProductUpdatedMsg) => {
       },
     };
 
-    await productKafkaClient.publishMessage("product.updated", message);
+    await inventoryKafkaClient.publishMessage("product.updated", message);
   } catch (error) {
     console.error("Failed to publish product updated event", error);
   }

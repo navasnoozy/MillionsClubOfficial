@@ -16,7 +16,7 @@ const startServer = async (database: IDatabase) => {
     await startKafkaConsumer();
 
     app.listen(port, () => {
-      console.log(`Product service running on port ${port}`);
+      console.log(`Inventory service running on port ${port}`);
     });
 
     process.on("SIGTERM", async () => {

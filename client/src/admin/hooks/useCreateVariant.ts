@@ -7,7 +7,7 @@ const useCreateVariant = (id: string | undefined) => {
 
   return useMutation({
     mutationFn: async (variant: AddProductVariant) => {
-      const { data } = await axiosInstance.post(`/api/products/${id}/addvariant`, variant);
+      const { data } = await axiosInstance.post(`/api/inventory/products/${id}`, variant);
       return data;
     },
 

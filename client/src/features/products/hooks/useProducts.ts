@@ -13,7 +13,7 @@ const useProducts = () => {
     queryKey: ['products'],
     queryFn: async () => {
       try {
-        const res = await axiosInstance.get('/api/products');
+        const res = await axiosInstance.get('/api/inventory/products');
         return res.data.data;
       } catch (err) {
         console.error('Error fetching products:', err);
