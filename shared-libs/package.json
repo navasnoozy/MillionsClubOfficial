@@ -1,6 +1,6 @@
 {
   "name": "@millionsclub/shared-libs",
-  "version": "1.5.36",
+  "version": "1.5.37",
   "description": "",
   "files": [
     "build/**/*"
@@ -39,6 +39,6 @@
     "jsonwebtoken": "^9.0.2",
     "kafkajs": "^2.2.4",
     "mongoose": "^8.16.2",
-    "zod": "^3.25.71"
+    "zod": "^4.1.13"
   }
 }

@@ -1,3 +1,5 @@
+//shared-libs/src/schemas/subCategorySchema.ts
+
 import { z } from "zod/v4";
 
 export const subcategoryBaseSchema = z.object({

@@ -1,10 +1,10 @@
-import mongoose from 'mongoose';
-import { z } from 'zod/v4';
+//shared-libs/src/schemas/mongoIdValidationSchema.ts
+import { z } from 'zod'; // Use standard 'zod' import
+
+const objectIdRegex = /^[0-9a-fA-F]{24}$/;
 
 export const mongoIdValidationSchema = z.object({
-  id: z
-    .string({ message: 'Id is required' })
-    .nonempty({ message: 'Product Id is required' })
-    .min(1, { message: 'Id is required' })
-    .refine((id) => mongoose.Types.ObjectId.isValid(id), { message: 'Invalid id' }),
+  id: z.string({ error: 'Id is required' })
+    .min(1, { error: 'Id is required' })
+    .regex(objectIdRegex, { error: 'Invalid id' }),
 });

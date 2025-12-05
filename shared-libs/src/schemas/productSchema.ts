@@ -1,48 +1,59 @@
-import { z } from "zod/v4";
+//shared-libs/src/schemas/productSchema.ts
+import { z } from "zod";
+import { paginationSchema } from './commonSchema'; 
+
+const objectIdRegex = /^[0-9a-fA-F]{24}$/;
 
 export const productBaseSchema = z.object({
   id: z.string().optional(),
 
-  title: z.string().min(1, { message: "Title is required" }).max(100, { message: "Title must not exceed 100 characters" }),
+  title: z.string({ error: "Title is required" })
+    .min(1, { error: "Title is required" })
+    .max(100, { error: "Title must not exceed 100 characters" }),
 
   brand: z
-    .string()
-    .min(1, { message: "Brand name is required" })
-    .max(50, { message: "Brand name must not exceed 50 characters" })
+    .string({ error: "Brand name is required" })
+    .min(1, { error: "Brand name is required" })
+    .max(50, { error: "Brand name must not exceed 50 characters" })
     .regex(/^[A-Za-z0-9\s]+$/, {
-      message: "Brand name can include letters and numbers only",
+      error: "Brand name can include letters and numbers only",
     }),
 
   color: z
     .string()
-    .min(1, { message: "Color cannot be empty" })
-    .max(30, { message: "Color must not exceed 30 characters" })
-    .regex(/^[A-Za-z0-9\s]+$/, { message: "Color must contain only letters or numbers" })
+    .min(1, { error: "Color cannot be empty" })
+    .max(30, { error: "Color must not exceed 30 characters" })
+    .regex(/^[A-Za-z0-9\s]+$/, { error: "Color must contain only letters or numbers" })
     .optional(),
 
-  categoryId: z.string().min(1, { message: "Category is required" }),
+  categoryId: z.string({ error: "Category is required" })
+    .min(1, { error: "Category is required" }),
 
-  subCategoryId: z.string().min(1, { message: "Sub-category is required" }),
+  subCategoryId: z.string({ error: "Sub-category is required" })
+    .min(1, { error: "Sub-category is required" }),
 
-  basePrice: z.number({ message: "Price must be a numberic value" }).nonnegative({ message: "Base price must be a positive number" }).optional(),
+  basePrice: z.number({ error: "Price must be a numeric value" })
+    .nonnegative({ error: "Base price must be a positive number" })
+    .optional(),
 
-  description: z.string().max(1000, { message: "Description too long" }).optional(),
+  description: z.string()
+    .max(1000, { error: "Description too long" })
+    .optional(),
 
-  isActive: z.boolean("Active status must be provided"),
+  isActive: z.boolean({ error: "Active status must be provided" }),
 
   images: z
     .array(
       z.object({
-        secure_url: z.url({ message: "Each image must be a valid URL" }),
-        public_id: z.string("Invalid publicId").min(1, { message: "Public id is required" }),
+        secure_url: z.string().url({ error: "Each image must be a valid URL" }),
+        public_id: z.string({ error: "Invalid publicId" })
+          .min(1, { error: "Public id is required" }),
       })
     )
-    .length(4, { message: "Exactly 4 images are required" })
+    .length(4, { error: "Exactly 4 images are required" })
     .optional(),
-
 });
 
-// Required fields for creation
 export const addProductSchema = productBaseSchema.required({
   title: true,
   brand: true,
@@ -51,8 +62,43 @@ export const addProductSchema = productBaseSchema.required({
   images: true,
 });
 
-// Optional fields for update
 export const updateProductSchema = productBaseSchema.partial();
+
+
+
+export const getProductsQuerySchema = paginationSchema.extend({
+  categoryId: z.string()
+    .regex(objectIdRegex, { error: "Invalid Category ID" })
+    .optional(),
+
+  subCategoryId: z.string()
+    .regex(objectIdRegex, { error: "Invalid SubCategory ID" })
+    .optional(),
+
+  brand: z.string().optional(),
+
+  minPrice: z.coerce.number().min(0).optional(),
+  maxPrice: z.coerce.number().min(0).optional(),
+
+  sort: z.enum(['newest', 'price_asc', 'price_desc', 'name_asc', 'name_desc'])
+    .default('newest'),
+
+
+  isActive: z.enum(['true', 'false'])
+    .transform((val) => val === 'true')
+    .optional(),
+})
+.refine((data) => {
+
+  if (data.minPrice != null && data.maxPrice != null) {
+    return data.minPrice <= data.maxPrice;
+  }
+  return true;
+}, {
+  message: "Min price cannot be greater than Max price",
+  path: ["minPrice"], 
+});
 
 export type AddProductSchema = z.infer<typeof addProductSchema>;
 export type UpdateProductSchema = z.infer<typeof updateProductSchema>;
+export type GetProductsQuery = z.infer<typeof getProductsQuerySchema>;

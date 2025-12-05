@@ -1,3 +1,5 @@
+//shared-libs/src/schemas/productVariantSchema.ts
+
 import { z } from "zod/v4";
 
 export const productVariantBaseSchema = z.object({
