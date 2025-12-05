@@ -1,5 +1,5 @@
 # kafka-skaffold.yaml
-apiVersion: skaffold/v3
+apiVersion: skaffold/v4beta13
 kind: Config
 
 
@@ -10,7 +10,6 @@ manifests:
 deploy:
   kubectl: {}
 
-    # Add other K8s resources (services, config maps, etc.)
 
 
 

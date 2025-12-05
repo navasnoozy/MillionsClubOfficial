@@ -32,8 +32,8 @@ build:
           dest: /app
 
 
-    - image: navasnoozy/products
-      context: products
+    - image: navasnoozy/inventory
+      context: inventory
       docker:
         dockerfile: Dockerfile.dev
       sync:

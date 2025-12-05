@@ -49,4 +49,3 @@ spec:
       name: kafka-ui
       targetPort: 8080
       nodePort: 30080
-      name: kafka-ui
