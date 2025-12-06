@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axiosInstance, { setAccessToken } from "../../../lib/axios";
-import type { SigninSchema } from "@millionsclub/shared-libs/client";
 import type { AxiosError } from "axios";
+import type { SigninInput } from "@millionsclub/shared-libs/client";
 
 interface ApiResponse {
   success: boolean;
@@ -11,9 +11,9 @@ interface ApiResponse {
 
 const useSigninUser = () => {
   const queryClient = useQueryClient();
-  return useMutation<ApiResponse, AxiosError<ApiResponse>, SigninSchema>({
+  return useMutation<ApiResponse, AxiosError<ApiResponse>, SigninInput>({
     mutationKey: ["signin"],
-    mutationFn: async (credential: SigninSchema) => {
+    mutationFn: async (credential) => {
       const { data } = await axiosInstance.post("/api/users/signin", credential);
       return data;
     },

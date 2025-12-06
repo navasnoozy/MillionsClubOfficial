@@ -21,7 +21,7 @@ const AppButton = forwardRef<HTMLButtonElement | HTMLAnchorElement, AppButtonPro
       ref={ref as any}
       disabled={disabled || isLoadingState}
       sx={{
-        boxShadow: "0 2px 4px rgba(76, 224, 224, 0.78)",
+   
         ...sx,
       }}
       startIcon={isLoadingState ? <CircularProgress size={20} color="inherit" /> : startIcon}

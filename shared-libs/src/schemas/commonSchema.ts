@@ -16,6 +16,6 @@ export const paginationSchema = z.object({
   role : z.enum(["user", "admin", "moderator"],{error:'Invalid role'}).optional(),
 
   search: z.string().trim().optional(),
-});
+}).strict();
 
 export type PaginationInput = z.infer<typeof paginationSchema>;

@@ -9,12 +9,7 @@ const getUsers = async (req: ValidatedRequest<void, PaginationInput>, res: Respo
   try {
     let { limit, page, search, isActive, role } = req.validated.query;
 
-    console.log(`checking values of limit ${limit}`);
-    console.log(`checking values of page ${page}`);
-    console.log(`checking values of search ${search}`);
-    console.log(`checking values of isActive ${isActive}`);
-    console.log(`checking values of role ${role}`);
-
+  
     const skip = (page - 1) * limit;
 
     const query: any = {};
