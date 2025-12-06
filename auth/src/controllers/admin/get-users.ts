@@ -18,7 +18,7 @@ const getUsers = async (req: GetUsersRequest, res: Response, next: NextFunction)
         }
       : {};
 
-    const users = await User.find(query).skip(skip).limit(limit).sort({ createdAt: -1 });
+    const users = (await User.find(query).skip(skip).limit(limit).sort({ createdAt: -1 }));
 
     const count = await User.countDocuments(query);
 

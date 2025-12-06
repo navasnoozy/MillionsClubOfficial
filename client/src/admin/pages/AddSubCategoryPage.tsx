@@ -17,7 +17,6 @@ const AddSubCategoryPage = () => {
   const methods = useForm<CreateSubCategoryInput>({
     resolver: zodResolver(createSubCategorySchema),
     defaultValues: {
-      parentCategoryId: "",
     },
   });
 

@@ -31,5 +31,5 @@ export const theme = createTheme({
     fontFamily: ["Roboto", '"Helvetica Neue"', "Arial", "sans-serif"].join(","),
   },
   //  shadows: customShadows,
-   shape:{borderRadius:2}
+   shape:{borderRadius:4}
 });

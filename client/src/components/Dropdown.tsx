@@ -1,25 +1,26 @@
 import { FormControl, MenuItem, Select } from "@mui/material";
 import type { SelectChangeEvent } from "@mui/material/Select";
 
-type Option = { _id: string; name: string };
-
 type DropdownProps = {
   value: string;
   onChange: (event: SelectChangeEvent<string>) => void;
-  options: Option[];
+  options: string[];
   label?: string;
   disabled?: boolean;
+  width: string;
 };
 
-const Dropdown = ({ value, onChange, options, label, disabled }: DropdownProps) => {
+const Dropdown = ({ value, onChange, options, label, width, disabled }: DropdownProps) => {
   return (
-    <FormControl sx={{ width: 300 }} size="small">
+    <FormControl size="small">
       <Select
         sx={{
-          border: "1px solid rgba(0,0,0,0.12)", // subtle border
+          width: width,
+          fontSize: "15px",
+          border: "1px solid rgba(0,0,0,0.12)",
           height: 40,
-          pl: 1.2,
-          "& fieldset": { border: "none" }, // remove default outline
+          pr: 0.5,
+          "& fieldset": { border: "none" }, // remove default border
           "&.Mui-focused": {
             border: "1px solid rgba(0,0,0,0.2)", // slightly darker on focus
           },
@@ -30,12 +31,12 @@ const Dropdown = ({ value, onChange, options, label, disabled }: DropdownProps) 
         disabled={disabled}
         inputProps={{ "aria-label": label || "select" }}
       >
-        <MenuItem value="" disabled>
+        <MenuItem sx={{ fontSize: "15px" }} value="" disabled>
           {label || "Select"}
         </MenuItem>
         {options.map((opt) => (
-          <MenuItem key={opt._id} value={opt._id}>
-            {opt.name}
+          <MenuItem key={opt} value={opt} sx={{ fontSize: "15px" }}>
+            {opt}
           </MenuItem>
         ))}
       </Select>
