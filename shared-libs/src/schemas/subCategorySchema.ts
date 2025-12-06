@@ -12,11 +12,11 @@ slug: z
     .regex(/^(?:[a-z0-9]+(?:-[a-z0-9]+)*)?$/, {
       error: "Slug must be lowercase, hyphenated, and alphanumeric only",
     }),
-});
+}).strict();
 
 export const createSubCategorySchema = baseSubCategorySchema.required({
   name: true,
   slug: true,
-});
+}).strict();
 
 export type CreateSubCategoryInput = z.infer<typeof createSubCategorySchema>;

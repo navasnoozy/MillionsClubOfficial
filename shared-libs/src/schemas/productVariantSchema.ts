@@ -17,7 +17,7 @@ const baseProductVariantSchema = z.object({
     })
     .transform((val) => val === true || val === "true")
     .optional(),
-});
+}).strict();
 
 export const createProductVariantSchema = baseProductVariantSchema.required({
   productId: true,

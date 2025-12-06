@@ -1,7 +1,7 @@
 //auth/src/controllers/admin/get-users.ts
 
 import { PaginationInput, sendResponse } from "@millionsclub/shared-libs/server";
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Response } from "express";
 import { User } from "../../models/userModel";
 import { ValidatedRequest } from "../../interface/ValidatedReq";
 
@@ -9,17 +9,27 @@ const getUsers = async (req: ValidatedRequest<void, PaginationInput>, res: Respo
   try {
     let { limit, page, search, isActive, role } = req.validated.query;
 
-    const pageNumber = Number(page) || 1;
-    const limitNumber = Number(limit) || 10;
-    const skip = (pageNumber - 1) * limitNumber;
+    console.log(`checking values of limit ${limit}`);
+    console.log(`checking values of page ${page}`);
+    console.log(`checking values of search ${search}`);
+    console.log(`checking values of isActive ${isActive}`);
+    console.log(`checking values of role ${role}`);
 
-    const query = search
-      ? {
-          isActive: isActive === "true" ? "true" : undefined,
-          role: role,
-          $or: [{ name: { $regex: search, $options: "i" } }, { email: { $regex: search, $options: "i" } }],
-        }
-      : {};
+    const skip = (page - 1) * limit;
+
+    const query: any = {};
+
+    if (isActive !== undefined) {
+      query.isActive = isActive;
+    }
+
+    if (role) {
+      query.role = role;
+    }
+
+    if (search) {
+      query.$or = [{ name: { $regex: search, $options: "i" } }, { email: { $regex: search, $options: "i" } }];
+    }
 
     const users = await User.find(query).skip(skip).limit(limit).sort({ createdAt: -1 });
 

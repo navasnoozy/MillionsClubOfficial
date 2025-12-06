@@ -50,7 +50,7 @@ const baseProductSchema = z.object({
     )
     .length(4, { error: "Exactly 4 images are required" })
     .optional(),
-});
+}).strict();
 
 export const createProductSchema = baseProductSchema.required({
   title: true,
@@ -58,7 +58,7 @@ export const createProductSchema = baseProductSchema.required({
   categoryId: true,
   subCategoryId: true,
   images: true,
-});
+}).strict();
 
 export const updateProductSchema = baseProductSchema.partial();
 
@@ -91,7 +91,7 @@ export const productQuerySchema = paginationSchema
       message: "Min price cannot be greater than Max price",
       path: ["minPrice"],
     }
-  );
+  ).strict();
 
 export type CreateProductInput = z.infer<typeof createProductSchema>;
 export type UpdateProductInput = z.infer<typeof updateProductSchema>;

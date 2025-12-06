@@ -13,7 +13,7 @@ export const paginationSchema = z.object({
       .transform((val) => val === true || val === "true")
       .optional(),
 
-  role : z.enum(["user", "admin", "moderator"]).optional(),
+  role : z.enum(["user", "admin", "moderator"],{error:'Invalid role'}).optional(),
 
   search: z.string().trim().optional(),
 });

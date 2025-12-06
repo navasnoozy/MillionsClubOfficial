@@ -18,19 +18,11 @@ const baseCategorySchema = z.object({
 export const createCategorySchema = baseCategorySchema.required({
   name: true,
   slug: true,
-});
+}).strict();
 
 export const categoryQuerySchema = paginationSchema.extend({
-    isActive: z
-      .union([z.boolean(), z.string()])
-      .refine((val) => val === true || val === false || val === "true" || val === "false", {
-        error: "Invalid isActive status. Allowed values: true, false, 'true', 'false'",
-      })
-      .transform((val) => val === true || val === "true")
-      .optional(),
-
   sort: z.enum(["name_asc", "name_desc", "newest"]).default("name_asc"),
-});
+}).strict();
 
 export type CreateCategoryInput = z.infer<typeof createCategorySchema>;
 export type CategoryQueryInput = z.infer<typeof categoryQuerySchema>;

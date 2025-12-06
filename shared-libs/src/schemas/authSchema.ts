@@ -26,13 +26,13 @@ export const signupSchema = z
   .refine((data) => data.password === data.confirmPassword, {
     path: ["confirmPassword"],
     message: "Passwords do not match",
-  });
+  }).strict();
 
 // Sign In Schema
 export const signinSchema = z.object({
   email: z.email({ error: "Invalid email address" }),
   password: z.string({ error: "Password is required" }).min(8, { error: "Password is required" }),
-});
+}).strict();
 
 export type SignupInput = z.infer<typeof signupSchema>;
 export type SigninInput = z.infer<typeof signinSchema>;
