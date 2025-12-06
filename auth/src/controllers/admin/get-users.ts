@@ -1,12 +1,13 @@
+//auth/src/controllers/admin/get-users.ts
+
 import { PaginationInput, sendResponse } from "@millionsclub/shared-libs/server";
 import { NextFunction, Request, Response } from "express";
 import { User } from "../../models/userModel";
+import { ValidatedRequest } from "../../interface/ValidatedReq";
 
-type GetUsersRequest = Request<{}, {}, {}, PaginationInput>;
-
-const getUsers = async (req: GetUsersRequest, res: Response, next: NextFunction) => {
+const getUsers = async (req: ValidatedRequest<void, PaginationInput>, res: Response, next: NextFunction) => {
   try {
-    const { limit, page, search } = req.query;
+    let { limit, page, search, isActive, role } = req.validated.query;
 
     const pageNumber = Number(page) || 1;
     const limitNumber = Number(limit) || 10;
@@ -14,11 +15,13 @@ const getUsers = async (req: GetUsersRequest, res: Response, next: NextFunction)
 
     const query = search
       ? {
+          isActive: isActive === "true" ? "true" : undefined,
+          role: role,
           $or: [{ name: { $regex: search, $options: "i" } }, { email: { $regex: search, $options: "i" } }],
         }
       : {};
 
-    const users = (await User.find(query).skip(skip).limit(limit).sort({ createdAt: -1 }));
+    const users = await User.find(query).skip(skip).limit(limit).sort({ createdAt: -1 });
 
     const count = await User.countDocuments(query);
 

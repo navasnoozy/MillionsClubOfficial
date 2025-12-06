@@ -31,7 +31,13 @@ const baseProductSchema = z.object({
 
   description: z.string().max(1000, { error: "Description too long" }).optional(),
 
-  isActive: z.boolean().optional(),
+  isActive: z
+    .union([z.boolean(), z.string()])
+    .refine((val) => val === true || val === false || val === "true" || val === "false", {
+      error: "Invalid isActive status. Allowed values: true, false, 'true', 'false'",
+    })
+    .transform((val) => val === true || val === "true")
+    .optional(),
   images: z
     .array(
       z.object(

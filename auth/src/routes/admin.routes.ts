@@ -1,3 +1,4 @@
+//auth/src/routes/admin.routes.ts
 import { paginationSchema, validateRequest } from "@millionsclub/shared-libs/server";
 import express from "express";
 import { getUsers } from "../controllers/admin/get-users";

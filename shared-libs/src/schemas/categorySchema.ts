@@ -21,7 +21,13 @@ export const createCategorySchema = baseCategorySchema.required({
 });
 
 export const categoryQuerySchema = paginationSchema.extend({
- isActive: z.boolean().optional(),
+    isActive: z
+      .union([z.boolean(), z.string()])
+      .refine((val) => val === true || val === false || val === "true" || val === "false", {
+        error: "Invalid isActive status. Allowed values: true, false, 'true', 'false'",
+      })
+      .transform((val) => val === true || val === "true")
+      .optional(),
 
   sort: z.enum(["name_asc", "name_desc", "newest"]).default("name_asc"),
 });
