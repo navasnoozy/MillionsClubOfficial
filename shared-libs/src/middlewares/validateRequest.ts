@@ -11,8 +11,6 @@ export const validateRequest = (schema: ZodType, source: "body" | "params" | "qu
       throw new RequestValidationError(result.error);
     }
 
-    req[source] = result.data;
-
     next();
   };
 };

@@ -1,10 +1,10 @@
-import { createProductSchema,CreateProductInput, BadRequestError, sendResponse } from "@millionsclub/shared-libs/server";
+import { BadRequestError, CreateProductInput, sendResponse } from "@millionsclub/shared-libs/server";
 import { NextFunction, Request, Response } from "express";
+import { publish_product_created } from "../../../events/publishers/product-created";
 import { Product } from "../../../models/productModel";
 import { removeImageTags } from "../../../services/removeImageTags";
-import { publish_product_created } from "../../../events/publishers/product-created";
 
-const addProduct = async (req: Request, res: Response, next: NextFunction) => {
+const createProduct = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { title, brand, color, categoryId, subCategoryId, basePrice, images, description, isActive }: CreateProductInput = req.body;
 
@@ -56,4 +56,4 @@ const addProduct = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export { addProduct };
+export { createProduct };

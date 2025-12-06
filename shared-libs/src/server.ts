@@ -20,6 +20,7 @@ export * from "./schemas/productVariantSchema";
 export * from "./schemas/categorySchema";
 export * from "./schemas/subCategorySchema";
 export * from "./schemas/idSchema";
+export * from "./schemas/commonSchema";
 
 //KAFKA
 export * from "./kafka/kafka-client";

@@ -8,7 +8,7 @@ import { otpRoutes } from "./routes/otp.routes";
 import { adminRoutes } from "./routes/admin.routes";
 import { authRoutes } from "./routes/auth.routes";
 import { verificationRoutes } from "./routes/verify-email.route";
-import seedUsers from './data/dummyUsers'
+import seedUsers from "./data/dummyUsers";
 
 dotenv.config();
 
@@ -45,7 +45,7 @@ export const createApp = async () => {
 
   app.use(errorHandler);
 
-   seedUsers()
+  //  seedUsers()
 
   return app;
 };

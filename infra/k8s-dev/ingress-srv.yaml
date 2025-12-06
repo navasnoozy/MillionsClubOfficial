@@ -19,6 +19,27 @@ spec:
                 name: auth-service
                 port:
                   number: 3000
+          - path: /api/verify(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: auth-service
+                port:
+                  number: 3000
+          - path: /api/otp(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: auth-service
+                port:
+                  number: 3000
+          - path: /api/admin/users(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: auth-service
+                port:
+                  number: 3000
           - path: /api/auth(/|$)(.*)
             pathType: ImplementationSpecific
             backend:
