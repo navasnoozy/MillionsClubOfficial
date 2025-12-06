@@ -28,7 +28,7 @@ const HomePage = () => {
                   width: { xs: '40%', sm: '100%' },
                 }}
               >
-                <ImagePreview src={item?.images?.[0]?.secure_url || item.variantIds[0].images[0].secure_url} />
+                <ImagePreview src={item?.images?.[0]?.secure_url || ""} />
               </Stack>
               <Stack sx={{ width: { xs: '60%', sm: '100%' }, justifyContent: 'flex-start', textAlign: 'left', gap: 1 }}>
                 <Typography sx={{ fontWeight: 'bold' }}>{item.title}</Typography>

@@ -1,4 +1,4 @@
-import type { SigninSchema } from "@millionsclub/shared-libs/client";
+import type {  SigninInput } from "@millionsclub/shared-libs/client";
 import axios from "axios";
 import { useState } from "react";
 import CardContainer from "../../../components/CardContainer";
@@ -18,7 +18,7 @@ const SigninPage = () => {
 
   useAuthRedirect();
 
-  const handleSignin = (data: SigninSchema) => {
+  const handleSignin = (data: SigninInput) => {
     signin(data, {
       onSuccess: () => {
         goHome();

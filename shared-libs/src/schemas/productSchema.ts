@@ -31,17 +31,16 @@ const baseProductSchema = z.object({
 
   description: z.string().max(1000, { error: "Description too long" }).optional(),
 
-  isActive: z
-    .enum(["true", "false"],)
-    .transform((val) => val === "true")
-    .optional(),
-
+  isActive: z.boolean().optional(),
   images: z
     .array(
-      z.object({
-        secure_url: z.url({ error: "Each image must be a valid URL" }),
-        public_id: z.string({ error: "Invalid publicId" }).min(1, { error: "Public id is required" }),
-      },{error:'Image url and public id should be provided'})
+      z.object(
+        {
+          secure_url: z.url({ error: "Each image must be a valid URL" }),
+          public_id: z.string({ error: "Invalid publicId" }).min(1, { error: "Public id is required" }),
+        },
+        { error: "Image url and public id should be provided" }
+      )
     )
     .length(4, { error: "Exactly 4 images are required" })
     .optional(),

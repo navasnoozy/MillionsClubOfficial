@@ -21,10 +21,7 @@ export const createCategorySchema = baseCategorySchema.required({
 });
 
 export const categoryQuerySchema = paginationSchema.extend({
-  isActive: z
-    .enum(["true", "false"])
-    .transform((val) => val === "true")
-    .optional(),
+ isActive: z.boolean().optional(),
 
   sort: z.enum(["name_asc", "name_desc", "newest"]).default("name_asc"),
 });

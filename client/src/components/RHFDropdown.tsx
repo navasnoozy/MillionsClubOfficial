@@ -28,7 +28,7 @@ const RHFDropdown = ({ name, options, label, disabled }: RHFDropdownProps) => {
           options={options}
           label={label}
           disabled={disabled}
-          errorMessage={errors[name]?.message as string}
+          // errorMessage={errors[name]?.message as string}
         />
       )}
     />

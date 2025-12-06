@@ -29,7 +29,7 @@ const VariantFormFields = () => {
         name="isActive"
         control={control}
         defaultValue={true}
-        render={({ field }) => <TongleButton label="Active Status" checked={field.value} onChange={(_, checked) => field.onChange(checked)} />}
+        render={({ field }) => <TongleButton label="Active Status" checked={true} onChange={(_, checked) => field.onChange(checked)} />}
       />
     </Stack>
   );

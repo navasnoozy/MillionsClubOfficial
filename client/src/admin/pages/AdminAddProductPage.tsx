@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
-import { addProductSchema, type AddProductSchema } from "@millionsclub/shared-libs/client";
+import { createProductSchema, type CreateProductInput } from "@millionsclub/shared-libs/client";
 import FormLayout from "../components/FormLayout";
 import InfoAlerts from "../components/InfoAlerts";
 import ProductFormFields from "../components/ProductFormFields";
@@ -12,12 +12,12 @@ const AdminAddProductPage = () => {
   const navigate = useNavigate();
   const { mutate: addProduct, isPending } = useCreateProduct();
 
-  const methods = useForm<AddProductSchema>({
-    resolver: zodResolver(addProductSchema),
+  const methods = useForm<CreateProductInput>({
+    resolver: zodResolver(createProductSchema),
     mode: "onSubmit",
   });
 
-  const handleAddProduct = (data: AddProductSchema) => {
+  const handleAddProduct = (data: CreateProductInput) => {
     addProduct(data, {
       onSuccess: (res) => {
         navigate(`/admin/addvariant/${res._id}`);

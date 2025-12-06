@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-import type { SignupSchema } from "@millionsclub/shared-libs/client";
+import type { SignupInput } from "@millionsclub/shared-libs/client";
 import useSignupUser from "../hooks/useSignup";
 import CardContainer from "../../../components/CardContainer";
 import SignupForm from "../components/SignupForm";
@@ -15,7 +15,7 @@ const SignupPage = () => {
 
   const { mutate: signup, isPending: signupLoading, isError } = useSignupUser();
 
-  const handleSignup = (data: SignupSchema) => {
+  const handleSignup = (data: SignupInput) => {
     signup(data, {
       onSuccess: (res) => {
         goToVerifyPage(res.data?.email);

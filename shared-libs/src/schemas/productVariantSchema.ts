@@ -10,11 +10,8 @@ const baseProductVariantSchema = z.object({
 
   quantity: z.number({ error: "Quantity must be a number" }).int({ error: "Quantity must be an integer" }).min(0, { error: "Quantity cannot be negative" }),
 
-  isActive: z
-    .enum(["true", "false"])
-    .transform((val) => val === "true")
-    .optional(),
-});      
+  isActive: z.boolean().optional(),
+});
 
 export const createProductVariantSchema = baseProductVariantSchema.required({
   productId: true,

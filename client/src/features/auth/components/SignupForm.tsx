@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { SignupSchema } from "@millionsclub/shared-libs/client";
+import type { SignupInput } from "@millionsclub/shared-libs/client";
 import { signupSchema } from "@millionsclub/shared-libs/client";
 import { CircularProgress, Stack, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
@@ -7,7 +7,7 @@ import Alert from "../../../components/Alert";
 import AppButton from "../../../components/AppButton";
 
 type Props = {
-  onSubmit: (data: SignupSchema) => void;
+  onSubmit: (data: SignupInput) => void;
   isLoading: boolean;
   isError: boolean;
   error: string;
@@ -18,7 +18,7 @@ const SignupForm = ({ onSubmit, isLoading, isError, error }: Props) => {
     register,
     handleSubmit,
     formState: { errors: validationError },
-  } = useForm<SignupSchema>({
+  } = useForm<SignupInput>({
     resolver: zodResolver(signupSchema),
   });
 

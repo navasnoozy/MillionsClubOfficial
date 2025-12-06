@@ -2,16 +2,15 @@ import { PaginationInput, sendResponse } from "@millionsclub/shared-libs/server"
 import { NextFunction, Request, Response } from "express";
 import { User } from "../../models/userModel";
 
-type GetUsersRequest =  Request<{}, {}, {}, PaginationInput>;
+type GetUsersRequest = Request<{}, {}, {}, PaginationInput>;
 
 const getUsers = async (req: GetUsersRequest, res: Response, next: NextFunction) => {
-
-  
   try {
     const { limit, page, search } = req.query;
-      console.log('...../////// items', typeof limit, typeof page, search);
 
-    const skip = (page - 1) * limit;
+    const pageNumber = Number(page) || 1;
+    const limitNumber = Number(limit) || 10;
+    const skip = (pageNumber - 1) * limitNumber;
 
     const query = search
       ? {
@@ -23,8 +22,8 @@ const getUsers = async (req: GetUsersRequest, res: Response, next: NextFunction)
 
     const count = await User.countDocuments(query);
 
-    sendResponse(res, 200, { success: true, data: users });
-    return
+    sendResponse(res, 200, { success: true, data: users, count });
+    return;
   } catch (error) {
     console.log("Error while fetching users", error);
     next(error);

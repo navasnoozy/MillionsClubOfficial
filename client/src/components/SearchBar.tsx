@@ -1,4 +1,4 @@
-import { Box, InputBase, Paper } from "@mui/material";
+import { Box, InputBase,  } from "@mui/material";
 
 const SearchBar = () => {
   return (

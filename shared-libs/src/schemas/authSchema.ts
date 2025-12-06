@@ -6,10 +6,7 @@ export const signupSchema = z
 
     email: z.email({ error: "Invalid email address" }),
 
-    isActive: z
-      .enum(["true", "false"])
-      .transform((val) => val === "true")
-      .optional(),
+  isActive: z.boolean().optional(),
 
     password: z
       .string({ error: "Password is required" })

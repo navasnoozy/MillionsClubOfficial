@@ -1,18 +1,18 @@
 import { Paper, Stack } from "@mui/material";
 import { useState } from "react";
-import Dropdown from "../../components/Dropdown";
+// import Dropdown from "../../components/Dropdown";
 import SearchBar from "../../components/SearchBar";
 import Container from "../components/Container";
 import { dummyUsers } from "../../data/_dummyusers";
 
 const UserManagement = () => {
-  const [state, setState] = useState("");
-  console.log(state);
+  // const [state, setState] = useState("");
 
 
-  const handlechange = (value) => {
-    setState(value);
-  };
+
+  // const handlechange = (value : any) => {
+  //   setState(value);
+  // };
 
    const role = dummyUsers.map(u=> ({_id: u._id}))
 
@@ -21,7 +21,7 @@ const UserManagement = () => {
       <Paper sx={{ padding: 2, gap: 2, display: "flex", flexDirection: { xs: "column", sm: "row" } }}>
         <Stack>
           <SearchBar />
-          <Dropdown value={state} onChange={handlechange} options={dum} />
+          {/* <Dropdown value={state} onChange={handlechange}  /> */}
         </Stack>
         <Stack>
 

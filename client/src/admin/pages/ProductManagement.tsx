@@ -1,17 +1,17 @@
-import { Grid, Paper, Stack } from "@mui/material";
-import Container from "../components/Container";
-import SearchBar from "../../components/SearchBar";
+import { Paper, Stack } from "@mui/material";
 import Dropdown from "../../components/Dropdown";
-import { dummyUsers } from "../../data/_dummyusers";
+import SearchBar from "../../components/SearchBar";
+import Container from "../components/Container";
+// import { dummyUsers } from "../../data/_dummyusers";
 import { useState } from "react";
-import { categories } from "../../data/_categories";
 import AppButton from "../../components/AppButton";
+import { categories } from "../../data/_categories";
 
 const ProductManagement = () => {
   const [state, setState] = useState("");
   console.log(state);
 
-  const handlechange = (value) => {
+  const handlechange = (value : any) => {
     setState(value);
   };
 
