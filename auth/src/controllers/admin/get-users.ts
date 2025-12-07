@@ -7,15 +7,15 @@ import { ValidatedRequest } from "../../interface/ValidatedReq";
 
 const getUsers = async (req: ValidatedRequest<void, PaginationInput>, res: Response, next: NextFunction) => {
   try {
-    let { limit, page, search, isActive, role } = req.validated.query;
+    let { limit, page, search, status, role } = req.validated.query;
 
   
     const skip = (page - 1) * limit;
 
     const query: any = {};
 
-    if (isActive !== undefined) {
-      query.isActive = isActive;
+    if (status !== undefined) {
+      query.status = status;
     }
 
     if (role) {

@@ -25,7 +25,7 @@ export interface UserUpdatedMsg {
   image?: string | undefined;
   providers?: Provider[];
   providerIds?: Map<string, string>;
-  isActive?: boolean | undefined;
+  status?: 'active' | 'inactive' | 'blocked' | undefined;
 }
 
 export interface UserDeletedMsg {

@@ -2,6 +2,7 @@ import { Schema, model, Document, Model } from "mongoose";
 
 export type Role = "customer" | "admin" | "moderator";
 export type Provider = "credentials" | "google" | "github" | "facebook";
+export type status = "active" | "inactive" | "blocked";
 
 export interface UserAttrs {
   name: string;
@@ -11,7 +12,7 @@ export interface UserAttrs {
   image?: string;
   providers?: Provider[];
   providerIds?: Map<string, string>;
-  isActive?: boolean;
+  status?: status;
   emailVerified?: boolean;
   lastLogin?: Date;
 }
@@ -24,7 +25,7 @@ export interface UserDoc extends Document {
   image?: string;
   providers: Provider[];
   providerIds?: Map<string, string>;
-  isActive: boolean;
+  status: status;
   emailVerified: boolean;
   lastLogin?: Date;
   createdAt: Date;
@@ -73,9 +74,13 @@ const userSchema = new Schema<UserDoc, UserModel>(
       default: "customer",
     },
 
-    image: {type: String},
+    image: { type: String },
 
-    isActive: { type: Boolean, default: true },
+    status: { 
+      type: String, 
+      enum: ["active", "inactive", "blocked"], 
+      default: "active" ,
+    },
 
     emailVerified: { type: Boolean, default: false },
 
@@ -104,4 +109,4 @@ userSchema.statics.build = function (attrs: UserAttrs) {
   return new this(attrs);
 };
 
-export const User = model<UserDoc, UserModel>("User", userSchema, 'user');
+export const User = model<UserDoc, UserModel>("User", userSchema, "user");

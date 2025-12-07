@@ -63,7 +63,7 @@ const UserManagement = () => {
         {users?.data?.map((u) => {
           const roleColor = ROLE_COLORS[u.role] ?? ROLE_COLORS.default;
           return (
-            <TableRow key={u.id}>
+            <TableRow key={u.id} sx={{ overflowX: "auto" }}>
               <TableCell size="small" sx={{ fontWeight: "bold" }}>
                 {u.name}
               </TableCell>

@@ -1,4 +1,5 @@
 export type Role = "customer" | "admin" | "moderator";
+export type Status = "active" | "inactive" | "blocked";
 
 export interface User {
   _id: string;
@@ -6,7 +7,7 @@ export interface User {
   email: string;
   role: Role;
   image: string;
-  isActive: boolean;
+  status: Status;
   emailVerified: boolean;
 
   orders: number;
@@ -53,7 +54,7 @@ export const dummyUsers: User[] = [
     email: "john.anderson@example.com",
     role: "admin",
     image: "https://img.icons8.com/color/48/user-male-circle--v1.png",
-    isActive: true,
+    status: "active",
     emailVerified: true,
     ...generateOrderData(),
     ...generateRelatedDates(),
@@ -64,7 +65,7 @@ export const dummyUsers: User[] = [
     email: "sarah.mitchell@gmail.com",
     role: "customer",
     image: "https://img.icons8.com/color/48/user-male-circle--v1.png",
-    isActive: true,
+    status: "active",
     emailVerified: true,
     ...generateOrderData(),
     ...generateRelatedDates(),
@@ -75,7 +76,7 @@ export const dummyUsers: User[] = [
     email: "michael.chen@outlook.com",
     role: "moderator",
     image: "https://img.icons8.com/color/48/user-male-circle--v1.png",
-    isActive: true,
+    status: "active",
     emailVerified: true,
     ...generateOrderData(),
     ...generateRelatedDates(),
@@ -86,7 +87,7 @@ export const dummyUsers: User[] = [
     email: "emily.rodriguez@example.com",
     role: "customer",
     image: "https://img.icons8.com/color/48/user-male-circle--v1.png",
-    isActive: true,
+    status: "active",
     emailVerified: true,
     ...generateOrderData(),
     ...generateRelatedDates(),
@@ -97,7 +98,7 @@ export const dummyUsers: User[] = [
     email: "david.thompson@yahoo.com",
     role: "customer",
     image: "https://img.icons8.com/color/48/user-male-circle--v1.png",
-    isActive: true,
+    status: "active",
     emailVerified: true,
     ...generateOrderData(),
     ...generateRelatedDates(),
@@ -108,7 +109,7 @@ export const dummyUsers: User[] = [
     email: "lisa.wang@example.com",
     role: "customer",
     image: "https://img.icons8.com/color/48/user-male-circle--v1.png",
-    isActive: false,
+    status: "inactive",
     emailVerified: true,
     ...generateOrderData(),
     ...generateRelatedDates(),
@@ -119,7 +120,7 @@ export const dummyUsers: User[] = [
     email: "james.wilson@gmail.com",
     role: "customer",
     image: "https://img.icons8.com/color/48/user-male-circle--v1.png",
-    isActive: true,
+    status: "active",
     emailVerified: false,
     ...generateOrderData(),
     ...generateRelatedDates(),
@@ -130,7 +131,7 @@ export const dummyUsers: User[] = [
     email: "maria.garcia@example.com",
     role: "moderator",
     image: "https://img.icons8.com/color/48/user-male-circle--v1.png",
-    isActive: true,
+    status: "blocked",
     emailVerified: true,
     ...generateOrderData(),
     ...generateRelatedDates(),
@@ -141,7 +142,7 @@ export const dummyUsers: User[] = [
     email: "robert.brown@hotmail.com",
     role: "customer",
     image: "https://img.icons8.com/color/48/user-male-circle--v1.png",
-    isActive: true,
+    status: "active",
     emailVerified: true,
     ...generateOrderData(),
     ...generateRelatedDates(),
@@ -152,7 +153,7 @@ export const dummyUsers: User[] = [
     email: "jennifer.lee@example.com",
     role: "customer",
     image: "https://img.icons8.com/color/48/user-male-circle--v1.png",
-    isActive: true,
+    status: "inactive",
     emailVerified: true,
     ...generateOrderData(),
     ...generateRelatedDates(),

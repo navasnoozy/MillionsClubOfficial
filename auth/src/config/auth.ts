@@ -48,10 +48,10 @@ export const auth = betterAuth({
         required: false,
         defaultValue: "customer",
       },
-      isActive: {
-        type: "boolean",
+      status: {
+        type: "string",
         required: false,
-        defaultValue: true,
+        defaultValue: "active",
       },
     },
   },

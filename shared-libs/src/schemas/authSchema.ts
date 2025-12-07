@@ -6,12 +6,10 @@ export const signupSchema = z
 
     email: z.email({ error: "Invalid email address" }),
 
-   isActive: z
-      .union([z.boolean(), z.string()])
-      .refine((val) => val === true || val === false || val === "true" || val === "false", {
-        error: "Invalid isActive status. Allowed values: true, false, 'true', 'false'",
+    status: z
+      .enum(["active", "inactive", "blocked"], {
+        error: "Status must be one of: active, inactive, blocked",
       })
-      .transform((val) => val === true || val === "true")
       .optional(),
 
     password: z
@@ -26,13 +24,16 @@ export const signupSchema = z
   .refine((data) => data.password === data.confirmPassword, {
     path: ["confirmPassword"],
     message: "Passwords do not match",
-  }).strict();
+  })
+  .strict();
 
 // Sign In Schema
-export const signinSchema = z.object({
-  email: z.email({ error: "Invalid email address" }),
-  password: z.string({ error: "Password is required" }).min(8, { error: "Password is required" }),
-}).strict();
+export const signinSchema = z
+  .object({
+    email: z.email({ error: "Invalid email address" }),
+    password: z.string({ error: "Password is required" }).min(8, { error: "Password is required" }),
+  })
+  .strict();
 
 export type SignupInput = z.infer<typeof signupSchema>;
 export type SigninInput = z.infer<typeof signinSchema>;

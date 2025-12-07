@@ -1,11 +1,9 @@
-//src/admin/components/Toolbar.tsx
-
 import AddIcon from "@mui/icons-material/Add";
-import { Grid, Paper, Stack, Typography, type SelectChangeEvent } from "@mui/material";
+import { Grid, Paper, Stack, Typography, type SelectChangeEvent, debounce } from "@mui/material";
 import AppButton from "../../components/AppButton";
 import Dropdown from "../../components/Dropdown";
 import SearchBar from "../../components/SearchBar";
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 
 const ROLE_OPTIONS = [
   { label: "All Roles", value: "all" },
@@ -28,13 +26,17 @@ interface ToolbarProps {
 const Toolbar = ({ filters, onFilterChange }: ToolbarProps) => {
   const [localSearch, setLocalSearch] = useState(filters.search);
 
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      onFilterChange("search", localSearch);
+  const debouncedUpdate = useMemo(() => {
+    return debounce((value: string) => {
+      onFilterChange("search", value);
     }, 500);
+  }, [onFilterChange]);
 
-    return () => clearTimeout(handler);
-  }, [localSearch, onFilterChange]);
+  const handleSearchChange = (value: string) => {
+    setLocalSearch(value);
+
+    debouncedUpdate(value);
+  };
 
   const handleRoleChange = (e: SelectChangeEvent<string>) => {
     onFilterChange("role", e.target.value);
@@ -51,7 +53,7 @@ const Toolbar = ({ filters, onFilterChange }: ToolbarProps) => {
             <Typography color="gray" align="left">
               Search
             </Typography>
-            <SearchBar value={localSearch} onChange={setLocalSearch} />
+            <SearchBar value={localSearch} onChange={handleSearchChange} />
           </Stack>
         </Grid>
 

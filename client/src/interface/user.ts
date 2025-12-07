@@ -4,7 +4,7 @@ export interface User {
   email: string;
   providers: string[];
   role: "customer" | 'admin' | 'moderator'
-  isActive: boolean 
+  status: 'active'| 'inactive' | 'blocked' 
   emailVerified: boolean;
   lastLogin: string; // or Date if you convert it
   createdAt: string; // same note

@@ -13,7 +13,7 @@ const seedUsers = async () => {
         role: "customer",
         providers: ["credentials"],
         emailVerified: true,
-        isActive: true,
+        status: "active",
         lastLogin: new Date("2025-01-15T10:30:00Z"),
       },
       // User 2: Basic user, credentials, not verified
@@ -24,7 +24,7 @@ const seedUsers = async () => {
         role: "customer",
         providers: ["credentials"],
         emailVerified: false,
-        isActive: true,
+        status: "active",
         lastLogin: undefined,
       },
       // User 3: Admin, credentials + Google, verified
@@ -37,7 +37,7 @@ const seedUsers = async () => {
         providers: ["credentials", "google"],
         providerIds: new Map([["google", "google_user_id_123"]]),
         emailVerified: true,
-        isActive: true,
+        status: "active",
         lastLogin: new Date("2025-02-01T14:20:00Z"),
       },
       // User 4: Moderator, Google only, verified
@@ -49,7 +49,7 @@ const seedUsers = async () => {
         providers: ["google"],
         providerIds: new Map([["google", "google_user_id_456"]]),
         emailVerified: true,
-        isActive: true,
+        status: "active",
         lastLogin: new Date("2025-01-20T09:15:00Z"),
       },
       // User 5: User, GitHub only, not verified
@@ -60,7 +60,7 @@ const seedUsers = async () => {
         providers: ["github"],
         providerIds: new Map([["github", "github_user_id_789"]]),
         emailVerified: false,
-        isActive: true,
+        status: "active",
         lastLogin: new Date("2025-11-10T16:45:00Z"),
       },
       // User 6: User, Facebook + credentials, verified
@@ -72,10 +72,10 @@ const seedUsers = async () => {
         providers: ["credentials", "facebook"],
         providerIds: new Map([["facebook", "fb_user_id_101"]]),
         emailVerified: true,
-        isActive: true,
+        status: "active",
         lastLogin: undefined,
       },
-      // User 7: Inactive user, credentials, not verified
+      // User 7: Blocked user, credentials, not verified
       {
         name: "Inactive Bob",
         email: "bob.inactive@example.com",
@@ -83,7 +83,7 @@ const seedUsers = async () => {
         role: "customer",
         providers: ["credentials"],
         emailVerified: false,
-        isActive: false,
+        status: "blocked",
         lastLogin: new Date("2024-12-01T12:00:00Z"),
       },
       // User 8: Admin, credentials only, verified
@@ -94,7 +94,7 @@ const seedUsers = async () => {
         role: "admin",
         providers: ["credentials"],
         emailVerified: true,
-        isActive: true,
+        status: "active",
         lastLogin: new Date("2025-03-05T11:10:00Z"),
       },
       // User 9: Moderator, Google + GitHub, verified
@@ -109,7 +109,7 @@ const seedUsers = async () => {
           ["github", "github_user_id_333"],
         ]),
         emailVerified: true,
-        isActive: true,
+        status: "active",
         lastLogin: new Date("2025-01-25T13:30:00Z"),
       },
       // User 10: User, credentials, not verified, recent login
@@ -120,7 +120,7 @@ const seedUsers = async () => {
         role: "customer",
         providers: ["credentials"],
         emailVerified: false,
-        isActive: true,
+        status: "active",
         lastLogin: new Date("2025-12-01T08:00:00Z"),
       },
       // User 11: User, Facebook only, verified
@@ -131,7 +131,7 @@ const seedUsers = async () => {
         providers: ["facebook"],
         providerIds: new Map([["facebook", "fb_user_id_444"]]),
         emailVerified: true,
-        isActive: true,
+        status: "active",
         lastLogin: undefined,
       },
       // User 12: Moderator, credentials, not verified
@@ -142,7 +142,7 @@ const seedUsers = async () => {
         role: "moderator",
         providers: ["credentials"],
         emailVerified: false,
-        isActive: true,
+        status: "active",
         lastLogin: new Date("2025-02-10T15:20:00Z"),
       },
       // User 13: User, all providers, verified
@@ -158,7 +158,7 @@ const seedUsers = async () => {
           ["facebook", "fb_user_id_777"],
         ]),
         emailVerified: true,
-        isActive: true,
+        status: "active",
         lastLogin: new Date("2025-01-30T10:45:00Z"),
       },
       // User 14: Admin, GitHub only, verified
@@ -169,10 +169,10 @@ const seedUsers = async () => {
         providers: ["github"],
         providerIds: new Map([["github", "github_user_id_888"]]),
         emailVerified: true,
-        isActive: true,
+        status: "active",
         lastLogin: undefined,
       },
-      // User 15: User, credentials, verified, old login
+      // User 15: User, credentials, verified, old login - INACTIVE
       {
         name: "Old Timer",
         email: "old.timer@example.com",
@@ -180,10 +180,10 @@ const seedUsers = async () => {
         role: "customer",
         providers: ["credentials"],
         emailVerified: true,
-        isActive: true,
+        status: "inactive",
         lastLogin: new Date("2024-06-15T09:00:00Z"),
       },
-      // User 16: Inactive moderator, Google, not verified
+      // User 16: Blocked moderator, Google, not verified
       {
         name: "Inactive Mod",
         email: "inactive.mod@example.com",
@@ -191,7 +191,7 @@ const seedUsers = async () => {
         providers: ["google"],
         providerIds: new Map([["google", "google_user_id_999"]]),
         emailVerified: false,
-        isActive: false,
+        status: "blocked",
         lastLogin: new Date("2025-01-05T17:30:00Z"),
       },
       // User 17: User, Facebook + Google, verified
@@ -206,10 +206,10 @@ const seedUsers = async () => {
           ["google", "google_user_id_111"],
         ]),
         emailVerified: true,
-        isActive: true,
+        status: "active",
         lastLogin: new Date("2025-02-20T12:15:00Z"),
       },
-      // User 18: Admin, credentials, not verified
+      // User 18: Admin, credentials, not verified - INACTIVE
       {
         name: "Admin Pending",
         email: "admin.pending@example.com",
@@ -217,7 +217,7 @@ const seedUsers = async () => {
         role: "admin",
         providers: ["credentials"],
         emailVerified: false,
-        isActive: true,
+        status: "inactive",
         lastLogin: undefined,
       },
       // User 19: User, credentials only, verified
@@ -228,10 +228,10 @@ const seedUsers = async () => {
         role: "customer",
         providers: ["credentials"],
         emailVerified: true,
-        isActive: true,
+        status: "active",
         lastLogin: new Date("2025-03-10T14:00:00Z"),
       },
-      // User 20: Moderator, all providers except credentials, verified
+      // User 20: Moderator, all providers except credentials, verified - INACTIVE
       {
         name: "Full Mod",
         email: "full.mod@example.com",
@@ -244,7 +244,7 @@ const seedUsers = async () => {
           ["facebook", "fb_user_id_4444"],
         ]),
         emailVerified: true,
-        isActive: true,
+        status: "inactive",
         lastLogin: new Date("2025-12-03T11:45:00Z"),
       },
     ];
