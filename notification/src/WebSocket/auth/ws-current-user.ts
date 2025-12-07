@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 interface UserPayload {
   id: string;
   email: string;
-  role: "user" | "amdin" | "moderator"; 
+  role: "customer" | "amdin" | "moderator"; 
 }
 
 /**

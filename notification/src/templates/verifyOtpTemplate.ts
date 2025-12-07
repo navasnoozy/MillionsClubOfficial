@@ -4,7 +4,7 @@ export const verifyOtpTemplate = (opts: {
   otp: number;
   expiryMinutes?: number;
 }) => {
-  const name = opts.name ?? "User";
+  const name = opts.name ?? "customer";
   const otp = opts.otp;
   const expiry = opts.expiryMinutes ?? 10;
 

@@ -1,7 +1,7 @@
 // =============================
 // Common Types
 // =============================
-export type Role = "user" | "admin" | "moderator";
+export type Role = "customer" | "admin" | "moderator";
 export type Provider = "credentials" | "google" | "github" | "facebook";
 
 // =============================

@@ -4,7 +4,7 @@ export interface ISession extends Document {
   userId: mongoose.Types.ObjectId;
   refreshToken: string;
   createdAt: Date;
-  lastUsedAt: Date; // ← Add this field
+  lastUsedAt: Date; 
 }
 
 const sessionSchema = new Schema<ISession>({

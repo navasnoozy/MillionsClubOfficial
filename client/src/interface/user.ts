@@ -3,7 +3,7 @@ export interface User {
   name: string;
   email: string;
   providers: string[];
-  role: "user" | 'admin' | 'moderator'
+  role: "customer" | 'admin' | 'moderator'
   isActive: boolean 
   emailVerified: boolean;
   lastLogin: string; // or Date if you convert it

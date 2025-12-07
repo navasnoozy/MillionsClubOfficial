@@ -1,4 +1,4 @@
-export type Role = "user" | "admin" | "moderator";
+export type Role = "customer" | "admin" | "moderator";
 
 export interface User {
   _id: string;
@@ -62,7 +62,7 @@ export const dummyUsers: User[] = [
     _id: objectId(),
     name: "Sarah Mitchell",
     email: "sarah.mitchell@gmail.com",
-    role: "user",
+    role: "customer",
     image: "https://img.icons8.com/color/48/user-male-circle--v1.png",
     isActive: true,
     emailVerified: true,
@@ -84,7 +84,7 @@ export const dummyUsers: User[] = [
     _id: objectId(),
     name: "Emily Rodriguez",
     email: "emily.rodriguez@example.com",
-    role: "user",
+    role: "customer",
     image: "https://img.icons8.com/color/48/user-male-circle--v1.png",
     isActive: true,
     emailVerified: true,
@@ -95,7 +95,7 @@ export const dummyUsers: User[] = [
     _id: objectId(),
     name: "David Thompson",
     email: "david.thompson@yahoo.com",
-    role: "user",
+    role: "customer",
     image: "https://img.icons8.com/color/48/user-male-circle--v1.png",
     isActive: true,
     emailVerified: true,
@@ -106,7 +106,7 @@ export const dummyUsers: User[] = [
     _id: objectId(),
     name: "Lisa Wang",
     email: "lisa.wang@example.com",
-    role: "user",
+    role: "customer",
     image: "https://img.icons8.com/color/48/user-male-circle--v1.png",
     isActive: false,
     emailVerified: true,
@@ -117,7 +117,7 @@ export const dummyUsers: User[] = [
     _id: objectId(),
     name: "James Wilson",
     email: "james.wilson@gmail.com",
-    role: "user",
+    role: "customer",
     image: "https://img.icons8.com/color/48/user-male-circle--v1.png",
     isActive: true,
     emailVerified: false,
@@ -139,7 +139,7 @@ export const dummyUsers: User[] = [
     _id: objectId(),
     name: "Robert Brown",
     email: "robert.brown@hotmail.com",
-    role: "user",
+    role: "customer",
     image: "https://img.icons8.com/color/48/user-male-circle--v1.png",
     isActive: true,
     emailVerified: true,
@@ -150,7 +150,7 @@ export const dummyUsers: User[] = [
     _id: objectId(),
     name: "Jennifer Lee",
     email: "jennifer.lee@example.com",
-    role: "user",
+    role: "customer",
     image: "https://img.icons8.com/color/48/user-male-circle--v1.png",
     isActive: true,
     emailVerified: true,

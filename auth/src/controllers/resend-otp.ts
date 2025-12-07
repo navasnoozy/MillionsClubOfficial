@@ -52,7 +52,7 @@ export const resendOtpController = async (req: Request, res: Response) => {
     userId: otpRecord.userId,
     name: otpRecord.name,
     email: otpRecord.email,
-    role: otpRecord.role || "user",
+    role: otpRecord.role || "customer",
     otp: newOTP,
   });
 

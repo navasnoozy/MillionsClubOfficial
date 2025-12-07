@@ -1,6 +1,6 @@
 import { Schema, model, Document, Model } from "mongoose";
 
-export type Role = "user" | "admin" | "moderator";
+export type Role = "customer" | "admin" | "moderator";
 export type Provider = "credentials" | "google" | "github" | "facebook";
 
 export interface UserAttrs {
@@ -69,8 +69,8 @@ const userSchema = new Schema<UserDoc, UserModel>(
 
     role: {
       type: String,
-      enum: ["user", "admin", "moderator"],
-      default: "user",
+      enum: ["customer", "admin", "moderator"],
+      default: "customer",
     },
 
     image: {type: String},

@@ -7,7 +7,7 @@ import useGetUsers, { type Filters } from "../hooks/useGetUsers";
 import { useState } from "react";
 
 const ROLE_COLORS = {
-  user: { bg: "#E8F4FF", text: "#5B8DEF" },
+  customer: { bg: "#E8F4FF", text: "#5B8DEF" },
   admin: { bg: "#FFE8F5", text: "#D946A6" },
   moderator: { bg: "#FFF4E6", text: "#F59E0B" },
 } as const;

@@ -1,6 +1,6 @@
 import mongoose, { Document, Schema } from "mongoose";
 
-type Role = "user" | "admin" | "moderator";
+type Role = "customer" | "admin" | "moderator";
 
 export interface IOtp extends Document {
   name: string;
@@ -22,8 +22,8 @@ const otpSchema = new Schema<IOtp>(
     email: { type: String, required: true, unique: true, index: true },
     role: {
       type: String,
-      enum: ["user", "admin", "moderator"],
-      default: "user",
+      enum: ["customer", "admin", "moderator"],
+      default: "customer",
     },
     otp: { type: Number, required: true },
     expiresAt: { type: Date, required: true },
