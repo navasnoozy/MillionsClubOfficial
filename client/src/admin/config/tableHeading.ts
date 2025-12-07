@@ -9,7 +9,7 @@ interface TableHeadings {
     { label: "Title", value: "title" },
     { label: "Brand", value: "brand" },
     { label: "Base Price", value: "baseprice" },
-    { label: "Status", value: "isActive" },
+    { label: "Status", value: "status" },
     { label: "Created", value: "createdAt" },
     { label: "Updated", value: "updatedAt" },
   ];

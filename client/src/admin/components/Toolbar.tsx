@@ -14,12 +14,13 @@ const ROLE_OPTIONS = [
 
 const STATUS_OPTIONS = [
   { label: "All Status", value: "all" },
-  { label: "Active", value: "true" },
-  { label: "Inactive", value: "false" },
+  { label: "Active", value: "active" },
+  { label: "Inactive", value: "inactive" },
+  { label: "Blocked", value: "blocked" },
 ];
 
 interface ToolbarProps {
-  filters: { role: string; isActive: string; search: string };
+  filters: { role: string; status: string; search: string };
   onFilterChange: (key: string, value: string) => void;
 }
 
@@ -42,7 +43,7 @@ const Toolbar = ({ filters, onFilterChange }: ToolbarProps) => {
     onFilterChange("role", e.target.value);
   };
   const handleStatusChange = (e: SelectChangeEvent<string>) => {
-    onFilterChange("isActive", e.target.value);
+    onFilterChange("status", e.target.value);
   };
 
   return (
@@ -70,7 +71,7 @@ const Toolbar = ({ filters, onFilterChange }: ToolbarProps) => {
               <Typography color="gray" align="left">
                 Status
               </Typography>
-              <Dropdown value={filters.isActive || "all"} onChange={handleStatusChange} options={STATUS_OPTIONS} width="130px" />
+              <Dropdown value={filters.status || "all"} onChange={handleStatusChange} options={STATUS_OPTIONS} width="130px" />
             </Stack>
           </Stack>
 

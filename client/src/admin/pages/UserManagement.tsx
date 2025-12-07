@@ -27,7 +27,7 @@ const UserManagement = () => {
     page: searchParams.get("page") || 1,
     limit: 10,
     role: searchParams.get("role") || "all",
-    isActive: searchParams.get("isActive") || "all",
+    status: searchParams.get("status") || "all",
     search: searchParams.get("search") || "",
   };
 
@@ -36,7 +36,7 @@ const UserManagement = () => {
     limit: 10,
     search: currentFilters.search || undefined,
     role: currentFilters.role !== "all" ? (currentFilters.role as any) : undefined,
-    isActive: currentFilters.isActive !== "all" ? (currentFilters.isActive as any) : undefined,
+    status: currentFilters.status !== "all" ? (currentFilters.status as any) : undefined,
   };
 
   const { data: users } = useGetUsers(apiParams);
