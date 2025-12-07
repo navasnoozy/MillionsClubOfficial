@@ -14,7 +14,7 @@ const SearchBar = () => {
         maxWidth:500
       }}
     >
-      <InputBase sx={{ ml: 1, flex: 1 }} placeholder="Search users..." inputProps={{ "aria-label": "search-users" }} />
+      <InputBase  sx={{ ml: 1, flex: 1 }} placeholder="Search users..." inputProps={{ "aria-label": "search-users" }} />
     </Box>
   );
 };

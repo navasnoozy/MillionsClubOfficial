@@ -14,12 +14,14 @@ interface Props {
 }
 
 const Toolbar = ({ filters, setFilters }: Props) => {
+  
+
   const handleRoleChange = (event: SelectChangeEvent<string>) => {
     setFilters((prev) => ({ ...prev, role: event.target.value as User["role"] }));
   };
 
   const handleStatusChange = (event: SelectChangeEvent<string>) => {
-    setFilters((prev) => ({ ...prev, isActive: event.target.value as User["isActive"] }));
+       
   };
   return (
     <Paper sx={{ padding: 2, gap: 2, display: "flex", flexDirection: { xs: "column", sm: "row" } }}>
@@ -39,7 +41,7 @@ const Toolbar = ({ filters, setFilters }: Props) => {
               <Typography color="gray" align="left">
                 Role
               </Typography>
-              <Dropdown value={role} onChange={handleRoleChange} options={USER_ROLES} width="130px" />
+              <Dropdown value={filters.role} onChange={handleRoleChange} options={USER_ROLES} width="130px" />
             </Stack>
 
             <Stack>
