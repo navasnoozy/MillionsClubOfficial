@@ -1,20 +1,27 @@
-import { Box, InputBase,  } from "@mui/material";
+//src/components/SearchBar.tsx
+import { Box, InputBase } from "@mui/material";
 
-const SearchBar = () => {
+interface SearchBarProps {
+  value: string;
+  onChange: (value: string) => void;
+}
+
+const SearchBar = ({ value, onChange }: SearchBarProps) => {
   return (
     <Box
       component="form"
+      onSubmit={(e) => e.preventDefault()}
       sx={{
         p: "2px 4px",
         border: "1px solid",
-        borderColor: "divider", // MUI’s subtle system color
+        borderColor: "divider",
         borderRadius: 2,
         display: "flex",
         alignItems: "center",
-        maxWidth:500
+        maxWidth: 500,
       }}
     >
-      <InputBase  sx={{ ml: 1, flex: 1 }} placeholder="Search users..." inputProps={{ "aria-label": "search-users" }} />
+      <InputBase sx={{ ml: 1, flex: 1 }} placeholder="Search users..." value={value} onChange={(e) => onChange(e.target.value)} inputProps={{ "aria-label": "search-users" }} />
     </Box>
   );
 };

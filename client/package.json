@@ -14,7 +14,7 @@
     "@emotion/styled": "^11.14.0",
     "@fontsource/roboto": "^5.2.6",
     "@hookform/resolvers": "^5.2.2",
-    "@millionsclub/shared-libs": "^1.5.74",
+    "@millionsclub/shared-libs": "^1.5.75",
     "@mui/icons-material": "^7.1.2",
     "@mui/material": "^7.1.2",
     "@reduxjs/toolkit": "^2.8.2",

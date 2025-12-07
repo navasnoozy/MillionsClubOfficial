@@ -1,28 +1,47 @@
+//src/admin/components/Toolbar.tsx
+
 import AddIcon from "@mui/icons-material/Add";
 import { Grid, Paper, Stack, Typography, type SelectChangeEvent } from "@mui/material";
 import AppButton from "../../components/AppButton";
 import Dropdown from "../../components/Dropdown";
 import SearchBar from "../../components/SearchBar";
-import { STATUS } from "../../constants/status";
-import { USER_ROLES } from "../../constants/user";
-import type { User } from "../../interface/user";
-import type { Filters } from "../hooks/useGetUsers";
+import { useEffect, useState } from "react";
 
-interface Props {
-  filters: Filters;
-  setFilters: React.Dispatch<React.SetStateAction<Filters>>;
+const ROLE_OPTIONS = [
+  { label: "All Roles", value: "all" },
+  { label: "Admin", value: "admin" },
+  { label: "Moderator", value: "moderator" },
+];
+
+const STATUS_OPTIONS = [
+  { label: "All Status", value: "all" },
+  { label: "Active", value: "true" },
+  { label: "Inactive", value: "false" },
+];
+
+interface ToolbarProps {
+  filters: { role: string; isActive: string; search: string };
+  onFilterChange: (key: string, value: string) => void;
 }
 
-const Toolbar = ({ filters, setFilters }: Props) => {
-  
+const Toolbar = ({ filters, onFilterChange }: ToolbarProps) => {
+  const [localSearch, setLocalSearch] = useState(filters.search);
 
-  const handleRoleChange = (event: SelectChangeEvent<string>) => {
-    setFilters((prev) => ({ ...prev, role: event.target.value as User["role"] }));
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      onFilterChange("search", localSearch);
+    }, 500);
+
+    return () => clearTimeout(handler);
+  }, [localSearch, onFilterChange]);
+
+  const handleRoleChange = (e: SelectChangeEvent<string>) => {
+    onFilterChange("role", e.target.value);
+  };
+  const handleStatusChange = (e: SelectChangeEvent<string>) => {
+    onFilterChange("isActive", e.target.value);
   };
 
-  const handleStatusChange = (event: SelectChangeEvent<string>) => {
-       
-  };
   return (
     <Paper sx={{ padding: 2, gap: 2, display: "flex", flexDirection: { xs: "column", sm: "row" } }}>
       <Grid container spacing={2} width={"100%"}>
@@ -31,7 +50,7 @@ const Toolbar = ({ filters, setFilters }: Props) => {
             <Typography color="gray" align="left">
               Search
             </Typography>
-            <SearchBar />
+            <SearchBar value={localSearch} onChange={setLocalSearch} />
           </Stack>
         </Grid>
 
@@ -41,14 +60,14 @@ const Toolbar = ({ filters, setFilters }: Props) => {
               <Typography color="gray" align="left">
                 Role
               </Typography>
-              <Dropdown value={filters.role} onChange={handleRoleChange} options={USER_ROLES} width="130px" />
+              <Dropdown value={filters.role || "All"} onChange={handleRoleChange} options={ROLE_OPTIONS} width="130px" />
             </Stack>
 
             <Stack>
               <Typography color="gray" align="left">
                 Status
               </Typography>
-              <Dropdown value={status} onChange={handleStatusChange} options={STATUS} width="130px" />
+              <Dropdown value={filters.isActive} onChange={handleStatusChange} options={STATUS_OPTIONS} width="130px" />
             </Stack>
           </Stack>
 

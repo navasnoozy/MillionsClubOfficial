@@ -1,10 +1,17 @@
+//src/components/Dropdown.tsx
+
 import { FormControl, MenuItem, Select } from "@mui/material";
 import type { SelectChangeEvent } from "@mui/material/Select";
+
+export type DropdownOption = {
+  label: string;
+  value: string;
+};
 
 type DropdownProps = {
   value: string;
   onChange: (event: SelectChangeEvent<string>) => void;
-  options: string[];
+  options: DropdownOption[]
   label?: string;
   disabled?: boolean;
   width: string;
@@ -31,12 +38,13 @@ const Dropdown = ({ value, onChange, options, label, width, disabled }: Dropdown
         disabled={disabled}
         inputProps={{ "aria-label": label || "select" }}
       >
+        {/* Helper to allow clearing selection or showing label if needed */}
         <MenuItem sx={{ fontSize: "15px" }} value="" disabled>
           {label || "Select"}
         </MenuItem>
         {options.map((opt) => (
-          <MenuItem key={opt} value={opt} sx={{ fontSize: "15px" }}>
-            {opt}
+          <MenuItem key={opt.value} value={opt.value} sx={{ fontSize: "15px" }}>
+            {opt.label}
           </MenuItem>
         ))}
       </Select>
