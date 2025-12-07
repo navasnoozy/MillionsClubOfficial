@@ -16,7 +16,7 @@ const useGetUsers = (params: PaginationInput) => {
   const isPersist = !!localStorage.getItem("persist");
 
   return useQuery<ApiResponse, AxiosError<ApiResponse>>({
-    queryKey: ["users"],
+    queryKey: ["users", params],
     queryFn: async () => {
       const { data } = await axiosInstance.get<ApiResponse>("api/admin/users", { params });
       return data;

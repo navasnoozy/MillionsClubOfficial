@@ -11,6 +11,7 @@ const ROLE_OPTIONS = [
   { label: "All Roles", value: "all" },
   { label: "Admin", value: "admin" },
   { label: "Moderator", value: "moderator" },
+  { label: "Customer", value: "customer" },
 ];
 
 const STATUS_OPTIONS = [
@@ -60,14 +61,14 @@ const Toolbar = ({ filters, onFilterChange }: ToolbarProps) => {
               <Typography color="gray" align="left">
                 Role
               </Typography>
-              <Dropdown value={filters.role || "All"} onChange={handleRoleChange} options={ROLE_OPTIONS} width="130px" />
+              <Dropdown value={filters.role || "all"} onChange={handleRoleChange} options={ROLE_OPTIONS} width="130px" />
             </Stack>
 
             <Stack>
               <Typography color="gray" align="left">
                 Status
               </Typography>
-              <Dropdown value={filters.isActive} onChange={handleStatusChange} options={STATUS_OPTIONS} width="130px" />
+              <Dropdown value={filters.isActive || "all"} onChange={handleStatusChange} options={STATUS_OPTIONS} width="130px" />
             </Stack>
           </Stack>
 

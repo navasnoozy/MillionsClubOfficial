@@ -9,8 +9,7 @@ interface SearchBarProps {
 const SearchBar = ({ value, onChange }: SearchBarProps) => {
   return (
     <Box
-      component="form"
-      onSubmit={(e) => e.preventDefault()}
+
       sx={{
         p: "2px 4px",
         border: "1px solid",
