@@ -25,6 +25,10 @@ export const signinController = async (req: Request, res: Response) => {
   const isPasswordMatch = await comparePassword(password, user.password!);
   if (!isPasswordMatch) {
     throw new BadRequestError("Invalid Email id or password");
+  };
+
+  if (user.status === 'blocked'){
+     throw new ForbiddenError
   }
 
   const jwt_access_token = jwt.sign(

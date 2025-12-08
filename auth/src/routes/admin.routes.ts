@@ -9,7 +9,6 @@ const router = express.Router();
 router.get("/users", validateRequest(paginationSchema, "query"), getUsers as any);
 router.patch("/users/:id", validateRequest(idSchema, "query"), getUsers as any);
 router.delete("/users/:id", validateRequest(idSchema, "query"), deleteUser as any);
-router.delete("/users/:id", validateRequest(idSchema, "query"), getUsers as any);
 
 
 export { router as adminRoutes };

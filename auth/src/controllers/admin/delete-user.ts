@@ -1,41 +1,31 @@
-//auth/src/controllers/admin/get-users.ts
+//src/controllers/admin/delete-user.ts
 
-import { PaginationInput, sendResponse } from "@millionsclub/shared-libs/server";
-import { NextFunction, Response } from "express";
+import { BadRequestError, sendResponse } from "@millionsclub/shared-libs/server";
+import { NextFunction, Request, Response } from "express";
 import { User } from "../../models/userModel";
-import { ValidatedRequest } from "../../interface/ValidatedReq";
 
-const deleteUser = async (req: ValidatedRequest<void, PaginationInput>, res: Response, next: NextFunction) => {
+const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    let { limit, page, search, status, role } = req.validated.query;
+    const { id } = req.params;
 
-  
-    const skip = (page - 1) * limit;
+    const deletedUser = await User.findByIdAndUpdate(
+      id,
+      {
+        isDeleted: true,
+        deletedAt: new Date(),
+      },
+      { new: true }
+    );
 
-    const query: any = {};
-
-    if (status !== undefined) {
-      query.status = status;
+    if (!deletedUser) {
+      throw new BadRequestError("User not found");
     }
 
-    if (role) {
-      query.role = role;
-    }
-
-    if (search) {
-      query.$or = [{ name: { $regex: search, $options: "i" } }, { email: { $regex: search, $options: "i" } }];
-    }
-
-    const users = await User.find(query).skip(skip).limit(limit).sort({ createdAt: -1 });
-
-    const count = await User.countDocuments(query);
-
-    sendResponse(res, 200, { success: true, data: users, count });
+    sendResponse(res, 200, { success: true, message: "The user has been deleted." });
     return;
   } catch (error) {
-    console.log("Error while fetching users", error);
     next(error);
   }
 };
 
-export { deleteUser  };
+export { deleteUser };

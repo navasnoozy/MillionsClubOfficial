@@ -1,8 +1,14 @@
-import { Schema, model, Document, Model } from "mongoose";
+import { Schema, model, Document, Model, Query } from "mongoose";
 
 export type Role = "customer" | "admin" | "moderator";
 export type Provider = "credentials" | "google" | "github" | "facebook";
 export type status = "active" | "inactive" | "blocked";
+
+declare module "mongoose" {
+  interface QueryOptions {
+    includeDeleted?: boolean;
+  }
+}
 
 export interface UserAttrs {
   name: string;
@@ -15,6 +21,8 @@ export interface UserAttrs {
   status?: status;
   emailVerified?: boolean;
   lastLogin?: Date;
+  isDeleted?: boolean;
+  deletedAt?: Date;
 }
 
 export interface UserDoc extends Document {
@@ -30,6 +38,8 @@ export interface UserDoc extends Document {
   lastLogin?: Date;
   createdAt: Date;
   updatedAt: Date;
+  isDeleted: boolean;
+  deletedAt?: Date;
 }
 
 export interface UserModel extends Model<UserDoc> {
@@ -43,7 +53,6 @@ const userSchema = new Schema<UserDoc, UserModel>(
     email: {
       type: String,
       required: true,
-      unique: true,
       lowercase: true,
       trim: true,
     },
@@ -76,15 +85,18 @@ const userSchema = new Schema<UserDoc, UserModel>(
 
     image: { type: String },
 
-    status: { 
-      type: String, 
-      enum: ["active", "inactive", "blocked"], 
-      default: "active" ,
+    status: {
+      type: String,
+      enum: ["active", "inactive", "blocked"],
+      default: "active",
     },
 
     emailVerified: { type: Boolean, default: false },
 
     lastLogin: { type: Date },
+
+    isDeleted: { type: Boolean, default: false, index: true },
+    deletedAt: { type: Date },
   },
   {
     timestamps: true,
@@ -97,12 +109,23 @@ const userSchema = new Schema<UserDoc, UserModel>(
         delete obj._id;
         delete obj.__v;
         delete obj.password;
-
         return obj;
       },
     },
   }
 );
+
+userSchema.pre(/^find/, function (this: Query<any, any>, next) {
+  const options = this.getOptions();
+
+  if (options.includeDeleted !== true) {
+    this.find({ isDeleted: { $ne: true } });
+  }
+
+  next();
+});
+
+userSchema.index({ email: 1 }, { unique: true, partialFilterExpression: { isDeleted: { $eq: false } } });
 
 // Safe build method
 userSchema.statics.build = function (attrs: UserAttrs) {

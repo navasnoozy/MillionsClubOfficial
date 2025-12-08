@@ -1,4 +1,4 @@
-import { NotFoundError, errorHandler, require_admin } from "@millionsclub/shared-libs/server";
+import { NotFoundError, currentUser, errorHandler, require_admin } from "@millionsclub/shared-libs/server";
 import { toNodeHandler } from "better-auth/node";
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -8,7 +8,7 @@ import { otpRoutes } from "./routes/otp.routes";
 import { adminRoutes } from "./routes/admin.routes";
 import { authRoutes } from "./routes/auth.routes";
 import { verificationRoutes } from "./routes/verify-email.route";
-import seedUsers from "./data/dummyUsers";
+// import seedUsers from "./data/dummyUsers";
 
 dotenv.config();
 
@@ -16,6 +16,8 @@ export const createApp = async () => {
   const { auth } = await import("./config/auth"); // lazy import AFTER DB ready
 
   const app = express();
+
+  app.use(currentUser);
 
   app.use(
     cors({

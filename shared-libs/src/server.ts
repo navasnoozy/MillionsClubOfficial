@@ -2,6 +2,7 @@ export * from "./errors/Bad-requestError";
 export * from "./errors/custom-error";
 export * from "./errors/db-connectionError";
 export * from "./errors/not-authorizedError";
+export * from "./errors/forbidden-error";
 export * from "./errors/not-found-error";
 export * from "./errors/reqValidationError";
 

@@ -16,7 +16,7 @@ declare global {
   }
 }
 
-export const currentUser = (req: Request, res: Response, next: NextFunction) => {
+export const currentUser = (req: Request, _res: Response, next: NextFunction) => {
   const authHeader = req.headers["authorization"];
 
   if (!authHeader) {
