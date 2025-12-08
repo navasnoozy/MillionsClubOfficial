@@ -71,7 +71,7 @@ const UserManagement = () => {
               <TableCell size="small">
                 <Chip size="small" label={capitalize(u.role)} sx={{ width: "100px", backgroundColor: roleColor.bg, color: roleColor.text, borderColor: roleColor.text }} variant="outlined" />
               </TableCell>
-              <TableCell size="small" align="center">
+              <TableCell size="small" >
                 {u.emailVerified ? <Verified fontSize="small" sx={{ color: "#1877F2" }} /> : <NewReleases fontSize="small" sx={{ color: "#898F9C" }} />}
               </TableCell>
               <TableCell size="small">{u.name}</TableCell>

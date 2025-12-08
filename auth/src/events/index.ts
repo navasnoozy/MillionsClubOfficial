@@ -2,7 +2,7 @@
 
 import { authKafkaClient } from "../config/kafka.client";
 
-export const registerKafkaEventListers = async () => {
+export const registerKafkaEventListeners = async () => {
   // No consumers needed - Auth service now handles all OTP logic directly
 };
 

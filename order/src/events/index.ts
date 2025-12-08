@@ -6,7 +6,7 @@ import handle_product_updated from "./consumers/product-updated";
 import handle_variant_created from "./consumers/variant-created";
 import handle_variant_updated from "./consumers/variant-updated";
 
-export const registerKafkaEventListers = async () => {
+export const registerKafkaEventListeners = async () => {
   await orderKafkaClient.subscribe("product.created", { fromBeginning: true }, handle_product_created);
   await orderKafkaClient.subscribe("product.updated", { fromBeginning: true }, handle_product_updated);
   await orderKafkaClient.subscribe("variant.created", { fromBeginning: true }, handle_variant_created);

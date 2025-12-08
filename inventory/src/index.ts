@@ -3,7 +3,7 @@ import { app } from "./app";
 import { MongoDatabase } from "./config/MongoDatabase";
 import { IDatabase } from "./interfaces/IDatabase";
 import { initKafka, disconnectKafka, startKafkaConsumer } from "./config/kafka.client";
-import { registerKafkaEventListers } from "./events/consumers";
+import { registerKafkaEventListeners } from "./events/consumers";
 
 const port = process.env.PORT || 3000;
 
@@ -12,7 +12,7 @@ const startServer = async (database: IDatabase) => {
     await database.connect();
 
     await initKafka();
-    await registerKafkaEventListers();
+    await registerKafkaEventListeners();
     await startKafkaConsumer();
 
     app.listen(port, () => {

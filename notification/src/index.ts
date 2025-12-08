@@ -7,7 +7,7 @@ import { IDatabase } from "./interfaces/IDatabase";
 import { initKafka, disconnectKafka, startKafkaConsumer } from "./config/kafka-client";
 import { WebSocketService } from "./WebSocket/web-socket-services";
 import { upgradeHandler } from "./WebSocket/upgrade-handler";
-import { registerKafkaEventListers } from "./events";
+import { registerKafkaEventListeners } from "./events";
 
 const port = process.env.PORT || 3000;
 
@@ -25,7 +25,7 @@ const startServer = async (database: IDatabase) => {
     await database.connect();
 
     await initKafka();
-    await registerKafkaEventListers();
+    await registerKafkaEventListeners();
     await startKafkaConsumer();
 
     server.listen(port, () => {
