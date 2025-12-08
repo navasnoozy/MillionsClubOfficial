@@ -12,6 +12,7 @@ export const theme = createTheme({
       palette: {
         primary: {
           main: "#ba612aff",
+          
         },
         background: {
           default: "#FCFAF8",
@@ -31,5 +32,8 @@ export const theme = createTheme({
     fontFamily: ["Roboto", '"Helvetica Neue"', "Arial", "sans-serif"].join(","),
   },
   //  shadows: customShadows,
-   shape:{borderRadius:4}
+
+  shape: {
+    borderRadius: 4,
+  },
 });

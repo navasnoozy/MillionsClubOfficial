@@ -21,10 +21,11 @@ const Dropdown = ({ value, onChange, options, label, width, disabled }: Dropdown
   return (
     <FormControl size="small">
       <Select
+      
         sx={{
           width: width,
           fontSize: "15px",
-          border: "1px solid rgba(0,0,0,0.12)",
+          border: "1px solid rgba(155, 155, 155, 0.29)",
           height: 40,
           pr: 0.5,
           "& fieldset": { border: "none" }, // remove default border
