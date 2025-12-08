@@ -1,5 +1,5 @@
 import AddIcon from "@mui/icons-material/Add";
-import { Grid, Paper, Stack, Typography, type SelectChangeEvent, debounce, Switch } from "@mui/material";
+import { Grid, Paper, Stack, Typography, type SelectChangeEvent, debounce, Switch, Box, Tooltip } from "@mui/material";
 import AppButton from "../../components/AppButton";
 import Dropdown from "../../components/Dropdown";
 import SearchBar from "../../components/SearchBar";
@@ -20,7 +20,7 @@ const STATUS_OPTIONS = [
 ];
 
 interface ToolbarProps {
-  filters: { role: string; status: string; search: string, isDeleted:boolean };
+  filters: { role: string; status: string; search: string; isDeleted: boolean };
   onFilterChange: (key: string, value: string) => void;
 }
 
@@ -73,19 +73,23 @@ const Toolbar = ({ filters, onFilterChange }: ToolbarProps) => {
               </Typography>
               <Dropdown value={filters.status || "all"} onChange={handleDropdownChange("status")} options={STATUS_OPTIONS} width="130px" />
             </Stack>
-
-            <Stack>
-              <Typography color="gray" align="left">
-                Deleted
-              </Typography>
-              <Switch checked={filters.isDeleted} onChange={handleToggleChange("isDeleted")} />
-            </Stack>
+            <Tooltip sx={{display:{xs:'none', sm:'block'}}} title="Show Deleted user">
+              <Stack >
+                <Typography color="gray" align="left">
+                  Deleted
+                </Typography>
+                <Switch checked={filters.isDeleted} onChange={handleToggleChange("isDeleted")} />
+              </Stack>
+            </Tooltip>
           </Stack>
-
-          <AppButton size="small" sx={{ height: "40px", marginTop: 3.4, textWrap: "nowrap" }} variant="contained">
-            <AddIcon />
-            Add User
-          </AppButton>
+          <Tooltip title="Add user">
+            <AppButton size="small" sx={{ height: "40px", marginTop: 3.4, textWrap: "nowrap", position: { xs: "fixed", md: "static" }, right: 20, bottom: 30, borderRadius: 50 }} variant="contained">
+              <AddIcon />
+              <Box component="span" sx={{ display: { xs: "none", sm: "block" }, ml: 1, mr: 1 }}>
+                Add user
+              </Box>
+            </AppButton>
+          </Tooltip>
         </Grid>
       </Grid>
     </Paper>

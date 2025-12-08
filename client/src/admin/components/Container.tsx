@@ -9,7 +9,7 @@ interface Props {
 
 const Container = ({ heading, caption, children }: Props) => {
   return (
-    <Stack>
+    <Stack >
       <Typography sx={{ fontSize: 30 }} fontWeight="bold" align="left">
         {heading}
       </Typography>

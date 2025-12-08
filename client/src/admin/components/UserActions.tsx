@@ -1,5 +1,5 @@
 import { Delete, ManageAccounts, NoAccounts } from "@mui/icons-material";
-import { ButtonGroup } from "@mui/material";
+import { ButtonGroup, Tooltip } from "@mui/material";
 import AppButton from "../../components/AppButton";
 import type { User } from "../../interface/user";
 import useDeleteUser from "../hooks/useDeleteUser";
@@ -29,9 +29,11 @@ const UserActions = ({ id, status }: Props) => {
       <AppButton color="error" sx={{ minWidth: "auto", color: status === "blocked" ? "red" : "gray" }} size="small">
         <NoAccounts />
       </AppButton>
+ 
       <AppButton value={id} onClick={handleDeleteClick} loading={isPending} sx={{ minWidth: "auto", color: "gray" }} size="small">
         <Delete />
       </AppButton>
+
     </ButtonGroup>
   );
 };

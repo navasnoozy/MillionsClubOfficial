@@ -15,7 +15,7 @@ const AdminLayout = () => {
   const showPogressBar = isRouteLoading || isAuthLoading;
 
   return (
-    <Box>
+    <Box >
       <AppDrawer />
       {showPogressBar && (
         <LinearProgress
@@ -30,7 +30,7 @@ const AdminLayout = () => {
         />
       )}
 
-        <Box paddingY={"12px"} paddingTop={'80px'}>
+        <Box  paddingY={"12px"} height={'100%'} paddingTop={'80px'}>
         <Outlet />
       </Box>
     </Box>
