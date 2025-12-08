@@ -13,9 +13,8 @@ const useCreateProduct = () => {
 
   return useMutation<ApiResponse, AxiosError<ApiResponse>, idInput>({
     mutationFn: async (id ) => {
-       await new Promise((resolve) => setTimeout(resolve, 10000));
+       await new Promise((resolve) => setTimeout(resolve, 2000));
       const { data } = await axiosInstance.delete<ApiResponse>(`/api/admin/users/${id}`);
-      await new Promise((resolve) => setTimeout(resolve, 10000));
       return data;
     },
     onSuccess: () => {

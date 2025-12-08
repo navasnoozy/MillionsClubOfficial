@@ -3,7 +3,7 @@ import { ButtonGroup } from "@mui/material";
 import AppButton from "../../components/AppButton";
 import type { User } from "../../interface/user";
 import useDeleteUser from "../hooks/useDeleteUser";
-import { toast } from "sonner";
+import { toast } from "react-toastify";
 
 interface Props {
   id: User["id"];
@@ -14,8 +14,8 @@ const UserActions = ({ id, status }: Props) => {
   const { mutateAsync: deleteUser, isPending } = useDeleteUser();
 
   const handleDeleteClick = () => {
-    toast.promise(deleteUser({ id }), {
-      loading: "Deleting user...",
+    toast.promise(new Promise((resolve,reject) => setTimeout(resolve, 1000)), {
+      pending: "Deleting user...",
       success: "User deleted successfully",
       error: "Failed to delete user",
     });

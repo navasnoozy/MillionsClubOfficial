@@ -23,7 +23,8 @@ export const theme = createTheme({
     dark: {
       palette: {
         primary: {
-          main: "#86624B",
+          // main: "#86624B",
+          main: "#bb510fff",
         },
       },
     },
