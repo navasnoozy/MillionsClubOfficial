@@ -30,6 +30,7 @@ const UserManagement = () => {
     role: searchParams.get("role") || "all",
     status: searchParams.get("status") || "all",
     search: searchParams.get("search") || "",
+    isDeleted: searchParams.get("isDeleted") ? true : false,
   };
 
   const apiParams: PaginationInput = {
@@ -38,6 +39,7 @@ const UserManagement = () => {
     search: currentFilters.search || undefined,
     role: currentFilters.role !== "all" ? (currentFilters.role as any) : undefined,
     status: currentFilters.status !== "all" ? (currentFilters.status as any) : undefined,
+    isDeleted: currentFilters.isDeleted || undefined,
   };
 
   const { data: users } = useGetUsers(apiParams);
@@ -45,7 +47,7 @@ const UserManagement = () => {
   const handleFilterChange = useCallback(
     (key: string, value: string) => {
       setsearchParams((prev) => {
-        if (value === "all" || value === "") {
+        if (value === "all" || value === "" || value === "false") {
           prev.delete(key);
         } else {
           prev.set(key, value);
@@ -64,8 +66,8 @@ const UserManagement = () => {
         {users?.data?.map((u) => {
           const roleColor = ROLE_COLORS[u.role] ?? ROLE_COLORS.default;
           return (
-            <TableRow key={u.id} sx={{ overflowX: "auto" }}>
-              <TableCell size="small" sx={{ fontWeight: "bold" }}>
+            <TableRow key={u.id} sx={{ overflowX: "auto", backgroundColor: u.isDeleted ? "#6e6c6c1f" : "white" }}>
+              <TableCell size="small" sx={{ fontWeight: "bold", color: u.isDeleted ? "red" : "" }}>
                 {u.name}
               </TableCell>
               <TableCell size="small">{u.email}</TableCell>

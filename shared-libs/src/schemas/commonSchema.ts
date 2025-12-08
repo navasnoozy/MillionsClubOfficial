@@ -23,6 +23,7 @@ export const paginationSchema = z
     isDeleted: z
       .union([z.boolean(), z.string()])
       .refine((val) => val == true || val === false || val === "true" || val === "false", { error: "Invalid isDeleted status. Allowed values are: boolean (true, false), string ('true', 'false')" })
+      .transform((val) => val === true || val === "true")
       .optional(),
 
     role: z.enum(["customer", "admin", "moderator"], { error: "Invalid role" }).optional(),

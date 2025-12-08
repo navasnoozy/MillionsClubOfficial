@@ -14,7 +14,7 @@ const UserActions = ({ id, status }: Props) => {
   const { mutateAsync: deleteUser, isPending } = useDeleteUser();
 
   const handleDeleteClick = () => {
-    toast.promise(new Promise((resolve,reject) => setTimeout(resolve, 1000)), {
+    toast.promise(deleteUser({id}), {
       pending: "Deleting user...",
       success: "User deleted successfully",
       error: "Failed to delete user",

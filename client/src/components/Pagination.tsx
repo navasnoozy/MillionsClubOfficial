@@ -11,7 +11,7 @@ export const Paginations = ({ itemCount, limit, onChangePage }: Props) => {
 
   return (
     <Stack mt={2} spacing={2} alignItems={"center"}>
-      <MuiPagination onChange={(_e, page) => onChangePage("page", String(page))} count={pagecount} variant="outlined" shape="rounded" />
+      <MuiPagination onChange={(_e, page) => onChangePage("page", String(page))} count={pagecount } variant="outlined" shape="rounded" />
     </Stack>
   );
 };

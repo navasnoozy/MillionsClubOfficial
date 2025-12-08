@@ -1,9 +1,9 @@
 import AddIcon from "@mui/icons-material/Add";
-import { Grid, Paper, Stack, Typography, type SelectChangeEvent, debounce } from "@mui/material";
+import { Grid, Paper, Stack, Typography, type SelectChangeEvent, debounce, Switch } from "@mui/material";
 import AppButton from "../../components/AppButton";
 import Dropdown from "../../components/Dropdown";
 import SearchBar from "../../components/SearchBar";
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ChangeEvent } from "react";
 
 const ROLE_OPTIONS = [
   { label: "All Roles", value: "all" },
@@ -20,7 +20,7 @@ const STATUS_OPTIONS = [
 ];
 
 interface ToolbarProps {
-  filters: { role: string; status: string; search: string };
+  filters: { role: string; status: string; search: string, isDeleted:boolean };
   onFilterChange: (key: string, value: string) => void;
 }
 
@@ -35,15 +35,15 @@ const Toolbar = ({ filters, onFilterChange }: ToolbarProps) => {
 
   const handleSearchChange = (value: string) => {
     setLocalSearch(value);
-
     debouncedUpdate(value);
   };
 
-  const handleRoleChange = (e: SelectChangeEvent<string>) => {
-    onFilterChange("role", e.target.value);
+  const handleDropdownChange = (key: string) => (e: SelectChangeEvent<unknown>) => {
+    onFilterChange(key, e.target.value as string);
   };
-  const handleStatusChange = (e: SelectChangeEvent<string>) => {
-    onFilterChange("status", e.target.value);
+
+  const handleToggleChange = (key: string) => (e: ChangeEvent<HTMLInputElement>) => {
+    onFilterChange(key, String(e.target.checked));
   };
 
   return (
@@ -64,14 +64,21 @@ const Toolbar = ({ filters, onFilterChange }: ToolbarProps) => {
               <Typography color="gray" align="left">
                 Role
               </Typography>
-              <Dropdown value={filters.role || "all"} onChange={handleRoleChange} options={ROLE_OPTIONS} width="130px" />
+              <Dropdown value={filters.role || "all"} onChange={handleDropdownChange("role")} options={ROLE_OPTIONS} width="130px" />
             </Stack>
 
             <Stack>
               <Typography color="gray" align="left">
                 Status
               </Typography>
-              <Dropdown value={filters.status || "all"} onChange={handleStatusChange} options={STATUS_OPTIONS} width="130px" />
+              <Dropdown value={filters.status || "all"} onChange={handleDropdownChange("status")} options={STATUS_OPTIONS} width="130px" />
+            </Stack>
+
+            <Stack>
+              <Typography color="gray" align="left">
+                Deleted
+              </Typography>
+              <Switch checked={filters.isDeleted} onChange={handleToggleChange("isDeleted")} />
             </Stack>
           </Stack>
 

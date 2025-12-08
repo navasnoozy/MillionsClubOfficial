@@ -6,6 +6,7 @@ export interface User {
   role: "customer" | 'admin' | 'moderator'
   status: 'active'| 'inactive' | 'blocked' 
   emailVerified: boolean;
+  isDeleted: boolean
   lastLogin: string; // or Date if you convert it
   createdAt: string; // same note
   updatedAt: string;

@@ -115,7 +115,7 @@ const userSchema = new Schema<UserDoc, UserModel>(
   }
 );
 
-userSchema.pre(/^find/, function (this: Query<any, any>, next) {
+userSchema.pre(/^find|count/, function (this: Query<any, any>, next) {
   const options = this.getOptions();
 
   if (options.includeDeleted !== true) {

@@ -1,5 +1,3 @@
-//auth/src/controllers/admin/get-users.ts
-
 import { PaginationInput, sendResponse } from "@millionsclub/shared-libs/server";
 import { NextFunction, Response } from "express";
 import { User } from "../../models/userModel";
@@ -7,9 +5,8 @@ import { ValidatedRequest } from "../../interface/ValidatedReq";
 
 const getUsers = async (req: ValidatedRequest<void, PaginationInput>, res: Response, next: NextFunction) => {
   try {
-    let { limit, page, search, status, role } = req.validated.query;
+    let { limit, page, search, status, role, isDeleted } = req.validated.query;
 
-  
     const skip = (page - 1) * limit;
 
     const query: any = {};
@@ -26,9 +23,14 @@ const getUsers = async (req: ValidatedRequest<void, PaginationInput>, res: Respo
       query.$or = [{ name: { $regex: search, $options: "i" } }, { email: { $regex: search, $options: "i" } }];
     }
 
-    const users = await User.find(query).skip(skip).limit(limit).sort({ createdAt: -1 });
+    const users = await User.find(query)
+      .setOptions({ includeDeleted: isDeleted })
+      .skip(skip)
+      .limit(limit)
+      .sort({ createdAt: -1 });
 
-    const count = await User.countDocuments(query);
+    const count = await User.countDocuments(query)
+      .setOptions({ includeDeleted: isDeleted });
 
     sendResponse(res, 200, { success: true, data: users, count });
     return;

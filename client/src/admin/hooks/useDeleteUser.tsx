@@ -12,8 +12,8 @@ const useCreateProduct = () => {
   const queryClient = useQueryClient();
 
   return useMutation<ApiResponse, AxiosError<ApiResponse>, idInput>({
-    mutationFn: async (id ) => {
-       await new Promise((resolve) => setTimeout(resolve, 2000));
+    mutationFn: async ({ id }) => {
+      await new Promise((resolve) => setTimeout(resolve, 2000));
       const { data } = await axiosInstance.delete<ApiResponse>(`/api/admin/users/${id}`);
       return data;
     },
