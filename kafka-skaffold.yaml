@@ -5,7 +5,7 @@ kind: Config
 
 manifests:
   rawYaml:
-    - ./infra/k8s-kafka/*.yml
+    - ./kubernetes/k8s-kafka/*.yml
 
 deploy:
   kubectl: {}
