@@ -1,17 +1,25 @@
-import type { CreateProductInput } from "@millionsclub/shared-libs/client";
+import type { idInput } from "@millionsclub/shared-libs/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axiosInstance from "../../lib/axios";
+import type { AxiosError } from "axios";
+
+interface ApiResponse {
+  success: boolean;
+  message: string;
+}
 
 const useCreateProduct = () => {
   const queryClient = useQueryClient();
 
-  return useMutation({
-    mutationFn: async (product: CreateProductInput) => {
-      const res = await axiosInstance.post("/api/inventory/products", product);
-      return res.data.data;
+  return useMutation<ApiResponse, AxiosError<ApiResponse>, idInput>({
+    mutationFn: async (id ) => {
+       await new Promise((resolve) => setTimeout(resolve, 10000));
+      const { data } = await axiosInstance.delete<ApiResponse>(`/api/admin/users/${id}`);
+      await new Promise((resolve) => setTimeout(resolve, 10000));
+      return data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["products"] });
+      queryClient.invalidateQueries({ queryKey: ["users"] });
     },
   });
 };

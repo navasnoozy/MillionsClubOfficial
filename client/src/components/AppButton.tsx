@@ -1,12 +1,13 @@
-import { Button, CircularProgress } from "@mui/material";
 import type { ButtonProps } from "@mui/material";
-import { Link as RouterLink } from "react-router";
-import type { LinkProps as RouterLinkProps } from "react-router";
+import { Button } from "@mui/material";
 import { forwardRef } from "react";
+import type { LinkProps as RouterLinkProps } from "react-router";
+import { Link as RouterLink } from "react-router";
 
 type AppButtonProps = ButtonProps &
   Partial<Pick<RouterLinkProps, "to">> & {
     isLoading?: boolean;
+    onClick?: () => void;
   };
 
 const AppButton = forwardRef<HTMLButtonElement | HTMLAnchorElement, AppButtonProps>(({ to, children, isLoading, disabled, startIcon, endIcon, sx, ...props }, ref) => {
@@ -17,14 +18,14 @@ const AppButton = forwardRef<HTMLButtonElement | HTMLAnchorElement, AppButtonPro
   return (
     <Button
       component={component}
+      
       to={to}
       ref={ref as any}
       disabled={disabled || isLoadingState}
       sx={{
-   
         ...sx,
       }}
-      startIcon={isLoadingState ? <CircularProgress size={20} color="inherit" /> : startIcon}
+      startIcon={startIcon}
       endIcon={endIcon}
       {...props}
     >

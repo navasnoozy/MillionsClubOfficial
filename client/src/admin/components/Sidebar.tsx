@@ -21,6 +21,7 @@ import * as React from "react";
 import { useNavigate } from "react-router";
 import { UserMenu } from "../../components/navbar/UserMenu";
 import { adminLinks } from "../config/adminLinks";
+import ThemeToggle from "../../components/ThemeToggle";
 
 
 const drawerWidth = 240;
@@ -106,6 +107,7 @@ const AppDrawer = () => {
           <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
             Admin Panel
           </Typography>
+          <ThemeToggle />
           {/* User Menu with proper props and positioning */}
           <Box sx={{ flexGrow: 0 }}>
             <UserMenu
@@ -117,6 +119,8 @@ const AppDrawer = () => {
           </Box>
         </Toolbar>
       </AppBar>
+
+
       <Drawer
         sx={{
           width: drawerWidth,

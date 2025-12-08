@@ -1,15 +1,16 @@
 //src/admin/pages/UserManagement.tsx
 
+import type { PaginationInput } from "@millionsclub/shared-libs/client";
 import { NewReleases, Verified } from "@mui/icons-material";
 import { capitalize, Chip, TableCell, TableRow } from "@mui/material";
+import { useCallback } from "react";
+import { useSearchParams } from "react-router";
+import Paginations from "../../components/Pagination";
 import Container from "../components/Container";
 import TableContainer from "../components/TableContainer";
 import Toolbar from "../components/Toolbar";
+import UserActions from "../components/UserActions";
 import useGetUsers from "../hooks/useGetUsers";
-import { useSearchParams } from "react-router";
-import type { PaginationInput } from "@millionsclub/shared-libs/client";
-import { useCallback } from "react";
-import Paginations from "../../components/Pagination";
 
 const ROLE_COLORS = {
   customer: { bg: "#E8F4FF", text: "#5B8DEF" },
@@ -71,11 +72,12 @@ const UserManagement = () => {
               <TableCell size="small">
                 <Chip size="small" label={capitalize(u.role)} sx={{ width: "100px", backgroundColor: roleColor.bg, color: roleColor.text, borderColor: roleColor.text }} variant="outlined" />
               </TableCell>
-              <TableCell size="small" >
-                {u.emailVerified ? <Verified fontSize="small" sx={{ color: "#1877F2" }} /> : <NewReleases fontSize="small" sx={{ color: "#898F9C" }} />}
+              <TableCell size="small">{u.emailVerified ? <Verified fontSize="small" sx={{ color: "#1877F2" }} /> : <NewReleases fontSize="small" sx={{ color: "#898F9C" }} />}</TableCell>
+              <TableCell size="small">{u.name}</TableCell>
+              <TableCell size="small">{u.name}</TableCell>
+              <TableCell size="small">
+                <UserActions id={u.id} status={u.status} />
               </TableCell>
-              <TableCell size="small">{u.name}</TableCell>
-              <TableCell size="small">{u.name}</TableCell>
             </TableRow>
           );
         })}

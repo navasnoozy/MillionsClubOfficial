@@ -20,6 +20,24 @@ export const signupSchema = z
       }),
 
     confirmPassword: z.string({ error: "Confirm Password is required" }).min(8, { error: "Confirm Password must be at least 8 characters" }),
+
+    role: z.enum(["customer", "admin", "moderator"], { error: "Invalid role" }).optional(),
+
+    emailVerified: z
+      .union([z.boolean(), z.string()])
+      .refine((val) => val === true || val === false || val === "true" || val === "false", {
+        error: "Invalid emailVerified status. Allowed values are: boolean (true, false),string ('true', 'false')",
+      })
+      .transform((val) => val === true || val === "true")
+      .optional(),
+
+    isDeleted: z
+      .union([z.boolean(), z.string()])
+      .refine((val) => val === true || val === false || val === "true" || val === "false", {
+        error: "Invalid isDeleted status. Allowed values are: boolean (true, false),string ('true', 'false')",
+      })
+      .transform((val) => val === true || val === "true")
+      .optional(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ["confirmPassword"],
@@ -35,5 +53,8 @@ export const signinSchema = z
   })
   .strict();
 
+export const updateUserSchema = signupSchema.omit({password:true, confirmPassword:true}).partial().strict();
+
 export type SignupInput = z.infer<typeof signupSchema>;
 export type SigninInput = z.infer<typeof signinSchema>;
+export type updateUserInput = z.infer<typeof updateUserSchema>;

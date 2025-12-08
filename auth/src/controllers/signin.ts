@@ -1,6 +1,6 @@
 // auth/src/controllers/signin.controller.ts
 import { Request, Response } from "express";
-import { BadRequestError, sendResponse } from "@millionsclub/shared-libs/server";
+import { BadRequestError, ForbiddenError, sendResponse } from "@millionsclub/shared-libs/server";
 import { comparePassword } from "../utils/hashPassword";
 
 import jwt from "jsonwebtoken";
@@ -25,10 +25,10 @@ export const signinController = async (req: Request, res: Response) => {
   const isPasswordMatch = await comparePassword(password, user.password!);
   if (!isPasswordMatch) {
     throw new BadRequestError("Invalid Email id or password");
-  };
+  }
 
-  if (user.status === 'blocked'){
-     throw new ForbiddenError
+  if (user.status === "blocked") {
+    throw new ForbiddenError("Your account has been suspended. Contact support.");
   }
 
   const jwt_access_token = jwt.sign(
