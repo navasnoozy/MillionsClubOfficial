@@ -1,4 +1,5 @@
 import { Schema, model, Document, Model, Query } from "mongoose";
+import { hashPassword } from "../utils/hashPassword";
 
 export type Role = "customer" | "admin" | "moderator";
 export type Provider = "credentials" | "google" | "github" | "facebook";
@@ -103,8 +104,7 @@ const userSchema = new Schema<UserDoc, UserModel>(
     toJSON: {
       virtuals: true,
       transform(_doc, ret) {
-        const obj: any = ret; // TS-safe for delete operations
-
+        const obj: any = ret;
         obj.id = obj._id;
         delete obj._id;
         delete obj.__v;
@@ -114,6 +114,16 @@ const userSchema = new Schema<UserDoc, UserModel>(
     },
   }
 );
+
+// --- INDUSTRY STANDARD: Pre-save Hook for Hashing ---
+userSchema.pre("save", async function (done) {
+  if (this.isModified("password")) {
+    // FIX: Cast as string to satisfy TypeScript strict checks
+    const hashed = await hashPassword(this.get("password") as string);
+    this.set("password", hashed);
+  }
+  done();
+});
 
 userSchema.pre(/^find|count/, function (this: Query<any, any>, next) {
   const options = this.getOptions();
@@ -127,7 +137,6 @@ userSchema.pre(/^find|count/, function (this: Query<any, any>, next) {
 
 userSchema.index({ email: 1 }, { unique: true, partialFilterExpression: { isDeleted: { $eq: false } } });
 
-// Safe build method
 userSchema.statics.build = function (attrs: UserAttrs) {
   return new this(attrs);
 };

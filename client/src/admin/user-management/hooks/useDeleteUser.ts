@@ -1,7 +1,7 @@
 import type { idInput } from "@millionsclub/shared-libs/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axiosInstance from "../../lib/axios";
 import type { AxiosError } from "axios";
+import axiosInstance from "../../../lib/axios";
 
 interface ApiResponse {
   success: boolean;

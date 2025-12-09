@@ -63,22 +63,22 @@ const UserManagement = () => {
     <Container heading="User Management" caption="Manage your customers, admins, and moderators">
       <Toolbar filters={currentFilters} onFilterChange={handleFilterChange} />
       <TableContainer sx={{ mt: 2 }} heading={heading}>
-        {users?.data?.map((u) => {
-          const roleColor = ROLE_COLORS[u.role] ?? ROLE_COLORS.default;
+        {users?.data?.map((user) => {
+          const roleColor = ROLE_COLORS[user.role] ?? ROLE_COLORS.default;
           return (
-            <TableRow key={u.id} sx={{ overflowX: "auto", backgroundColor: u.isDeleted ? "#6e6c6c1f" : "white" }}>
-              <TableCell size="small" sx={{ fontWeight: "bold", color: u.isDeleted ? "red" : "" }}>
-                {u.name}
+            <TableRow key={user.id} sx={{ overflowX: "auto", backgroundColor: user.isDeleted ? "#6e6c6c1f" : "white" }}>
+              <TableCell size="small" sx={{ fontWeight: "bold", color: user.isDeleted ? "red" : "" }}>
+                {user.name}
               </TableCell>
-              <TableCell size="small">{u.email}</TableCell>
+              <TableCell size="small">{user.email}</TableCell>
               <TableCell size="small">
-                <Chip size="small" label={capitalize(u.role)} sx={{ width: "100px", backgroundColor: roleColor.bg, color: roleColor.text, borderColor: roleColor.text }} variant="outlined" />
+                <Chip size="small" label={capitalize(user.role)} sx={{ width: "100px", backgroundColor: roleColor.bg, color: roleColor.text, borderColor: roleColor.text }} variant="outlined" />
               </TableCell>
-              <TableCell size="small">{u.emailVerified ? <Verified fontSize="small" sx={{ color: "#1877F2" }} /> : <NewReleases fontSize="small" sx={{ color: "#898F9C" }} />}</TableCell>
-              <TableCell size="small">{u.name}</TableCell>
-              <TableCell size="small">{u.name}</TableCell>
+              <TableCell size="small">{user.emailVerified ? <Verified fontSize="small" sx={{ color: "#1877F2" }} /> : <NewReleases fontSize="small" sx={{ color: "#898F9C" }} />}</TableCell>
+              <TableCell size="small">{user.name}</TableCell>
+              <TableCell size="small">{user.name}</TableCell>
               <TableCell size="small">
-                <UserActions id={u.id} status={u.status} />
+                <UserActions user={{ id: user.id, name: user.name }} status={user.status} />
               </TableCell>
             </TableRow>
           );

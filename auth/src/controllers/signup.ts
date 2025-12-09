@@ -1,8 +1,6 @@
-// auth/src/controllers/signup.controller.ts
 import { Request, Response } from "express";
 import { BadRequestError, sendResponse } from "@millionsclub/shared-libs/server";
 import { User } from "../models/userModel";
-import { hashPassword } from "../utils/hashPassword";
 import { publish_user_created } from "../events/publishers/user-created";
 import { EmailOtp } from "../models/otpModel";
 import generateSecureOTP from "../utils/generate-otp";
@@ -18,21 +16,17 @@ export const signupController = async (req: Request, res: Response) => {
     throw new BadRequestError("Email already in use", "email");
   }
 
-  const hashedPassword = await hashPassword(password);
-
   const newUser = User.build({
     name,
     email,
-    password: hashedPassword,
+    password,
   });
 
   const user = await newUser.save();
 
-  // Generate OTP
   const otp = generateSecureOTP();
   const expiresAt = new Date(Date.now() + OTP_CONFIG.EXPIRY_MINUTES * 60 * 1000);
 
-  // Store OTP in database
   await EmailOtp.findOneAndUpdate(
     { email: user.email },
     {
@@ -48,7 +42,6 @@ export const signupController = async (req: Request, res: Response) => {
     { upsert: true, new: true }
   );
 
-  // Publish event with OTP
   await publish_user_created({
     userId: user.id,
     name: user.name,
