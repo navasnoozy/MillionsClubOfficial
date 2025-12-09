@@ -54,7 +54,7 @@ const Toolbar = ({ filters, onFilterChange }: ToolbarProps) => {
             <Typography color="gray" align="left">
               Search
             </Typography>
-            <SearchBar value={localSearch} onChange={handleSearchChange} />
+            <SearchBar  value={localSearch} onChange={handleSearchChange} />
           </Stack>
         </Grid>
 

@@ -1,7 +1,7 @@
 //client/src/features/auth/pages/GoogleLogin.tsx
-import { Button } from "@mui/material";
-import { authClient } from "../lib/Oauth-client";
+import AppButton from "../../../components/AppButton";
 import GoogleGradientIcon from "../../../components/icons/GoogleGradientIcon";
+import { authClient } from "../lib/Oauth-client";
 
 const GoogleLogin = () => {
   const signIn = async () => {
@@ -12,10 +12,10 @@ const GoogleLogin = () => {
   };
 
   return (
-    <Button size="small" variant="outlined" sx={{ py: 1, my: 1 }} onClick={() => signIn()}>
+    <AppButton size="small" variant="outlined" sx={{ py: 1, my: 1 ,px:2 }} onClick={() => signIn()}>
       <GoogleGradientIcon sx={{ fontSize: "17px", mr: 1 }} />
       Google
-    </Button>
+    </AppButton>
   );
 };
 

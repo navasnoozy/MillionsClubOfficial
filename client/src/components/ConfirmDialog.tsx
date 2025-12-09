@@ -4,6 +4,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import AppButton from "./AppButton";
 
 interface Props {
   title: string;
@@ -12,18 +13,10 @@ interface Props {
   handleClose: () => void;
   handleConfirm: () => void;
   confirmText?: string;
-  loading?: boolean
+  loading?: boolean;
 }
 
-const ConfirmDialog = ({
-  title,
-  content,
-  open,
-  handleClose,
-  handleConfirm,
-  confirmText = "Agree",
-  loading
-}: Props) => {
+const ConfirmDialog = ({ title, content, open, handleClose, handleConfirm, confirmText = "Agree", loading }: Props) => {
   return (
     <Dialog open={open} onClose={handleClose} aria-labelledby="confirm-dialog-title">
       <DialogTitle id="confirm-dialog-title">{title}</DialogTitle>
@@ -31,12 +24,12 @@ const ConfirmDialog = ({
         <DialogContentText>{content}</DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button autoFocus onClick={handleClose} color="inherit">
+        <AppButton autoFocus onClick={handleClose} color="inherit">
           Cancel
-        </Button>
-        <Button loading={loading} onClick={handleConfirm} color={'error'} variant="contained" size="small">
+        </AppButton>
+        <AppButton  loading={loading} onClick={handleConfirm} sx={{px:2}} color={"error"} variant="contained" size="small">
           {confirmText}
-        </Button>
+        </AppButton>
       </DialogActions>
     </Dialog>
   );

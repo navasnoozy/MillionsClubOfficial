@@ -14,7 +14,7 @@ const SearchBar = ({ value, onChange }: SearchBarProps) => {
         p: "2px 4px",
         border: "1px solid",
         borderColor: "divider",
-        borderRadius: 2,
+        borderRadius: 50,
         display: "flex",
         alignItems: "center",
         maxWidth: 500,

@@ -24,6 +24,7 @@ const AppButton = forwardRef<HTMLButtonElement | HTMLAnchorElement, AppButtonPro
       disabled={disabled || isLoadingState}
       sx={{
         ...sx,
+        borderRadius: 50
       }}
       startIcon={startIcon}
       endIcon={endIcon}

@@ -23,6 +23,7 @@ const Dropdown = ({ value, onChange, options, label, width, disabled }: Dropdown
       <Select
       
         sx={{
+          borderRadius:50,
           width: width,
           fontSize: "15px",
           border: "1px solid rgba(155, 155, 155, 0.29)",
