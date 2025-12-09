@@ -1,10 +1,10 @@
 //src/admin/hooks/useGetUsers.ts
 
 import { useQuery } from "@tanstack/react-query";
-import axiosInstance from "../../lib/axios";
 import type { AxiosError } from "axios";
-import type { User } from "../../interface/user";
 import type { PaginationInput } from "@millionsclub/shared-libs/client";
+import type { User } from "../interface/user";
+import axiosInstance from "../../../lib/axios";
 
 interface ApiResponse {
   success: boolean;

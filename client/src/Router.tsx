@@ -19,7 +19,7 @@ import AdminAddProductPage from "./admin/pages/AdminAddProductPage";
 import AdminAddVariantPage from "./admin/pages/AdminAddVariantPage";
 import ProductManagement from "./admin/pages/ProductManagement";
 import AdminDashboard from "./admin/pages/AdminDashboard";
-import UserManagement from "./admin/pages/UserManagement";
+import UserManagement from "./admin/user-management/page/UserManagement";
 
 const router = createBrowserRouter([
   {
