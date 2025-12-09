@@ -1,10 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import type {  SigninInput } from "@millionsclub/shared-libs/client";
+import type { SigninInput } from "@millionsclub/shared-libs/client";
 import { signinSchema } from "@millionsclub/shared-libs/client";
 import { CircularProgress, Stack, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 import AppButton from "../../../components/AppButton";
-import Alert from "../../../components/Alert";
+import AlertNotify from "../../../components/Alert";
 
 type Props = {
   onSubmit: (data: SigninInput) => void;
@@ -35,7 +35,7 @@ const SigninForm = ({ onSubmit, isLoading, isError, error }: Props) => {
           {isLoading && <CircularProgress sx={{ marginLeft: 1 }} size="2rem" />}
         </AppButton>
 
-        {isError && <Alert success={false}>{error}</Alert>}
+        {isError && <AlertNotify success={false}>{error}</AlertNotify>}
       </Stack>
     </form>
   );

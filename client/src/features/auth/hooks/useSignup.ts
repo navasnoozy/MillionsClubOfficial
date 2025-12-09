@@ -7,6 +7,7 @@ interface ApiResponse {
   success: boolean;
   message: string;
   data?: { email: string };
+  errors: { message: string; field: string }[];
 }
 
 const useSignupUser = () => {

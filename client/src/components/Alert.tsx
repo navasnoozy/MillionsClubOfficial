@@ -1,13 +1,27 @@
-import { Alert as MuiAlter } from "@mui/material";
-import type { ReactNode } from "react";
+import { Alert as MuiAlert, Stack } from "@mui/material";
 
 interface Props {
   success: boolean;
-  children: ReactNode | string;
+  message?: string | null;
+  messages?: { message: string; field: string }[] | null;
 }
 
-const Alert = ({ success, children }: Props) => {
-  return <MuiAlter severity={success ? "success" : "error"}>{children}</MuiAlter>;
+const AlertNotify = ({ success, message, messages }: Props) => {
+  if (messages)
+    return (
+      <MuiAlert sx={{ mt: 2 }} severity={success ? "success" : "error"}>
+        {messages.map((msg) => (
+          <Stack>{msg.message}</Stack>
+        ))}
+      </MuiAlert>
+    );
+
+  if (message)
+    return (
+      <MuiAlert sx={{ mt: 2 }} severity={success ? "success" : "error"}>
+        {message}
+      </MuiAlert>
+    );
 };
 
-export default Alert;
+export default AlertNotify;

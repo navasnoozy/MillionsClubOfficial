@@ -3,7 +3,7 @@ import { useState } from "react";
 import Flip from "../../../components/animations/Flip";
 import useResendotp from "../hooks/useResendotp";
 import Timer from "../../../components/Timer";
-import Alert from "../../../components/Alert";
+import AlertNotify from "../../../components/Alert";
 
 const RESEND_TIMEOUT = 60;
 
@@ -48,7 +48,7 @@ const ResendOtp = ({ email }: { email: string | null }) => {
       ) : (
         <Flip key="status">
           <Stack paddingY={3} direction="row" justifyContent="center" alignItems="center">
-            <Alert success={status.success}>{status.message}</Alert>
+            <AlertNotify success={status.success}>{status.message}</AlertNotify>
           </Stack>
         </Flip>
       )}

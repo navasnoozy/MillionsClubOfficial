@@ -4,7 +4,12 @@ export const signupSchema = z
   .object({
     name: z.string({ error: "Name is required" }).min(3, { error: "Name must be at least 3 characters" }).max(50, { error: "Name must be at most 50 characters" }),
 
-    email: z.email({ error: "Invalid email address" }),
+    email: z.email({
+      error: (issue) => {
+        if (!issue.input || issue.input === "") return "Email is required";
+        return "Invalid email address";
+      },
+    }),
 
     status: z
       .enum(["active", "inactive", "blocked"], {
