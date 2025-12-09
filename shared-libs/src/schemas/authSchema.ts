@@ -53,8 +53,23 @@ export const signinSchema = z
   })
   .strict();
 
-export const updateUserSchema = signupSchema.omit({password:true, confirmPassword:true}).partial().strict();
+export const createUserSchema = signupSchema
+  .required({
+    name: true,
+    email: true,
+    emailVerified: true,
+    password: true,
+    confirmPassword: true,
+    role: true,
+  })
+  .omit({
+    isDeleted: true,
+  })
+  .strict();
+
+export const updateUserSchema = signupSchema.omit({ password: true, confirmPassword: true }).partial().strict();
 
 export type SignupInput = z.infer<typeof signupSchema>;
 export type SigninInput = z.infer<typeof signinSchema>;
 export type updateUserInput = z.infer<typeof updateUserSchema>;
+export type createUserInput = z.infer<typeof createUserSchema>;
