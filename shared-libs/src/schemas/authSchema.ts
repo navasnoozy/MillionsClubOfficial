@@ -71,5 +71,5 @@ export const updateUserSchema = signupSchema.omit({ password: true, confirmPassw
 
 export type SignupInput = z.infer<typeof signupSchema>;
 export type SigninInput = z.infer<typeof signinSchema>;
-export type updateUserInput = z.infer<typeof updateUserSchema>;
-export type createUserInput = z.infer<typeof createUserSchema>;
+export type UpdateUserInput = z.infer<typeof updateUserSchema>;
+export type CreateUserInput = z.infer<typeof createUserSchema>;

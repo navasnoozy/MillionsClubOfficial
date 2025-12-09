@@ -1,9 +1,9 @@
-import { BadRequestError, sendResponse, updateUserInput } from "@millionsclub/shared-libs/server";
+import { BadRequestError, sendResponse, UpdateUserInput } from "@millionsclub/shared-libs/server";
 import { NextFunction, Response } from "express";
 import { User, UserAttrs } from "../../models/userModel";
 import { ValidatedRequest } from "../../interface/ValidatedReq";
 
-const updateUser = async (req: ValidatedRequest<updateUserInput>, res: Response, next: NextFunction) => {
+const updateUser = async (req: ValidatedRequest<UpdateUserInput>, res: Response, next: NextFunction) => {
   try {
     const { id } = req.validated.params;
 

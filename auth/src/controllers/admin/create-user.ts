@@ -1,13 +1,9 @@
 import { NextFunction, Response } from "express";
-import { BadRequestError, sendResponse } from "@millionsclub/shared-libs/server";
+import { BadRequestError, CreateUserInput, sendResponse } from "@millionsclub/shared-libs/server";
 import { ValidatedRequest } from "../../interface/ValidatedReq";
 import { User } from "../../models/userModel";
 
-export const createUser = async (
-  req: ValidatedRequest<CreateUserInput>, 
-  res: Response, 
-  next: NextFunction
-) => {
+const createUser = async (req: ValidatedRequest<CreateUserInput>, res: Response, next: NextFunction) => {
   try {
     const { name, email, password, role, status, emailVerified } = req.validated.body;
 
@@ -16,15 +12,14 @@ export const createUser = async (
       throw new BadRequestError("Email already in use", "email");
     }
 
-    // Model hook handles hashing automatically
+
     const newUser = User.build({
       name,
       email,
-      password, // Plain password
+      password, 
       role: role || "customer",
       status: status || "active",
-      // Admin created users are verified by default unless specified otherwise
-      emailVerified: emailVerified ?? true, 
+      emailVerified: emailVerified ?? true,
       providers: ["credentials"],
     });
 
@@ -42,3 +37,5 @@ export const createUser = async (
     next(error);
   }
 };
+
+export { createUser };
