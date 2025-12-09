@@ -1,14 +1,16 @@
 //src/components/InputField.tsx
 
 import { TextField, type TextFieldProps } from "@mui/material";
+import type { HTMLInputTypeAttribute } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 
 type InputProps = TextFieldProps & {
   name: string;
   label: string;
+  type: HTMLInputTypeAttribute;
 };
 
-const FormInputField = ({ name, label, ...otherProps }: InputProps) => {
+const FormInputField = ({ name, label, type, ...otherProps }: InputProps) => {
   const { control } = useFormContext();
 
   return (
@@ -16,7 +18,7 @@ const FormInputField = ({ name, label, ...otherProps }: InputProps) => {
       name={name}
       control={control}
       defaultValue=""
-      render={({ field, fieldState: { error } }) => <TextField size="small" {...field} {...otherProps} label={label} error={!!error} helperText={error?.message} variant="standard" />}
+      render={({ field, fieldState: { error } }) => <TextField type={type} size="small" {...field} {...otherProps} label={label} error={!!error} helperText={error?.message} variant="standard" />}
     />
   );
 };

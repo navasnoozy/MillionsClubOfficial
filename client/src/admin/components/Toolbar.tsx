@@ -46,6 +46,8 @@ const Toolbar = ({ filters, onFilterChange }: ToolbarProps) => {
     onFilterChange(key, String(e.target.checked));
   };
 
+  
+
   return (
     <Paper sx={{ padding: 2, gap: 2, display: "flex", flexDirection: { xs: "column", sm: "row" } }}>
       <Grid container spacing={2} width={"100%"}>

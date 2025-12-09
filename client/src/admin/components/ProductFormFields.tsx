@@ -3,7 +3,7 @@ import { Stack, TextField } from "@mui/material";
 import { Controller, useFormContext, useWatch } from "react-hook-form";
 import type { CreateProductInput } from "@millionsclub/shared-libs/client";
 import { useEffect } from "react";
-import RHFDropdown from "../../components/RHFDropdown";
+import FormDropdown from "../../components/FormDropdown";
 import TongleButton from "../../components/Switch";
 import useCategories from "../../features/categories/hooks/useCategories";
 
@@ -37,8 +37,8 @@ const ProductFormField = () => {
       <TextField {...register("brand")} label="Brand" variant="standard" error={!!formErrors.brand} helperText={formErrors.brand?.message} fullWidth />
 
       <Stack justifyContent="center" alignItems="center" gap={3} flexDirection={{ xs: "column", sm: "row" }}>
-        <RHFDropdown name="categoryId" options={categories} label="Category" />
-        <RHFDropdown name="subCategoryId" options={subcategories} label="Subcategory" disabled={!selectedCategoryId} />
+        <FormDropdown name="categoryId" options={categories} label="Category" />
+        <FormDropdown name="subCategoryId" options={subcategories} label="Subcategory" disabled={!selectedCategoryId} />
       </Stack>
 
       <TextField

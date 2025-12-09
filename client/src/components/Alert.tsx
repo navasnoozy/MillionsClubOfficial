@@ -3,7 +3,7 @@ import { Alert as MuiAlert, Stack } from "@mui/material";
 interface Props {
   success: boolean;
   message?: string | null;
-  messages?: { message: string; field: string }[] | null;
+  messages?: { message: string; field?: string }[] | null;
 }
 
 const AlertNotify = ({ success, message, messages }: Props) => {

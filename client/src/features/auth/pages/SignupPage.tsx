@@ -8,7 +8,7 @@ import AlertNotify from "../../../components/Alert";
 import AppButton from "../../../components/AppButton";
 import CardContainer from "../../../components/CardContainer";
 import { Form } from "../../../components/Form";
-import FormInputField from "../../../components/InputField";
+import FormInputField from "../../../components/FormInputField";
 import useAppNavigate from "../../../hooks/useAppNavigate";
 import AuthSwitchLink from "../components/AuthSwitchLink";
 import Divider from "../components/Divider";
@@ -52,7 +52,7 @@ const SignupPage = () => {
           </AppButton>
         </Stack>
       </Form>
-     <AlertNotify success={false} messages={errors}></AlertNotify>
+      <AlertNotify success={false} messages={errors}></AlertNotify>
       <AuthSwitchLink mode="signup" />
       <Divider />
       <GoogleLogin />

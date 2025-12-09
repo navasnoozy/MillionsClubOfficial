@@ -1,7 +1,7 @@
 import type { CreateSubCategoryInput } from "@millionsclub/shared-libs/client";
 import { Stack, TextField } from "@mui/material";
 import { useFormContext } from "react-hook-form";
-import RHFDropdown from "../../components/RHFDropdown";
+import FormDropdown from "../../components/FormDropdown";
 import useCategories from "../../features/categories/hooks/useCategories";
 
 // type Props = {
@@ -23,7 +23,7 @@ const AddSubCategoryForm = () => {
 
       <TextField {...register("slug")} label="Category Slug" variant="standard" error={!!formErrors.slug} helperText={formErrors.slug?.message} fullWidth />
 
-      <Stack>{categories && <RHFDropdown name="parentCategoryId" options={categories} label="Select Main Category" />}</Stack>
+      <Stack>{categories && <FormDropdown name="parentCategoryId" options={categories} label="Select Main Category" />}</Stack>
     </Stack>
   );
 };

@@ -6,7 +6,10 @@ import type { AxiosError } from "axios";
 interface ApiResponse {
   success: boolean;
   message: string;
+  data?: { };
+  errors: { message: string; field: string }[];
 }
+
 
 const useCreateUser = () => {
   const queryClient = useQueryClient();

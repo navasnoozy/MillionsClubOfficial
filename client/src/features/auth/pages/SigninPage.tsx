@@ -1,39 +1,57 @@
-import type {  SigninInput } from "@millionsclub/shared-libs/client";
-import axios from "axios";
+import { signinSchema, type SigninInput } from "@millionsclub/shared-libs/client";
+import { Stack } from "@mui/material";
 import { useState } from "react";
+import AppButton from "../../../components/AppButton";
 import CardContainer from "../../../components/CardContainer";
+import FormInputField from "../../../components/FormInputField";
 import useAppNavigate from "../../../hooks/useAppNavigate";
 import AuthSwitchLink from "../components/AuthSwitchLink";
 import Divider from "../components/Divider";
-import SigninForm from "../components/SigninForm";
 import { useAuthRedirect } from "../hooks/useAuthRedirect";
 import useSigninUser from "../hooks/useSignin";
 import GoogleLogin from "./GoogleLogin";
+import { Form } from "../../../components/Form";
+import AlertNotify from "../../../components/Alert";
+import { toast } from "react-toastify";
 
 const SigninPage = () => {
-  const [error, setError] = useState<string>("");
+  const [errors, setErrors] = useState<{ message: string; field?: string }[] | null>(null);
   const { goHome } = useAppNavigate();
 
-  const { mutate: signin, isPending, isError } = useSigninUser();
+  const { mutateAsync: signin, isPending } = useSigninUser();
 
   useAuthRedirect();
 
   const handleSignin = (data: SigninInput) => {
-    signin(data, {
-      onSuccess: () => {
-        goHome();
-      },
-      onError: (error) => {
-        if (axios.isAxiosError(error)) {
-          setError(error.response?.data.messsage || "Something went wrong");
-        }
-      },
-    });
+    toast.promise(
+      signin(data, {
+        onSuccess: () => {
+          goHome();
+        },
+        onError: (error) => {
+          setErrors(error.response?.data.errors || null);
+        },
+      }),
+      {
+        pending: "Signin",
+        success: "Welcome back",
+        error: "Failed to login",
+      }
+    );
   };
 
   return (
     <CardContainer heading="Login">
-      <SigninForm onSubmit={handleSignin} isLoading={isPending} isError={isError} error={error} />
+      <Form onSubmit={handleSignin} schema={signinSchema}>
+        <Stack spacing={3}>
+          <FormInputField name="email" label={"Email"} />
+          <FormInputField name="password" label={"Password"} />
+          <AppButton loading={isPending} variant="contained" type="submit">
+            Signin
+          </AppButton>
+        </Stack>
+      </Form>
+      <AlertNotify success={false} messages={errors}></AlertNotify>
       <AuthSwitchLink mode="signin" />
       <Divider />
       <GoogleLogin />

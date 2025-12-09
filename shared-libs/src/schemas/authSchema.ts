@@ -53,7 +53,12 @@ export const signupSchema = z
 // Sign In Schema
 export const signinSchema = z
   .object({
-    email: z.email({ error: "Invalid email address" }),
+    email: z.email({
+      error: (issue) => {
+        if (!issue.input || issue.input === "") return "Email is required";
+        return "Invalid email address";
+      },
+    }),
     password: z.string({ error: "Password is required" }).min(8, { error: "Password is required" }),
   })
   .strict();

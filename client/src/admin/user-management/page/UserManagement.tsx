@@ -66,7 +66,7 @@ const UserManagement = () => {
         {users?.data?.map((user) => {
           const roleColor = ROLE_COLORS[user.role] ?? ROLE_COLORS.default;
           return (
-            <TableRow key={user.id} sx={{ overflowX: "auto", backgroundColor: user.isDeleted ? "#6e6c6c1f" : "white" }}>
+            <TableRow key={user.id} sx={{ overflowX: "auto", backgroundColor: user.isDeleted ? "#6e6c6c1f" : "auto" }}>
               <TableCell size="small" sx={{ fontWeight: "bold", color: user.isDeleted ? "red" : "" }}>
                 {user.name}
               </TableCell>
