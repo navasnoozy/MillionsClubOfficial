@@ -11,4 +11,4 @@ export interface User {
   createdAt: string; // same note
   updatedAt: string;
   id: string;
-}
+} 

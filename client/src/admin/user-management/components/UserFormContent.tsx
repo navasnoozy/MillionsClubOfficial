@@ -33,50 +33,45 @@ const UserFormDialog = ({ open, onClose, user }: Props) => {
 
   const isEditMode = !!user;
 
-  // 1. Prepare the initial data
-  // useMemo prevents recalculation on every render, though strictly optional for simple objects
   const defaultValues = useMemo(() => {
     if (isEditMode && user) {
       return {
         name: user.name,
-        // If your schema expects these to be present, ensure they aren't null/undefined
         email: user.email,
         role: user.role,
-      };
+      } as const;
     }
-    return undefined;
+    return {
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      emailVerified: true,
+      role: "customer",
+    } as const;
   }, [isEditMode, user]);
 
   const formSchema = isEditMode ? updateUserSchema : createUserSchema;
 
   const handleSubmit = async (data: CreateUserInput | UpdateUserInput) => {
-    if (isEditMode && user?.id) {
-      await toast.promise(
-        updateUser(
-          {
-            id: user.id,
-            data: data,
-          },
-          {
-            onError: (error) => {
-              setErrors(error.response?.data.errors || null);
-            },
-          }
-        ),
-        {
+    try {
+      if (isEditMode && user?.id) {
+        await toast.promise(updateUser({ id: user.id, data: data }), {
           pending: "Updating user...",
           success: "User updated successfully",
           error: "Failed to update user",
-        }
-      );
-    } else {
-      await toast.promise(createUser(data as CreateUserInput), {
-        pending: "Creating user...",
-        success: "User created successfully",
-        error: "Failed to create user",
-      });
+        });
+      } else {
+        await toast.promise(createUser(data as CreateUserInput), {
+          pending: "Creating user...",
+          success: "User created successfully",
+          error: "Failed to create user",
+        });
+      }
+      onClose();
+    } catch (error: any) {
+      setErrors(error.response?.data.errors || null);
     }
-    onClose();
   };
 
   return (

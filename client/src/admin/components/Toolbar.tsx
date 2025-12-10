@@ -6,6 +6,7 @@ import AppButton from "../../components/AppButton";
 import Dropdown from "../../components/Dropdown";
 import SearchBar from "../../components/SearchBar";
 import { useMemo, useState, type ChangeEvent } from "react";
+import UserFormDialog from "../user-management/components/UserFormContent";
 
 const ROLE_OPTIONS = [
   { label: "All Roles", value: "all" },
@@ -28,6 +29,7 @@ interface ToolbarProps {
 
 const Toolbar = ({ filters, onFilterChange }: ToolbarProps) => {
   const [localSearch, setLocalSearch] = useState(filters.search);
+  const [openUserAdd, setOpenUseradd] = useState<boolean>(false);
 
   const debouncedUpdate = useMemo(() => {
     return debounce((value: string) => {
@@ -48,8 +50,6 @@ const Toolbar = ({ filters, onFilterChange }: ToolbarProps) => {
     onFilterChange(key, String(e.target.checked));
   };
 
-  
-
   return (
     <Paper sx={{ padding: 2, gap: 2, display: "flex", flexDirection: { xs: "column", sm: "row" } }}>
       <Grid container spacing={2} width={"100%"}>
@@ -58,7 +58,7 @@ const Toolbar = ({ filters, onFilterChange }: ToolbarProps) => {
             <Typography color="gray" align="left">
               Search
             </Typography>
-            <SearchBar  value={localSearch} onChange={handleSearchChange} />
+            <SearchBar value={localSearch} onChange={handleSearchChange} />
           </Stack>
         </Grid>
 
@@ -77,8 +77,8 @@ const Toolbar = ({ filters, onFilterChange }: ToolbarProps) => {
               </Typography>
               <Dropdown value={filters.status || "all"} onChange={handleDropdownChange("status")} options={STATUS_OPTIONS} width="130px" />
             </Stack>
-            <Tooltip sx={{display:{xs:'none', sm:'block'}}} title="Show Deleted user">
-              <Stack >
+            <Tooltip sx={{ display: { xs: "none", sm: "block" } }} title="Show Deleted user">
+              <Stack>
                 <Typography color="gray" align="left">
                   Deleted
                 </Typography>
@@ -87,7 +87,12 @@ const Toolbar = ({ filters, onFilterChange }: ToolbarProps) => {
             </Tooltip>
           </Stack>
           <Tooltip title="Add user">
-            <AppButton size="small" sx={{ height: "40px", marginTop: 3.4, textWrap: "nowrap", position: { xs: "fixed", md: "static" }, right: 20, bottom: 30, borderRadius: 50 }} variant="contained">
+            <AppButton
+              onClick={() => setOpenUseradd(true)}
+              size="small"
+              sx={{ height: "40px", marginTop: 3.4, textWrap: "nowrap", position: { xs: "fixed", md: "static" }, right: 20, bottom: 30, borderRadius: 50 }}
+              variant="contained"
+            >
               <AddIcon />
               <Box component="span" sx={{ display: { xs: "none", sm: "block" }, ml: 1, mr: 1 }}>
                 Add user
@@ -96,8 +101,9 @@ const Toolbar = ({ filters, onFilterChange }: ToolbarProps) => {
           </Tooltip>
         </Grid>
       </Grid>
+      <UserFormDialog open={openUserAdd} onClose={() => setOpenUseradd(false)} />
     </Paper>
   );
 };
 
-export default Toolbar
+export default Toolbar;

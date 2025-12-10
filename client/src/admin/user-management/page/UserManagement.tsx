@@ -9,9 +9,9 @@ import Paginations from "../../../components/Pagination";
 import Container from "../../components/Container";
 import TableContainer from "../../components/TableContainer";
 
-import useGetUsers from "../hooks/useGetUsers";
-import UserActions from "../components/UserActions";
 import Toolbar from "../../components/Toolbar";
+import UserActions from "../components/UserActions";
+import useGetUsers from "../hooks/useGetUsers";
 
 const ROLE_COLORS = {
   customer: { bg: "#E8F4FF", text: "#5B8DEF" },
@@ -59,6 +59,8 @@ const UserManagement = () => {
     },
     [setsearchParams]
   );
+
+
 
   return (
     <Container heading="User Management" caption="Manage your customers, admins, and moderators">
