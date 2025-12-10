@@ -13,9 +13,11 @@ import GoogleLogin from "./GoogleLogin";
 import { Form } from "../../../components/Form";
 import AlertNotify from "../../../components/Alert";
 import { toast } from "react-toastify";
+import FormPasswordField from "../../../components/PasswordInput";
 
 const SigninPage = () => {
   const [errors, setErrors] = useState<{ message: string; field?: string }[] | null>(null);
+  const [ showPassword, setShowPassword] = useState(false)
   const { goHome } = useAppNavigate();
 
   const { mutateAsync: signin, isPending } = useSigninUser();
@@ -44,8 +46,8 @@ const SigninPage = () => {
     <CardContainer heading="Login">
       <Form onSubmit={handleSignin} schema={signinSchema}>
         <Stack spacing={3}>
-          <FormInputField name="email" label={"Email"} />
-          <FormInputField name="password" label={"Password"} />
+          <FormInputField name="email" label={"Email"} type="email" />
+          <FormPasswordField name="password" label={"Password"}   />
           <AppButton loading={isPending} variant="contained" type="submit">
             Signin
           </AppButton>

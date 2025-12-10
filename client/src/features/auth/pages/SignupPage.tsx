@@ -14,6 +14,7 @@ import AuthSwitchLink from "../components/AuthSwitchLink";
 import Divider from "../components/Divider";
 import useSignupUser from "../hooks/useSignup";
 import GoogleLogin from "./GoogleLogin";
+import FormPasswordField from "../../../components/PasswordInput";
 
 const SignupPage = () => {
   const { goToVerifyPage } = useAppNavigate();
@@ -43,10 +44,10 @@ const SignupPage = () => {
     <CardContainer heading={"Create Account"}>
       <Form onSubmit={handleSignup} schema={signupSchema}>
         <Stack spacing={3}>
-          <FormInputField name="name" label={"Name"} />
-          <FormInputField name="email" label={"Email"} />
-          <FormInputField name="password" label={"Password"} />
-          <FormInputField name="confirmPassword" label={"ConfirmPassword"} />
+          <FormInputField type="name" name="name" label={"Name"} />
+          <FormInputField name="email" label={"Email"} type="email" />
+          <FormPasswordField name="password" label={"Password"}/>
+          <FormPasswordField name="confirmPassword" label={"ConfirmPassword"} />
           <AppButton loading={isPending} variant="contained" type="submit">
             Signup
           </AppButton>
