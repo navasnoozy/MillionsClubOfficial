@@ -1,34 +1,31 @@
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import AppButton from "./AppButton";
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 
-interface Props {
+interface ConfirmDialogProps {
+  open: boolean;
+  onClose: () => void;
+  onConfirm: () => void;
   title: string;
   content: string;
-  open: boolean;
-  handleClose: () => void;
-  handleConfirm: () => void;
   confirmText?: string;
-  loading?: boolean;
+  cancelText?: string;
+  isLoading?: boolean;
+  type?: "danger" | "info" | "warning"; // To style the confirm button
 }
 
-const ConfirmDialog = ({ title, content, open, handleClose, handleConfirm, confirmText = "Agree", loading }: Props) => {
+const ConfirmDialog = ({ open, onClose, onConfirm, title, content, confirmText = "Confirm", cancelText = "Cancel", isLoading = false, type = "primary" as any }: ConfirmDialogProps) => {
   return (
-    <Dialog open={open} onClose={handleClose} aria-labelledby="confirm-dialog-title">
-      <DialogTitle id="confirm-dialog-title">{title}</DialogTitle>
+    <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth>
+      <DialogTitle sx={{ fontWeight: "bold" }}>{title}</DialogTitle>
       <DialogContent>
         <DialogContentText>{content}</DialogContentText>
       </DialogContent>
-      <DialogActions>
-        <AppButton autoFocus onClick={handleClose} color="inherit">
-          Cancel
-        </AppButton>
-        <AppButton  loading={loading} onClick={handleConfirm} sx={{px:2}} color={"error"} variant="contained" size="small">
-          {confirmText}
-        </AppButton>
+      <DialogActions sx={{ padding: 2 }}>
+        <Button onClick={onClose} color="inherit" disabled={isLoading}>
+          {cancelText}
+        </Button>
+        <Button onClick={onConfirm} variant="contained" color={type === "danger" ? "error" : "primary"} disabled={isLoading} autoFocus>
+          {isLoading ? "Processing..." : confirmText}
+        </Button>
       </DialogActions>
     </Dialog>
   );

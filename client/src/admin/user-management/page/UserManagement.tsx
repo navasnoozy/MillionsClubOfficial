@@ -8,9 +8,10 @@ import { useSearchParams } from "react-router";
 import Paginations from "../../../components/Pagination";
 import Container from "../../components/Container";
 import TableContainer from "../../components/TableContainer";
-import Toolbar from "../../components/Toolbar";
+
 import useGetUsers from "../hooks/useGetUsers";
 import UserActions from "../components/UserActions";
+import Toolbar from "../../components/Toolbar";
 
 const ROLE_COLORS = {
   customer: { bg: "#E8F4FF", text: "#5B8DEF" },

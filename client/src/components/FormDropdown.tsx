@@ -1,4 +1,3 @@
-//src/components/FormDropdown.tsx
 import { Controller, useFormContext } from "react-hook-form";
 import Dropdown from "./Dropdown";
 
@@ -9,9 +8,16 @@ type FormDropdownProps = {
   options: Option[];
   label?: string;
   disabled?: boolean;
+  width?: string | number;
 };
 
-const FormDropdown = ({ name, options, label, disabled }: FormDropdownProps) => {
+const FormDropdown = ({
+  name,
+  options,
+  label,
+  disabled,
+  width,
+}: FormDropdownProps) => {
   const { control } = useFormContext();
 
   return (
@@ -19,7 +25,18 @@ const FormDropdown = ({ name, options, label, disabled }: FormDropdownProps) => 
       name={name}
       control={control}
       defaultValue=""
-      render={({ field: { value, onChange } }) => <Dropdown value={value} onChange={onChange} options={options} label={label} disabled={disabled} />}
+      render={({ field: { value, onChange }, fieldState: { error } }) => (
+        <Dropdown
+          value={value}
+          onChange={onChange}
+          options={options}
+          label={label}
+          disabled={disabled}
+          width={width}
+          error={!!error}
+          helperText={error?.message}
+        />
+      )}
     />
   );
 };

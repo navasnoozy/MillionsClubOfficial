@@ -1,3 +1,5 @@
+//src/admin/components/Toolbar.tsx
+
 import AddIcon from "@mui/icons-material/Add";
 import { Grid, Paper, Stack, Typography, type SelectChangeEvent, debounce, Switch, Box, Tooltip } from "@mui/material";
 import AppButton from "../../components/AppButton";
@@ -98,4 +100,4 @@ const Toolbar = ({ filters, onFilterChange }: ToolbarProps) => {
   );
 };
 
-export default Toolbar;
+export default Toolbar

@@ -20,7 +20,7 @@ export const Form = <T extends FieldValues>({ children, onSubmit, schema, classN
   });
 
   return (
-    <FormProvider {...methods}>
+    <FormProvider {...methods} >
       <form
         onSubmit={methods.handleSubmit(onSubmit)}
         className={className}

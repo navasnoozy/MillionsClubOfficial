@@ -18,7 +18,7 @@ const FormInputField = ({ name, label, type, ...otherProps }: InputProps) => {
       name={name}
       control={control}
       defaultValue=""
-      render={({ field, fieldState: { error } }) => <TextField type={type} size="small" {...field} {...otherProps} label={label} error={!!error} helperText={error?.message} variant="standard" />}
+      render={({ field, fieldState: { error } }) => <TextField type={type} size="small" {...field} {...otherProps} label={label} error={!!error} helperText={error?.message}  />}
     />
   );
 };

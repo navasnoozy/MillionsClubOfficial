@@ -3,9 +3,9 @@ import { ButtonGroup } from "@mui/material";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import AppButton from "../../../components/AppButton";
-import ConfirmDialog from "../../../components/ConfirmDialog";
 import useDeleteUser from "../hooks/useDeleteUser";
 import type { User } from "../interface/user";
+import ConfirmDialog from "../../../components/ConfirmDialog";
 
 interface Props {
   user: Pick<User, "id" | "name">;
@@ -19,9 +19,9 @@ const UserActions = ({ user, status }: Props) => {
 
   const { mutateAsync: deleteUser, isPending } = useDeleteUser();
 
-  const handleConfirm =  () => {
+  const handleConfirm = () => {
     if (activeAction === "delete") {
-       toast.promise(deleteUser({ id: user.id }), {
+      toast.promise(deleteUser({ id: user.id }), {
         pending: "Deleting user...",
         success: "User deleted successfully",
         error: "Failed to delete user",
@@ -37,13 +37,9 @@ const UserActions = ({ user, status }: Props) => {
     setActiveAction(null);
   };
 
-  // Derived state for Dialog content
   const dialogConfig = {
     title: activeAction === "delete" ? "Delete User" : "Block User",
-    content:
-      activeAction === "delete"
-        ? `Are you sure you want to delete ${user.name}? This action cannot be undone.`
-        : `Are you sure you want to block ${user.name}?`,
+    content: activeAction === "delete" ? `Are you sure you want to delete ${user.name}? This action cannot be undone.` : `Are you sure you want to block ${user.name}?`,
     confirmText: activeAction === "delete" ? "Delete" : "Block",
   };
 
@@ -56,36 +52,17 @@ const UserActions = ({ user, status }: Props) => {
         </AppButton>
 
         {/* Block Button */}
-        <AppButton
-          onClick={() => setActiveAction("block")}
-          sx={{ minWidth: "auto", color: status === "blocked" ? "red" : "gray" }}
-          size="small"
-        >
+        <AppButton onClick={() => setActiveAction("block")} sx={{ minWidth: "auto", color: status === "blocked" ? "red" : "gray" }} size="small">
           <NoAccounts />
         </AppButton>
 
         {/* Delete Button */}
-        <AppButton
-          onClick={() => setActiveAction("delete")}
-          loading={isPending}
-          sx={{ minWidth: "auto", color: "gray" }}
-          size="small"
-        >
+        <AppButton onClick={() => setActiveAction("delete")} loading={isPending} sx={{ minWidth: "auto", color: "gray" }} size="small">
           <Delete />
         </AppButton>
       </ButtonGroup>
 
-      {activeAction && (
-        <ConfirmDialog
-          open={!!activeAction}
-          handleClose={handleClose}
-          handleConfirm={handleConfirm}
-          title={dialogConfig.title}
-          content={dialogConfig.content}
-          confirmText={dialogConfig.confirmText}
-          loading={isPending}
-        />
-      )}
+      <ConfirmDialog open={!!activeAction} title={dialogConfig.title} content={dialogConfig.content} onConfirm={handleConfirm} onClose={handleClose} />
     </>
   );
 };

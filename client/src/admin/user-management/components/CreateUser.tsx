@@ -1,15 +1,16 @@
-import { useState } from "react";
-import CardContainer from "../../../components/CardContainer";
-import useCreateUser from "../hooks/useCreateUser";
 import { createUserSchema, type CreateUserInput } from "@millionsclub/shared-libs/client";
-import { toast } from "react-toastify";
-import { Form } from "../../../components/Form";
-import { Stack } from "@mui/material";
-import FormInputField from "../../../components/FormInputField";
-import AppButton from "../../../components/AppButton";
-import AlertNotify from "../../../components/Alert";
-import FormDropdown from "../../../components/FormDropdown";
+import { Dialog, DialogContent, DialogTitle, Stack } from "@mui/material";
 
+import { useFormContext } from "react-hook-form";
+import { toast } from "react-toastify";
+import useCreateUser from "../hooks/useCreateUser";
+import useUpdateUser from "../hooks/useUpdateuser";
+
+import type { User } from "../interface/user";
+import { Form } from "../../../components/Form";
+import FormInputField from "../../../components/FormInputField";
+import FormDropdown from "../../../components/FormDropdown";
+import AppButton from "../../../components/AppButton";
 
 const ROLE_OPTIONS = [
   { label: "Admin", value: "admin" },
@@ -17,44 +18,51 @@ const ROLE_OPTIONS = [
   { label: "Customer", value: "customer" },
 ];
 
-const CreateUser = () => {
-  const [errors, setErrors] = useState<{ message: string; field: string }[] | null>(null);
+interface Props {
+  open: boolean;
+  isEditMode: boolean;
+  onClose: () => void;
+  user?: User;
+}
 
-  const { mutateAsync: signup, isPending } = useCreateUser();
+const UserFormContent = ({ open, onClose, isEditMode, user }: Props) => {
+  const { reset } = useFormContext();
 
-  const handleSignup = (data: CreateUserInput) => {
-    toast.promise(
-      signup(data, {
-        onSuccess: () => {},
-        onError: (error) => {
-          setErrors(error.response?.data.errors || []);
-        },
-      }),
-      {
-        pending: "Creating account...",
-        success: "Account has been created",
-        error: "Failed to create account",
-      }
-    );
+  const { mutateAsync: createUser, isPending: creating } = useCreateUser();
+  const { mutateAsync: updateUser, isPending: updating } = useUpdateUser();
+
+  const handleSubmit = (data: CreateUserInput) => {
+    const promise = isEditMode ? updateUser({ id: user?.id!, ...data }) : createUser(data);
+
+    toast.promise(promise, {
+      pending: isEditMode ? "Updating user..." : "Creating user...",
+      success: isEditMode ? "User updated successfully" : "User created successfully",
+      error: isEditMode ? "Failed to update user" : "Failed to create user",
+    });
   };
 
   return (
-    <CardContainer heading={"Create Account"}>
-      <Form onSubmit={handleSignup} schema={createUserSchema}>
-        <Stack spacing={3}>
-          <FormInputField type="name" name="name" label={"Name"} />
-          <FormInputField type="email" name="email" label={"Email"} />
-          <FormInputField type="password" name="password" label={"Password"} />
-          <FormInputField name="confirmPassword" label={"ConfirmPassword"} type="password" />
-          <FormDropdown name="role" options={ROLE_OPTIONS} />
-          <AppButton loading={isPending} variant="contained" type="submit">
-            Signup
-          </AppButton>
-        </Stack>
-      </Form>
-      <AlertNotify success={false} messages={errors}></AlertNotify>
-    </CardContainer>
+    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
+      <DialogTitle>{isEditMode ? "Edit User" : "Add New User"}</DialogTitle>
+      <DialogContent>
+        <Form onSubmit={handleSubmit} schema={createUserSchema}>
+          <Stack spacing={3} sx={{ mt: 1 }}>
+            <FormInputField type="text" name="name" label="Name" />
+            <FormInputField type="email" name="email" label="Email" disabled={isEditMode} />
+            <FormInputField type="password" name="password" label="Password" />
+            <FormInputField type="password" name="confirmPassword" label="Confirm Password" />
+            <FormDropdown name="role" options={ROLE_OPTIONS} label="Select Role" />
+          </Stack>
+          <Stack direction="row" justifyContent="flex-end" gap={2} mt={2}>
+            <AppButton onClick={onClose} color="inherit" disabled={creating || updating}>
+              Cancel
+            </AppButton>
+            <AppButton loading={creating || updating} variant="contained" type="submit">
+              {isEditMode ? "Update" : "Create"}
+            </AppButton>
+          </Stack>
+        </Form>
+      </DialogContent>
+    </Dialog>
   );
 };
-
-export default CreateUser;

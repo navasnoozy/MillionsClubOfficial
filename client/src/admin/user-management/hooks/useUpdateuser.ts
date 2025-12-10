@@ -13,7 +13,7 @@ const useUpdateUser = () => {
 
   return useMutation<ApiResponse, AxiosError<ApiResponse>, idInput>({
     mutationFn: async ({ id }) => {
-      const { data } = await axiosInstance.patch<ApiResponse>(`/api/admin/users/${id}`);
+      const { data } = await axiosInstance.patch<ApiResponse>(`/api/admin/users/${id}`,);
       return data;
     },
     onSuccess: () => {
