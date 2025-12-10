@@ -6,15 +6,15 @@ import AppButton from "../../../components/AppButton";
 import useDeleteUser from "../hooks/useDeleteUser";
 import type { User } from "../interface/user";
 import ConfirmDialog from "../../../components/ConfirmDialog";
+import UserFormDialog from "./UserFormContent";
 
 interface Props {
-  user: Pick<User, "id" | "name">;
-  status: User["status"];
+  user: User;
 }
 
-type ActionType = "block" | "delete" | null;
+type ActionType = "block" | "delete" | "edit" | null;
 
-const UserActions = ({ user, status }: Props) => {
+const UserActions = ({ user }: Props) => {
   const [activeAction, setActiveAction] = useState<ActionType>(null);
 
   const { mutateAsync: deleteUser, isPending } = useDeleteUser();
@@ -46,23 +46,21 @@ const UserActions = ({ user, status }: Props) => {
   return (
     <>
       <ButtonGroup size="small" variant="text" aria-label="User actions">
-        {/* Edit Button - Untouched */}
-        <AppButton sx={{ minWidth: "auto", color: "gray" }} size="small">
+        <AppButton onClick={() => setActiveAction("edit")} sx={{ minWidth: "auto", color: "gray" }} size="small">
           <ManageAccounts />
         </AppButton>
 
-        {/* Block Button */}
-        <AppButton onClick={() => setActiveAction("block")} sx={{ minWidth: "auto", color: status === "blocked" ? "red" : "gray" }} size="small">
+        <AppButton onClick={() => setActiveAction("block")} sx={{ minWidth: "auto", color: user.status === "blocked" ? "red" : "gray" }} size="small">
           <NoAccounts />
         </AppButton>
 
-        {/* Delete Button */}
         <AppButton onClick={() => setActiveAction("delete")} loading={isPending} sx={{ minWidth: "auto", color: "gray" }} size="small">
           <Delete />
         </AppButton>
       </ButtonGroup>
 
-      <ConfirmDialog open={!!activeAction} title={dialogConfig.title} content={dialogConfig.content} onConfirm={handleConfirm} onClose={handleClose} />
+      <ConfirmDialog open={activeAction === "delete" || activeAction === "block"} title={dialogConfig.title} content={dialogConfig.content} onConfirm={handleConfirm} onClose={handleClose} />
+      <UserFormDialog open={activeAction === "edit"} onClose={handleClose} user={user} />
     </>
   );
 };

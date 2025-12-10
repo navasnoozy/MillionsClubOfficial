@@ -1,23 +1,22 @@
-import type { CreateUserInput, idInput } from "@millionsclub/shared-libs/client";
+import type { CreateUserInput } from "@millionsclub/shared-libs/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axiosInstance from "../../../lib/axios";
 import type { AxiosError } from "axios";
+import axiosInstance from "../../../lib/axios";
 
 interface ApiResponse {
   success: boolean;
   message: string;
-  data?: { };
+  data?: {};
   errors: { message: string; field: string }[];
 }
-
 
 const useCreateUser = () => {
   const queryClient = useQueryClient();
 
   return useMutation<ApiResponse, AxiosError<ApiResponse>, CreateUserInput>({
-    mutationFn: async (userdata) => {
-      const { data } = await axiosInstance.post<ApiResponse>(`/api/admin/users`);
-      return data;
+    mutationFn: async (data) => {
+      const { data: res } = await axiosInstance.post<ApiResponse>(`/api/admin/users`, data);
+      return res;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["users"] });

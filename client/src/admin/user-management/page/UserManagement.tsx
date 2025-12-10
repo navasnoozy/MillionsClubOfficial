@@ -79,7 +79,7 @@ const UserManagement = () => {
               <TableCell size="small">{user.name}</TableCell>
               <TableCell size="small">{user.name}</TableCell>
               <TableCell size="small">
-                <UserActions user={{ id: user.id, name: user.name }} status={user.status} />
+                <UserActions user={user}  />
               </TableCell>
             </TableRow>
           );
