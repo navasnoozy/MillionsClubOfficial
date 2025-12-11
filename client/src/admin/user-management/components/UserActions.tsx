@@ -65,12 +65,14 @@ const UserActions = ({ user }: Props) => {
           <ManageAccounts />
         </AppButton>
 
+        {/* EDIT BUTTON */}
         <AppButton
           onClick={() => setActiveAction("block")}
           loading={updateUser.isPending}
           sx={{ minWidth: "auto", color: isBlocked ? "red" : "gray" }}
           size="small"
           title={isBlocked ? "Unblock User" : "Block User"}
+          disabled={user.isDeleted}
         >
           <NoAccounts />
         </AppButton>
