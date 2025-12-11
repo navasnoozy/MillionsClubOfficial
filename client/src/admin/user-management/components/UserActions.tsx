@@ -3,11 +3,10 @@ import { ButtonGroup } from "@mui/material";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import AppButton from "../../../components/AppButton";
-import useDeleteUser from "../hooks/useDeleteUser";
 import type { User } from "../interface/user";
 import ConfirmDialog from "../../../components/ConfirmDialog";
 import UserFormDialog from "./UserFormContent";
-import useUpdateUser from "../hooks/useUpdateuser";
+import { useUserMutations } from "../hooks/userUsers";
 
 interface Props {
   user: User;
@@ -18,12 +17,11 @@ type ActionType = "block" | "delete" | "edit" | null;
 const UserActions = ({ user }: Props) => {
   const [activeAction, setActiveAction] = useState<ActionType>(null);
 
-  const { mutateAsync: deleteUser, isPending } = useDeleteUser();
-  const { mutateAsync: updateUser, isPending: blocking } = useUpdateUser();
+  const { deleteUser, updateUser } = useUserMutations();
 
   const handleConfirm = async () => {
     if (activeAction === "delete") {
-      await toast.promise(deleteUser({ id: user.id }), {
+      await toast.promise(deleteUser.mutateAsync({ id: user.id }), {
         pending: "Deleting user...",
         success: "User deleted successfully",
         error: "Failed to delete user",
@@ -33,7 +31,7 @@ const UserActions = ({ user }: Props) => {
       const newStatus = isBlocked ? "active" : "blocked";
 
       await toast.promise(
-        updateUser({
+        updateUser.mutateAsync({
           id: user.id,
           data: { status: newStatus },
         }),
@@ -69,7 +67,7 @@ const UserActions = ({ user }: Props) => {
 
         <AppButton
           onClick={() => setActiveAction("block")}
-          loading={blocking}
+          loading={updateUser.isPending}
           sx={{ minWidth: "auto", color: isBlocked ? "red" : "gray" }}
           size="small"
           title={isBlocked ? "Unblock User" : "Block User"}
@@ -77,7 +75,7 @@ const UserActions = ({ user }: Props) => {
           <NoAccounts />
         </AppButton>
 
-        <AppButton onClick={() => setActiveAction("delete")} loading={isPending} disabled={user.isDeleted} sx={{ minWidth: "auto", color: "gray" }} size="small">
+        <AppButton onClick={() => setActiveAction("delete")} loading={deleteUser.isPending} disabled={user.isDeleted} sx={{ minWidth: "auto", color: "gray" }} size="small">
           {user.isDeleted ? <DeleteForever /> : <Delete />}
         </AppButton>
       </ButtonGroup>

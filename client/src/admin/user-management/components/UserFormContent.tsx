@@ -3,9 +3,6 @@
 import { createUserSchema, updateUserSchema, type CreateUserInput, type UpdateUserInput } from "@millionsclub/shared-libs/client";
 import { Dialog, DialogContent, DialogTitle, Stack } from "@mui/material";
 import { toast } from "react-toastify";
-import useCreateUser from "../hooks/useCreateUser";
-import useUpdateUser from "../hooks/useUpdateuser";
-
 import type { User } from "../interface/user";
 import { Form } from "../../../components/Form";
 import FormInputField from "../../../components/FormInputField";
@@ -13,6 +10,7 @@ import FormDropdown from "../../../components/FormDropdown";
 import AppButton from "../../../components/AppButton";
 import { useMemo, useState } from "react";
 import AlertNotify from "../../../components/Alert";
+import { useUserMutations } from "../hooks/userUsers";
 
 const ROLE_OPTIONS = [
   { label: "Admin", value: "admin" },
@@ -28,8 +26,8 @@ interface Props {
 
 const UserFormDialog = ({ open, onClose, user }: Props) => {
   const [errors, setErrors] = useState<{ message: string; field: string }[] | null>(null);
-  const { mutateAsync: createUser, isPending: creating } = useCreateUser();
-  const { mutateAsync: updateUser, isPending: updating } = useUpdateUser();
+
+  const { createUser, updateUser } = useUserMutations();
 
   const isEditMode = !!user;
 
@@ -56,13 +54,13 @@ const UserFormDialog = ({ open, onClose, user }: Props) => {
   const handleSubmit = async (data: CreateUserInput | UpdateUserInput) => {
     try {
       if (isEditMode && user?.id) {
-        await toast.promise(updateUser({ id: user.id, data: data }), {
+        await toast.promise(updateUser.mutateAsync({ id: user.id, data: data }), {
           pending: "Updating user...",
           success: "User updated successfully",
           error: "Failed to update user",
         });
       } else {
-        await toast.promise(createUser(data as CreateUserInput), {
+        await toast.promise(createUser.mutateAsync(data as CreateUserInput), {
           pending: "Creating user...",
           success: "User created successfully",
           error: "Failed to create user",
@@ -103,10 +101,10 @@ const UserFormDialog = ({ open, onClose, user }: Props) => {
               <AlertNotify success={false} messages={errors} />
             </Stack>
             <Stack direction="row" justifyContent="flex-end" gap={2} mt={2}>
-              <AppButton onClick={onClose} color="inherit" disabled={creating || updating}>
+              <AppButton onClick={onClose} color="inherit" disabled={createUser.isPending || updateUser.isPending}>
                 Cancel
               </AppButton>
-              <AppButton loading={creating || updating} variant="contained" type="submit">
+              <AppButton loading={createUser.isPending || updateUser.isPending} variant="contained" type="submit">
                 {isEditMode ? "Update" : "Create"}
               </AppButton>
             </Stack>
