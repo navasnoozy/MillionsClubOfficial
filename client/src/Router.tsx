@@ -13,13 +13,9 @@ import UnauthorizedPage from "./pages/UnauthorizedPage";
 import VerificationPage from "./features/auth/pages/VerificationPage";
 import PersistLogin from "./components/PersistLogin";
 import OauthCallback from "./features/auth/components/OauthCallback";
-import AddCategoryPage from "./admin/pages/AddCategoryPage";
-import AddSubCategoryPage from "./admin/pages/AddSubCategoryPage";
-import AdminAddProductPage from "./admin/pages/AdminAddProductPage";
-import AdminAddVariantPage from "./admin/pages/AdminAddVariantPage";
-import ProductManagement from "./admin/pages/ProductManagement";
 import AdminDashboard from "./admin/pages/AdminDashboard";
 import UserManagement from "./admin/user-management/page/UserManagement";
+import ProductManagement from "./admin/ProductManagement/ProductManagement";
 
 const router = createBrowserRouter([
   {
@@ -75,12 +71,12 @@ const router = createBrowserRouter([
           },
           {
             path: "addproduct",
-            element: <AdminAddProductPage />,
+            // element: <AdminAddProductPage />,
             errorElement: <ErrorBoundary />,
           },
           {
             path: "addvariant/:id",
-            element: <AdminAddVariantPage />,
+            // element: <AdminAddVariantPage />,
             errorElement: <ErrorBoundary />,
           },
           {
@@ -90,12 +86,12 @@ const router = createBrowserRouter([
           },
           {
             path: "addcategory",
-            element: <AddCategoryPage />,
+            // element: <AddCategoryPage />,
             errorElement: <ErrorBoundary />,
           },
           {
             path: "addsubcategory",
-            element: <AddSubCategoryPage />,
+            // element: <AddSubCategoryPage />,
             errorElement: <ErrorBoundary />,
           },
           {

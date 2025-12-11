@@ -1,15 +1,28 @@
 //src/components/SearchBar.tsx
-import { Box, InputBase } from "@mui/material";
+import { Box, debounce, InputBase } from "@mui/material";
+import { useMemo, useState, type ChangeEvent } from "react";
 
 interface SearchBarProps {
-  value: string;
-  onChange: (value: string) => void;
+  onSearch: (value: string) => void;
 }
 
-const SearchBar = ({ value, onChange }: SearchBarProps) => {
+const SearchBar = ({ onSearch }: SearchBarProps) => {
+  const [searchQuery, setSearchQuery] = useState<string>();
+
+  const debouncedUpdate = useMemo(() => {
+    return debounce((value: string) => {
+      onSearch(value);
+    }, 500);
+  }, [searchQuery]);
+
+  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    setSearchQuery(newValue);
+    debouncedUpdate(newValue);
+  };
+
   return (
     <Box
-
       sx={{
         p: "2px 4px",
         border: "1px solid",
@@ -20,18 +33,9 @@ const SearchBar = ({ value, onChange }: SearchBarProps) => {
         maxWidth: 500,
       }}
     >
-      <InputBase sx={{ ml: 1, flex: 1 }} placeholder="Search users..." value={value} onChange={(e) => onChange(e.target.value)} inputProps={{ "aria-label": "search-users" }} />
+      <InputBase sx={{ ml: 1, flex: 1 }} placeholder="Search users..." value={searchQuery} onChange={handleOnChange} inputProps={{ "aria-label": "search-users" }} />
     </Box>
   );
 };
 
 export default SearchBar;
-
-{
-  /* <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" /> */
-}
-{
-  /* <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
-        <SearchIcon />
-      </IconButton> */
-}

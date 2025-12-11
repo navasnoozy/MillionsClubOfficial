@@ -5,11 +5,9 @@ import { useCallback } from "react";
 import { useSearchParams } from "react-router";
 import Paginations from "../../../components/Pagination";
 import Container from "../../components/Container";
-import UserTable from "../../components/TableContainer";
-import Toolbar from "../../components/Toolbar";
+import UserTable from "../../components/UserTable";
+import UserToolbar from "../components/UserToolbar";
 import { useGetUsers } from "../hooks/userUsers";
-
-
 
 const UserManagement = () => {
   const [searchParams, setsearchParams] = useSearchParams();
@@ -51,8 +49,8 @@ const UserManagement = () => {
 
   return (
     <Container heading="User Management" caption="Manage your customers, admins, and moderators">
-      <Toolbar filters={currentFilters} onFilterChange={handleFilterChange} />
-      <UserTable users={users?.data} sx={{ mt: 2 }}  />
+      <UserToolbar filters={currentFilters} onFilterChange={handleFilterChange} />
+      <UserTable users={users?.data} sx={{ mt: 2 }} />
       {users?.count && <Paginations onChangePage={handleFilterChange} itemCount={users?.count} limit={currentFilters.limit} />}
     </Container>
   );

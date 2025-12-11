@@ -1,7 +1,7 @@
-//src/admin/components/UserFormContent.tsx
+// src/admin/components/UserFormContent.tsx
 
 import { createUserSchema, updateUserSchema, type CreateUserInput, type UpdateUserInput } from "@millionsclub/shared-libs/client";
-import { Dialog, DialogContent, DialogTitle, Stack } from "@mui/material";
+import { Dialog, DialogActions, DialogContent, DialogTitle, Divider, Stack } from "@mui/material"; // Removed unused Grid
 import { toast } from "react-toastify";
 import type { User } from "../interface/user";
 import { Form } from "../../../components/Form";
@@ -11,6 +11,7 @@ import AppButton from "../../../components/AppButton";
 import { useMemo, useState } from "react";
 import AlertNotify from "../../../components/Alert";
 import { useUserMutations } from "../hooks/userUsers";
+import FormPasswordField from "../../../components/PasswordInput";
 
 const ROLE_OPTIONS = [
   { label: "Admin", value: "admin" },
@@ -81,25 +82,31 @@ const UserFormDialog = ({ open, onClose, user }: Props) => {
       }}
       maxWidth="sm"
       fullWidth
+      container={() => document.body} // To fix auto focus issues
     >
       <DialogTitle>{isEditMode ? "Edit User" : "Add New User"}</DialogTitle>
-      <DialogContent>
-        {open && (
-          <Form onSubmit={handleSubmit} schema={formSchema} defaultValues={defaultValues}>
+
+      {open && (
+        <Form onSubmit={handleSubmit} schema={formSchema} defaultValues={defaultValues}>
+          <DialogContent dividers>
             <Stack spacing={3} sx={{ mt: 1 }}>
-              <FormInputField type="text" name="name" label="Name" />
+              <FormInputField  type="text" name="name" label="Name" />
               <FormInputField type="email" name="email" label="Email" disabled={isEditMode} />
 
               {!isEditMode && (
                 <>
-                  <FormInputField type="password" name="password" label="Password" />
-                  <FormInputField type="password" name="confirmPassword" label="Confirm Password" />
+                  <Stack gap={2} direction={{ xs: "column", sm: "row" }}>
+                    <FormPasswordField sx={{ width: "100%" }} name="password" label="Password" />
+                    <FormPasswordField sx={{ width: "100%" }} name="confirmPassword" label="Confirm Password" />
+                  </Stack>
                 </>
               )}
 
               <FormDropdown name="role" options={ROLE_OPTIONS} label="Select Role" />
               <AlertNotify success={false} messages={errors} />
             </Stack>
+          </DialogContent>
+          <DialogActions>
             <Stack direction="row" justifyContent="flex-end" gap={2} mt={2}>
               <AppButton onClick={onClose} color="inherit" disabled={createUser.isPending || updateUser.isPending}>
                 Cancel
@@ -108,9 +115,9 @@ const UserFormDialog = ({ open, onClose, user }: Props) => {
                 {isEditMode ? "Update" : "Create"}
               </AppButton>
             </Stack>
-          </Form>
-        )}
-      </DialogContent>
+          </DialogActions>
+        </Form>
+      )}
     </Dialog>
   );
 };

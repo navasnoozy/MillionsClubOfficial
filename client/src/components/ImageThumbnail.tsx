@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import ProductImageAddButton from "../admin/components/ProductImageAddButton";
+import ProductImageAddButton from "../admin/ProductManagement/ProductImageAddButton";
 import CloudinaryDeleteButton from "../admin/components/CloudinaryDeleteButton";
 
 interface Props {

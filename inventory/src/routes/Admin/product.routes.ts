@@ -7,6 +7,7 @@ import { createProduct } from "../../controllers/admin/product/create.product";
 
 const router = Router();
 
+router.get("/products", validateRequest(createProductSchema), createProduct);
 router.post("/products", validateRequest(createProductSchema), createProduct);
 
 router.patch("/products/:id", validateRequest(idSchema, "params"), validateRequest(updateProductSchema), updateProduct);
