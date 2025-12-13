@@ -23,7 +23,6 @@ const baseProductSchema = z.object({
     .regex(/^[A-Za-z0-9\s]*$/, { error: "Color must contain only letters or numbers" })
     .optional(),
 
-  categoryId: z.string({ error: "Category is required" }).min(1, { error: "Category is required" }),
 
   subCategoryId: z.string({ error: "Sub-category is required" }).min(1, { error: "Sub-category is required" }),
 
@@ -38,6 +37,7 @@ const baseProductSchema = z.object({
     })
     .transform((val) => val === true || val === "true")
     .optional(),
+
   images: z
     .array(
       z.object(
@@ -50,12 +50,11 @@ const baseProductSchema = z.object({
     )
     .length(4, { error: "Exactly 4 images are required" })
     .optional(),
-}).strict();
+})
 
 export const createProductSchema = baseProductSchema.required({
   title: true,
   brand: true,
-  categoryId: true,
   subCategoryId: true,
   images: true,
 }).strict();
@@ -70,15 +69,22 @@ export const productQuerySchema = paginationSchema
 
     brand: z.string().optional(),
 
+    color: z.string().optional(),
+
     minPrice: z.coerce.number().min(0).optional(),
     maxPrice: z.coerce.number().min(0).optional(),
 
     sort: z.enum(["newest", "price_asc", "price_desc", "name_asc", "name_desc"]).default("newest"),
 
     isActive: z
-      .enum(["true", "false"])
-      .transform((val) => val === "true")
+      .union([z.boolean(), z.string()])
+      .refine((val) => val === true || val === false || val === "true" || val === "false", {
+        error: "Invalid isActive status. Allowed values are: boolean (true, false), string ('true', 'false')",
+      })
+      .transform((val) => val === true || val === "true")
       .optional(),
+
+    search: z.string().trim().optional(),
   })
   .refine(
     (data) => {
@@ -91,7 +97,7 @@ export const productQuerySchema = paginationSchema
       message: "Min price cannot be greater than Max price",
       path: ["minPrice"],
     }
-  ).strict();
+  ).strict()
 
 export type CreateProductInput = z.infer<typeof createProductSchema>;
 export type UpdateProductInput = z.infer<typeof updateProductSchema>;
